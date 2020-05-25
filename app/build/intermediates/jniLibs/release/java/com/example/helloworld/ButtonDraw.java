@@ -1,0 +1,475 @@
+package com.example.helloworld;
+
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.concurrent.ExecutionException;
+
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.graphics.Typeface;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+import org.json.JSONException;
+import org.w3c.dom.Text;
+
+/*按鈕的抽屜*/
+/*存按鈕們的地方*/
+/*顯示時間軸、隱藏時間軸、開始錄製、清除筆跡、清除路徑*/
+
+public class ButtonDraw extends Fragment {
+	
+	private MainFragment mainfrag;
+	
+	private boolean ButtonDraw_recordcheck = false;//檢查目前有沒有在錄製的狀態，預設為"沒有"
+	private ToggleButton record;//Toggle的錄製按鈕
+	
+	private TimeLine timeline = null;
+	private ImageSelect imageSelect = null;
+	private Button btn_image = null;
+	private Button btn_timeline = null;
+
+	private boolean isTimelineShow = true;
+	private boolean isImageSelect = false;
+	private boolean isScreenEnable = false;
+
+	private TextView advanced_text = null;
+	
+	public interface CallbackInterface{//連接MainActivity，告訴MainActivity現在有沒有在錄製狀態
+		public void setRecordCheck(boolean in_recordcheck);
+		public void setClean();
+		
+	}
+	
+	private CallbackInterface mCallback;//是一個用來call setRecordCheck的媒介，作用是用來設定in_recordcheck
+	
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+		
+		try{
+			mCallback = (CallbackInterface) activity;
+		}catch(ClassCastException e){
+			throw new ClassCastException (activity.toString()+"must implement ButtonDraw.CallbackInterface!");
+		}
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
+		
+		return inflater.inflate(R.layout.buttondraw_layout, container,false);
+		
+	}
+	
+	@TargetApi(Build.VERSION_CODES.M)
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState){
+		super.onActivityCreated(savedInstanceState);
+        /*
+        // Request the GAN defender
+		Button def = (Button)getView().findViewById(R.id.defbutton);
+        def.setOnTouchListener(defListener);
+		*/
+
+		final Button play = (Button) getView().findViewById(R.id.playbutton);
+        //play.setOnClickListener(playListener);//播放
+        play.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+		play.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					play.setBackgroundResource(R.drawable.icon_play_click);
+					mainfrag.set_player_to_no_ball();
+					mainfrag.set_playing(1);
+					mainfrag.playButton();
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					play.setBackgroundResource(R.drawable.icon_play);
+				}
+				return true;
+			}
+		});
+
+		btn_timeline = (Button) getView().findViewById(R.id.button02);
+		btn_timeline.setOnClickListener(btn2Listener);
+		btn_timeline.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+		btn_timeline.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					isTimelineShow = !isTimelineShow;
+					if(isTimelineShow){
+						btn_timeline.setBackgroundResource(R.drawable.icon_hide_timeline);
+						getActivity().findViewById(R.id.time_line).setVisibility(View.VISIBLE);
+						FragmentManager fragmentManager =getFragmentManager();
+						FragmentTransaction transaction = fragmentManager.beginTransaction();
+						timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
+
+						getActivity().findViewById(R.id.image_select).setVisibility(View.GONE);
+						btn_image.setBackgroundResource(R.drawable.icon_image);
+						isImageSelect = !isImageSelect;
+
+						transaction.show(timeline);
+						transaction.commit();
+						fragmentManager.executePendingTransactions();
+					}
+					else{
+						btn_timeline.setBackgroundResource(R.drawable.icon_show_timeline);
+						FragmentManager fragmentManager =getFragmentManager();
+						timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
+						if (null != timeline){
+							getActivity().findViewById(R.id.time_line).setVisibility(View.GONE);
+							FragmentTransaction fragTran = fragmentManager.beginTransaction();
+							fragTran.hide(timeline);
+							fragTran.commit();
+							fragmentManager.executePendingTransactions();
+						}
+					}
+				}
+				return true;
+			}
+		});
+
+		btn_image = (Button) getView().findViewById(R.id.btn_image);
+		btn_image.setOnClickListener(btn_imageListener);
+		btn_image.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+
+        record = (ToggleButton) getView().findViewById(R.id.recordbutton);
+        record.setOnClickListener(recordListener);
+        record.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+        
+        Button button_clear = (Button) getView().findViewById(R.id.button_clear);
+        button_clear.setOnClickListener(clearListener);
+        button_clear.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+        
+        Button button_load = (Button) getView().findViewById(R.id.button_strategies);
+        button_load.setOnClickListener(strategies);
+        button_load.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+
+        final Button button_screen = (Button) getView().findViewById(R.id.btn_screen);
+        button_screen.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				isScreenEnable = !isScreenEnable;
+				mainfrag.isScreenEnable =isScreenEnable;
+				if(isScreenEnable){
+					button_screen.setBackgroundResource(R.drawable.screen);
+
+				}
+				else{
+					button_screen.setBackgroundResource(R.drawable.screen_disable);
+				}
+			}
+		});
+
+        /*
+        Button button_settings = (Button) getView().findViewById(R.id.button_settings);
+        button_settings.setOnClickListener(settings);
+        button_settings.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+        */
+
+        /*Button button_DTW = (Button) getView().findViewById(R.id.button_DTW);
+        button_DTW.setOnClickListener(DTW);
+        button_DTW.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);*/
+        
+        final Button button_SendtoUE4 = (Button) getView().findViewById(R.id.button_SendtoUE4);
+        button_SendtoUE4.setOnClickListener(SendtoUE4);
+        button_SendtoUE4.setTextSize(TypedValue.COMPLEX_UNIT_PX,20);
+		button_SendtoUE4.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					button_SendtoUE4.setBackgroundResource(R.drawable.icon_connect_click);
+					MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+					mainfrag.Mainfrag_SendtoUE4();
+
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					button_SendtoUE4.setBackgroundResource(R.drawable.icon_connect_ue4);
+				}
+				return true;
+			}
+		});
+        
+        mainfrag = (MainFragment) getFragmentManager().findFragmentById(R.id.Main);
+        
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		getActivity().findViewById(R.id.ButtonDraw).setVisibility(View.VISIBLE);
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		getActivity().findViewById(R.id.ButtonDraw).setVisibility(View.GONE);
+	}
+
+    private View.OnTouchListener defListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                try {
+                    mainfrag.Mainfrag_GetDefenderFromServer();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+
+            }
+            return  true;
+        }
+    };
+
+	private OnClickListener btn_imageListener = new OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			isImageSelect = !isImageSelect;
+			if(isImageSelect){
+				btn_image.setBackgroundResource(R.drawable.icon_hide_image);
+				getActivity().findViewById(R.id.image_select).setVisibility(View.VISIBLE);
+				FragmentManager fragmentManager =getFragmentManager();
+				FragmentTransaction transaction = fragmentManager.beginTransaction();
+				imageSelect = (ImageSelect) fragmentManager.findFragmentById(R.id.image_select);
+
+				getActivity().findViewById(R.id.time_line).setVisibility(View.GONE);
+				btn_timeline.setBackgroundResource(R.drawable.icon_show_timeline);
+				isTimelineShow = !isTimelineShow;
+
+				transaction.show(imageSelect);
+				transaction.commit();
+				fragmentManager.executePendingTransactions();
+			}
+			else{
+				btn_image.setBackgroundResource(R.drawable.icon_image);
+				FragmentManager fragmentManager =getFragmentManager();
+				imageSelect = (ImageSelect) fragmentManager.findFragmentById(R.id.image_select);
+				if (null != imageSelect){
+					getActivity().findViewById(R.id.image_select).setVisibility(View.GONE);
+					FragmentTransaction fragTran = fragmentManager.beginTransaction();
+					fragTran.hide(imageSelect);
+					fragTran.commit();
+					fragmentManager.executePendingTransactions();
+				}
+
+			}
+		}
+	};
+
+	private OnClickListener playListener = new OnClickListener(){//????
+    	@Override
+    	public void onClick(View v) {
+	////////////////////////Save each road(RunBag) and add into RunLine////////////////////////
+    		
+    		mainfrag.set_player_to_no_ball();
+    		mainfrag.set_playing(1);
+    		mainfrag.playButton();
+
+    	}
+    };
+	
+	
+	
+    private OnClickListener btn2Listener = new OnClickListener(){//"??????b"
+    	@Override
+    	public void onClick(View v) {//"顯示時間軸"
+    			getActivity().findViewById(R.id.time_line).setVisibility(View.VISIBLE);
+    			FragmentManager fragmentManager =getFragmentManager();
+		    	FragmentTransaction transaction = fragmentManager.beginTransaction();
+		    	timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
+		    	transaction.show(timeline);
+		    	transaction.commit();
+		    	fragmentManager.executePendingTransactions();
+    		
+    	}
+    };
+    
+    private OnClickListener btn3Listener = new OnClickListener(){//"???????b"
+    	@Override
+    	public void onClick(View v) {//"隱藏時間軸"
+	    	FragmentManager fragmentManager =getFragmentManager();
+	    	timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
+	    	if (null != timeline){
+	    		getActivity().findViewById(R.id.time_line).setVisibility(View.GONE);
+	    		FragmentTransaction fragTran = fragmentManager.beginTransaction();
+	    		fragTran.hide(timeline);
+	    		fragTran.commit();
+	    		fragmentManager.executePendingTransactions();
+	    		return;
+	    	}
+    	}
+    };
+    
+    private OnClickListener recordListener = new OnClickListener(){//?}?l/??????s
+    	@Override
+    	public void onClick(View v) {//開始/停止錄製
+    		
+    		if(record.isChecked()){
+    			ButtonDraw_recordcheck = true;
+	    		mCallback.setRecordCheck(ButtonDraw_recordcheck);//透過mCallback來從這裡設定MainActivity裡面recordcheck的值
+
+	    		
+    		}
+    		else{
+    			ButtonDraw_recordcheck = false;
+	    		mCallback.setRecordCheck(ButtonDraw_recordcheck);//透過mCallback來從這裡設定MainActivity裡面recordcheck的值
+
+    		}
+    	}
+    };
+    
+    private OnClickListener clearListener = new OnClickListener(){//"?M??..."
+    	@Override
+    	public void onClick(View v) {//"清除..."
+
+			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+			mainfrag.clear_paint();
+			mainfrag.clear_record();
+			record.setChecked(false);
+			mCallback.setRecordCheck(false);
+			mCallback.setClean();
+
+			//region 清楚分兩種的原始版本(已註解) / 我還沒搞清楚兩個clean的差別
+			/*
+			final String[] strategies = {"Clear all","Clear path"};
+    		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+    		builder.setItems(strategies, new DialogInterface.OnClickListener(){
+    	         @Override
+				 //只要你在onClick處理事件內，使用which參數，就可以知道按下陣列裡的哪一個了
+    	         public void onClick(DialogInterface dialog, int which) {
+    	                // TODO Auto-generated method stub
+    	        	 	if(which==0){//?M??????
+    	        	 		mCallback.setClean();
+    	        	 	}
+    	        	 	else if (which==1){//?M?????|
+    	        	 		MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+    	            		mainfrag.clear_paint();
+    	            		mainfrag.clear_record();
+    	            		record.setChecked(false);
+    	            		mCallback.setRecordCheck(false);
+    	        	 	}
+    	          }
+    	    });
+            AlertDialog about_dialog = builder.create();
+            about_dialog.show();
+            */
+			//endregion
+    	}
+    };
+    
+    
+    
+    private OnClickListener strategies = new OnClickListener(){//"??N"
+    	@Override
+    	public void onClick(View v) {
+			mainfrag.Dialog_manage_tactic();
+    	}
+    };
+	
+    /*private OnClickListener DTW = new OnClickListener(){//"DTW"
+    	@Override
+    	public void onClick(View v) {
+    		MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+    		mainfrag.Do_DTW();
+    	}
+    };*/
+    
+    private OnClickListener SendtoUE4 = new OnClickListener(){//"SendtoUE4"
+    	@Override
+    	public void onClick(View v) {
+    		//MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+    		//mainfrag.Mainfrag_SendtoUE4();
+    		//Button Btn_sendToVR = (Button) getView().findViewById(R.id.button_SendtoUE4);
+    		//Btn_sendToVR.setBackgroundResource(R.drawable.icon_connect_click);
+    	}
+    };
+	
+    private OnClickListener settings = new OnClickListener(){//"?]?w"
+    	@Override
+    	public void onClick(View v) {
+    		final String[] strategies = {"UDP ?]?w","?]?w??j???"};
+    		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    		
+    		builder.setTitle("--- ?]?w ---");
+    		builder.setItems(strategies, new DialogInterface.OnClickListener(){
+    	         @Override
+				 //只要你在onClick處理事件內，使用which參數，就可以知道按下陣列裡的哪一個了
+    	         public void onClick(DialogInterface dialog, int which) {
+    	        	 	MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+    	                // TODO Auto-generated method stub
+    	        	 	if(which==0){//UDP 設定
+    	        	 		Set_UDP();
+    	        	 	}
+    	        	 	else if (which==1){//設定最大時間
+    	        	 		//mainfrag.Mainfrag_Set_Total_time(text);
+    	        	 		
+    	        	 	}
+    	          }
+    	    });
+            AlertDialog about_dialog = builder.create();
+            about_dialog.show();
+    	}
+    };
+    
+    
+    private void Set_UDP(){
+    	LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View v = inflater.inflate(R.layout.udp_settings, null);
+    	AlertDialog.Builder UDP_Dialog = new AlertDialog.Builder(getActivity());
+    	UDP_Dialog.setTitle("--- TCP ?]?w ---");
+    	   UDP_Dialog.setView(v);
+    	   
+    	   UDP_Dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    	    // do something when the button is clicked
+    	    public void onClick(DialogInterface arg0, int arg1) {
+	    	    EditText UDP_IP = (EditText) (v.findViewById(R.id.edit_UDP_IP));
+	    	    Log.i("socket", "IP:"+UDP_IP.getText().toString());
+	    	    InetAddress outIP=null;
+	    	    try {
+					outIP = InetAddress.getByName(UDP_IP.getText().toString());
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	    	
+	    	    	
+	    	    EditText UDP_Port = (EditText) (v.findViewById(R.id.edit_UDP_Port));
+	    	    Log.i("socket", "Port:"+UDP_Port.getText().toString());
+	    	    int outPort = Integer.parseInt(UDP_Port.getText().toString());
+	    	    
+	    	    MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+	    	    mainfrag.Mainfrag_Set_UDP_IP(outIP, outPort);
+
+	    	    
+    	    }
+    	    });
+    	   
+    	   
+    	   UDP_Dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    	          // do something when the button is clicked
+    	    public void onClick(DialogInterface arg0, int arg1) {
+    	    //...
+    	     }
+    	    });
+    	   UDP_Dialog.show();
+    }
+	
+}

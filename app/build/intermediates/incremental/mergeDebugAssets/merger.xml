@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config=":openCVLibrary2411"><source path="D:\0. Basketball\Android\E_BTB\openCVLibrary2411\build\intermediates\packagedAssets\debug"/></dataSet><dataSet config="main"><source path="D:\0. Basketball\Android\E_BTB\app\src\main\assets"/><source path="D:\0. Basketball\Android\E_BTB\app\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="D:\0. Basketball\Android\E_BTB\app\src\debug\assets"/></dataSet></merger>

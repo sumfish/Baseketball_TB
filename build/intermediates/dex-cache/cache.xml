@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tsai\.android\build-cache\2adce470c544437dcdd7bebdffbcccf8493596b1\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="F:\E_BTB\app\build\intermediates\pre-dexed\debug\classes_41fb443057f61982e0b1d8c6fa4fee2659891a29.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tsai\.android\build-cache\7fb20301db5a4242c333c6f4f5f3abbb4cbfb084\output\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="F:\E_BTB\app\build\intermediates\pre-dexed\debug\internal_impl-23.4.0_8c0dd167a043d4f0c63d8ad1fe51a7841d8a7ba9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tsai\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="F:\E_BTB\app\build\intermediates\pre-dexed\debug\support-annotations-23.4.0_f393c390bcaece95c218c01c2381fae5ed8c73ab.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tsai\.android\build-cache\24b4de368a31489a069b0119a2aa45b602c75781\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="F:\E_BTB\app\build\intermediates\pre-dexed\debug\classes_f5add647a0b489913c69e8506f050596bef8951e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tsai\.android\build-cache\a6357499d6deea726d64d97e919bf840f278ecd6\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="F:\E_BTB\app\build\intermediates\pre-dexed\debug\classes_08a5bc0e4b84acda5fcddf50166986cd59e5c6a3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tsai\.android\build-cache\7fb20301db5a4242c333c6f4f5f3abbb4cbfb084\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="F:\E_BTB\app\build\intermediates\pre-dexed\debug\classes_6513e85b7fb803669247970807c436e287b1e11a.jar" />
+    </item>
+
+</items>

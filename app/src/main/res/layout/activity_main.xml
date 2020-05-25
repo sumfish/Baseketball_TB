@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity" >
+
+    <RelativeLayout 
+        android:layout_width = "wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerInParent="true">
+        
+        <ImageView android:src="@drawable/court" 
+            android:layout_width = "401dp"
+	    	android:layout_height="750dp"/>
+        
+    </RelativeLayout>
+    <!--
+    	<Button
+	       android:id="@+id/button01"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:minHeight="0dp" 
+	       android:minWidth="0dp"
+	       android:text="自由移動" />
+
+	   <Button
+	       android:id="@+id/three_d"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_toRightOf="@+id/button01"
+	       android:minHeight="0dp" 
+	       android:minWidth="0dp"
+	       android:text="3D環場" />
+
+	     <Button
+	       android:id="@+id/playbutton"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_toRightOf="@+id/three_d"
+	       android:minHeight="0dp" 
+	       android:minWidth="0dp"
+	       android:text="播放" />
+    	-->
+    
+	   <fragment
+	       android:id="@+id/ButtonDraw"
+	       android:name="com.example.helloworld.ButtonDraw"
+	       
+	       android:layout_toRightOf="@+id/playbutton"
+	       android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+	           />
+	   
+	   
+	   
+       <fragment
+	       android:id="@+id/MainWrap_frag"
+	       android:name="com.example.helloworld.MainWrap"
+	       android:layout_width="fill_parent"
+	       android:layout_height="fill_parent"
+	       tools:layout="@layout/main_wrap" />  
+	   
+	   
+	   
+	   <fragment
+	       android:id="@+id/Main"
+	       android:name="com.example.helloworld.MainFragment"
+	       android:layout_width="fill_parent"
+	       android:layout_height="fill_parent"
+	       tools:layout="@layout/main_layout" />
+	   
+	   
+	   
+       <fragment 
+           android:id="@+id/time_line"
+           android:name="com.example.helloworld.TimeLine"
+           android:layout_width="match_parent"
+	       android:layout_height="wrap_content"
+	       android:background="?android:attr/detailsElementBackground"
+	       
+	       android:layout_alignParentBottom="true"
+	       android:layout_centerInParent="true"
+	       android:visibility="gone"
+           >  
+       </fragment>
+
+		<fragment
+			android:id="@+id/image_select"
+			android:name="com.example.helloworld.ImageSelect"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="?android:attr/detailsElementBackground"
+
+			android:layout_alignParentBottom="true"
+			android:layout_centerInParent="true"
+			android:visibility="gone"
+			>
+		</fragment>
+
+		<fragment
+			android:id="@+id/perspecitve_select"
+			android:name="com.example.helloworld.PerspectiveSelect"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="?android:attr/detailsElementBackground"
+
+			android:layout_alignParentBottom="true"
+			android:layout_centerInParent="true"
+			android:visibility="gone"
+			>
+		</fragment>
+       
+</RelativeLayout>

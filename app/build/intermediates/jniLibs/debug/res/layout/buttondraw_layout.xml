@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+	
+    <LinearLayout
+           	android:id="@+id/wrap_LinearLayout"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="wrap_content"
+    	    android:background="#76879A"
+    	    android:orientation="horizontal"
+    	    android:gravity="center"
+           
+           >
+    	<LinearLayout 
+    	    android:id="@+id/tool_LinearLayout"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:background="#76879A"
+    	    android:orientation="horizontal">
+    	    
+    	    <TextView
+    	        android:id="@+id/tools_text"
+    	        android:layout_width="80dp"
+    	        android:layout_height="match_parent"
+    	        android:background="#303841"
+    	        android:gravity="center"
+    	        android:text="Tools"
+				android:textColor="#FBE99F"
+    	        android:textStyle="bold" />
+"
+			<!--<Button
+				android:id="@+id/defbutton"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:background="@drawable/def_button"
+				android:minHeight="0dp"
+				android:minWidth="0dp" />-->
+
+    	    <Button
+    	        android:id="@+id/playbutton"
+    	        android:layout_width="40dp"
+    	        android:layout_height="40dp"
+    	        android:background="@drawable/icon_play"
+    	        android:minHeight="0dp"
+    	        android:minWidth="0dp" />
+    	    
+    	    <ToggleButton
+    	        android:id="@+id/recordbutton"
+    	        android:layout_width="40dp"
+    	        android:layout_height="40dp"
+    	        android:layout_alignParentTop="true"
+    	        android:background="@drawable/check"
+    	        android:minHeight="0dp"
+    	        android:minWidth="0dp"
+    	        android:textOn=" "
+    	        android:textOff=" "
+    	        android:onClick="onToggleClicked" />
+
+    	    <Button
+		       android:id="@+id/button_strategies"
+		       android:layout_width="40dp"
+		       android:layout_height="40dp"
+		       android:minHeight="0dp"
+		       android:minWidth="0dp"
+		       android:background="@drawable/icon_strategy"
+		       android:textSize="10dp" />
+
+			<Button
+				android:id="@+id/btn_screen"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:background="@drawable/screen_disable">
+
+			</Button>
+    	    
+    	</LinearLayout>
+
+    	<LinearLayout 
+    	    android:id="@+id/buttondraw_timeline_LinearLayout"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_toRightOf="@+id/tool_LinearLayout"
+    	    android:background="#76879A"
+    	    android:orientation="horizontal">
+
+    	    <TextView
+    	        android:id="@+id/timeline_text"
+    	        android:layout_width="80dp"
+    	        android:layout_height="match_parent"
+    	        android:background="#303841"
+    	        android:gravity="center"
+    	        android:text="TimeLine"
+				android:textColor="#FBE99F"
+    	        android:textStyle="bold"
+				android:fontFamily="@font/decalotype"/>
+
+			<Button
+				android:id="@+id/button_clear"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:minHeight="0dp"
+				android:minWidth="0dp"
+				android:background="@drawable/icon_clean"
+				android:textSize="10dp" />
+
+    	    <Button
+		       android:id="@+id/button02"
+		       android:layout_width="40dp"
+		       android:layout_height="40dp"
+		       android:minHeight="0dp" 
+		       android:minWidth="0dp"
+		       android:background="@drawable/icon_hide_timeline" />
+
+
+    	    <Button
+		       android:id="@+id/btn_image"
+		       android:layout_width="40dp"
+		       android:layout_height="40dp"
+		       android:minHeight="0dp" 
+		       android:minWidth="0dp"
+		       android:background="@drawable/icon_image" />
+
+    	    </LinearLayout>
+
+	   		<LinearLayout 
+	   		    android:id="@+id/advanced_LinearLayout"
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+    	    	android:layout_toRightOf="@+id/buttondraw_timeline_LinearLayout"
+	    	    android:background="#76879A"
+	    	    android:orientation="horizontal">
+	   		    
+	   		    <TextView
+    	        android:id="@+id/advanced_text"
+    	        android:layout_width="80dp"
+    	        android:layout_height="match_parent"
+    	        android:background="#303841"
+    	        android:gravity="center"
+    	        android:text="Advanced"
+				android:textColor="#FBE99F"
+    	        android:textStyle="bold"
+				android:typeface="monospace"
+
+				/>
+
+	   		    
+	   		    
+	   		    <Button
+			       android:id="@+id/button_SendtoUE4"
+			       android:layout_width="40dp"
+			       android:layout_height="40dp"
+					android:layout_marginLeft="5dp"
+			       android:minHeight="0dp"
+			       android:minWidth="0dp"
+				   android:background="@drawable/icon_connect_ue4"
+			       android:textSize="10dp" />
+
+				<Button
+			       android:id="@+id/ic_unlock"
+			       android:layout_width="35dp"
+			       android:layout_height="35dp"
+			       android:minHeight="0dp"
+			       android:minWidth="0dp"
+			       android:background="@drawable/ic_lock"
+			       android:textSize="10dp"
+			       />
+	   		    
+	   		    </LinearLayout>
+	   </LinearLayout>
+
+	   <!-- <Button
+	       android:id="@+id/button_DTW"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_alignBottom="@+id/recordbutton"
+	       android:layout_toRightOf="@+id/button_strategies"
+	       android:minHeight="0dp"
+	       android:minWidth="0dp"
+	       android:text="DTW"
+	       android:textSize="10dp" /> -->
+	   
+	   
+
+	  
+	   
+</RelativeLayout>

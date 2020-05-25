@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#D4DBE0"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relativeLayout">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/textView1"
+            android:background="@drawable/profile_image2"
+            android:layout_width="240px"
+            android:layout_height="40px"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20px"
+            android:gravity="center" />
+
+        <com.example.helloworld.MyLineView
+            android:id="@+id/myLineView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/main_timeline_relativelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp">
+
+            <Button
+                android:id="@+id/btn_select_pg"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/image_select_pg"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/textPG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_select_pg"
+                android:layout_centerHorizontal="true"
+                android:text="Point Guard"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp">
+
+            <Button
+                android:id="@+id/btn_select_sg"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/image_select_sg"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/textSG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_select_sg"
+                android:layout_centerHorizontal="true"
+                android:text="Shooting Guard"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp">
+
+            <Button
+                android:id="@+id/btn_select_sf"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/image_select_sf"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/textSF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_select_sf"
+                android:layout_centerHorizontal="true"
+                android:text="Small Forward"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp">
+
+            <Button
+                android:id="@+id/btn_select_pf"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/image_select_pf"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/textPF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_select_pf"
+                android:layout_centerHorizontal="true"
+                android:text="Power Forward"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp">
+
+            <Button
+                android:id="@+id/btn_select_c"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/image_select_c"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/textC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_select_c"
+                android:layout_centerHorizontal="true"
+                android:text="Center"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_send2"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:textSize="10dp" />
+    </LinearLayout>
+</RelativeLayout>
