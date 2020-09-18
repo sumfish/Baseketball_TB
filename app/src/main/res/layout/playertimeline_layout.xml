@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <com.example.helloworld.mySeekBar
+    <com.example.helloworld.MySeekBar
         android:id="@+id/seekBar_tg2"
         android:layout_width="140dp"
         android:layout_height="wrap_content"

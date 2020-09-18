@@ -4,57 +4,56 @@ import java.io.Serializable;
 import java.util.Vector;
 
 public class RunBag implements Serializable{
-	private int start_time;
+	private int startTime;
 	private int duration;
 	private String handler;
-	private int road_start;
-	private int road_end;
-	private int road_size;
+	private int roadStart;
+	private int roadEnd;
+	private int roadSize;
 	private int rate;
-	private int timeline_id;
-	private int ball_num;
+	private int timelineId;
+	private int ballNum;
 
 	//region 用來表示掩護及運球
-	private int path_type; //0:無球跑動 1:結束動作為掩護 2:運球
-	private float screen_angle;
-	private float dribble_angle;
-	private float dribble_length;
-	private int dribble_start_x;
-	private int dribble_start_y;
+	private int pathType; //0:無球跑動 1:結束動作為掩護 2:運球
+	private float screenAngle;
+	private float dribbleAngle;
+	private float dribbleLength;
+	private int dribbleStartX;
+	private int dribbleStartY;
 	//endregion
 
 	
-	public RunBag(int in_time , int in_duration,String in_handler , int in_start , int in_end){
-		start_time = in_time;
-		duration = in_duration;
-		handler = in_handler;
-		road_start = in_start;
-		road_end = in_end;
-		rate = duration/(road_size);
-		ball_num=0;
+	public RunBag(int time, int duration, String handler, int start, int end){
+		startTime = time;
+		this.duration = duration;
+		this.handler = handler;
+		roadStart = start;
+		roadEnd = end;
+		rate = this.duration /(roadSize);
+		ballNum =0;
 	}
 	
 	public RunBag(){
-		start_time = -1;
+		startTime = -1;
 		duration = -1;
 		handler = "null";
-		road_start = -1;
-		road_end = -1;
+		roadStart = -1;
+		roadEnd = -1;
 		rate = -1;
-		ball_num=-1;
+		ballNum =-1;
 	}
 	
 	public Vector<Integer> parseRunBagToIntVec(){
 		Vector<Integer> output = new Vector();
-		
 		/*tmp=Integer.toString(start_time)+"\n";
 		tmp+=handler+"\n";
 		tmp+=Integer.toString(road_start)+"\n";
 		tmp+=Integer.toString(road_end)+"\n";
 		tmp+=Integer.toString(duration)+"\n";
 		tmp+=Integer.toString(ball_num);*/
-		if(start_time!=-1)
-			output.add(start_time);
+		if(startTime !=-1)
+			output.add(startTime);
 		else
 			return null;
 		///////////////////////////////////////////
@@ -96,13 +95,13 @@ public class RunBag implements Serializable{
 		else
 			return null;
 		///////////////////////////////////////////
-		if(road_start!=-1)
-			output.add(road_start);
+		if(roadStart !=-1)
+			output.add(roadStart);
 		else
 			return null;
 		///////////////////////////////////////////
-		if(road_end!=-1)
-			output.add(road_end);
+		if(roadEnd !=-1)
+			output.add(roadEnd);
 		else
 			return null;
 		///////////////////////////////////////////
@@ -111,51 +110,48 @@ public class RunBag implements Serializable{
 		else
 			return null;
 		///////////////////////////////////////////
-		if(ball_num!=-1)
-			output.add(ball_num);
+		if(ballNum !=-1)
+			output.add(ballNum);
 		else
 			return null;
 
 		return output;
 	}
-	
-	
-	
+
 	public String getRunBagInfo(){
-		
 		String tmp = new String();
-		tmp=Integer.toString(start_time)+"\n";
-		tmp+=handler+"\n";
-		tmp+=Integer.toString(road_start)+"\n";
-		tmp+=Integer.toString(road_end)+"\n";
-		tmp+=Integer.toString(duration)+"\n";
-		tmp+=Integer.toString(ball_num);
+		tmp = Integer.toString(startTime)+"\n";
+		tmp += handler+"\n";
+		tmp += Integer.toString(roadStart)+"\n";
+		tmp += Integer.toString(roadEnd)+"\n";
+		tmp += Integer.toString(duration)+"\n";
+		tmp += Integer.toString(ballNum);
 		return tmp;
 		
 	}
 	
-	public void setBall_num(int input_num){
-		ball_num=input_num;
+	public void setBallNum(int input_num){
+		ballNum =input_num;
 	}
 	
-	public int getBall_num(){
-		return ball_num;
+	public int getBallNum(){
+		return ballNum;
 	}
 	
 	public void setTimeLineId(int input_id){
-		timeline_id=input_id;
+		timelineId =input_id;
 	}
 	
 	public int getTimeLineId(){
-		return timeline_id;
+		return timelineId;
 	}
 	
 	public int getStartTime(){
-		return start_time;
+		return startTime;
 	}
 	
 	public void setStartTime(int in_time){
-		start_time = in_time;
+		startTime = in_time;
 	}
 	
 	public String getHandler(){
@@ -167,28 +163,28 @@ public class RunBag implements Serializable{
 	}
 	
 	public int getRoadStart(){
-		return road_start;
+		return roadStart;
 	}
 	
 	public void setRoadStart(int in_start){
-		road_start = in_start;
+		roadStart = in_start;
 	}
 	
 	public int getRoadEnd(){
-		return road_end;
+		return roadEnd;
 	}
 	
 	public void setRoadEnd(int in_end){
-		road_end = in_end;
+		roadEnd = in_end;
 	}
 	
 	public int getDuration(){
 		return duration;
 	}
 	
-	public void setDuration(int in_duration){
-		duration = in_duration;
-		rate = ((duration*1000)/(road_end - road_start));
+	public void setDuration(int duration){
+		this.duration = duration;
+		rate = ((this.duration *1000)/(roadEnd - roadStart));
 	}
 	
 	public int getRate(){
@@ -196,51 +192,51 @@ public class RunBag implements Serializable{
 	}
 
 
-	public int getPath_type() {
-		return path_type;
+	public int getPathType() {
+		return pathType;
 	}
 
-	public void setPath_type(int path_type) {
-		this.path_type = path_type;
+	public void setPathType(int pathType) {
+		this.pathType = pathType;
 	}
 
-	public float getScreen_angle() {
-		return screen_angle;
+	public float getScreenAngle() {
+		return screenAngle;
 	}
 
-	public void setScreen_angle(float screen_angle) {
-		this.screen_angle = screen_angle;
+	public void setScreenAngle(float screenAngle) {
+		this.screenAngle = screenAngle;
 	}
 
-	public float getDribble_angle() {
-		return dribble_angle;
+	public float getDribbleAngle() {
+		return dribbleAngle;
 	}
 
-	public void setDribble_angle(float dribble_angle) {
-		this.dribble_angle = dribble_angle;
+	public void setDribbleAngle(float dribbleAngle) {
+		this.dribbleAngle = dribbleAngle;
 	}
 
-	public float getDribble_length() {
-		return dribble_length;
+	public float getDribbleLength() {
+		return dribbleLength;
 	}
 
-	public void setDribble_length(float dribble_length) {
-		this.dribble_length = dribble_length;
+	public void setDribbleLength(float dribbleLength) {
+		this.dribbleLength = dribbleLength;
 	}
 
-	public int getDribble_start_x() {
-		return dribble_start_x;
+	public int getDribbleStartX() {
+		return dribbleStartX;
 	}
 
-	public void setDribble_start_x(int dribble_start_x) {
-		this.dribble_start_x = dribble_start_x;
+	public void setDribbleStartX(int dribbleStartX) {
+		this.dribbleStartX = dribbleStartX;
 	}
 
-	public int getDribble_start_y() {
-		return dribble_start_y;
+	public int getDribbleStartY() {
+		return dribbleStartY;
 	}
 
-	public void setDribble_start_y(int dribble_start_y) {
-		this.dribble_start_y = dribble_start_y;
+	public void setDribbleStartY(int dribbleStartY) {
+		this.dribbleStartY = dribbleStartY;
 	}
 }

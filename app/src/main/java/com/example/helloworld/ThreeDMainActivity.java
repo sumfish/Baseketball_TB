@@ -1,6 +1,5 @@
 package com.example.helloworld;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import android.os.Bundle;
@@ -8,8 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import min3d.Utils;
@@ -42,7 +39,7 @@ public class ThreeDMainActivity extends RendererActivity {
 	private Player P5;
 	private Player B;
 	private Vector<RunBag> RunLine = new Vector();
-	private myRunLine myRunline = new myRunLine();
+	private MyRunLine myRunline = new MyRunLine();
 	float x = 1f, y = 12f, z = 0f;
 	
 	
@@ -58,7 +55,7 @@ public class ThreeDMainActivity extends RendererActivity {
 	                try{
 	                	Message m = new Message();
 	                	Bundle b = new Bundle();
-	                	b.putInt("what", i);//±Nplay_k¥´¥]¦¨msg
+	                	b.putInt("what", i);//ï¿½Nplay_kï¿½ï¿½ï¿½]ï¿½ï¿½msg
 	                	b.putInt("time",time);
 	                    m.setData(b);
 	                    RunLineCheck_Handle.sendMessage(m);
@@ -107,7 +104,7 @@ public class ThreeDMainActivity extends RendererActivity {
 	                try{
 	                	Message m = new Message();
 	                	Bundle b = new Bundle();
-	                	b.putInt("what", play_k);//±Nplay_k¥´¥]¦¨msg
+	                	b.putInt("what", play_k);//ï¿½Nplay_kï¿½ï¿½ï¿½]ï¿½ï¿½msg
 	                    m.setData(b);
 	                	play_handler.sendMessage(m);
 	                    Thread.sleep(speed);
@@ -193,7 +190,7 @@ public class ThreeDMainActivity extends RendererActivity {
 	@Override
 	public void initScene() {
 		
-		//¨úªºintent¤¤ªºbundleª«¥ó
+		//ï¿½ï¿½ï¿½ï¿½intentï¿½ï¿½ï¿½ï¿½bundleï¿½ï¿½ï¿½ï¿½
 	    Bundle bundleThreeD =this.getIntent().getExtras();
 
 	   
@@ -206,7 +203,7 @@ public class ThreeDMainActivity extends RendererActivity {
 	    P4 = (Player) bundleThreeD.getSerializable("p4");
 	    P5 = (Player) bundleThreeD.getSerializable("p5");
 	    B = (Player) bundleThreeD.getSerializable("ball");
-	    myRunline = (myRunLine) bundleThreeD.getSerializable("myRunLine");
+	    myRunline = (MyRunLine) bundleThreeD.getSerializable("myRunLine");
 	    RunLine = myRunline.getRunLine();
 	    //RunLine = (Vector<RunBag>) bundleThreeD.getSerializable("runline");
 	    

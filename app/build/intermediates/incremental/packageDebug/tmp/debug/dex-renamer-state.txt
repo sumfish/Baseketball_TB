@@ -1,4 +1,4 @@
-#Sun May 24 20:59:00 CST 2020
-base.0=D\:\\0. Basketball\\Android\\E_BTB\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\19
+#Fri Sep 18 17:21:55 CST 2020
+base.0=E\:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

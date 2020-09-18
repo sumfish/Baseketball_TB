@@ -6,36 +6,35 @@ import java.util.Vector;
 public class Player implements Serializable{
 	private Vector<Integer> road = new Vector();
 	private Vector<Vector<Float>> curve = new Vector();
-	private Vector<Integer> road_3d = new Vector();
+	private Vector<Integer> road3D = new Vector();
 	private Vector<Integer> rotation = new Vector();
-	private String PlayerName = new String();
-	private int start_index;
-	private int start_index_3d;
+	private String playerName = new String();
+	private int startIndex;
+	private int startIndex3D;
 	
 
 	public void clear_all(){
 		road.clear();
-		road_3d.clear();
+		road3D.clear();
 		rotation.clear();
-		start_index=0;
-		start_index_3d=0;
-		
+		startIndex =0;
+		startIndex3D =0;
 	}
 	
 	public void setPlayerName(String name){
-		PlayerName = name;
+		playerName = name;
 	}
 	
 	public String getPlayerName(){
-		return PlayerName;
+		return playerName;
 	}
 	
 	public int getStartIndex(){
-		return start_index;
+		return startIndex;
 	}
 	
 	public int getRoad(int find, int in_start_index){
-		start_index=road.indexOf(find,in_start_index);
+		startIndex =road.indexOf(find,in_start_index);
 		return road.indexOf(find,in_start_index);
 	}
 	
@@ -81,32 +80,32 @@ public class Player implements Serializable{
 	}
 	//////////////////////////////////////////////////////
 	public int getStartIndex_3d(){
-		return start_index_3d;
+		return startIndex3D;
 	}
 	
 	public int getRoad_3d(int find, int in_start_index){
-		start_index_3d=road_3d.indexOf(find,in_start_index);
-		return road_3d.indexOf(find,in_start_index);
+		startIndex3D = road3D.indexOf(find,in_start_index);
+		return road3D.indexOf(find,in_start_index);
 	}
 	
 	public int getLastRoad_3d(){
-		return road_3d.indexOf(road_3d.lastElement());
+		return road3D.indexOf(road3D.lastElement());
 	}
 	
 	public int handleGetRoad_3d(int in_index){
-		return road_3d.get(in_index);
+		return road3D.get(in_index);
 	}
 	
-	public void setRoad_3d(int add_object){
-		road_3d.add(add_object);
+	public void setRoad3D(int add_object){
+		road3D.add(add_object);
 	}
 	
 	public int getRoadSize_3d(){
-		return road_3d.size();
+		return road3D.size();
 	}
 	
 	public Vector<Integer> getCmpltRoad_3d(){
-		return road_3d;
+		return road3D;
 	}
 	
 	public void setMyRotation(int input){

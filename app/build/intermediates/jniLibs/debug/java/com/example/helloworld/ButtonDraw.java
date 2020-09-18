@@ -12,7 +12,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +26,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 /*按鈕的抽屜*/
 /*存按鈕們的地方*/
@@ -37,14 +35,14 @@ public class ButtonDraw extends Fragment {
 	
 	private MainFragment mainfrag;
 	
-	private boolean ButtonDraw_recordcheck = false;//檢查目前有沒有在錄製的狀態，預設為"沒有"
+	private boolean buttonDrawRecordcheck = false;//檢查目前有沒有在錄製的狀態，預設為"沒有"
 	private ToggleButton record;//Toggle的錄製按鈕
 	
 	private TimeLine timeline = null;
 	//private ImageSelect imageSelect = null;
 	private PerspectiveSelect perspectiveSelect = null;
-	private Button btn_image = null;
-	private Button btn_timeline = null;
+	private Button btnImage = null;
+	private Button btnTimeline = null;
 
 	private boolean isTimelineShow = true;
 	private boolean isImageSelect = false;
@@ -95,8 +93,8 @@ public class ButtonDraw extends Fragment {
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_DOWN) {
 					play.setBackgroundResource(R.drawable.icon_play_click);
-					mainfrag.set_player_to_no_ball();
-					mainfrag.set_playing(1);
+					mainfrag.setPlayerToNoBall();
+					mainfrag.setPlaying(1);
 					mainfrag.playButton();
 				} else if (event.getAction() == MotionEvent.ACTION_UP) {
 					play.setBackgroundResource(R.drawable.icon_play);
@@ -105,23 +103,23 @@ public class ButtonDraw extends Fragment {
 			}
 		});
 
-		btn_timeline = (Button) getView().findViewById(R.id.button02);
-		btn_timeline.setOnClickListener(btn2Listener);
-		btn_timeline.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
-		btn_timeline.setOnTouchListener(new View.OnTouchListener() {
+		btnTimeline = (Button) getView().findViewById(R.id.button02);
+		btnTimeline.setOnClickListener(btn2Listener);
+		btnTimeline.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+		btnTimeline.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_DOWN) {
 					isTimelineShow = !isTimelineShow;
 					if(isTimelineShow){
-						btn_timeline.setBackgroundResource(R.drawable.icon_hide_timeline);
+						btnTimeline.setBackgroundResource(R.drawable.icon_hide_timeline);
 						getActivity().findViewById(R.id.time_line).setVisibility(View.VISIBLE);
 						FragmentManager fragmentManager =getFragmentManager();
 						FragmentTransaction transaction = fragmentManager.beginTransaction();
 						timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
 
 						getActivity().findViewById(R.id.image_select).setVisibility(View.GONE);
-						btn_image.setBackgroundResource(R.drawable.icon_image);
+						btnImage.setBackgroundResource(R.drawable.icon_image);
 						isImageSelect = !isImageSelect;
 
 						transaction.show(timeline);
@@ -129,7 +127,7 @@ public class ButtonDraw extends Fragment {
 						fragmentManager.executePendingTransactions();
 					}
 					else{
-						btn_timeline.setBackgroundResource(R.drawable.icon_show_timeline);
+						btnTimeline.setBackgroundResource(R.drawable.icon_show_timeline);
 						FragmentManager fragmentManager =getFragmentManager();
 						timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
 						if (null != timeline){
@@ -145,34 +143,34 @@ public class ButtonDraw extends Fragment {
 			}
 		});
 
-		btn_image = (Button) getView().findViewById(R.id.btn_image);
-		btn_image.setOnClickListener(btn_imageListener);
-		btn_image.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+		btnImage = (Button) getView().findViewById(R.id.btn_image);
+		btnImage.setOnClickListener(btn_imageListener);
+		btnImage.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
 
         record = (ToggleButton) getView().findViewById(R.id.recordbutton);
         record.setOnClickListener(recordListener);
         record.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
         
-        Button button_clear = (Button) getView().findViewById(R.id.button_clear);
-        button_clear.setOnClickListener(clearListener);
-        button_clear.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+        Button buttonClear = (Button) getView().findViewById(R.id.button_clear);
+        buttonClear.setOnClickListener(clearListener);
+        buttonClear.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
         
-        Button button_load = (Button) getView().findViewById(R.id.button_strategies);
-        button_load.setOnClickListener(strategies);
-        button_load.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+        Button buttonLoad = (Button) getView().findViewById(R.id.button_strategies);
+        buttonLoad.setOnClickListener(strategies);
+        buttonLoad.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
 
-        final Button button_screen = (Button) getView().findViewById(R.id.btn_screen);
-        button_screen.setOnClickListener(new OnClickListener() {
+        final Button buttonScreen = (Button) getView().findViewById(R.id.btn_screen);
+        buttonScreen.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				isScreenEnable = !isScreenEnable;
 				mainfrag.isScreenEnable =isScreenEnable;
 				if(isScreenEnable){
-					button_screen.setBackgroundResource(R.drawable.screen);
+					buttonScreen.setBackgroundResource(R.drawable.screen);
 
 				}
 				else{
-					button_screen.setBackgroundResource(R.drawable.screen_disable);
+					buttonScreen.setBackgroundResource(R.drawable.screen_disable);
 				}
 			}
 		});
@@ -187,24 +185,45 @@ public class ButtonDraw extends Fragment {
         button_DTW.setOnClickListener(DTW);
         button_DTW.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);*/
         
-        final Button button_SendtoUE4 = (Button) getView().findViewById(R.id.button_SendtoUE4);
-        button_SendtoUE4.setOnClickListener(SendtoUE4);
-        button_SendtoUE4.setTextSize(TypedValue.COMPLEX_UNIT_PX,20);
-		button_SendtoUE4.setOnTouchListener(new View.OnTouchListener() {
+        final Button buttonSendtoUE4 = (Button) getView().findViewById(R.id.button_SendtoUE4);
+        buttonSendtoUE4.setOnClickListener(sendtoUE4);
+        buttonSendtoUE4.setTextSize(TypedValue.COMPLEX_UNIT_PX,20);
+		buttonSendtoUE4.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_DOWN) {
-					button_SendtoUE4.setBackgroundResource(R.drawable.icon_connect_click);
+					buttonSendtoUE4.setBackgroundResource(R.drawable.icon_connect_click);
 					MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-					mainfrag.Mainfrag_SendtoUE4();
+					mainfrag.mainfragSendtoUE4();
 
 				} else if (event.getAction() == MotionEvent.ACTION_UP) {
-					button_SendtoUE4.setBackgroundResource(R.drawable.icon_connect_ue4);
+					buttonSendtoUE4.setBackgroundResource(R.drawable.icon_connect_ue4);
 				}
 				return true;
 			}
 		});
-        
+
+		final Button buttonGetDefenderTraj = (Button) getView().findViewById(R.id.defender);
+		buttonGetDefenderTraj.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					buttonSendtoUE4.setBackgroundResource(R.drawable.icon_connect_click);
+					MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+					try {
+						mainfrag.mainfragGetDefenderFromServer();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+
+				}
+				return true;
+			}
+		});
+
         mainfrag = (MainFragment) getFragmentManager().findFragmentById(R.id.Main);
         
 	}
@@ -226,7 +245,7 @@ public class ButtonDraw extends Fragment {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
                 try {
-                    mainfrag.Mainfrag_GetDefenderFromServer();
+                    mainfrag.mainfragGetDefenderFromServer();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -275,14 +294,14 @@ public class ButtonDraw extends Fragment {
 			*/
 			isImageSelect = !isImageSelect;
 			if(isImageSelect){
-				btn_image.setBackgroundResource(R.drawable.icon_hide_image);
+				btnImage.setBackgroundResource(R.drawable.icon_hide_image);
 				getActivity().findViewById(R.id.perspecitve_select).setVisibility(View.VISIBLE);
 				FragmentManager fragmentManager =getFragmentManager();
 				FragmentTransaction transaction = fragmentManager.beginTransaction();
 				perspectiveSelect = (PerspectiveSelect) fragmentManager.findFragmentById(R.id.perspecitve_select);
 
 				getActivity().findViewById(R.id.time_line).setVisibility(View.GONE);
-				btn_timeline.setBackgroundResource(R.drawable.icon_show_timeline);
+				btnTimeline.setBackgroundResource(R.drawable.icon_show_timeline);
 				isTimelineShow = !isTimelineShow;
 
 				transaction.show(perspectiveSelect);
@@ -290,7 +309,7 @@ public class ButtonDraw extends Fragment {
 				fragmentManager.executePendingTransactions();
 			}
 			else{
-				btn_image.setBackgroundResource(R.drawable.icon_image);
+				btnImage.setBackgroundResource(R.drawable.icon_image);
 				FragmentManager fragmentManager =getFragmentManager();
 				perspectiveSelect = (PerspectiveSelect) fragmentManager.findFragmentById(R.id.perspecitve_select);
 				if (null != perspectiveSelect){
@@ -310,11 +329,9 @@ public class ButtonDraw extends Fragment {
     	@Override
     	public void onClick(View v) {
 	////////////////////////Save each road(RunBag) and add into RunLine////////////////////////
-    		
-    		mainfrag.set_player_to_no_ball();
-    		mainfrag.set_playing(1);
+    		mainfrag.setPlayerToNoBall();
+    		mainfrag.setPlaying(1);
     		mainfrag.playButton();
-
     	}
     };
 	
@@ -355,15 +372,12 @@ public class ButtonDraw extends Fragment {
     	public void onClick(View v) {//開始/停止錄製
     		
     		if(record.isChecked()){
-    			ButtonDraw_recordcheck = true;
-	    		mCallback.setRecordCheck(ButtonDraw_recordcheck);//透過mCallback來從這裡設定MainActivity裡面recordcheck的值
-
-	    		
+    			buttonDrawRecordcheck = true;
+	    		mCallback.setRecordCheck(buttonDrawRecordcheck);//透過mCallback來從這裡設定MainActivity裡面recordcheck的值
     		}
     		else{
-    			ButtonDraw_recordcheck = false;
-	    		mCallback.setRecordCheck(ButtonDraw_recordcheck);//透過mCallback來從這裡設定MainActivity裡面recordcheck的值
-
+    			buttonDrawRecordcheck = false;
+	    		mCallback.setRecordCheck(buttonDrawRecordcheck);//透過mCallback來從這裡設定MainActivity裡面recordcheck的值
     		}
     	}
     };
@@ -373,7 +387,7 @@ public class ButtonDraw extends Fragment {
     	public void onClick(View v) {//"清除..."
 
 			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-			mainfrag.clear_paint();
+			mainfrag.clearPaint();
 			mainfrag.clear_record();
 			record.setChecked(false);
 			mCallback.setRecordCheck(false);
@@ -413,7 +427,7 @@ public class ButtonDraw extends Fragment {
     private OnClickListener strategies = new OnClickListener(){//"??N"
     	@Override
     	public void onClick(View v) {
-			mainfrag.Dialog_manage_tactic();
+			mainfrag.dialogManageTactic();
     	}
     };
 	
@@ -425,7 +439,7 @@ public class ButtonDraw extends Fragment {
     	}
     };*/
     
-    private OnClickListener SendtoUE4 = new OnClickListener(){//"SendtoUE4"
+    private OnClickListener sendtoUE4 = new OnClickListener(){//"SendtoUE4"
     	@Override
     	public void onClick(View v) {
     		//MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
@@ -449,7 +463,7 @@ public class ButtonDraw extends Fragment {
     	        	 	MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
     	                // TODO Auto-generated method stub
     	        	 	if(which==0){//UDP 設定
-    	        	 		Set_UDP();
+    	        	 		setUDP();
     	        	 	}
     	        	 	else if (which==1){//設定最大時間
     	        	 		//mainfrag.Mainfrag_Set_Total_time(text);
@@ -463,7 +477,7 @@ public class ButtonDraw extends Fragment {
     };
     
     
-    private void Set_UDP(){
+    private void setUDP(){
     	LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View v = inflater.inflate(R.layout.udp_settings, null);
     	AlertDialog.Builder UDP_Dialog = new AlertDialog.Builder(getActivity());
@@ -489,7 +503,7 @@ public class ButtonDraw extends Fragment {
 	    	    int outPort = Integer.parseInt(UDP_Port.getText().toString());
 	    	    
 	    	    MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-	    	    mainfrag.Mainfrag_Set_UDP_IP(outIP, outPort);
+	    	    mainfrag.mainfragSetUDPIP(outIP, outPort);
 
 	    	    
     	    }

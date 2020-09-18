@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\0. Basketball\\Android\\E_BTB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw\\values-sw.xml",
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sw\\values-sw.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Tsai\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\5f34093d71f992844ea3d10a69c32aae\\res\\values-sw\\values-sw.xml",
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\42541f43126a8e124029519846bce7f4\\res\\values-sw\\values-sw.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

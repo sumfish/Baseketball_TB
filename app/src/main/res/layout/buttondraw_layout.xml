@@ -158,12 +158,12 @@
 			       android:textSize="10dp" />
 
 				<Button
-			       android:id="@+id/ic_unlock"
+			       android:id="@+id/defender"
 			       android:layout_width="35dp"
 			       android:layout_height="35dp"
 			       android:minHeight="0dp"
 			       android:minWidth="0dp"
-			       android:background="@drawable/ic_lock"
+			       android:background="@drawable/shield"
 			       android:textSize="10dp"
 			       />
 	   		    

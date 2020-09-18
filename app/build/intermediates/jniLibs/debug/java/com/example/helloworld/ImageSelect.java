@@ -2,7 +2,6 @@ package com.example.helloworld;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,15 +9,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.FaceDetector;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,13 +23,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.opencv.android.Utils;
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -57,10 +51,10 @@ public class ImageSelect extends Fragment {
     public static final int SELECT_PIC_BY_PICK_PHOTO = 2;
     public  static Bitmap [] selectedImage = new Bitmap[5];
     public static boolean [] hasSelected = new boolean[5];
-    public static int [] image_width = new int[5];
-    public static int [] image_height = new int[5];
+    public static int [] imageWidth = new int[5];
+    public static int [] imageHeight = new int[5];
     private static Bitmap [] originImage;
-    private Button btn_image_select_pg, btn_image_select_sg, btn_image_select_sf, btn_image_select_pf, btn_image_select_c;
+    private Button btnImageSelectPg, btnImageSelectSg, btnImageSelectSf, btnImageSelectPf, btnImageSelectC;
     private Button btn_send_bitmap;
     private int currentSelectImage = 0; // 0 - 4
 
@@ -86,20 +80,20 @@ public class ImageSelect extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        btn_image_select_pg = (Button) getView().findViewById(R.id.btn_select_pg);
-        btn_image_select_pg.setOnClickListener(btn_image_select_pg_Listener);
+        btnImageSelectPg = (Button) getView().findViewById(R.id.btn_select_pg);
+        btnImageSelectPg.setOnClickListener(btn_image_select_pg_Listener);
 
-        btn_image_select_sg = (Button) getView().findViewById(R.id.btn_select_sg);
-        btn_image_select_sg.setOnClickListener(btn_image_select_sg_Listener);
+        btnImageSelectSg = (Button) getView().findViewById(R.id.btn_select_sg);
+        btnImageSelectSg.setOnClickListener(btn_image_select_sg_Listener);
 
-        btn_image_select_sf = (Button) getView().findViewById(R.id.btn_select_sf);
-        btn_image_select_sf.setOnClickListener(btn_image_select_sf_Listener);
+        btnImageSelectSf = (Button) getView().findViewById(R.id.btn_select_sf);
+        btnImageSelectSf.setOnClickListener(btn_image_select_sf_Listener);
 
-        btn_image_select_pf = (Button) getView().findViewById(R.id.btn_select_pf);
-        btn_image_select_pf.setOnClickListener(btn_image_select_pf_Listener);
+        btnImageSelectPf = (Button) getView().findViewById(R.id.btn_select_pf);
+        btnImageSelectPf.setOnClickListener(btn_image_select_pf_Listener);
 
-        btn_image_select_c = (Button) getView().findViewById(R.id.btn_select_c);
-        btn_image_select_c.setOnClickListener(btn_image_select_c_Listener);
+        btnImageSelectC = (Button) getView().findViewById(R.id.btn_select_c);
+        btnImageSelectC.setOnClickListener(btn_image_select_c_Listener);
 
         btn_send_bitmap = (Button)getView().findViewById(R.id.btn_send);
         btn_send_bitmap.setOnClickListener(btn_send_bitmap_Listener);
@@ -193,8 +187,8 @@ public class ImageSelect extends Fragment {
 
             for(int i=0;i<5;i++){
                 JSONArray size_array = new JSONArray();
-                size_array.put(image_width[i]);
-                size_array.put(image_height[i]);
+                size_array.put(imageWidth[i]);
+                size_array.put(imageHeight[i]);
                 try {
                     packet.put(i+"_size", size_array);
                 } catch (JSONException e) {
@@ -318,25 +312,25 @@ public class ImageSelect extends Fragment {
 
                 switch (currentSelectImage){
                     case 0:
-                        btn_image_select_pg.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
+                        btnImageSelectPg.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
                         break;
                     case 1:
-                        btn_image_select_sg.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
+                        btnImageSelectSg.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
                         break;
                     case 2:
-                        btn_image_select_sf.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
+                        btnImageSelectSf.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
                         break;
                     case 3:
-                        btn_image_select_pf.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
+                        btnImageSelectPf.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
                         break;
                     case 4:
-                        btn_image_select_c.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
+                        btnImageSelectC.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
                         break;
 
                 }
                 hasSelected[currentSelectImage] = true;
-                image_width[currentSelectImage] = faceClip.width;
-                image_height[currentSelectImage] = faceClip.height;
+                imageWidth[currentSelectImage] = faceClip.width;
+                imageHeight[currentSelectImage] = faceClip.height;
                 //Whether to send full image
                 selectedImage[currentSelectImage] = testBmp;
                 /*

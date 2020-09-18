@@ -41,7 +41,6 @@ public class PerspectiveSelect extends Fragment {
     private InetAddress serverAddr;
     private Button btn_3PP, btn_1, btn_2, btn_3, btn_4, btn_5;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try {

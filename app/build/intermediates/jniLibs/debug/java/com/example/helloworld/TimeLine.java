@@ -6,13 +6,6 @@ import com.example.helloworld.CircularSeekBar.OnSeekChangeListener;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -459,60 +451,60 @@ public class TimeLine extends Fragment {
 
 
 
-		mySeekBar tmp = null;
+		MySeekBar tmp = null;
 		LinearLayout linearLayout=(LinearLayout) getView().findViewById(R.id.player1_timeline_place);
 		if(linearLayout.findViewById(search_id)!=null){
-			tmp = (mySeekBar) linearLayout.findViewById(search_id);
+			tmp = (MySeekBar) linearLayout.findViewById(search_id);
 		}
 		else{
 			linearLayout=(LinearLayout) getView().findViewById(R.id.player2_timeline_place);
 			if(linearLayout.findViewById(search_id)!=null){
-				tmp = (mySeekBar) linearLayout.findViewById(search_id);
+				tmp = (MySeekBar) linearLayout.findViewById(search_id);
 			}
 			else{
 				linearLayout=(LinearLayout) getView().findViewById(R.id.player3_timeline_place);
 				if(linearLayout.findViewById(search_id)!=null){
-					tmp = (mySeekBar) linearLayout.findViewById(search_id);
+					tmp = (MySeekBar) linearLayout.findViewById(search_id);
 				}
 				else{
 					linearLayout=(LinearLayout) getView().findViewById(R.id.player4_timeline_place);
 					if(linearLayout.findViewById(search_id)!=null){
-						tmp = (mySeekBar) linearLayout.findViewById(search_id);
+						tmp = (MySeekBar) linearLayout.findViewById(search_id);
 					}
 					else{
 						linearLayout=(LinearLayout) getView().findViewById(R.id.player5_timeline_place);
 						if(linearLayout.findViewById(search_id)!=null){
-							tmp = (mySeekBar) linearLayout.findViewById(search_id);
+							tmp = (MySeekBar) linearLayout.findViewById(search_id);
 						}
 						else{
 							linearLayout=(LinearLayout) getView().findViewById(R.id.ball_timeline_place);
 							if(linearLayout.findViewById(search_id)!=null){
-								tmp = (mySeekBar) linearLayout.findViewById(search_id);
+								tmp = (MySeekBar) linearLayout.findViewById(search_id);
 							}
 							else{
 								linearLayout=(LinearLayout) getView().findViewById(R.id.defender1_timeline_place);
 								if(linearLayout.findViewById(search_id)!=null){
-									tmp = (mySeekBar) linearLayout.findViewById(search_id);
+									tmp = (MySeekBar) linearLayout.findViewById(search_id);
 								}
 								else{
 									linearLayout=(LinearLayout) getView().findViewById(R.id.defender2_timeline_place);
 									if(linearLayout.findViewById(search_id)!=null){
-										tmp = (mySeekBar) linearLayout.findViewById(search_id);
+										tmp = (MySeekBar) linearLayout.findViewById(search_id);
 									}
 									else{
 										linearLayout=(LinearLayout) getView().findViewById(R.id.defender3_timeline_place);
 										if(linearLayout.findViewById(search_id)!=null){
-											tmp = (mySeekBar) linearLayout.findViewById(search_id);
+											tmp = (MySeekBar) linearLayout.findViewById(search_id);
 										}
 										else{
 											linearLayout=(LinearLayout) getView().findViewById(R.id.defender4_timeline_place);
 											if(linearLayout.findViewById(search_id)!=null){
-												tmp = (mySeekBar) linearLayout.findViewById(search_id);
+												tmp = (MySeekBar) linearLayout.findViewById(search_id);
 											}
 											else{
 												linearLayout=(LinearLayout) getView().findViewById(R.id.defender5_timeline_place);
 												if(linearLayout.findViewById(search_id)!=null){
-													tmp = (mySeekBar) linearLayout.findViewById(search_id);
+													tmp = (MySeekBar) linearLayout.findViewById(search_id);
 												}
 												else{
 													tmp=null;
@@ -1009,60 +1001,60 @@ public class TimeLine extends Fragment {
 
 
 
-		mySeekBar tmp = null;
+		MySeekBar tmp = null;
 		LinearLayout linearLayout=(LinearLayout) getView().findViewById(R.id.player1_timeline_place);
 		if(linearLayout.findViewById(input_id)!=null){
-			tmp = (mySeekBar) linearLayout.findViewById(input_id);
+			tmp = (MySeekBar) linearLayout.findViewById(input_id);
 		}
 		else{
 			linearLayout=(LinearLayout) getView().findViewById(R.id.player2_timeline_place);
 			if(linearLayout.findViewById(input_id)!=null){
-				tmp = (mySeekBar) linearLayout.findViewById(input_id);
+				tmp = (MySeekBar) linearLayout.findViewById(input_id);
 			}
 			else{
 				linearLayout=(LinearLayout) getView().findViewById(R.id.player3_timeline_place);
 				if(linearLayout.findViewById(input_id)!=null){
-					tmp = (mySeekBar) linearLayout.findViewById(input_id);
+					tmp = (MySeekBar) linearLayout.findViewById(input_id);
 				}
 				else{
 					linearLayout=(LinearLayout) getView().findViewById(R.id.player4_timeline_place);
 					if(linearLayout.findViewById(input_id)!=null){
-						tmp = (mySeekBar) linearLayout.findViewById(input_id);
+						tmp = (MySeekBar) linearLayout.findViewById(input_id);
 					}
 					else{
 						linearLayout=(LinearLayout) getView().findViewById(R.id.player5_timeline_place);
 						if(linearLayout.findViewById(input_id)!=null){
-							tmp = (mySeekBar) linearLayout.findViewById(input_id);
+							tmp = (MySeekBar) linearLayout.findViewById(input_id);
 						}
 						else{
 							linearLayout=(LinearLayout) getView().findViewById(R.id.defender1_timeline_place);
 							if(linearLayout.findViewById(input_id)!=null){
-								tmp = (mySeekBar) linearLayout.findViewById(input_id);
+								tmp = (MySeekBar) linearLayout.findViewById(input_id);
 							}
 							else{
 								linearLayout=(LinearLayout) getView().findViewById(R.id.defender2_timeline_place);
 								if(linearLayout.findViewById(input_id)!=null){
-									tmp = (mySeekBar) linearLayout.findViewById(input_id);
+									tmp = (MySeekBar) linearLayout.findViewById(input_id);
 								}
 								else{
 									linearLayout=(LinearLayout) getView().findViewById(R.id.defender3_timeline_place);
 									if(linearLayout.findViewById(input_id)!=null){
-										tmp = (mySeekBar) linearLayout.findViewById(input_id);
+										tmp = (MySeekBar) linearLayout.findViewById(input_id);
 									}
 									else{
 										linearLayout=(LinearLayout) getView().findViewById(R.id.defender4_timeline_place);
 										if(linearLayout.findViewById(input_id)!=null){
-											tmp = (mySeekBar) linearLayout.findViewById(input_id);
+											tmp = (MySeekBar) linearLayout.findViewById(input_id);
 										}
 										else{
 											linearLayout=(LinearLayout) getView().findViewById(R.id.defender5_timeline_place);
 											if(linearLayout.findViewById(input_id)!=null){
-												tmp = (mySeekBar) linearLayout.findViewById(input_id);
+												tmp = (MySeekBar) linearLayout.findViewById(input_id);
 											}
 											else{
 												linearLayout=(LinearLayout) getView().findViewById(R.id.ball_timeline_place);
 												if(linearLayout.findViewById(input_id)!=null){
-													tmp = (mySeekBar) linearLayout.findViewById(input_id);
+													tmp = (MySeekBar) linearLayout.findViewById(input_id);
 												}
 											}
 										}
@@ -1291,7 +1283,7 @@ public class TimeLine extends Fragment {
 		/*Add SeekBar*/
 		/**TODO setProgressHigh可以設定後滑塊的位置**/
 		/****************Load*******************/
-		mySeekBar tmp = new mySeekBar(getActivity());
+		MySeekBar tmp = new MySeekBar(getActivity());
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 
 		tmp.setProgressLow(progresslow);
@@ -1306,7 +1298,7 @@ public class TimeLine extends Fragment {
 		input.add(id);
 		input.add(progresslow);//這也要記得改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		input.add(duration);
-		mainfrag.set_seekBar_to_RunBag(input);
+		mainfrag.setSeekBarToRunBag(input);
 		mCallback.seekBarStartTime(progresslow);
 		mCallback.seekBarDuration(id);
 		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(id));
@@ -1450,7 +1442,7 @@ public class TimeLine extends Fragment {
 		/*Add SeekBar*/
 		/**TODO setProgressHigh可以設定後滑塊的位置**/
 		/****************normal*******************/
-		mySeekBar tmp = new mySeekBar(getActivity());
+		MySeekBar tmp = new MySeekBar(getActivity());
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 		tmp.setProgressLow(TimeLine_SeekBarProgressLow);
 		tmp.setProgressHigh(TimeLine_SeekBarProgressLow+1);
@@ -1465,7 +1457,7 @@ public class TimeLine extends Fragment {
 		input.add(RunLineId);
 		input.add(TimeLine_SeekBarProgressLow);//這也要記得改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		input.add(1);
-		mainfrag.set_seekBar_to_RunBag(input);
+		mainfrag.setSeekBarToRunBag(input);
 		mCallback.seekBarStartTime(TimeLine_SeekBarProgressLow);
 		mCallback.seekBarDuration(1);
 		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(RunLineId));
@@ -1496,7 +1488,7 @@ public class TimeLine extends Fragment {
 				case MotionEvent.ACTION_DOWN:// 按下圖片時
 					rmbutton_id=v.getId();
 					MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-					mainfrag.Mainfrag_remove_one_path(rmbutton_id);
+					mainfrag.mainfragRemoveOnePath(rmbutton_id);
 					break;
 			}
 			return true;
@@ -1504,10 +1496,10 @@ public class TimeLine extends Fragment {
 	};
 
 
-	private mySeekBar.OnSeekBarChangeListener mySeekBarOnChange = new mySeekBar.OnSeekBarChangeListener() {
+	private MySeekBar.OnSeekBarChangeListener mySeekBarOnChange = new MySeekBar.OnSeekBarChangeListener() {
 
 		@Override
-		public void onProgressChanged(mySeekBar seekBar, double progressLow,
+		public void onProgressChanged(MySeekBar seekBar, double progressLow,
 									  double progressHigh) {
 			// TODO Auto-generated method stub
 			int duration;
@@ -1525,7 +1517,7 @@ public class TimeLine extends Fragment {
 			input.add(seekBar.getId());
 			input.add((int)progressLow);
 			input.add(duration);
-			mainfrag.set_seekBar_to_RunBag(input);
+			mainfrag.setSeekBarToRunBag(input);
 			mCallback.seekBarStartTime((int)progressLow);
 			mCallback.seekBarDuration(duration);
 
@@ -1547,7 +1539,7 @@ public class TimeLine extends Fragment {
 			mainfrag.setMainFragProLow(TimeLine_SeekBarProgressLow);
 
 			/*TODO �ˬd�Ƨ�*/
-			mainfrag.Mainfrag_sort_pathnum();
+			mainfrag.mainfragSortPathnum();
 			//Log.d("debug", "Progress after,TimeLine_SeekBarProgressLow = "+Integer.toString(TimeLine_SeekBarProgressLow));
 		}
 	};

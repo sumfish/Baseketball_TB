@@ -18,10 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-/*¦Û¥Ñ²¾°Ê¼Ò¦¡*/
-/*±±¨î²y­û&²yªºÄ²±±¡A³æ¯Âªº²¾°Êµe­±¤Wªº¦ì¸m*/
-/*¥þ³õ¡B¥b³õ*//*¥¼§¹¦¨¡A¥b³õ¤Á´«®Éªº²Å¦Xµe­±°ÝÃD*/
-
 
 public class MultiActivity extends ActionBarActivity{
 	ImageView img1, img2,img3,img4,img5,imghcourt,ball;
@@ -72,7 +68,7 @@ public class MultiActivity extends ActionBarActivity{
         		imghcourt.setVisibility(View.VISIBLE);
         		
         		multimain.setBackgroundResource(R.drawable.black);
-    			court_btn.setText("¥þ³õ");
+    			court_btn.setText("ï¿½ï¿½ï¿½ï¿½");
         			
         		check_court=1;
     		}
@@ -83,7 +79,7 @@ public class MultiActivity extends ActionBarActivity{
         		imghcourt.setVisibility(View.GONE);
         		
         		multimain.setBackgroundResource(R.drawable.court);
-    			court_btn.setText("¥b³õ");
+    			court_btn.setText("ï¿½bï¿½ï¿½");
     			
     			check_court=0;
     		}
@@ -92,19 +88,19 @@ public class MultiActivity extends ActionBarActivity{
     };
     
     private OnTouchListener imgListener = new OnTouchListener() {
-	    private float x, y;    // ­ì¥»¹Ï¤ù¦s¦bªºX,Y¶b¦ì¸m
-	    private int mx, my; // ¹Ï¤ù³Q©ì¦²ªºX ,Y¶b¶ZÂ÷ªø«×
+	    private float x, y;    // ï¿½ì¥»ï¿½Ï¤ï¿½ï¿½sï¿½bï¿½ï¿½X,Yï¿½bï¿½ï¿½m
+	    private int mx, my; // ï¿½Ï¤ï¿½ï¿½Qï¿½ì¦²ï¿½ï¿½X ,Yï¿½bï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	    @Override
 	    public boolean onTouch(View v, MotionEvent event) {
 	          // Log.e("View", v.toString());
-	          switch (event.getAction()) {          //§PÂ_Ä²±±ªº°Ê§@
-		          case MotionEvent.ACTION_DOWN:// «ö¤U¹Ï¤ù®É
-		                x = event.getX();                  //Ä²±±ªºX¶b¦ì¸m
-		                y = event.getY();                  //Ä²±±ªºY¶b¦ì¸m
+	          switch (event.getAction()) {          //ï¿½Pï¿½_Ä²ï¿½ï¿½ï¿½ï¿½ï¿½Ê§@
+		          case MotionEvent.ACTION_DOWN:// ï¿½ï¿½ï¿½Uï¿½Ï¤ï¿½ï¿½ï¿½
+		                x = event.getX();                  //Ä²ï¿½ï¿½ï¿½ï¿½Xï¿½bï¿½ï¿½m
+		                y = event.getY();                  //Ä²ï¿½ï¿½ï¿½ï¿½Yï¿½bï¿½ï¿½m
 		                break;
-		          case MotionEvent.ACTION_MOVE:// ²¾°Ê¹Ï¤ù®É
-		               //getX()¡G¬OÀò¨ú·í«e±±¥ó(View)ªº®y¼Ð
-		               //getRawX()¡G¬OÀò¨ú¬Û¹ïÅã¥Ü¿Ã¹õ¥ª¤W¨¤ªº®y¼Ð
+		          case MotionEvent.ACTION_MOVE:// ï¿½ï¿½ï¿½Ê¹Ï¤ï¿½ï¿½ï¿½
+		               //getX()ï¿½Gï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½ï¿½(View)ï¿½ï¿½ï¿½yï¿½ï¿½
+		               //getRawX()ï¿½Gï¿½Oï¿½ï¿½ï¿½ï¿½Û¹ï¿½ï¿½ï¿½Ü¿Ã¹ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½
 		               mx = (int) (event.getRawX() - x);
 		               my = (int) (event.getRawY() - y); 
 		               my = my - 105;

@@ -22,55 +22,55 @@ public class MainActivity extends ActionBarActivity implements TimeLine.Callback
 	private Player P1,P2,P3,P4,P5,B;
 	private String seekbar_player;
 
-	public void RunLineInfo(Vector<RunBag> in_RunLine){
+	public void runLineInfo(Vector<RunBag> in_RunLine){
 		RunLine=in_RunLine;
 	}
-	public void P1Info(Player in_P1){
+	public void p1Info(Player in_P1){
 		P1=in_P1;
 	}
-	public void P2Info(Player in_P2){
+	public void p2Info(Player in_P2){
 		P2=in_P2;
 	}
-	public void P3Info(Player in_P3){
+	public void p3Info(Player in_P3){
 		P3=in_P3;
 	}
-	public void P4Info(Player in_P4){
+	public void p4Info(Player in_P4){
 		P4=in_P4;
 	}
-	public void P5Info(Player in_P5){
+	public void p5Info(Player in_P5){
 		P5=in_P5;
 	}
-	public void BInfo(Player in_B){
+	public void bInfo(Player in_B){
 		B=in_B;
 	}
 	
-	public void pass_seekbar(String player){//從MainFragment傳過來的移動了哪一個球員，該把seekbar綁在該球員上
+	public void passSeekbar(String player){//從MainFragment傳過來的移動了哪一個球員，該把seekbar綁在該球員上
 		seekbar_player=player;
 	}
 
 	public void seekBarStartTime(int startTime){//接收從Timeline傳過來的時間
 		seekBarCallbackStartTime = startTime;
-		mainfrag.pass_start_time(startTime);
+		mainfrag.passStartTime(startTime);
 	}
 	
 	public void seekBarDuration(int duration){//接收從Timeline傳過來的持續時間
 		seekBarCallbackDuration = duration;
-		mainfrag.pass_duration(duration);
+		mainfrag.passDuration(duration);
 	}
 	public void seekBarId(int id){
 		seekBarCallbackId = id;
-		mainfrag.pass_id(id);
+		mainfrag.passId(id);
 	}
 	////////////////////////////Timeline的時間(startTime,duration)要傳給main_fragment///////////////////////////
 	
 	public void setRecordCheck(boolean in_recordcheck){//in_recordcheck是在ButtonDraw裡面，透過interface的方式，使ButtonDraw可以呼叫這裡的function，進而設定recordcheck的值
 		recordcheck = in_recordcheck;
-		mainfrag.pass_recordcheck(in_recordcheck);
+		mainfrag.passRecordCheck(in_recordcheck);
 	}
 	///////////////////////////recordcheck要傳給main_fragment/////////////////////////////////////////////////
 	
 	public void setClean(){
-		mainfrag.clear_paint();
+		mainfrag.clearPaint();
 	}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
