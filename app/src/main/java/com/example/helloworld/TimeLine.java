@@ -49,7 +49,7 @@ public class TimeLine extends Fragment {
 	}
 
 	//private CircularSeekBar directionSeekBar;
-	private Circular_Control directionSeekBar;
+	private CircularControl directionSeekBar;
 	private int SeekBarId,RunLineId;
 	private int TimeLine_SeekBarProgressLow;
 	@Override
@@ -62,7 +62,7 @@ public class TimeLine extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
-		directionSeekBar = (Circular_Control) getView().findViewById(R.id.circularSeekBar);
+		directionSeekBar = (CircularControl) getView().findViewById(R.id.circularSeekBar);
 		directionSeekBar.setOnTouchListener(directionOnTouch);
 		Button back_button = (Button) getView().findViewById(R.id.button_back_to_main_timeline);
 		back_button.setOnClickListener(back_button_onclick);
@@ -1544,7 +1544,7 @@ public class TimeLine extends Fragment {
 		}
 	};
 
-	private Circular_Control.OnTouchListener directionOnTouch = new OnTouchListener() {
+	private CircularControl.OnTouchListener directionOnTouch = new OnTouchListener() {
 		@Override
 		public boolean onTouch(View view, MotionEvent motionEvent) {
 			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);

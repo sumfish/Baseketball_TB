@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-cs\\values-cs.xml",
+            "outputFile": "D:\\workspace\\e-btb\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-cs\\values-cs.xml",
             "map": [
                 {
                     "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\42541f43126a8e124029519846bce7f4\\res\\values-cs\\values-cs.xml",

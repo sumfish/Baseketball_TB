@@ -1,8 +1,63 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "D:\\workspace\\e-btb\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
+                {
+                    "source": "D:\\workspace\\e-btb\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "6,15",
+                        "startColumns": "4,4",
+                        "startOffsets": "192,527",
+                        "endLines": "12,17",
+                        "endColumns": "12,12",
+                        "endOffsets": "486,684"
+                    },
+                    "to": {
+                        "startLines": "246,253",
+                        "startColumns": "4,4",
+                        "startOffsets": "30757,31050",
+                        "endLines": "252,255",
+                        "endColumns": "12,12",
+                        "endOffsets": "31045,31205"
+                    }
+                },
+                {
+                    "source": "D:\\workspace\\e-btb\\app\\src\\main\\res\\values\\strategy_category.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endLines": "18",
+                        "endColumns": "12",
+                        "endOffsets": "713"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "18",
+                        "endColumns": "12",
+                        "endOffsets": "695"
+                    }
+                },
+                {
+                    "source": "D:\\workspace\\e-btb\\app\\src\\main\\res\\values\\dimens.xml",
+                    "from": {
+                        "startLines": "3,4",
+                        "startColumns": "4,4",
+                        "startOffsets": "92,151",
+                        "endColumns": "57,55",
+                        "endOffsets": "145,202"
+                    },
+                    "to": {
+                        "startLines": "191,192",
+                        "startColumns": "4,4",
+                        "startOffsets": "27027,27085",
+                        "endColumns": "57,55",
+                        "endOffsets": "27080,27136"
+                    }
+                },
                 {
                     "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\42541f43126a8e124029519846bce7f4\\res\\values\\values.xml",
                     "from": {
@@ -23,26 +78,7 @@
                     }
                 },
                 {
-                    "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "6,15",
-                        "startColumns": "4,4",
-                        "startOffsets": "192,527",
-                        "endLines": "12,17",
-                        "endColumns": "12,12",
-                        "endOffsets": "486,684"
-                    },
-                    "to": {
-                        "startLines": "246,253",
-                        "startColumns": "4,4",
-                        "startOffsets": "30757,31050",
-                        "endLines": "252,255",
-                        "endColumns": "12,12",
-                        "endOffsets": "31045,31205"
-                    }
-                },
-                {
-                    "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\values\\strings.xml",
+                    "source": "D:\\workspace\\e-btb\\app\\src\\main\\res\\values\\strings.xml",
                     "from": {
                         "startLines": "5,3,4,8,7,6",
                         "startColumns": "4,4,4,4,4,4",
@@ -56,42 +92,6 @@
                         "startOffsets": "29901,29954,29994,30047,30119,30189",
                         "endColumns": "52,39,52,71,69,144",
                         "endOffsets": "29949,29989,30042,30114,30184,30329"
-                    }
-                },
-                {
-                    "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\values\\strategy_category.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endLines": "18",
-                        "endColumns": "12",
-                        "endOffsets": "713"
-                    },
-                    "to": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "18",
-                        "endColumns": "12",
-                        "endOffsets": "695"
-                    }
-                },
-                {
-                    "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\values\\dimens.xml",
-                    "from": {
-                        "startLines": "3,4",
-                        "startColumns": "4,4",
-                        "startOffsets": "92,151",
-                        "endColumns": "57,55",
-                        "endOffsets": "145,202"
-                    },
-                    "to": {
-                        "startLines": "191,192",
-                        "startColumns": "4,4",
-                        "startOffsets": "27027,27085",
-                        "endColumns": "57,55",
-                        "endOffsets": "27080,27136"
                     }
                 }
             ]

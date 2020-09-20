@@ -315,26 +315,6 @@ public class MainFragment extends Fragment{
 	// For dribble
 	private Vector<Float> previousDribbleDirection;
 
-	private CallbackInterface mCallback;
-
-	public interface CallbackInterface {
-		public void runLineInfo(Vector<RunBag> in_RunLine);
-
-		public void p1Info(Player in_P1);
-
-		public void p2Info(Player in_P2);
-
-		public void p3Info(Player in_P3);
-
-		public void p4Info(Player in_P4);
-
-		public void p5Info(Player in_P5);
-
-		public void bInfo(Player in_B);
-		
-		public void passSeekbar(String player);
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {   
 		////Log,i("debug", "onCreateView()............");
@@ -1100,285 +1080,6 @@ public class MainFragment extends Fragment{
 
 	}
 
-	//region 原本socket packet的封包格式
-	/*
-	private ByteBuffer putPacketIntoSocket(ByteBuffer bBuffer){
-		bBuffer.order(ByteOrder.LITTLE_ENDIAN);
-		int position=0;
-		//P1_Road_size ~ B_Road_size && RunBag_size
-		bBuffer.putInt(dataPacket.get_P1_Road_size());
-		//Log,i("socket", "P1_Road_size  = "+Integer.toString(dataPacket.get_P1_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_P2_Road_size());
-		//Log,i("socket", "P2_Road_size  = "+Integer.toString(dataPacket.get_P2_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_P3_Road_size());
-		//Log,i("socket", "P3_Road_size  = "+Integer.toString(dataPacket.get_P3_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_P4_Road_size());
-		//Log,i("socket", "P4_Road_size  = "+Integer.toString(dataPacket.get_P4_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_P5_Road_size());
-		//Log,i("socket", "P5_Road_size  = "+Integer.toString(dataPacket.get_P5_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_D1_Road_size());
-		//Log,i("socket", "D1_Road_size  = "+Integer.toString(dataPacket.get_D1_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_D2_Road_size());
-		//Log,i("socket", "D2_Road_size  = "+Integer.toString(dataPacket.get_D2_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_D3_Road_size());
-		//Log,i("socket", "D3_Road_size  = "+Integer.toString(dataPacket.get_D3_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_D4_Road_size());
-		//Log,i("socket", "D4_Road_size  = "+Integer.toString(dataPacket.get_D4_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_D5_Road_size());
-		//Log,i("socket", "D5_Road_size  = "+Integer.toString(dataPacket.get_D5_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		
-		bBuffer.putInt(dataPacket.get_B_Road_size());
-		//Log,i("socket", "B_Road_size  = "+Integer.toString(dataPacket.get_B_Road_size()));
-		position+=4;
-		bBuffer.position(position);
-		//Rotate size
-		
-		bBuffer.putInt(dataPacket.get_P1_Rotate_size());
-		//Log,i("socket", "P1_Rotate_size  = "+Integer.toString(dataPacket.get_P1_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		bBuffer.putInt(dataPacket.get_P2_Rotate_size());
-		//Log,i("socket", "P2_Rotate_size  = "+Integer.toString(dataPacket.get_P2_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		bBuffer.putInt(dataPacket.get_P3_Rotate_size());
-		//Log,i("socket", "P3_Rotate_size  = "+Integer.toString(dataPacket.get_P3_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		bBuffer.putInt(dataPacket.get_P4_Rotate_size());
-		//Log,i("socket", "P4_Rotate_size  = "+Integer.toString(dataPacket.get_P4_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		bBuffer.putInt(dataPacket.get_P5_Rotate_size());
-		//Log,i("socket", "P5_Rotate_size  = "+Integer.toString(dataPacket.get_P5_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(dataPacket.get_D1_Rotate_size());
-		//Log,i("socket", "D1_Rotate_size  = "+Integer.toString(dataPacket.get_D1_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		bBuffer.putInt(dataPacket.get_D2_Rotate_size());
-		//Log,i("socket", "D2_Rotate_size  = "+Integer.toString(dataPacket.get_D2_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		bBuffer.putInt(dataPacket.get_D3_Rotate_size());
-		//Log,i("socket", "D3_Rotate_size  = "+Integer.toString(dataPacket.get_D3_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		bBuffer.putInt(dataPacket.get_D4_Rotate_size());
-		//Log,i("socket", "D4_Rotate_size  = "+Integer.toString(dataPacket.get_D4_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		bBuffer.putInt(dataPacket.get_D5_Rotate_size());
-		//Log,i("socket", "D5_Rotate_size  = "+Integer.toString(dataPacket.get_D5_Rotate_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-
-		bBuffer.putInt(dataPacket.get_RunBag_size());
-		//Log,i("socket", "RunBag_size  = "+Integer.toString(dataPacket.get_RunBag_size()));
-		position+=4;
-		bBuffer.position(position);
-		
-		bBuffer.putInt(Total_time/1000);
-		//Log,i("socket", "Total_time  = "+Integer.toString(Total_time/1000));
-		position+=4;
-		bBuffer.position(position);
-		
-		
-		
-		//P_Initial_Postion
-		for(int i = 0 ; i<dataPacket.get_P_Initial_Position_size();i++){
-			bBuffer.putInt(dataPacket.get_P_Initial_Position().get(i));
-			position+=4;
-			bBuffer.position(position);
-			//Log,i("socket", "P_Initial_Position("+Integer.toString(i)+")="+Integer.toString(dataPacket.get_P_Initial_Position().get(i)));
-			//Log,i("socket", "buffer position  = "+Integer.toString(bBuffer.position()));
-		}
-		//P_Initial_Rotate
-		for(int i = 0 ; i<dataPacket.get_P_Initial_rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_P_Initial_rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-			//Log,i("socket", "buffer position  = "+Integer.toString(bBuffer.position()));
-		}
-		//initial_ball_num
-		bBuffer.putInt(dataPacket.get_initial_ball_num());
-		//Log,i("socket", "initial_ball_num  = "+Integer.toString(dataPacket.get_initial_ball_num()));
-		position+=4;
-		bBuffer.position(position);
-		
-		
-		//P1_Road
-		for(int i = 0 ; i<dataPacket.get_P1_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_P1_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_P2_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_P2_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_P3_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_P3_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_P4_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_P4_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_P5_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_P5_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		
-		for(int i = 0 ; i<dataPacket.get_D1_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_D1_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_D2_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_D2_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_D3_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_D3_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_D4_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_D4_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_D5_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_D5_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		
-		
-		for(int i = 0 ; i<dataPacket.get_B_Road_size();i++){
-			bBuffer.putInt(dataPacket.get_B_Road().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		
-		
-		//P1_Rotate
-		for(int i = 0 ; i<dataPacket.get_P1_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_P1_Rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_P2_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_P2_Rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_P3_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_P3_Rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_P4_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_P4_Rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_P5_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_P5_Rotate().get(i));
-			if(bBuffer.position()+4<bBuffer.capacity()){
-				position+=4;
-				bBuffer.position(position);
-			}
-			//Log,i("socket", "P5_Rotate("+Integer.toString(i)+")="+Integer.toString(dataPacket.get_P5_Rotate().get(i)));
-		}
-		
-		for(int i = 0 ; i<dataPacket.get_D1_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_D1_Rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_D2_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_D2_Rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_D3_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_D3_Rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_D4_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_D4_Rotate().get(i));
-			position+=4;
-			bBuffer.position(position);
-		}
-		for(int i = 0 ; i<dataPacket.get_D5_Rotate_size();i++){
-			bBuffer.putInt(dataPacket.get_D5_Rotate().get(i));
-			if(bBuffer.position()+4<bBuffer.capacity()){
-				position+=4;
-				bBuffer.position(position);
-			}
-			//Log,i("socket", "D5_Rotate("+Integer.toString(i)+")="+Integer.toString(dataPacket.get_D5_Rotate().get(i)));
-		}
-		
-		//Log,i("socket", "P5_rotate_size="+Integer.toString(P5.getCmpltRotate().size()));
-		//RunBag
-		Vector<Integer> tmpRunBag=new Vector();
-		
-		for(int i = 0 ; i<RunLine.size();i++){
-			tmpRunBag=RunLine.get(i).parseRunBagToIntVec();
-			//Log,i("socket", "------");
-			for(int j=0;j<tmpRunBag.size();j++){
-				
-				bBuffer.putInt(tmpRunBag.get(j));
-				//Log,i("socket", "tmpRunBag  = "+Integer.toString(tmpRunBag.get(j)));
-				position+=4;
-				bBuffer.position(position);
-			}
-		}
-		return bBuffer;
-	}
-
-	*/
 //endregion
 
 	@Override
@@ -1403,12 +1104,6 @@ public class MainFragment extends Fragment{
 	public void onAttach(Activity activity) {
 		//Log.d("debug", "MainF onAttach!");
 		super.onAttach(activity);
-
-		try {
-			mCallback = (CallbackInterface) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + "must implement MainFragment.CallbackInterface!");
-		}
 	}
  
 	public void setPlayerToNoBall(){
@@ -1490,17 +1185,6 @@ public class MainFragment extends Fragment{
 	
 	public void setPlaying(int input){
 		playing=input;
-	}
-	
-	public void passRunLinePlayerInfo() {//3D??
-		mCallback.p1Info(P1);
-		mCallback.p2Info(P2);
-		mCallback.p3Info(P3);
-		mCallback.p4Info(P4);
-		mCallback.p5Info(P5);
-		mCallback.bInfo(B);
-		mCallback.runLineInfo(runBags);
-
 	}
 
 	public void passStartTime(int input) {
@@ -5102,7 +4786,7 @@ public class MainFragment extends Fragment{
 			else{
 				arrow8.setRotation(D2.getMyRotation(sentInt));
 			}
-			
+
 			 */
 		}
 	};

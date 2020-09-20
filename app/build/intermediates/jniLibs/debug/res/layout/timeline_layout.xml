@@ -320,7 +320,7 @@
 		    android:text="Back"
             />
         
-        <com.example.helloworld.Circular_Control
+        <com.example.helloworld.CircularControl
 			android:id="@+id/circularSeekBar"
 			android:layout_width="100dp"
 			android:layout_height="100dp"
