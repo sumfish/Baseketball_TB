@@ -90,12 +90,12 @@ MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches
 		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:18:9-35
 	android:theme
 		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:21:9-40
-activity#com.example.helloworld.MainActivity
+activity#com.mislab.tacticboard.MainActivity
 ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:22:9-30:20
 	android:label
 		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:24:13-45
 	android:name
-		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:23:13-41
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:23:13-63
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
 ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:25:13-29:29
 action#android.intent.action.MAIN

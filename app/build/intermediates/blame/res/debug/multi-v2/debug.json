@@ -346,21 +346,6 @@
             ]
         },
         {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-sl_values-sl.arsc.flat",
-            "map": [
-                {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-sl\\values-sl.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,162,270,393,500,608,695,798,917,1002,1086,1170,1278,1387,1487,1600,1707,1811,1928,2025",
-                        "endColumns": "106,107,122,106,107,86,102,118,84,83,83,107,108,99,112,106,103,116,96,100",
-                        "endOffsets": "157,265,388,495,603,690,793,912,997,1081,1165,1273,1382,1482,1595,1702,1806,1923,2020,2121"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-et-rEE_values-et-rEE.arsc.flat",
             "map": [
                 {
@@ -371,6 +356,21 @@
                         "startOffsets": "55,172,280,403,510,621,707,809,926,1006,1084,1167,1278,1383,1482,1592,1693,1796,1924,2026",
                         "endColumns": "116,107,122,106,110,85,101,116,79,77,82,110,104,98,109,100,102,127,101,100",
                         "endOffsets": "167,275,398,505,616,702,804,921,1001,1079,1162,1273,1378,1477,1587,1688,1791,1919,2021,2122"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-sl_values-sl.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-sl\\values-sl.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,162,270,393,500,608,695,798,917,1002,1086,1170,1278,1387,1487,1600,1707,1811,1928,2025",
+                        "endColumns": "106,107,122,106,107,86,102,118,84,83,83,107,108,99,112,106,103,116,96,100",
+                        "endOffsets": "157,265,388,495,603,690,793,912,997,1081,1165,1273,1382,1482,1595,1702,1806,1923,2020,2121"
                     }
                 }
             ]
@@ -391,16 +391,16 @@
             ]
         },
         {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-ja_values-ja.arsc.flat",
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-xlarge-v4_values-xlarge-v4.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-ja\\values-ja.xml",
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,152,259,380,473,578,660,758,866,943,1019,1097,1199,1298,1393,1496,1591,1687,1798,1895",
-                        "endColumns": "96,106,120,92,104,81,97,107,76,75,77,101,98,94,102,94,95,110,96,100",
-                        "endOffsets": "147,254,375,468,573,655,753,861,938,1014,1092,1194,1293,1388,1491,1586,1682,1793,1890,1991"
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,132,203,274,344,414,482,550,614",
+                        "endColumns": "76,70,70,69,69,67,67,63,54",
+                        "endOffsets": "127,198,269,339,409,477,545,609,664"
                     }
                 }
             ]
@@ -421,16 +421,16 @@
             ]
         },
         {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-xlarge-v4_values-xlarge-v4.arsc.flat",
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-ja_values-ja.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-xlarge-v4\\values-xlarge-v4.xml",
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-ja\\values-ja.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,132,203,274,344,414,482,550,614",
-                        "endColumns": "76,70,70,69,69,67,67,63,54",
-                        "endOffsets": "127,198,269,339,409,477,545,609,664"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,152,259,380,473,578,660,758,866,943,1019,1097,1199,1298,1393,1496,1591,1687,1798,1895",
+                        "endColumns": "96,106,120,92,104,81,97,107,76,75,77,101,98,94,102,94,95,110,96,100",
+                        "endOffsets": "147,254,375,468,573,655,753,861,938,1014,1092,1194,1293,1388,1491,1586,1682,1793,1890,1991"
                     }
                 }
             ]
@@ -615,21 +615,6 @@
             ]
         },
         {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-ca_values-ca.arsc.flat",
-            "map": [
-                {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-ca\\values-ca.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,173,281,404,510,617,700,808,934,1018,1099,1182,1293,1402,1500,1610,1714,1822,1945,2044",
-                        "endColumns": "117,107,122,105,106,82,107,125,83,80,82,110,108,97,109,103,107,122,98,100",
-                        "endOffsets": "168,276,399,505,612,695,803,929,1013,1094,1177,1288,1397,1495,1605,1709,1817,1940,2039,2140"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-v18_values-v18.arsc.flat",
             "map": [
                 {
@@ -640,6 +625,21 @@
                         "startOffsets": "55",
                         "endColumns": "48",
                         "endOffsets": "99"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-ca_values-ca.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-ca\\values-ca.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,173,281,404,510,617,700,808,934,1018,1099,1182,1293,1402,1500,1610,1714,1822,1945,2044",
+                        "endColumns": "117,107,122,105,106,82,107,125,83,80,82,110,108,97,109,103,107,122,98,100",
+                        "endOffsets": "168,276,399,505,612,695,803,929,1013,1094,1177,1288,1397,1495,1605,1709,1817,1940,2039,2140"
                     }
                 }
             ]
@@ -735,31 +735,16 @@
             ]
         },
         {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-tl_values-tl.arsc.flat",
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-hi_values-hi.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-tl\\values-tl.xml",
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-hi\\values-hi.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,174,282,405,513,630,718,824,945,1024,1102,1186,1295,1406,1507,1617,1734,1842,1965,2067",
-                        "endColumns": "118,107,122,107,116,87,105,120,78,77,83,108,110,100,109,116,107,122,101,100",
-                        "endOffsets": "169,277,400,508,625,713,819,940,1019,1097,1181,1290,1401,1502,1612,1729,1837,1960,2062,2163"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-bn-rBD_values-bn-rBD.arsc.flat",
-            "map": [
-                {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,164,272,395,507,613,707,812,942,1020,1098,1185,1295,1411,1518,1628,1734,1844,1969,2074",
-                        "endColumns": "108,107,122,111,105,93,104,129,77,77,86,109,115,106,109,105,109,124,104,100",
-                        "endOffsets": "159,267,390,502,608,702,807,937,1015,1093,1180,1290,1406,1513,1623,1729,1839,1964,2069,2170"
+                        "startOffsets": "55,172,280,403,508,615,700,802,924,1001,1079,1169,1278,1380,1478,1588,1688,1803,1928,2034",
+                        "endColumns": "116,107,122,104,106,84,101,121,76,77,89,108,101,97,109,99,114,124,105,100",
+                        "endOffsets": "167,275,398,503,610,695,797,919,996,1074,1164,1273,1375,1473,1583,1683,1798,1923,2029,2130"
                     }
                 }
             ]
@@ -780,16 +765,31 @@
             ]
         },
         {
-            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-hi_values-hi.arsc.flat",
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-bn-rBD_values-bn-rBD.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-hi\\values-hi.xml",
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-bn-rBD\\values-bn-rBD.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,172,280,403,508,615,700,802,924,1001,1079,1169,1278,1380,1478,1588,1688,1803,1928,2034",
-                        "endColumns": "116,107,122,104,106,84,101,121,76,77,89,108,101,97,109,99,114,124,105,100",
-                        "endOffsets": "167,275,398,503,610,695,797,919,996,1074,1164,1273,1375,1473,1583,1683,1798,1923,2029,2130"
+                        "startOffsets": "55,164,272,395,507,613,707,812,942,1020,1098,1185,1295,1411,1518,1628,1734,1844,1969,2074",
+                        "endColumns": "108,107,122,111,105,93,104,129,77,77,86,109,115,106,109,105,109,124,104,100",
+                        "endOffsets": "159,267,390,502,608,702,807,937,1015,1093,1180,1290,1406,1513,1623,1729,1839,1964,2069,2170"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\values-tl_values-tl.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-tl\\values-tl.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,174,282,405,513,630,718,824,945,1024,1102,1186,1295,1406,1507,1617,1734,1842,1965,2067",
+                        "endColumns": "118,107,122,107,116,87,105,120,78,77,83,108,110,100,109,116,107,122,101,100",
+                        "endOffsets": "169,277,400,508,625,713,819,940,1019,1097,1181,1290,1401,1502,1612,1729,1837,1960,2062,2163"
                     }
                 }
             ]

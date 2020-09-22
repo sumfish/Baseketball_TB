@@ -36,6 +36,10 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\camaro.jpg"
     },
     {
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_dialog_set_udp.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\dialog_set_udp.xml"
+    },
+    {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_defender5_o.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\defender5_o.png"
     },
@@ -46,6 +50,10 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_player1_o.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-xhdpi\\player1_o.png"
+    },
+    {
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_perspective_select.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\fragment_perspective_select.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_plane.jpg.flat",
@@ -70,14 +78,6 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_myseekbar.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-hdpi\\myseekbar.png"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_multi_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\multi_layout.xml"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_lightproperties_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\lightproperties_layout.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_wood_back.jpg.flat",
@@ -118,6 +118,10 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_arrow.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-hdpi\\arrow.png"
+    },
+    {
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_main_wrap.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\fragment_main_wrap.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_hide_image.png.flat",
@@ -252,10 +256,6 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-hdpi\\court_o_2.jpg"
     },
     {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_save_to_strategy_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\save_to_strategy_layout.xml"
-    },
-    {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_court_o_2.jpg.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-xxhdpi\\court_o_2.jpg"
     },
@@ -274,10 +274,6 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_screen_bar1.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\screen_bar1.png"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_timeline_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\timeline_layout.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_defender1.png.flat",
@@ -312,6 +308,10 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\raw\\court2_mtl"
     },
     {
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_timeline.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\fragment_timeline.xml"
+    },
+    {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_curve_right_down.jpg.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\curve_right_down.jpg"
     },
@@ -340,8 +340,8 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\btn_edit.png"
     },
     {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_sample_my_line_view.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\sample_my_line_view.xml"
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_dialog_manager_tactic.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\dialog_manager_tactic.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_myseekbar.png.flat",
@@ -354,10 +354,6 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_unlock.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-mdpi\\ic_unlock.png"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_load_from_strategy_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\load_from_strategy_layout.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_player3_ball.png.flat",
@@ -382,10 +378,6 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_myseekbar.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-xhdpi\\myseekbar.png"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_buttondraw_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\buttondraw_layout.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_player1_o.png.flat",
@@ -462,10 +454,6 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_circular_control_base2.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\circular_control_base2.png"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_playertimeline_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\playertimeline_layout.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
@@ -558,10 +546,6 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_main.xml.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\activity_main.xml"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_image_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\image_layout.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_stonetexture.jpg.flat",
@@ -660,6 +644,10 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-xxhdpi\\h_court.jpg"
     },
     {
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_dialog_save_strategy.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\dialog_save_strategy.xml"
+    },
+    {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_btn_delete_click.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\btn_delete_click.png"
     },
@@ -670,6 +658,10 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_h_court.jpg.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-xhdpi\\h_court.jpg"
+    },
+    {
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_main.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\fragment_main.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_player1_o.png.flat",
@@ -714,10 +706,6 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\raw_haarcascade_frontalface_alt.xml.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\raw\\haarcascade_frontalface_alt.xml"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_player1_timeline_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\player1_timeline_layout.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_arrow.png.flat",
@@ -804,14 +792,6 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-mdpi\\def_button.png"
     },
     {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_udp_settings.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\udp_settings.xml"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_main_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\main_layout.xml"
-    },
-    {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_basketball.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-mdpi\\basketball.png"
     },
@@ -822,10 +802,6 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ogrobase.jpg.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\ogrobase.jpg"
-    },
-    {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_three_d_main.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\three_d_main.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_wood.jpg.flat",
@@ -860,10 +836,6 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\btn_load.png"
     },
     {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_perspecitve_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\perspecitve_layout.xml"
-    },
-    {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\raw_camaro_obj.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\raw\\camaro_obj"
     },
@@ -892,8 +864,8 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-ldpi\\basketball.png"
     },
     {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_manage_tactic_layout.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\manage_tactic_layout.xml"
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_image_select.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\fragment_image_select.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_player5_o.png.flat",
@@ -918,6 +890,10 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_play.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-ldpi\\play.png"
+    },
+    {
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_button_draw.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\fragment_button_draw.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_court_o_2.jpg.flat",
@@ -1044,10 +1020,6 @@
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\icon_hide_timeline.png"
     },
     {
-        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_main_wrap.xml.flat",
-        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\main_wrap.xml"
-    },
-    {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_play.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable\\icon_play.png"
     },
@@ -1070,6 +1042,10 @@
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_court.png.flat",
         "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\drawable-xhdpi\\court.png"
+    },
+    {
+        "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\layout_dialog_load_strategy.xml.flat",
+        "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\layout\\dialog_load_strategy.xml"
     },
     {
         "merged": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_show_timeline.png.flat",

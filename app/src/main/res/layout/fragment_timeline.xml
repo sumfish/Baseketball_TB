@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+	android:background="#D4DBE0"
+	android:orientation="vertical" >
+    <!--android:background="?android:attr/detailsElementBackground"-->
+
+    <RelativeLayout 
+        android:id="@+id/main_timeline_relativelayout"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+		android:layout_centerVertical="true">
+
+		<ToggleButton
+            android:id="@+id/change_to_defender_timeline"
+            android:layout_width="120dp"
+		    android:layout_height="30dp"
+		    android:minHeight="0dp"
+		    android:minWidth="0dp"
+			android:background="@drawable/check2"
+		    android:textOn=""
+			android:textOff=""
+			android:layout_marginTop="10dp"
+
+		/>
+
+	    <RelativeLayout 
+	        android:id="@+id/allplayer_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical">
+		    
+	        <!--
+	        <TextView
+		        android:id="@+id/textView1"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:gravity="center"
+				android:textStyle="bold"
+		        android:text="Time Line" />
+			-->
+			<ImageView
+				android:id="@+id/textView1"
+				android:background="@drawable/timeline3"
+				android:layout_width="240px"
+				android:layout_height="50px"
+				android:layout_gravity="center"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="20px"
+				android:gravity="center" />
+
+	    	<com.mislab.tacticboard.MyLineView
+		        android:id="@+id/myLineView1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textView1" />
+	    
+	    
+		    <TextView
+		        android:id="@+id/textPlayer1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/myLineView1"
+		        android:layout_marginTop="5dp"
+		        android:layout_marginLeft="10dp"
+		        android:text="Player 1" />
+		    
+		    <TextView
+		        android:id="@+id/textPlayer2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textPlayer1"
+		        android:layout_alignLeft="@+id/textPlayer1"
+		        android:layout_marginTop="25dp"
+		        android:text="Player 2" />
+		
+		    <TextView
+		        android:id="@+id/textPlayer3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textPlayer2"
+		        android:layout_alignLeft="@+id/textPlayer1"
+		        android:layout_marginTop="25dp"
+		        android:text="Player 3" />
+		
+		    <TextView
+		        android:id="@+id/textPlayer4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textPlayer3"
+		        android:layout_alignLeft="@+id/textPlayer1"
+		        android:layout_marginTop="25dp"
+		        android:text="Player 4" />
+		
+		    <TextView
+		        android:id="@+id/textPlayer5"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textPlayer4"
+		        android:layout_alignLeft="@+id/textPlayer1"
+		        android:layout_marginTop="25dp"
+		        android:text="Player 5" />
+		
+		    <TextView
+		        android:id="@+id/textBall"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textPlayer5"
+		        android:layout_alignLeft="@+id/textPlayer1"
+		        android:layout_marginTop="25dp"
+		        android:text="Ball" />
+		    
+		    
+		     <LinearLayout
+		        android:id="@+id/LinearLayout_of_player1timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textPlayer1"
+		        android:layout_alignBottom="@+id/textPlayer1"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal">
+		    </LinearLayout>
+		    
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_player2timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textPlayer2"
+		        android:layout_alignBottom="@+id/textPlayer2"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+		
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_player3timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textPlayer3"
+		        android:layout_alignBottom="@+id/textPlayer3"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+		
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_player4timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textPlayer4"
+		        android:layout_alignBottom="@+id/textPlayer4"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+		
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_player5timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textPlayer5"
+		        android:layout_alignBottom="@+id/textPlayer5"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+		
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_balltimeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textBall"
+		        android:layout_alignBottom="@+id/textBall"
+		        android:layout_alignLeft="@+id/LinearLayout_of_player5timeline"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+	
+    	</RelativeLayout>
+
+	    <RelativeLayout 
+	        android:id="@+id/defender_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:visibility="gone"
+	    	android:orientation="vertical">
+
+			<ImageView
+				android:id="@+id/textView2"
+				android:background="@drawable/defender_timeline"
+				android:layout_width="260px"
+				android:layout_height="70px"
+				android:layout_gravity="center"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="20px"
+				android:gravity="center" />
+		
+		    <com.mislab.tacticboard.MyLineView
+		        android:id="@+id/myLineView2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textView2" />
+	        
+	        
+    		<TextView
+		        android:id="@+id/textD1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/myLineView2"
+		        android:layout_marginTop="5dp"
+		        android:layout_marginLeft="10dp"
+		        android:text="Defender 1" />
+	    
+		    <TextView
+		        android:id="@+id/textD2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textD1"
+		        android:layout_alignLeft="@+id/textD1"
+		        android:layout_marginTop="25dp"
+		        android:text="Defender 2" />
+		
+		    <TextView
+		        android:id="@+id/textD3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textD2"
+		        android:layout_alignLeft="@+id/textD1"
+		        android:layout_marginTop="25dp"
+		        android:text="Defender 3" />
+		
+		    <TextView
+		        android:id="@+id/textD4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textD3"
+		        android:layout_alignLeft="@+id/textD1"
+		        android:layout_marginTop="25dp"
+		        android:text="Defender 4" />
+		
+		    <TextView
+		        android:id="@+id/textD5"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/textD4"
+		        android:layout_alignLeft="@+id/textD1"
+		        android:layout_marginTop="25dp"
+		        android:text="Defender 5" />
+		
+		    
+		     <LinearLayout
+		        android:id="@+id/LinearLayout_of_D1timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textD1"
+		        android:layout_alignBottom="@+id/textD1"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal">
+		    </LinearLayout>
+		    
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_D2timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textD2"
+		        android:layout_alignBottom="@+id/textD2"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+		
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_D3timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textD3"
+		        android:layout_alignBottom="@+id/textD3"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+		
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_D4timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textD4"
+		        android:layout_alignBottom="@+id/textD4"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+		
+		    <LinearLayout
+		        android:id="@+id/LinearLayout_of_D5timeline"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/textD5"
+		        android:layout_alignBottom="@+id/textD5"
+		        android:layout_marginLeft="20dp"
+		        android:orientation="horizontal" >
+		    </LinearLayout>
+	        
+    	</RelativeLayout>
+
+    </RelativeLayout>
+    <!-- main time line wrap -->
+
+	<!-- all_player_wrap -->
+    <RelativeLayout 
+        android:id="@+id/all_player_wrap"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginLeft="0dp"
+    	android:orientation="vertical"
+    	android:visibility="gone"
+        > 
+
+        <Button 
+            android:id="@+id/button_back_to_main_timeline"
+            android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:minHeight="0dp" 
+		    android:minWidth="0dp"
+		    android:text="Back"
+            />
+        
+        <com.mislab.tacticboard.CircularControl
+			android:id="@+id/circularSeekBar"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginTop="50dp" /> 
+        
+        
+        <TextView
+	            android:id="@+id/player_timeline_title"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_horizontal|center_vertical"
+			    android:layout_toRightOf="@+id/button_back_to_main_timeline"
+			    android:layout_marginLeft="50dp"
+			    android:layout_marginTop="10dp" />
+
+		<RelativeLayout 
+	        android:id="@+id/all_player_timeline_group_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:layout_marginTop="20dp"
+	    	android:layout_marginLeft="150dp">
+        
+	    <!-- player1_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/player1_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/player1_timeline_group"
+			    android:layout_marginTop="20dp">
+
+
+
+				<LinearLayout
+			        android:id="@+id/player1_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/player1_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/player1_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+
+	    <!-- player2_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/player2_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/player2_timeline_group"
+			    android:layout_marginTop="20dp">
+
+				<LinearLayout
+			        android:id="@+id/player2_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/player2_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/player2_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+	    
+	    
+	    <!-- player3_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/player3_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/player3_timeline_group"
+			    android:layout_marginTop="20dp">
+			    
+	            
+	             
+				<LinearLayout
+			        android:id="@+id/player3_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/player3_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/player3_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+	    
+	    
+	    
+	    <!-- player4_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/player4_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/player4_timeline_group"
+			    android:layout_marginTop="20dp">
+			    
+	            
+	             
+				<LinearLayout
+			        android:id="@+id/player4_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/player4_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/player4_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+
+	    <!-- player5_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/player5_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/player5_timeline_group"
+			    android:layout_marginTop="20dp">
+			    
+	            
+	             
+				<LinearLayout
+			        android:id="@+id/player5_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/player5_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/player5_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+	    
+	    
+	    
+	    <!-- defender1_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/defender1_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/defender1_timeline_group"
+			    android:layout_marginTop="20dp">
+			    
+	            
+	             
+				<LinearLayout
+			        android:id="@+id/defender1_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/defender1_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/defender1_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+	    
+	    
+	    <!-- defender2_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/defender2_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/defender2_timeline_group"
+			    android:layout_marginTop="20dp">
+			    
+	            
+	             
+				<LinearLayout
+			        android:id="@+id/defender2_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/defender2_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/defender2_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+	    
+	    <!-- defender3_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/defender3_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/defender3_timeline_group"
+			    android:layout_marginTop="20dp">
+			    
+	            
+	             
+				<LinearLayout
+			        android:id="@+id/defender3_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/defender3_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/defender3_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+	    
+	    <!-- defender4_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/defender4_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/defender4_timeline_group"
+			    android:layout_marginTop="20dp">
+			    
+	            
+	             
+				<LinearLayout
+			        android:id="@+id/defender4_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/defender4_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/defender4_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+	    
+	    <!-- defender5_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/defender5_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/defender5_timeline_group"
+			    android:layout_marginTop="20dp">
+			    
+	            
+	             
+				<LinearLayout
+			        android:id="@+id/defender5_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/defender5_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/defender5_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+	    
+	    <!-- Ball_timeline -->
+	    <RelativeLayout 
+	        android:id="@+id/ball_timeline_wrap"
+	        android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="vertical"
+	    	android:visibility="gone"
+	    	android:layout_marginTop="20dp">
+	        
+	         <LinearLayout
+		        android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/ball_timeline_group"
+			    android:layout_marginTop="20dp">
+
+				<LinearLayout
+			        android:id="@+id/ball_pathNum_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" > 
+			    </LinearLayout>
+		        
+			    <LinearLayout
+			        android:id="@+id/ball_timeline_place"
+			       	android:layout_width="360dp"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+				
+			    <LinearLayout
+			        android:id="@+id/ball_path_rm_button_place"
+			       	android:layout_width="wrap_content"
+			       	android:layout_height="wrap_content"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			    
+		    </LinearLayout>
+	    </RelativeLayout>
+
+		  </RelativeLayout>
+	      <!-- all player timeline group wrap -->
+
+	  </RelativeLayout>
+	  <!-- all player wrap -->
+
+</RelativeLayout>

@@ -44,7 +44,7 @@
     
 	   <fragment
 	       android:id="@+id/ButtonDraw"
-	       android:name="com.example.helloworld.ButtonDraw"
+	       android:name="com.mislab.tacticboard.ButtonDraw"
 	       
 	       android:layout_toRightOf="@+id/playbutton"
 	       android:layout_width="match_parent"
@@ -55,25 +55,25 @@
 	   
        <fragment
 	       android:id="@+id/MainWrap_frag"
-	       android:name="com.example.helloworld.MainWrap"
+	       android:name="com.mislab.tacticboard.MainWrap"
 	       android:layout_width="fill_parent"
 	       android:layout_height="fill_parent"
-	       tools:layout="@layout/main_wrap" />  
+	       tools:layout="@layout/fragment_main_wrap" />
 	   
 	   
 	   
 	   <fragment
 	       android:id="@+id/Main"
-	       android:name="com.example.helloworld.MainFragment"
+	       android:name="com.mislab.tacticboard.MainFragment"
 	       android:layout_width="fill_parent"
 	       android:layout_height="fill_parent"
-	       tools:layout="@layout/main_layout" />
+	       tools:layout="@layout/fragment_main" />
 	   
 	   
 	   
        <fragment 
            android:id="@+id/time_line"
-           android:name="com.example.helloworld.TimeLine"
+           android:name="com.mislab.tacticboard.TimeLine"
            android:layout_width="match_parent"
 	       android:layout_height="wrap_content"
 	       android:background="?android:attr/detailsElementBackground"
@@ -86,7 +86,7 @@
 
 		<fragment
 			android:id="@+id/image_select"
-			android:name="com.example.helloworld.ImageSelect"
+			android:name="com.mislab.tacticboard.ImageSelect"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:background="?android:attr/detailsElementBackground"
@@ -99,7 +99,7 @@
 
 		<fragment
 			android:id="@+id/perspecitve_select"
-			android:name="com.example.helloworld.PerspectiveSelect"
+			android:name="com.mislab.tacticboard.PerspectiveSelect"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:background="?android:attr/detailsElementBackground"
