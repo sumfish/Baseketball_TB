@@ -38,11 +38,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.BitmapDrawable;
@@ -61,26 +64,22 @@ import android.view.ViewGroup;
 //import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 /*處理球員&球的觸控、儲存路徑，畫出路徑*/
 
 public class MainFragment extends Fragment{
 
 	private boolean firstTimeQuery = true;
-	private int playing=0;
+	private int IsTacticPlaying = 0;
 	private Long startTime;
 	private Long endTime;
 
@@ -89,118 +88,27 @@ public class MainFragment extends Fragment{
 	
 	private int totalTime = 15000;// 時間軸的最大值，mySeekBar也要改
 
-	private ImageView player1, player2, player3, player4, player5, ball;
-	private ImageView arrow1, arrow2, arrow3, arrow4, arrow5;
-	private ImageView arrow7, arrow8, arrow9, arrow10, arrow11;
 	private ImageView removeButton;
-	private ImageView player1Ball, player2Ball, player3Ball, player4Ball, player5Ball;
-	
-	private ImageView defender1, defender2, defender3, defender4, defender5;
+	private Vector<ImageView> playersWithBall;
 
 	private boolean firstRecord =true;
 	private boolean intersect=false;
-	private int intersectName =0;
+	private int intersectName = 0; // 1,2, 3, 4, 5
 	private int intersectNamePre =0;
 	private int initialBallNum =0;
 	private int rotateWhichPlayer;
 	//private ImageSelect imageSelect = null;
 	private PerspectiveSelect perspectiveSelect = null;
-	
-	Vector<Integer> pInitialPosition = new Vector();
-	Vector<Integer> pInitialRotate = new Vector();
 
-	private int pRotate;
-	
-	private int initialP1Rotate =-1;
-	private int initialP2Rotate =-1;
-	private int initialP3Rotate =-1;
-	private int initialP4Rotate =-1;
-	private int initialP5Rotate =-1;
-	
-	private int p1Rotate;
-	private int p2Rotate;
-	private int p3Rotate;
-	private int p4Rotate;
-	private int p5Rotate;
-	private int bRotate;
-	
-	private int initialD1Rotate =-1;
-	private int initialD2Rotate =-1;
-	private int initialD3Rotate =-1;
-	private int initialD4Rotate =-1;
-	private int initialD5Rotate =-1;
-	
-	private int d1Rotate;
-	private int d2Rotate;
-	private int d3Rotate;
-	private int d4Rotate;
-	private int d5Rotate;
+	private PlayerDrawer currentDrawer = new PlayerDrawer(Color.parseColor("#000000"));
+	private Vector<PlayerDrawer> playerDrawers;
+	private Vector<PlayerDrawer> defenderDrawers;
+	private PlayerDrawer ballDrawer;
 
 	private Vector<Player> players;
-	private Player P1 = new Player();
-	private Player P2 = new Player();
-	private Player P3 = new Player();
-	private Player P4 = new Player();
-	private Player P5 = new Player();
-	private Player B = new Player();
-	
-	private Player D1 = new Player();
-	private Player D2 = new Player();
-	private Player D3 = new Player();
-	private Player D4 = new Player();
-	private Player D5 = new Player();
-	
-	private Rect rcP1 =new Rect();
-	private Rect rcP2 =new Rect();
-	private Rect rcP3 =new Rect();
-	private Rect rcP4 =new Rect();
-	private Rect rcP5 =new Rect();
-	private Rect rcBall =new Rect();
+	private Vector<Player> defenders;
+	private Player ball;
 
-	private Player p1Recommend = new Player();
-	private Player p2Recommend = new Player();
-	private Player p3Recommend = new Player();
-	private Player p4Recommend = new Player();
-	private Player p5Recommend = new Player();
-	private Player bRecommend = new Player();
-	
-	private int p1InitialPositionX = -1;
-	private int p2InitialPositionX = -1;
-	private int p3InitialPositionX = -1;
-	private int p4InitialPositionX = -1;
-	private int p5InitialPositionX = -1;
-	private int bInitialPositionX = -1;
-	private int p1InitialPositionY = -1;
-	private int p2InitialPositionY = -1;
-	private int p3InitialPositionY = -1;
-	private int p4InitialPositionY = -1;
-	private int p5InitialPositionY = -1;
-	private int bInitialPositionY = -1;
-	
-	private int d1InitialPositionX = -1;
-	private int d2InitialPositionX = -1;
-	private int d3InitialPositionX = -1;
-	private int d4InitialPositionX = -1;
-	private int d5InitialPositionX = -1;
-	private int d1InitialPositionY = -1;
-	private int d2InitialPositionY = -1;
-	private int d3InitialPositionY = -1;
-	private int d4InitialPositionY = -1;
-	private int d5InitialPositionY = -1;
-	
-	private int p1StartIndex = 0;
-	private int p2StartIndex = 0;
-	private int p3StartIndex = 0;
-	private int p4StartIndex = 0;
-	private int p5StartIndex = 0;
-	private int bStartIndex = 0;
-	
-	private int d1StartIndex = 0;
-	private int d2StartIndex = 0;
-	private int d3StartIndex = 0;
-	private int d4StartIndex = 0;
-	private int d5StartIndex = 0;
-	
 	private int seekbarTmpId =0;
 
 	private int whichToRemove =-1;
@@ -208,81 +116,20 @@ public class MainFragment extends Fragment{
 	private boolean hasInvokeCurrentTimeDefender;
 
     /**畫圖變數**/
-	private ImageView circle;
-	private Path p;
+	private ImageView circle;// 未知用途XD
+	private Path path;
 	Vector <Bitmap> bitmapVector;
 	Bitmap tempBitmap;
 	Canvas tempCanvas;
-	private Paint player1Paint;
-	private Paint player2Paint;
-	private Paint player3Paint;
-	private Paint player4Paint;
-	private Paint player5Paint;
-	private Paint ballPaint;
-	private Paint d1Paint;
-	private Paint d2Paint;
-	private Paint d3Paint;
-	private Paint d4Paint;
-	private Paint d5Paint;
-	private Paint transparentPaint;
-	private Paint paint;
 
-	/*********/
+	private Paint transparentPaint;
     /*************************曲線變數************************************/
     private int N = 3;
-	private Vector<Integer> p1TempcurveX = new Vector();
-	private Vector<Integer> p1TempcurveY = new Vector();
-	private int c1Idx =0;
-	private Vector<Integer> p2TempcurveX = new Vector();
-	private Vector<Integer> p2TempcurveY = new Vector();
-	private int c2Idx =0;
-	private Vector<Integer> p3TempcurveX = new Vector();
-	private Vector<Integer> p3TempcurveY = new Vector();
-	private int c3Idx =0;
-	private Vector<Integer> p4TempcurveX = new Vector();
-	private Vector<Integer> p4TempcurveY = new Vector();
-	private int c4Idx =0;
-	private Vector<Integer> p5TempcurveX = new Vector();
-	private Vector<Integer> p5TempcurveY = new Vector();
-	private int c5Idx =0;
-	private Vector<Integer> ballTempcurveX = new Vector();
-	private Vector<Integer> ballTempcurveY = new Vector();
-	private int ballIdx =0;
-	private Vector<Integer> d1TempcurveX = new Vector();
-	private Vector<Integer> d1TempcurveY = new Vector();
-	private int cd1Idx =0;
-	private Vector<Integer> d2TempcurveX = new Vector();
-	private Vector<Integer> d2TempcurveY = new Vector();
-	private int cd2Idx =0;
-	private Vector<Integer> d3TempcurveX = new Vector();
-	private Vector<Integer> d3TempcurveY = new Vector();
-	private int cd3Idx =0;
-	private Vector<Integer> d4TempcurveX = new Vector();
-	private Vector<Integer> d4TempcurveY = new Vector();
-	private int cd4Idx =0;
-	private Vector<Integer> d5TempcurveX = new Vector();
-	private Vector<Integer> d5TempcurveY = new Vector();
-	private int cd5Idx =0;
-
 	private List<String> currentTimeMaxLen;
 	
 	Region bitmapRegion;
 	
 	private Vector<Vector<Float>> curves = new Vector();
-	private int rmButtonWidth =60;
-	private int rmButtonHeight =60;
-	private int rmButtonFlag =0;
-	/*private int tmp=0;
-	private Vector<Float> P2_curve_x = new Vector();
-	private Vector<Float> P2_curve_y = new Vector();
-	private Vector<Float> P3_curve_x = new Vector();
-	private Vector<Float> P3_curve_y = new Vector();
-	private Vector<Float> P4_curve_x = new Vector();
-	private Vector<Float> P4_curve_y = new Vector();
-	private Vector<Float> P5_curve_x = new Vector();
-	private Vector<Float> P5_curve_y = new Vector();
-	private Vector<Float> Ball_curve_x = new Vector();
-	private Vector<Float> Ball_curve_y = new Vector();*/
 
     //region 錄製變數
 	private boolean recordCheck = false;
@@ -300,12 +147,6 @@ public class MainFragment extends Fragment{
 	DatagramSocket ds = null;
 	AtomicBoolean isRunning=new AtomicBoolean(false);
 	/*************************************************************/
-	private double EDRThresholdPersent = 15;
-	private ToggleButton recommendButton;//Toggle的錄製按鈕
-	private int recommendSwitch =0; // 0=DTW , 1=EDR
-	private TextView recordResultTextview;
-	private TextView EDRPathSize;
-	private LinearLayout EDRPathSizeLinearLayout;
 
 	// For screen
 	private Vector<Float> previousDirection;
@@ -314,8 +155,7 @@ public class MainFragment extends Fragment{
 	private Vector<Float> previousDribbleDirection;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {   
-		////Log,i("debug", "onCreateView()............");
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.main_layout, container,false);	
 	}
 
@@ -324,145 +164,58 @@ public class MainFragment extends Fragment{
 		super.onActivityCreated(savedInstanceState);
 
 		selectCategoryId = 0;
-		previousDirection = new Vector<Float>();
-		previousDribbleDirection = new Vector<Float>();
+		previousDirection = new Vector<>();
+		previousDribbleDirection = new Vector<>();
 		isScreenEnable = false;
 		hasQueryDefenderFromServer = false;
-	/*
-		Button EDROK = (Button) getView().findViewById(R.id.EDR_button);
-		EDROK.setOnClickListener(new OnClickListener(){//"?]?w"
-	    	@Override
-	    	public void onClick(View v) {
-	    		EditText name=(EditText) getView().findViewById(R.id.EDRT);//???o??Jtext??view
-	    		String input_edr=name.getText().toString();
-	    		double input_edr_threshold = Double.parseDouble(input_edr);
-	    		EDR_Threshold_Persent = input_edr_threshold;
-	    		//Log,i("reco", "input threshold = "+input_edr_threshold);
-	    		////Log,i("reco", "input EDR_Threshold_Persent = "+EDR_Threshold_Persent);
-	    	}
-	    });
+		//region Initialize Player icons on the view
+		Resources resources = getResources();
+		players = new Vector<>();
+		for(int i=0 ; i<5 ; i++){
+			ImageView playerImg = (ImageView)getView().findViewById(resources.getIdentifier("image_p"+(i+1), "id", getActivity().getPackageName()));
+			playerImg.setOnTouchListener(playerListener);
+			ImageView arrowImg = (ImageView)getView().findViewById(resources.getIdentifier("arrow"+(i+1), "id", getActivity().getPackageName()));
+			players.add(new Player(playerImg, arrowImg));
+		}
+		defenders = new Vector<Player>();
+		for(int i=0 ; i<5 ; i++){
+			ImageView playerImg = (ImageView)getView().findViewById(resources.getIdentifier("image_d"+(i+1), "id", getActivity().getPackageName()));
+			playerImg.setOnTouchListener(playerListener);
+			ImageView arrowImg = (ImageView)getView().findViewById(resources.getIdentifier("arrow"+(i+6), "id", getActivity().getPackageName()));
+			defenders.add(new Player(playerImg, arrowImg));
+		}
+		ImageView ballImg = (ImageView)getView().findViewById(resources.getIdentifier("image_ball", "id", getActivity().getPackageName()));
+		ballImg.setOnTouchListener(playerListener);
+		ball = new Player(ballImg, null);
 
-		EDR_path_size_LinearLayout = (LinearLayout) getView().findViewById(R.id.EDR_path_size_LinearLayout);
-		EDR_path_size = (TextView) getView().findViewById(R.id.EDR_path_size);
-		recommend_button = (ToggleButton) getView().findViewById(R.id.recommend_button);
-		recommend_button.setOnClickListener(recommend_button_Listener);
-		reco_result_textview = (TextView) getView().findViewById(R.id.reco_result);*/
-		
-		player1 = (ImageView) getView().findViewById(R.id.player1);
-		player1.setOnTouchListener(player_Listener);// 觸控時監聽
-		player2 = (ImageView) getView().findViewById(R.id.player2);
-		player2.setOnTouchListener(player_Listener);// 觸控時監聽
-		player3 = (ImageView) getView().findViewById(R.id.player3);
-		player3.setOnTouchListener(player_Listener);// 觸控時監聽
-		player4 = (ImageView) getView().findViewById(R.id.player4);
-		player4.setOnTouchListener(player_Listener);// 觸控時監聽
-		player5 = (ImageView) getView().findViewById(R.id.player5);
-		player5.setOnTouchListener(player_Listener);// 觸控時監聽
-		ball = (ImageView) getView().findViewById(R.id.ball);
-		ball.setOnTouchListener(player_Listener);// 觸控時監聽
-		
-		player1Ball = (ImageView) getView().findViewById(R.id.player1_ball);
-		player1Ball.setOnTouchListener(player_Listener);
-		player2Ball = (ImageView) getView().findViewById(R.id.player2_ball);
-		player2Ball.setOnTouchListener(player_Listener);
-		player3Ball = (ImageView) getView().findViewById(R.id.player3_ball);
-		player3Ball.setOnTouchListener(player_Listener);
-		player4Ball = (ImageView) getView().findViewById(R.id.player4_ball);
-		player4Ball.setOnTouchListener(player_Listener);
-		player5Ball = (ImageView) getView().findViewById(R.id.player5_ball);
-		player5Ball.setOnTouchListener(player_Listener);
-		
-		arrow1 = (ImageView) getView().findViewById(R.id.arrow1);
-		arrow2 = (ImageView) getView().findViewById(R.id.arrow2);
-		arrow3 = (ImageView) getView().findViewById(R.id.arrow3);
-		arrow4 = (ImageView) getView().findViewById(R.id.arrow4);
-		arrow5 = (ImageView) getView().findViewById(R.id.arrow5);
-		arrow7 = (ImageView) getView().findViewById(R.id.arrow7);
-		arrow8 = (ImageView) getView().findViewById(R.id.arrow8);
-		arrow9 = (ImageView) getView().findViewById(R.id.arrow9);
-		arrow10 = (ImageView) getView().findViewById(R.id.arrow10);
-		arrow11 = (ImageView) getView().findViewById(R.id.arrow11);
+		playersWithBall = new Vector<>();
+		for(int i=0 ; i<5 ; i++){
+			ImageView playerImg = (ImageView)getView().findViewById(resources.getIdentifier("image_p"+(i+1)+"withBall", "id", getActivity().getPackageName()));
+			playerImg.setOnTouchListener(playerListener);
+			playersWithBall.add(playerImg);
+		}
+		//endregion
+
+		//region Initialize drawing parameters
+		playerDrawers = new Vector<>();
+		playerDrawers.add(new PlayerDrawer(Color.parseColor("#133C55")));
+		playerDrawers.add(new PlayerDrawer(Color.parseColor("#154FB5")));
+		playerDrawers.add(new PlayerDrawer(Color.parseColor("#59A5DB")));
+		playerDrawers.add(new PlayerDrawer(Color.parseColor("#84D2F6")));
+		playerDrawers.add(new PlayerDrawer(Color.parseColor("#DCFFFD")));
+		defenderDrawers = new Vector<>();
+		defenderDrawers.add(new PlayerDrawer(Color.parseColor("#3c1518")));
+		defenderDrawers.add(new PlayerDrawer(Color.parseColor("#69140e")));
+		defenderDrawers.add(new PlayerDrawer(Color.parseColor("#a44200")));
+		defenderDrawers.add(new PlayerDrawer(Color.parseColor("#d58936")));
+		defenderDrawers.add(new PlayerDrawer(Color.parseColor("#FFC82E")));
+		ballDrawer = new PlayerDrawer(Color.parseColor("#CC0000"));
+
+		//endregion
+
 		removeButton = (ImageView) getView().findViewById(R.id.rm_button);
+		path =new Path();
 
-        // Tag: Where to disable the defenders
-		defender1 = (ImageView) getView().findViewById(R.id.defender1);
-		defender1.setOnTouchListener(player_Listener);// 觸控時監聽
-		defender2 = (ImageView) getView().findViewById(R.id.defender2);
-		defender2.setOnTouchListener(player_Listener);// 觸控時監聽
-		defender3 = (ImageView) getView().findViewById(R.id.defender3);
-		defender3.setOnTouchListener(player_Listener);// 觸控時監聽
-		defender4 = (ImageView) getView().findViewById(R.id.defender4);
-		defender4.setOnTouchListener(player_Listener);// 觸控時監聽
-		defender5 = (ImageView) getView().findViewById(R.id.defender5);
-		defender5.setOnTouchListener(player_Listener);// 觸控時監聽
-
-
-		p=new Path();
-		
-		paint=new Paint();
-		paint.setAntiAlias(true);
-		paint.setColor(Color.BLUE);
-		paint.setAlpha(100);
-		paint.setStyle(Paint.Style.STROKE);
-		
-		player1Paint =new Paint();
-		player1Paint.setAntiAlias(true); // 設置畫筆的鋸齒效果。 true是去除。
-		player1Paint.setColor(Color.parseColor("#133C55")); // 設置顏色
-		player1Paint.setAlpha(100);
-		
-		player2Paint =new Paint();
-		player2Paint.setAntiAlias(true);
-		player2Paint.setColor(Color.TRANSPARENT);
-		player2Paint.setColor(Color.parseColor("#154FB5"));
-		player2Paint.setAlpha(100);
-		
-		player3Paint =new Paint();
-		player3Paint.setAntiAlias(true);
-		player3Paint.setColor(Color.parseColor("#59A5DB"));
-		player3Paint.setAlpha(100);
-
-		player4Paint =new Paint();
-		player4Paint.setAntiAlias(true);
-		player4Paint.setColor(Color.parseColor("#84D2F6"));
-		player4Paint.setAlpha(100);
-		
-		player5Paint =new Paint();
-		player5Paint.setAntiAlias(true);
-		player5Paint.setColor(Color.parseColor("#DCFFFD"));
-		player5Paint.setAlpha(100);
-		
-		ballPaint =new Paint();
-		ballPaint.setAntiAlias(true);
-		ballPaint.setColor(Color.TRANSPARENT);
-		ballPaint.setColor(Color.parseColor("#CC0000"));
-		ballPaint.setAlpha(100);
-		
-		d1Paint =new Paint();
-		d1Paint.setAntiAlias(true); // 設置畫筆的鋸齒效果。 true是去除。
-		d1Paint.setColor(Color.parseColor("#3c1518")); // 設置顏色
-		d1Paint.setAlpha(100);
-		
-		d2Paint =new Paint();
-		d2Paint.setAntiAlias(true);
-		d2Paint.setColor(Color.TRANSPARENT);
-		d2Paint.setColor(Color.parseColor("#69140e"));
-		d2Paint.setAlpha(100);
-		
-		d3Paint =new Paint();
-		d3Paint.setAntiAlias(true);
-		d3Paint.setColor(Color.parseColor("#a44200"));
-		d3Paint.setAlpha(100);
-
-		d4Paint =new Paint();
-		d4Paint.setAntiAlias(true);
-		d4Paint.setColor(Color.parseColor("#d58936"));
-		d4Paint.setAlpha(100);
-		
-		d5Paint =new Paint();
-		d5Paint.setAntiAlias(true);
-		d5Paint.setColor(Color.parseColor("#FFC82E"));
-		d5Paint.setAlpha(100);
-		
 		transparentPaint =new Paint();
 		transparentPaint.setAntiAlias(true); // 設置畫筆的鋸齒效果。 true是去除。
 		transparentPaint.setColor(Color.TRANSPARENT); // 設置透明顏色
@@ -470,7 +223,6 @@ public class MainFragment extends Fragment{
 		bitmapVector = new Vector();
 		
 		circle=(ImageView) getActivity().findViewById(R.id.circle);
-		circle.setOnTouchListener(bitmap_ontouch);
 
         /*獲取元件的長與寬，並初始化tempBitmap，接著先放一次的透明路徑在circle上*/
         ViewTreeObserver vto2 = circle.getViewTreeObserver();
@@ -485,46 +237,21 @@ public class MainFragment extends Fragment{
 		   		tempCanvas.drawBitmap(tempBitmap, 0, 0, null);//畫透明路徑
 		   		tempCanvas.drawCircle(1, 1, 5, transparentPaint);//畫透明路徑
 		   		circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));//把tempBitmap放進circle裡
-		        ////Log,i("debug", "tempBitmap's width = "+Integer.toString(tempBitmap.getWidth()));
-		   		////Log,i("debug", "tempBitmap's height = "+Integer.toString(tempBitmap.getHeight()));
 		        circle.getViewTreeObserver().removeGlobalOnLayoutListener(this);  
 		           
 		        rotateWhichPlayer =0;
-		        p1Rotate =0;
-		        p2Rotate =0;
-		        p3Rotate =0;
-		        p4Rotate =0;
-		        p5Rotate =0;
-		        bRotate =0;
-		        d1Rotate =0;
-		        d2Rotate =0;
-		        d3Rotate =0;
-		        d4Rotate =0;
-		        d5Rotate =0;
 		        
 		        //rm_button.setVisibility(rm_button.VISIBLE);
 		        //rm_button.invalidate();
 		        removeButton.setVisibility(removeButton.INVISIBLE);
 		        removeButton.invalidate();
-		        
-		        player1Ball.setVisibility(player1Ball.INVISIBLE);
-		        player1Ball.invalidate();
-		        player2Ball.setVisibility(player2Ball.INVISIBLE);
-		        player2Ball.invalidate();
-		        player3Ball.setVisibility(player3Ball.INVISIBLE);
-		        player3Ball.invalidate();
-		        player4Ball.setVisibility(player4Ball.INVISIBLE);
-		        player4Ball.invalidate();
-		        player5Ball.setVisibility(player5Ball.INVISIBLE);
-		        player5Ball.invalidate();
-		        /*player1.setImageResource(R.drawable.player1_ball);
-		        player1.setImageResource(R.drawable.player1);*/
-		        
+
+		        for(int i=0 ; i<5 ; i++)
+					playersWithBall.get(i).setVisibility(playersWithBall.get(i).INVISIBLE);
 		       }   
 		  });
 	}
-	
-	
+
 	@Override
     public void onStart() { 
         super.onStart();
@@ -572,10 +299,6 @@ public class MainFragment extends Fragment{
         */
     }
 	
-	public void mainfragSetTotalTime(int inputTime){
-		totalTime = inputTime;
-	}
-	
 	public void mainfragSetUDPIP(InetAddress IP, int port){
 		serverAddr = IP;
 	    UDP_SERVER_PORT = port;
@@ -590,24 +313,14 @@ public class MainFragment extends Fragment{
 		for(int i = 0; i < 6; i++)
 			position.add(new ArrayList<Float>());
 		// Initialize all the position
-		Vector<Float> temp = coordinateTransform(bInitialPositionX, bInitialPositionY);
+		Vector<Float> temp = coordinateTransform(ball.initialPosition);
 		position.get(0).add(new Float(temp.get(0)));
 		position.get(0).add(new Float(temp.get(1)));
-		temp = coordinateTransform(p1InitialPositionX, p1InitialPositionY);
-		position.get(1).add(new Float(temp.get(0)));
-		position.get(1).add(new Float(temp.get(1)));
-		temp = coordinateTransform(p2InitialPositionX, p2InitialPositionY);
-		position.get(2).add(new Float(temp.get(0)));
-		position.get(2).add(new Float(temp.get(1)));
-		temp = coordinateTransform(p3InitialPositionX, p3InitialPositionY);
-		position.get(3).add(new Float(temp.get(0)));
-		position.get(3).add(new Float(temp.get(1)));
-		temp = coordinateTransform(p4InitialPositionX, p4InitialPositionY);
-		position.get(4).add(new Float(temp.get(0)));
-		position.get(4).add(new Float(temp.get(1)));
-		temp = coordinateTransform(p5InitialPositionX, p5InitialPositionY);
-		position.get(5).add(new Float(temp.get(0)));
-		position.get(5).add(new Float(temp.get(1)));
+		for(int i=1 ; i<6 ; i++){
+			temp = coordinateTransform(players.get(i-1).initialPosition);
+			position.get(i).add(new Float(temp.get(0)));
+			position.get(i).add(new Float(temp.get(1)));
+		}
 
 		int maxTime = 0;
 		for(int i=0 ; i<runBags.size() ; i++){
@@ -625,35 +338,14 @@ public class MainFragment extends Fragment{
 					int roadStart = runBags.get(i).getRoadStart();
 					int roadEnd = runBags.get(i).getRoadEnd();
 					for(int j=roadStart;j<roadEnd;j=j+2){
-						int tempX = 0;
-						int tempY = 0;
-						if(id == 0){
-							tempX = B.handleGetRoad(j);
-							tempY = B.handleGetRoad(j+1);
-						}
-						else if(id == 1){
-							tempX = P1.handleGetRoad(j);
-							tempY = P1.handleGetRoad(j+1);
-						}
-						else if(id == 2){
-							tempX = P2.handleGetRoad(j);
-							tempY = P2.handleGetRoad(j+1);
-						}
-						else if(id == 3){
-							tempX = P3.handleGetRoad(j);
-							tempY = P3.handleGetRoad(j+1);
-						}
-						else if(id == 4){
-							tempX = P4.handleGetRoad(j);
-							tempY = P4.handleGetRoad(j+1);
-						}
-						else if(id == 5){
-							tempX = P5.handleGetRoad(j);
-							tempY = P5.handleGetRoad(j+1);
-						}
-						Vector<Float> tempPos = coordinateTransform(tempX, tempY);
-						position.get(id).add(tempPos.get(0));
-						position.get(id).add(tempPos.get(1));
+						Point tempPos = new Point();
+						if(id == 0)
+							tempPos = new Point(ball.handleGetRoad(j), ball.handleGetRoad(j+1));
+						else
+							tempPos = new Point(players.get(id-1).handleGetRoad(j), players.get(id-1).handleGetRoad(j+1));
+						Vector<Float> transPos = coordinateTransform(tempPos);
+						position.get(id).add(transPos.get(0));
+						position.get(id).add(transPos.get(1));
 					}
 				}
 			}
@@ -708,13 +400,10 @@ public class MainFragment extends Fragment{
 			 *   ["1"] = [x,y,x,y,...] ["2"] ["3"] ["4"] ["5"]
 			 */
 			List<List<Integer>> positions = new ArrayList<List<Integer>>();
-			for(int i=0;i<5;i++)
+			for(int i=0;i<5;i++){
 				positions.add(new ArrayList<Integer>());
-			D1.clear_all();
-			D2.clear_all();
-			D3.clear_all();
-			D4.clear_all();
-			D5.clear_all();
+				defenders.get(i).clearAll();
+			}
 
 			JSONObject jsonDefender = new JSONObject(new String(query));
 			int timeStep = jsonDefender.getJSONArray("1").length();
@@ -723,44 +412,18 @@ public class MainFragment extends Fragment{
 					float tempX = Float.parseFloat(jsonDefender.getJSONArray(String.valueOf(i+1)).get(t).toString());
 					float tempY = Float.parseFloat(jsonDefender.getJSONArray(String.valueOf(i+1)).get(t+1).toString());
 					//Log.d("warning", tempX + ", " + tempY);
-					Vector<Float> tempPos = reverseCoordinateTransform(tempX, tempY);
+					Vector<Float> tempPos = reverseCoordinateTransform(new Point((int)tempX, (int)tempY));
 					positions.get(i).add(Math.round(tempPos.get(0)));
 					positions.get(i).add(Math.round(tempPos.get(1)));
-					switch(i){
-						case 0:
-							D1.setRoad(Math.round(tempPos.get(0)));
-							D1.setRoad(Math.round(tempPos.get(1)));
-							break;
-						case 1:
-							D2.setRoad(Math.round(tempPos.get(0)));
-							D2.setRoad(Math.round(tempPos.get(1)));
-							break;
-						case 2:
-							D3.setRoad(Math.round(tempPos.get(0)));
-							D3.setRoad(Math.round(tempPos.get(1)));
-							break;
-						case 3:
-							D4.setRoad(Math.round(tempPos.get(0)));
-							D4.setRoad(Math.round(tempPos.get(1)));
-							break;
-						case 4:
-							D5.setRoad(Math.round(tempPos.get(0)));
-							D5.setRoad(Math.round(tempPos.get(1)));
-							break;
-					}
+					defenders.get(i).setRoad(Math.round(tempPos.get(0)));
+					defenders.get(i).setRoad(Math.round(tempPos.get(1)));
 				}
 			}
 			// Setting the initial position of the defenders
-			d1InitialPositionX = positions.get(0).get(0);
-			d1InitialPositionY = positions.get(0).get(1);
-			d2InitialPositionX = positions.get(1).get(0);
-			d2InitialPositionY = positions.get(1).get(1);
-			d3InitialPositionX = positions.get(2).get(0);
-			d3InitialPositionY = positions.get(2).get(1);
-			d4InitialPositionX = positions.get(3).get(0);
-			d4InitialPositionY = positions.get(3).get(1);
-			d5InitialPositionX = positions.get(4).get(0);
-			d5InitialPositionY = positions.get(4).get(1);
+			for(int i=0 ; i<5 ; i++){
+				defenders.get(i).initialPosition.x = positions.get(i).get(0);
+				defenders.get(i).initialPosition.y = positions.get(i).get(1);
+			}
 			hasQueryDefenderFromServer = true;
 
 			Log.d("warning", String.valueOf(runBags.size()));
@@ -845,7 +508,7 @@ public class MainFragment extends Fragment{
 		return id;
 	}
 
-	private Vector<Float> coordinateTransform(int x, int y){
+	private Vector<Float> coordinateTransform(Point origin){
 		int LEFT_TOP_X = 0;
 		int LEFT_TOP_Y = 0;
 		int RIGHT_TOP_X = 94;
@@ -853,8 +516,8 @@ public class MainFragment extends Fragment{
 		int CENTER_X = 47;
 		int CENTER_Y = 25;
 
-		float newX = (y - 760.0f) * (CENTER_X - LEFT_TOP_X)/760.0f + CENTER_X;
-		float newY = (x - 540.0f) * (25.0f) / 400.0f + CENTER_Y;
+		float newX = (origin.y - 760.0f) * (CENTER_X - LEFT_TOP_X)/760.0f + CENTER_X;
+		float newY = (origin.x - 540.0f) * (25.0f) / 400.0f + CENTER_Y;
 
 		newX = CENTER_X + (CENTER_X - newX);
 		newY = newY;
@@ -864,7 +527,7 @@ public class MainFragment extends Fragment{
 		return newPos;
 	}
 
-	private Vector<Float> reverseCoordinateTransform(float x, float y){
+	private Vector<Float> reverseCoordinateTransform(Point origin){
 		int LEFT_TOP_X = 0;
 		int LEFT_TOP_Y = 0;
 		int RIGHT_TOP_X = 94;
@@ -872,8 +535,8 @@ public class MainFragment extends Fragment{
 		int CENTER_X = 47;
 		int CENTER_Y = 25;
 
-		float newX = 540.0f + (y - CENTER_Y) * 400.0f / 25.0f;
-		float newY = CENTER_X - (x - CENTER_X);
+		float newX = 540.0f + (origin.y - CENTER_Y) * 400.0f / 25.0f;
+		float newY = CENTER_X - (origin.x - CENTER_X);
 		newY = (newY - CENTER_X) * 760.0f / (CENTER_X - LEFT_TOP_X) + 760.0f;
 
 		Vector<Float> newPos = new Vector<Float>();
@@ -894,7 +557,7 @@ public class MainFragment extends Fragment{
 
 	/**********************************************UE4***********************************************/
 	public void mainfragSendtoUE4(){
-
+/*
 		JSONObject tacticPacket = new JSONObject();
 		try {
 			JSONArray tmpArray = new JSONArray();
@@ -1075,7 +738,7 @@ public class MainFragment extends Fragment{
 		socketThread.start();
 
 		Log.d("debug", "Send to game server!");
-
+*/
 	}
 
 //endregion
@@ -1106,83 +769,20 @@ public class MainFragment extends Fragment{
  
 	public void setPlayerToNoBall(){
 		if(intersectName !=0){
-			switch(intersectName){
-			case 1:
-				player1.setVisibility(player1.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player1.layout((int) player1Ball.getX()+30, (int) player1Ball.getY(),(int) player1Ball.getX()+30+player1.getWidth(), (int) player1Ball.getY()+player1.getHeight());
-				}
-				player1.invalidate();
-				player1Ball.setVisibility(player1Ball.INVISIBLE);
-				player1Ball.invalidate();
-				break;
-			case 2:
-				player2.setVisibility(player2.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player2.layout((int) player2Ball.getX()+30, (int) player2Ball.getY(),(int) player2Ball.getX()+30+player2.getWidth(), (int) player2Ball.getY()+player2.getHeight());
-				}
-				player2.invalidate();
-				player2Ball.setVisibility(player2Ball.INVISIBLE);
-				player2Ball.invalidate();
-				break;
-			case 3:
-				player3.setVisibility(player3.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player3.layout((int) player3Ball.getX()+30, (int) player3Ball.getY(),(int) player3Ball.getX()+30+player3.getWidth(), (int) player3Ball.getY()+player3.getHeight());
-				}
-				player3.invalidate();
-				player3Ball.setVisibility(player3Ball.INVISIBLE);
-				player3Ball.invalidate();
-				break;
-			case 4:
-				player4.setVisibility(player4.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player4.layout((int) player4Ball.getX()+30, (int) player4Ball.getY(),(int) player4Ball.getX()+30+player4.getWidth(), (int) player4Ball.getY()+player4.getHeight());
-				}
-				player4.invalidate();
-				player4Ball.setVisibility(player4Ball.INVISIBLE);
-				player4Ball.invalidate();
-				break;
-			case 5:
-				player5.setVisibility(player5.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player5.layout((int) player5Ball.getX()+30, (int) player5Ball.getY(),(int) player5Ball.getX()+30+player5.getWidth(), (int) player5Ball.getY()+player5.getHeight());
-				}
-				player5.invalidate();
-				player5Ball.setVisibility(player5Ball.INVISIBLE);
-				player5Ball.invalidate();
-				break;
-			}
+			ImageView currentImage = players.get(intersectName-1).image;
+			ImageView currentArrow = players.get(intersectName-1).arrow;
+			currentImage.setVisibility(currentImage.VISIBLE);
+			if(intersect) currentImage.layout((int) playersWithBall.get(intersectName-1).getX()+30, (int) playersWithBall.get(intersectName-1).getY(),(int) playersWithBall.get(intersectName-1).getX()+30+currentImage.getWidth(), (int) playersWithBall.get(intersectName-1).getY()+currentImage.getHeight());
+			currentImage.invalidate();
+			playersWithBall.get(intersectName-1).setVisibility(playersWithBall.get(intersectName-1).INVISIBLE);
+			playersWithBall.get(intersectName-1).invalidate();
+			currentArrow.layout((int)currentImage.getX(), (int)currentImage.getY(), (int)currentImage.getX()+currentImage.getWidth(), (int)currentImage.getY()+currentImage.getHeight());
+			currentArrow.invalidate();
 		}
-		if(player1.getVisibility()==player1.VISIBLE){
-			arrow1.layout((int)player1.getX(), (int)player1.getY(), (int)player1.getX()+player1.getWidth(), (int)player1.getY()+player1.getHeight());
-		}
-		arrow1.invalidate();
-		if(player2.getVisibility()==player2.VISIBLE){
-			arrow2.layout((int)player2.getX(), (int)player2.getY(), (int)player2.getX()+player2.getWidth(), (int)player2.getY()+player2.getHeight());
-		}
-		arrow2.invalidate();
-		if(player3.getVisibility()==player3.VISIBLE){
-			arrow3.layout((int)player3.getX(), (int)player3.getY(), (int)player3.getX()+player3.getWidth(), (int)player3.getY()+player3.getHeight());
-		}
-		arrow3.invalidate();
-		if(player4.getVisibility()==player4.VISIBLE){
-			arrow4.layout((int)player4.getX(), (int)player4.getY(), (int)player4.getX()+player4.getWidth(), (int)player4.getY()+player4.getHeight());
-		}
-		arrow4.invalidate();
-		if(player5.getVisibility()==player5.VISIBLE){
-			arrow5.layout((int)player5.getX(), (int)player5.getY(), (int)player5.getX()+player5.getWidth(), (int)player5.getY()+player5.getHeight());
-		}
-		arrow5.invalidate();
 	}
 	
-	public void setPlaying(int input){
-		playing=input;
+	public void setIsTacticPlaying(int input){
+		IsTacticPlaying =input;
 	}
 
 	public void passStartTime(int input) {
@@ -1199,40 +799,11 @@ public class MainFragment extends Fragment{
 	public void passRecordCheck(boolean input) {
         /*停止錄製按下之後，畫線的curve就清除重算*/
 		if(recordCheck == true && input == false){
-			p1TempcurveX.clear();
-			p1TempcurveY.clear();
-			c1Idx =0;
-			p2TempcurveX.clear();
-			p2TempcurveY.clear();
-			c2Idx =0;
-			p3TempcurveX.clear();
-			p3TempcurveY.clear();
-			c3Idx =0;
-			p4TempcurveX.clear();
-			p4TempcurveY.clear();
-			c4Idx =0;
-			p5TempcurveX.clear();
-			p5TempcurveY.clear();
-			c5Idx =0;
-			ballTempcurveX.clear();
-			ballTempcurveY.clear();
-			ballIdx =0;
-			
-			d1TempcurveX.clear();
-			d1TempcurveY.clear();
-			cd1Idx =0;
-			d2TempcurveX.clear();
-			d2TempcurveY.clear();
-			cd2Idx =0;
-			d3TempcurveX.clear();
-			d3TempcurveY.clear();
-			cd3Idx =0;
-			d4TempcurveX.clear();
-			d4TempcurveY.clear();
-			cd4Idx =0;
-			d5TempcurveX.clear();
-			d5TempcurveY.clear();
-			cd5Idx =0;
+			for(int i=0;i<5;i++){
+				playerDrawers.get(i).clearCurve();
+				defenderDrawers.get(i).clearCurve();
+			}
+			ballDrawer.clearCurve();
 		}
 		/**/
 		if(recordCheck == false && input==true && firstRecord ==true && intersectName !=0){
@@ -1255,18 +826,12 @@ public class MainFragment extends Fragment{
 		runBags.set(input.get(0), tmp);
 		//Log.d("debug", "Set! "+Integer.toString(input.get(0)));
 	}
-	
-	
-	
+
 	public void setMainFragProLow(int Low_in){
 		mainFragSeekBarProgressLow =Low_in;
 		////Log,i("debug", "MainFrag_set MainFrag_SeekBarProgressLow ="+Integer.toString(MainFrag_SeekBarProgressLow));
 	}
-	
-	public int getMainFragProLow(){
-		return mainFragSeekBarProgressLow;
-	}
-	
+
 	public void clearPaint(){//清除筆跡
 		bitmapVector.clear();
 		tempBitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
@@ -1275,97 +840,34 @@ public class MainFragment extends Fragment{
    		tempCanvas.drawBitmap(tempBitmap, 0, 0, null);
    		tempCanvas.drawCircle(1, 1, 5, transparentPaint);//畫透明路徑
    		circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));//把tempBitmap放進circle裡
-   		p.reset();
-   		c1Idx =0;
-		c2Idx =0;
-		c3Idx =0;
-		c4Idx =0;
-		c5Idx =0;
-		ballIdx =0;
-		p1TempcurveX.clear();
-		p1TempcurveY.clear();
-		p2TempcurveX.clear();
-		p2TempcurveY.clear();
-		p3TempcurveX.clear();
-		p3TempcurveY.clear();
-		p4TempcurveX.clear();
-		p4TempcurveY.clear();
-		p5TempcurveX.clear();
-		p5TempcurveY.clear();
-		ballTempcurveX.clear();
-		ballTempcurveY.clear();
-		cd1Idx =0;
-		cd2Idx =0;
-		cd3Idx =0;
-		cd4Idx =0;
-		cd5Idx =0;
-		d1TempcurveX.clear();
-		d1TempcurveY.clear();
-		d2TempcurveX.clear();
-		d2TempcurveY.clear();
-		d3TempcurveX.clear();
-		d3TempcurveY.clear();
-		d4TempcurveX.clear();
-		d4TempcurveY.clear();
-		d5TempcurveX.clear();
-		d5TempcurveY.clear();
+   		path.reset();
+		for(int i=0;i<5;i++){
+			playerDrawers.get(i).clearCurve();
+			defenderDrawers.get(i).clearCurve();
+		}
+		ballDrawer.clearCurve();
 		curves.clear();
         //tempCanvas.drawBitmap(Bitmap_vector.get(0), 0, 0, null);
         //circle.setImageDrawable(new BitmapDrawable(getResources(), Bitmap_vector.get(1)));//把tempBitmap放進circle裡
 	}
 	
-	public void clear_record(){     
+	public void clearRecord(){
 		initialBallNum =0;
 		firstRecord =true;
-		playing=0;
-		P1.clear_all();
-		P2.clear_all();
-		P3.clear_all();
-		P4.clear_all();
-		P5.clear_all();
-		B.clear_all();
-		D1.clear_all();
-		D2.clear_all();
-		D3.clear_all();
-		D4.clear_all();
-		D5.clear_all();
+		IsTacticPlaying =0;
+		for(int i=0;i<5;i++){
+			players.get(i).clearAll();
+			defenders.get(i).clearAll();
+		}
+		ball.clearAll();
 		runBags.clear();
-		p1StartIndex = 0;
-		p2StartIndex = 0;
-		p3StartIndex = 0;
-		p4StartIndex = 0;
-		p5StartIndex = 0;
-		bStartIndex = 0;
-		d1StartIndex = 0;
-		d2StartIndex = 0;
-		d3StartIndex = 0;
-		d4StartIndex = 0;
-		d5StartIndex = 0;
+		for(int i=0;i<5;i++){
+			playerDrawers.get(i).clearRecord();
+			defenderDrawers.get(i).clearRecord();
+		}
+		ballDrawer.clearRecord();
 		seekbarTmpId =0;
 		mainFragSeekBarProgressLow =0;
-		/*P1_Initial_Position_x = -1;
-		P2_Initial_Position_x = -1;
-		P3_Initial_Position_x = -1;
-		P4_Initial_Position_x = -1;
-		P5_Initial_Position_x = -1;
-		B_Initial_Position_x = -1;
-		P1_Initial_Position_y = -1;
-		P2_Initial_Position_y = -1;
-		P3_Initial_Position_y = -1;
-		P4_Initial_Position_y = -1;
-		P5_Initial_Position_y = -1;
-		B_Initial_Position_y = -1;*/
-		
-		initialP1Rotate =-1;
-		initialP2Rotate =-1;
-		initialP3Rotate =-1;
-		initialP4Rotate =-1;
-		initialP5Rotate =-1;
-		initialD1Rotate =-1;
-		initialD2Rotate =-1;
-		initialD3Rotate =-1;
-		initialD4Rotate =-1;
-		initialD5Rotate =-1;
 		
 		clearPaint();
 		TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
@@ -1375,857 +877,52 @@ public class MainFragment extends Fragment{
 		mainwrap.clear_record_layout();
 	}
 	
-	public int lagrange(Vector<Integer> px,Vector<Integer> py, float x){
+	public int lagrange(Vector<Point> curve, float x){
 		int y=0;
 		float tmpy=0;
-	    for (int i=0; i<px.size(); ++i)
+	    for (int i=0; i<curve.size(); ++i)
 	    {
 	        float a = 1, b = 1;
-	        for (int j=0; j<px.size(); ++j)
+	        for (int j=0; j<curve.size(); ++j)
 	        {
 	            if (j == i) continue;
-	            a *= x - px.get(j);
-	            b *= px.get(i) - px.get(j);
+	            a *= x - curve.get(j).x;
+	            b *= curve.get(i).x - curve.get(j).x;
 	        }
-	        tmpy=(py.get(i) * a / b);
-	        y += py.get(i) * a / b;
+	        tmpy=(curve.get(i).y * a / b);
+	        y += curve.get(i).y * a / b;
 	    }	 
 		return y;
 	}
 	
 	public void playerMoveToStartPosition(){
-        /*先把全部player移到按下錄製鍵時的位置*/
-		
-		if(p1InitialPositionX !=-1){
-			player1.layout(p1InitialPositionX, p1InitialPositionY, p1InitialPositionX + player1.getWidth(), p1InitialPositionY + player1.getHeight());
-			arrow1.layout(p1InitialPositionX, p1InitialPositionY, p1InitialPositionX + arrow1.getWidth(), p1InitialPositionY + arrow1.getHeight());
-			rcP1 = new Rect(p1InitialPositionX, p1InitialPositionY, p1InitialPositionX + player1.getWidth(), p1InitialPositionY + player1.getHeight());
-			player1.invalidate();
-			arrow1.setRotation(initialP1Rotate);
-			arrow1.invalidate();
-			//Log,i("debug", "P1_initial_pos set!");
-		}
-		if(p2InitialPositionX !=-1){
-			player2.layout(p2InitialPositionX, p2InitialPositionY, p2InitialPositionX + player2.getWidth(), p2InitialPositionY + player2.getHeight());
-			arrow2.layout(p2InitialPositionX, p2InitialPositionY, p2InitialPositionX + arrow2.getWidth(), p2InitialPositionY + arrow2.getHeight());
-			rcP2 =new Rect(p2InitialPositionX, p2InitialPositionY, p2InitialPositionX + player2.getWidth(), p2InitialPositionY + player2.getHeight());
-			player2.invalidate();
-			arrow2.setRotation(initialP2Rotate);
-			arrow2.invalidate();
-			//Log,i("debug", "P2_initial_pos set!");
-		}
-		if(p3InitialPositionX !=-1){
-			player3.layout(p3InitialPositionX, p3InitialPositionY, p3InitialPositionX + player3.getWidth(), p3InitialPositionY + player3.getHeight());
-			arrow3.layout(p3InitialPositionX, p3InitialPositionY, p3InitialPositionX + arrow3.getWidth(), p3InitialPositionY + arrow3.getHeight());
-			rcP3 = new Rect(p3InitialPositionX, p3InitialPositionY, p3InitialPositionX + player3.getWidth(), p3InitialPositionY + player3.getHeight());
-			player3.invalidate();
-			arrow3.setRotation(initialP3Rotate);
-			arrow3.invalidate();
-			//Log,i("debug", "P3_initial_pos set!");
-		}
-		if(p4InitialPositionX !=-1){
-			player4.layout(p4InitialPositionX, p4InitialPositionY, p4InitialPositionX + player4.getWidth(), p4InitialPositionY + player4.getHeight());
-			arrow4.layout(p4InitialPositionX, p4InitialPositionY, p4InitialPositionX + arrow4.getWidth(), p4InitialPositionY + arrow4.getHeight());
-			rcP4 = new Rect(p4InitialPositionX, p4InitialPositionY, p4InitialPositionX + player4.getWidth(), p4InitialPositionY + player4.getHeight());
-			player4.invalidate();
-			arrow4.setRotation(initialP4Rotate);
-			arrow4.invalidate();
-			//Log,i("debug", "P4_initial_pos set!");
-		}
-		if(p5InitialPositionX !=-1){
-			player5.layout(p5InitialPositionX, p5InitialPositionY, p5InitialPositionX + player5.getWidth(), p5InitialPositionY + player5.getHeight());
-			arrow5.layout(p5InitialPositionX, p5InitialPositionY, p5InitialPositionX + arrow5.getWidth(), p5InitialPositionY + arrow5.getHeight());
-			rcP5 = new Rect(p5InitialPositionX, p5InitialPositionY, p5InitialPositionX + player5.getWidth(), p5InitialPositionY + player5.getHeight());
-			player5.invalidate();
-			arrow5.setRotation(initialP5Rotate);
-			arrow5.invalidate();
-			//Log,i("debug", "P5_initial_pos set!");
-		}
-		if(bInitialPositionX !=-1){
-			ball.layout(bInitialPositionX, bInitialPositionY, bInitialPositionX + ball.getWidth(), bInitialPositionY + ball.getHeight());
-			rcBall = new Rect(bInitialPositionX, bInitialPositionY, bInitialPositionX + ball.getWidth(), bInitialPositionY + ball.getHeight());
-			//Log,i("debug", "Ball_initial_pos set!");
-			//Arrow6.layout(P5_Initial_Position_x, P5_Initial_Position_y,P5_Initial_Position_x + Arrow5.getWidth(),P5_Initial_Position_y + Arrow5.getHeight());
-		}
-		if(d1InitialPositionX !=-1){
-			defender1.layout(d1InitialPositionX, d1InitialPositionY, d1InitialPositionX + defender1.getWidth(), d1InitialPositionY + defender1.getHeight());
-			arrow7.layout(d1InitialPositionX, d1InitialPositionY, d1InitialPositionX + arrow7.getWidth(), d1InitialPositionY + arrow7.getHeight());
-			defender1.invalidate();
-			arrow7.setRotation(initialD1Rotate);
-			arrow7.invalidate();
-			Log.i("debug", "init1: "+ d1InitialPositionX + ", " + d1InitialPositionY);
-			//Log.i("debug", "D1_initial_pos set:"+ defender1.getX()+", "+defender1.getY());
-		}
-		if(d2InitialPositionX !=-1){
-			defender2.layout(d2InitialPositionX, d2InitialPositionY, d2InitialPositionX + defender2.getWidth(), d2InitialPositionY + defender2.getHeight());
-			arrow8.layout(d2InitialPositionX, d2InitialPositionY, d2InitialPositionX + arrow8.getWidth(), d2InitialPositionY + arrow8.getHeight());
-			defender2.invalidate();
-			arrow8.setRotation(initialD2Rotate);
-			arrow8.invalidate();
-			Log.i("debug", "init2: "+ d2InitialPositionX + ", " + d2InitialPositionY);
-			//Log,i("debug", "D2_initial_pos set!");
-		}
-		if(d3InitialPositionX !=-1){
-			defender3.layout(d3InitialPositionX, d3InitialPositionY, d3InitialPositionX + defender3.getWidth(), d3InitialPositionY + defender3.getHeight());
-			arrow9.layout(d3InitialPositionX, d3InitialPositionY, d3InitialPositionX + arrow9.getWidth(), d3InitialPositionY + arrow9.getHeight());
-			defender3.invalidate();
-			arrow9.setRotation(initialD3Rotate);
-			arrow9.invalidate();
-			Log.i("debug", "init3: "+ d3InitialPositionX + ", " + d3InitialPositionY);
-			//Log,i("debug", "D3_initial_pos set!");
-		}
-		if(d4InitialPositionX !=-1){
-			defender4.layout(d4InitialPositionX, d4InitialPositionY, d4InitialPositionX + defender4.getWidth(), d4InitialPositionY + defender4.getHeight());
-			arrow10.layout(d4InitialPositionX, d4InitialPositionY, d4InitialPositionX + arrow10.getWidth(), d4InitialPositionY + arrow10.getHeight());
-			defender4.invalidate();
-			arrow10.setRotation(initialD4Rotate);
-			arrow10.invalidate();
-			Log.i("debug", "init4: "+ d4InitialPositionX + ", " + d4InitialPositionY);
-			//Log,i("debug", "D4_initial_pos set!");
-		}
-		if(d5InitialPositionX !=-1){
-			defender5.layout(d5InitialPositionX, d5InitialPositionY, d5InitialPositionX + defender5.getWidth(), d5InitialPositionY + defender5.getHeight());
-			arrow11.layout(d5InitialPositionX, d5InitialPositionY, d5InitialPositionX + arrow11.getWidth(), d5InitialPositionY + arrow11.getHeight());
-			defender5.invalidate();
-			arrow11.setRotation(initialD5Rotate);
-			arrow11.invalidate();
-			Log.i("debug", "init5: "+ d5InitialPositionX + ", " + d5InitialPositionY);
-			//Log,i("debug", "D5_initial_pos set!");
-		}
-		/*if(initial_ball_num!=0){
-			switch(initial_ball_num){
-				case 1:
-					player1_ball.layout((int)player1.getX()-30, (int)player1.getY(), (int)player1.getX()-30+200, (int)player1.getY()+120);
-					player1_ball.setVisibility(player1_ball.VISIBLE);
-					player1_ball.invalidate();
-					ball.layout((int)player1.getX()+110, (int)player1.getY()+30, (int)player1.getX()+170, (int)player1.getY()+90);
-					player1.setVisibility(player1.INVISIBLE);
-					player1.invalidate();
-					break;
-				case 2:
-					player2_ball.layout((int)player2.getX()-30, (int)player2.getY(), (int)player2.getX()-30+200, (int)player2.getY()+120);
-					player2_ball.setVisibility(player2_ball.VISIBLE);
-					player2_ball.invalidate();
-					ball.layout((int)player2.getX()+110, (int)player2.getY()+30, (int)player2.getX()+170, (int)player2.getY()+90);
-					player2.setVisibility(player2.INVISIBLE);
-					player2.invalidate();
-					break;
-				case 3:
-					player3_ball.layout((int)player3.getX()-30, (int)player3.getY(), (int)player3.getX()-30+200, (int)player3.getY()+120);
-					player3_ball.setVisibility(player3_ball.VISIBLE);
-					player3_ball.invalidate();
-					ball.layout((int)player3.getX()+110, (int)player3.getY()+30, (int)player3.getX()+170, (int)player3.getY()+90);
-					player3.setVisibility(player3.INVISIBLE);
-					player3.invalidate();
-					break;
-				case 4:
-					player4_ball.layout((int)player4.getX()-30, (int)player4.getY(), (int)player4.getX()-30+200, (int)player4.getY()+120);
-					player4_ball.setVisibility(player4_ball.VISIBLE);
-					player4_ball.invalidate();
-					ball.layout((int)player4.getX()+110, (int)player4.getY()+30, (int)player4.getX()+170, (int)player4.getY()+90);
-					player4.setVisibility(player4.INVISIBLE);
-					player4.invalidate();
-					break;
-				case 5:
-					player5_ball.layout((int)player5.getX()-30, (int)player5.getY(), (int)player5.getX()-30+200, (int)player5.getY()+120);
-					player5_ball.setVisibility(player5_ball.VISIBLE);
-					player5_ball.invalidate();
-					ball.layout((int)player5.getX()+110, (int)player5.getY()+30, (int)player5.getX()+170, (int)player5.getY()+90);
-					player5.setVisibility(player5.INVISIBLE);
-					player5.invalidate();
-					break;
+        /* 先把全部player移到按下錄製鍵時的位置 */
+		for(int i=0 ; i<5 ; i++){
+			if(players.get(i).initialPosition.x != -1){
+				// Offenders
+				Player thisPlayer = players.get(i);
+				thisPlayer.image.layout(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
+				thisPlayer.arrow.layout(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.arrow.getWidth(), thisPlayer.initialPosition.y + thisPlayer.arrow.getHeight());
+				thisPlayer.rect = new Rect(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
+				thisPlayer.image.invalidate();
+				thisPlayer.arrow.setRotation(thisPlayer.initialRotation);
+				thisPlayer.arrow.invalidate();
 			}
-			ball.invalidate();
-		}*/
-	}	
-	
-	public void playerChangeToNoBall(){
-		if(intersectName !=0){
-			switch(intersectName){
-			case 1:
-				player1.setVisibility(player1.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player1.layout((int) player1Ball.getX()+30, (int) player1Ball.getY(),(int) player1Ball.getX()+30+player1.getWidth(), (int) player1Ball.getY()+player1.getHeight());
-				}
-				player1.invalidate();
-				player1Ball.setVisibility(player1Ball.INVISIBLE);
-				player1Ball.invalidate();
-				arrow1.layout((int)player1.getX(), (int)player1.getY(), (int)player1.getX()+player1.getWidth(), (int)player1.getY()+player1.getHeight());
-				arrow1.invalidate();
-				break;
-			case 2:
-				player2.setVisibility(player2.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player2.layout((int) player2Ball.getX()+30, (int) player2Ball.getY(),(int) player2Ball.getX()+30+player2.getWidth(), (int) player2Ball.getY()+player2.getHeight());
-				}
-				player2.invalidate();
-				player2Ball.setVisibility(player2Ball.INVISIBLE);
-				player2Ball.invalidate();
-				arrow2.layout((int)player2.getX(), (int)player2.getY(), (int)player2.getX()+player2.getWidth(), (int)player2.getY()+player2.getHeight());
-				arrow2.invalidate();
-				break;
-			case 3:
-				player3.setVisibility(player3.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player3.layout((int) player3Ball.getX()+30, (int) player3Ball.getY(),(int) player3Ball.getX()+30+player3.getWidth(), (int) player3Ball.getY()+player3.getHeight());
-				}
-				player3.invalidate();
-				player3Ball.setVisibility(player3Ball.INVISIBLE);
-				player3Ball.invalidate();
-				arrow3.layout((int)player3.getX(), (int)player3.getY(), (int)player3.getX()+player3.getWidth(), (int)player3.getY()+player3.getHeight());
-				arrow3.invalidate();
-				break;
-			case 4:
-				player4.setVisibility(player4.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player4.layout((int) player4Ball.getX()+30, (int) player4Ball.getY(),(int) player4Ball.getX()+30+player4.getWidth(), (int) player4Ball.getY()+player4.getHeight());
-				}
-				player4.invalidate();
-				player4Ball.setVisibility(player4Ball.INVISIBLE);
-				player4Ball.invalidate();
-				arrow4.layout((int)player4.getX(), (int)player4.getY(), (int)player4.getX()+player4.getWidth(), (int)player4.getY()+player4.getHeight());
-				arrow4.invalidate();
-				break;
-			case 5:
-				player5.setVisibility(player5.VISIBLE);
-				if(intersect==true){
-					////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-					player5.layout((int) player5Ball.getX()+30, (int) player5Ball.getY(),(int) player5Ball.getX()+30+player5.getWidth(), (int) player5Ball.getY()+player5.getHeight());
-				}
-				player5.invalidate();
-				player5Ball.setVisibility(player5Ball.INVISIBLE);
-				player5Ball.invalidate();
-				arrow5.layout((int)player5.getX(), (int)player5.getY(), (int)player5.getX()+player5.getWidth(), (int)player5.getY()+player5.getHeight());
-				arrow5.invalidate();
-				break;
+			if(defenders.get(i).initialPosition.x != -1) {
+				Player thisPlayer = defenders.get(i);
+				thisPlayer.image.layout(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
+				thisPlayer.arrow.layout(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.arrow.getWidth(), thisPlayer.initialPosition.y + thisPlayer.arrow.getHeight());
+				thisPlayer.image.invalidate();
+				thisPlayer.arrow.setRotation(thisPlayer.initialRotation);
+				thisPlayer.arrow.invalidate();
 			}
+		}
+		if(ball.initialPosition.x != -1){
+			ball.image.layout(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
+			ball.rect = new Rect(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
 		}
 	}
-	
-	
-	
-	
-	//TODO DTW
-	/**************************************************************************/
-	public void doRecommend(){
-		Vector <String> recommend=new Vector();
-		recommend=load_Default_Strategies();
-		LayoutInflater inflater = LayoutInflater.from(getActivity());
-		final View v = inflater.inflate(R.layout.dialog_layout, null);
-        //把xml當成view來用，就能加入alert dialog裡面了
-		LinearLayout linearLayout=(LinearLayout) v.findViewById(R.id.dialog_linear_layout);
-        //取得dialog_layout.xml裡面的dialog_linear_layout，就能夠用來動態加入view了
-		LinearLayout.LayoutParams textlp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-		textlp.gravity=Gravity.CENTER;
-		textlp.topMargin=80;
-		LinearLayout.LayoutParams imglp = new LinearLayout.LayoutParams(800,800);
-		imglp.gravity=Gravity.CENTER;
-		
-		
-		FilenameFilter namefilter =new FilenameFilter(){ 
-            private String[] filter={
-                    "txt"
-            };
-            @Override
-            public boolean accept(File dir, String filename){
-                for(int i=0;i<filter.length;i++){
-                    if(filename.indexOf(filter[i])!=-1)
-                        return true;
-                }
-                return false;
-            }
-        };
-        File dir = getActivity().getBaseContext().getExternalFilesDir(null);
-        //String str=filePath.getName();取得檔案夾名稱
-        //textFileName.setText(str);
-        File[] fileList=dir.listFiles(namefilter);
-        String[] list =new String[fileList.length];
-        for(int i=0;i<list.length;i++){
-            list[i]=fileList[i].getName();
-            //Log,i("reco", "filenames = "+list[i]);
-        }
-        final String[] strategies = list;
-		for(int i=0;i<recommend.size();i++){
-			TextView text = new TextView(getActivity());
-			ImageView img = new ImageView(getActivity());
-			Button btn = new Button(getActivity());
-			for(int j=0;j<strategies.length;j++){
-				if(recommend.get(i).equals(strategies[j])){
-					text.setText(strategies[j]);
-					String name_no_txt = strategies[j].substring(0, strategies[j].length()-4);
-					img.setImageResource(getResources().getIdentifier(name_no_txt, "drawable", getActivity().getPackageName()));
-					btn.setText("OK");
-					final int tmp =j;
-					btn.setOnClickListener(new Button.OnClickListener(){ 
-			            @Override
-			            public void onClick(View v) {
-			                // TODO Auto-generated method stub
-			            	File dir = getActivity().getBaseContext().getExternalFilesDir(null);
-				        	File inFile = new File(dir, strategies[tmp]);
-				        	clear_record();
-				        	readStrategy(inFile);
-			            }        
-			        });  	
-				}
-			}
-			text.setTextSize(30);
-			text.setLayoutParams(textlp);
-			img.setLayoutParams(imglp);
-			linearLayout.addView(text);
-			linearLayout.addView(img);
-			linearLayout.addView(btn);
-		}
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setView(v);
-		builder.create().show();
-	
-	}
 
-	private Vector <String> load_Default_Strategies(){      
-
-		File dir = getActivity().getBaseContext().getExternalFilesDir(null);
-		Log.d("warning", String.valueOf(dir));
-		File inFile = null;
-    	File Files[]= dir.listFiles();
-    	Vector <String> output = new Vector();
-    	int DTW_Threshold=15;
-    	
-    	for(int j = 0;j<Files.length;j++){
-    		String data = readFromFile(Files[j]);
-    		String [] sData=data.split("\n");
-    		p1Recommend.clear_all();
-			p2Recommend.clear_all();
-			p3Recommend.clear_all();
-			p4Recommend.clear_all();
-			p5Recommend.clear_all();
-			bRecommend.clear_all();
-    		for(int i =0;i<sData.length;i++){
-    		//?sPlayer??road
-    			
-    			if(sData[i].equals("P1")){
-    				i++;
-    				while(!sData[i].equals("---")){
-    					p1Recommend.setRoad(Integer.parseInt(sData[i]));
-    					i++;
-    				}
-    			}
-    			if(sData[i].equals("P2")){
-    				i++;
-    				while(!sData[i].equals("---")){
-    					p2Recommend.setRoad(Integer.parseInt(sData[i]));
-    					i++;
-    				}
-    			}
-    			if(sData[i].equals("P3")){
-    				i++;
-    				while(!sData[i].equals("---")){
-    					p3Recommend.setRoad(Integer.parseInt(sData[i]));
-    					i++;
-    				}
-    			}
-    			if(sData[i].equals("P4")){
-    				i++;
-    				while(!sData[i].equals("---")){
-    					p4Recommend.setRoad(Integer.parseInt(sData[i]));
-    					i++;
-    				}
-    			}
-    			if(sData[i].equals("P5")){
-    				i++;
-    				while(!sData[i].equals("---")){
-    					p5Recommend.setRoad(Integer.parseInt(sData[i]));
-    					i++;
-    				}
-    			}
-    			if(sData[i].equals("B")){
-    				i++;
-    				while(!sData[i].equals("---")){
-    					bRecommend.setRoad(Integer.parseInt(sData[i]));
-    					i++;
-    				}
-    			}
-    		}//sData's for loop
-
-    		if(recommendSwitch == 0){
-    			if(DTW(P1.getCmpltRoad(), p1Recommend.getCmpltRoad())< EDRThresholdPersent ||
-        				DTW(P2.getCmpltRoad(), p2Recommend.getCmpltRoad())< EDRThresholdPersent ||
-        				DTW(P3.getCmpltRoad(), p3Recommend.getCmpltRoad())< EDRThresholdPersent ||
-        				DTW(P4.getCmpltRoad(), p4Recommend.getCmpltRoad())< EDRThresholdPersent ||
-        				DTW(P5.getCmpltRoad(), p5Recommend.getCmpltRoad())< EDRThresholdPersent ||
-        				DTW(B.getCmpltRoad(), bRecommend.getCmpltRoad())< EDRThresholdPersent){
-        			//Log,i("reco", "Maybe Can recommend this strategy!"+Files[j].getName());
-        			output.add(Files[j].getName());
-        		}
-        		Log.d("reco", "DTW = "+Double.toString(DTW(P1.getCmpltRoad(), p1Recommend.getCmpltRoad())));
-        		/*
-        		if(Files[j].getName().equals("right_up.txt")){
-        			reco_result_textview.setText(String.format("%.2f", (DTW(P1.getCmpltRoad(),P1_recommend.getCmpltRoad()))));
-        		}*/
-        		
-            	Log.d("reco", "DTW = "+Double.toString(DTW(P2.getCmpltRoad(), p2Recommend.getCmpltRoad())));
-            	Log.d("reco", "DTW = "+Double.toString(DTW(P3.getCmpltRoad(), p3Recommend.getCmpltRoad())));
-            	Log.d("reco", "DTW = "+Double.toString(DTW(P4.getCmpltRoad(), p4Recommend.getCmpltRoad())));
-            	Log.d("reco", "DTW = "+Double.toString(DTW(P5.getCmpltRoad(), p5Recommend.getCmpltRoad())));
-            	Log.d("reco", "DTW = "+Double.toString(DTW(B.getCmpltRoad(), bRecommend.getCmpltRoad())));
-            	
-    		}
-    		else{
-    			if(EDR(P1.getCmpltRoad(), p1Recommend.getCmpltRoad())<EDR_threshold(P1.getRoadSize(), p1Recommend.getRoadSize()) ||
-        				EDR(P2.getCmpltRoad(), p2Recommend.getCmpltRoad())<EDR_threshold(P2.getRoadSize(), p2Recommend.getRoadSize()) ||
-        				EDR(P3.getCmpltRoad(), p3Recommend.getCmpltRoad())<EDR_threshold(P3.getRoadSize(), p3Recommend.getRoadSize()) ||
-        				EDR(P4.getCmpltRoad(), p4Recommend.getCmpltRoad())<EDR_threshold(P4.getRoadSize(), p4Recommend.getRoadSize()) ||
-        				EDR(P5.getCmpltRoad(), p5Recommend.getCmpltRoad())<EDR_threshold(P5.getRoadSize(), p5Recommend.getRoadSize()) ||
-        				EDR(B.getCmpltRoad(), bRecommend.getCmpltRoad())<EDR_threshold(B.getRoadSize(), bRecommend.getRoadSize())){
-        			//Log,i("reco", "Maybe Can recommend this strategy!"+Files[j].getName());
-        			output.add(Files[j].getName());
-        		}
-    			
-    			Log.d("reco", "P1 size = "+Integer.toString(P1.getRoadSize())+", P1_reco size = "+Integer.toString(p1Recommend.getRoadSize()));
-        		Log.d("reco", "EDR = "+Double.toString(EDR(P1.getCmpltRoad(), p1Recommend.getCmpltRoad()))+"EDR_Threshold = "+Double.toString(EDR_threshold(P1.getRoadSize(), p1Recommend.getRoadSize())));
-        		/*if(Files[j].getName().equals("right_up.txt")){
-        			reco_result_textview.setText(String.format("%.2f", (EDR(P1.getCmpltRoad(),P1_recommend.getCmpltRoad()))));
-        			EDR_path_size_LinearLayout.setVisibility(View.VISIBLE);
-        			
-        			double EDR_result=EDR(P1.getCmpltRoad(),P1_recommend.getCmpltRoad());
-        			double persent;
-        			int tmp;
-        			int tmp_size = P1.getRoadSize();
-        			int tmp_reco_size = P1_recommend.getRoadSize();
-        			tmp = Math.abs(tmp_size - tmp_reco_size);
-        			if(tmp_size < tmp_reco_size){
-        				 persent = (EDR_result - tmp);
-        			}
-        			else{
-        				persent = (EDR_result - tmp);
-        			}
-        			
-        			
-        			
-        			EDR_path_size.setText(String.format("%.2f", persent));
-        			
-        		}*/
-        		Log.d("reco", "P2 size = "+Integer.toString(P2.getRoadSize())+", P2_reco size = "+Integer.toString(p2Recommend.getRoadSize()));
-        		Log.d("reco", "EDR = "+Double.toString(EDR(P2.getCmpltRoad(), p2Recommend.getCmpltRoad()))+"EDR_Threshold = "+Double.toString(EDR_threshold(P2.getRoadSize(), p2Recommend.getRoadSize())));
-        		Log.d("reco", "P3 size = "+Integer.toString(P3.getRoadSize())+", P3_reco size = "+Integer.toString(p3Recommend.getRoadSize()));
-        		Log.d("reco", "EDR = "+Double.toString(EDR(P3.getCmpltRoad(), p3Recommend.getCmpltRoad()))+"EDR_Threshold = "+Double.toString(EDR_threshold(P3.getRoadSize(), p3Recommend.getRoadSize())));
-                Log.d("reco", "EDR = "+Double.toString(EDR(P4.getCmpltRoad(), p4Recommend.getCmpltRoad()))+"EDR_Threshold = "+Double.toString(EDR_threshold(P4.getRoadSize(), p4Recommend.getRoadSize())));
-                Log.d("reco", "EDR = "+Double.toString(EDR(P5.getCmpltRoad(), p5Recommend.getCmpltRoad()))+"EDR_Threshold = "+Double.toString(EDR_threshold(P5.getRoadSize(), p5Recommend.getRoadSize())));
-                Log.d("reco", "EDR = "+Double.toString(EDR(B.getCmpltRoad(), bRecommend.getCmpltRoad()))+"EDR_Threshold = "+Double.toString(EDR_threshold(B.getRoadSize(), bRecommend.getRoadSize())));
-                
-    		}
-    	}//File_Names's for loop
-    	return output;
-	}
-	
-	private OnClickListener recommend_button_Listener = new OnClickListener(){//開始/停止錄製
-    	@Override
-    	public void onClick(View v) {
-    		
-    		if(recommendButton.isChecked()){
-    			recommendSwitch =1;
-    		}
-    		else{
-    			recommendSwitch = 0;
-    		}
-    	}
-    };
-
-	public double DTW(Vector<Integer> road_a,Vector<Integer> road_b){
-		
-		Vector<Integer> split_a = new Vector();
-		Vector<Integer> split_b = new Vector();
-		
-		Vector<Double> nor_a=new Vector();
-		Vector<Double> nor_b=new Vector();
-		
-		Vector<MyPoint> finish_a = new Vector();
-		Vector<MyPoint> finish_b = new Vector();
-		
-		//save pure road without 0
-		if(road_a.size()==0){
-			return 100;
-		}
-		else if(road_b.size()==0){
-			return 100;
-		}
-		else{
-			
-			int count_0=0;
-			for(int i=0;i<road_a.size();i++){
-				if(road_a.get(i)!=0){
-					split_a.add(road_a.get(i));
-				}
-				else{
-					count_0++;
-				}
-			}
-			
-			count_0=0;
-			for(int i=0;i<road_b.size();i++){
-				if(road_b.get(i)!=0){
-					split_b.add(road_b.get(i));
-				}
-				else{
-					count_0++;
-				}
-			}
-			
-			nor_a=normalization(split_a);
-			nor_b=normalization(split_b);
-			
-			for(int i=0;i<nor_a.size();i++){
-				MyPoint tmp = new MyPoint();
-				tmp.x=nor_a.get(i);
-				tmp.y=nor_a.get(i+1);
-				finish_a.add(tmp);
-				i=i+1;
-			}
-			
-			for(int i=0;i<nor_b.size();i++){
-				MyPoint tmp = new MyPoint();
-				tmp.x=nor_b.get(i);
-				tmp.y=nor_b.get(i+1);
-				finish_b.add(tmp);
-				i=i+1;
-			}
-			double D[][]=new double[finish_a.size()][finish_b.size()];
-			
-			for(int i=0;i<finish_a.size();i++){
-				for(int j=0;j<finish_b.size();j++){
-					if((i-1)<0 || (j-1)<0){
-						D[i][j]=Dist(finish_a.get(i).x,finish_a.get(i).y,finish_b.get(j).x,finish_b.get(j).y);
-					}
-					else{
-						D[i][j]=Dist(finish_a.get(i).x,finish_a.get(i).y,finish_b.get(j).x,finish_b.get(j).y)+Math.min(D[i-1][j],Math.min(D[i][j-1],D[i-1][j-1]));
-					}
-					//Log.d("debug", "D["+Integer.toString(i)+"]["+Integer.toString(j)+"]= "+Double.toString(D[i][j]));
-				}
-			}
-			return D[(finish_a.size())-1][(finish_b.size())-1];
-		}
-		
-	}
-	
-	public double EDR_threshold(int road1_size,int road2_size){  
-		double result=0;
-		
-		//Log,i("reco", "EDR_Threshold_Persent = "+EDR_Threshold_Persent);
-		
-		if(road1_size==0 && road2_size==0){
-			return 1;
-		}
-		else if(road1_size==0){
-			return road2_size-10;
-		}
-		else if(road2_size==0){
-			return road1_size-10;
-		}
-			
-		if(road1_size==road2_size){
-			return road1_size* EDRThresholdPersent;
-		}
-		else if(road1_size>road2_size){
-			double EDR_basic=0;
-			EDR_basic = road1_size-road2_size;
-			result = EDR_basic+((road1_size-EDR_basic)* EDRThresholdPersent);
-		}
-		else if(road1_size<road2_size){
-			double EDR_basic=0;
-			EDR_basic = road2_size-road1_size;
-			result = EDR_basic+((road2_size-EDR_basic)* EDRThresholdPersent);
-		}
-		else{
-			//Log,i("reco", "None of the situations?!");
-		}
-		
-		return result;
-	}
-	
-	public double EDR(Vector<Integer> road_a,Vector<Integer> road_b){   
-		
-		Vector<Integer> split_a = new Vector();
-		Vector<Integer> split_b = new Vector();
-		
-		Vector<Double> nor_a=new Vector();
-		Vector<Double> nor_b=new Vector();
-		
-		Vector<MyPoint> finish_a = new Vector();
-		Vector<MyPoint> finish_b = new Vector();
-		
-		//save pure road without 0
-		if(road_a.size()==0 && road_b.size()==0){
-			Log.d("Similarity", "Both = 0");
-			return 100;
-		}
-		else if(road_a.size()==0){
-			Log.d("Similarity", "road_a size = 0");
-			return road_b.size();
-		}
-		else if(road_b.size()==0){
-			Log.d("Similarity", "road_b size = 0");
-			return road_a.size();
-		}
-		else{
-			Log.d("Similarity", "Both != 0");
-			int count_0=0;
-			for(int i=0;i<road_a.size();i++){
-				if(road_a.get(i)!=0){
-					split_a.add(road_a.get(i));
-				}
-				else{
-					count_0++;
-				}
-			}
-			
-			count_0=0;
-			for(int i=0;i<road_b.size();i++){
-				if(road_b.get(i)!=0){
-					split_b.add(road_b.get(i));
-				}
-				else{
-					count_0++;
-				}
-			}
-			
-			nor_a=normalization(split_a);
-			nor_b=normalization(split_b);
-			
-			for(int i=0;i<nor_a.size();i++){
-				MyPoint tmp = new MyPoint();
-				tmp.x=nor_a.get(i);
-				tmp.y=nor_a.get(i+1);
-				finish_a.add(tmp);
-				
-				/*******test**********/
-				finish_b.add(tmp);
-				
-				/*********************/
-				
-				
-				i=i+1;
-			}
-			
-			for(int i=0;i<nor_b.size();i++){
-				MyPoint tmp = new MyPoint();
-				tmp.x=nor_b.get(i);
-				tmp.y=nor_b.get(i+1);
-				finish_b.add(tmp);
-				i=i+1;
-			}
-			
-			double D[][]=new double[finish_a.size()][finish_b.size()];
-			int subcost=0;
-			double threshold = 0.1;
-			for(int i=0;i<finish_a.size();i++){
-				for(int j=0;j<finish_b.size();j++){
-					if(i==0 && j==0){
-						D[i][j]=0;
-					}
-					else if(i==0){
-						D[i][j]=j;
-					}
-					else if(j==0){
-						D[i][j]=i;
-					}
-				}
-			}
-			
-			
-			for(int i=1;i<finish_a.size();i++){
-				for(int j=1;j<finish_b.size();j++){
-					/*if(i==0 && j==0){
-						D[i][j]=0;
-					}
-					else if(i==0){
-						D[i][j]=j;
-					}
-					else if(j==0){
-						D[i][j]=i;
-					}*/
-						
-					if((Math.abs(finish_a.get(i).x-finish_b.get(j).x)<=threshold) && ((Math.abs(finish_a.get(i).y-finish_b.get(j).y)<=threshold))){
-						subcost = 0;
-						//Log.d("Similarity","Subcost = 0");
-					}
-					else{
-						subcost = 1;
-						//Log.d("Similarity","Subcost = 1");
-					}
-					D[i][j]=+Math.min(D[i-1][j]+1,Math.min(D[i][j-1]+1,D[i-1][j-1]+subcost));
-					
-					if(j==finish_b.size()-1){
-						String tmp ="";
-						for(int k=0;k<j+1;k++){
-							tmp+=Double.toString(D[i][k]);
-							tmp+=" ";
-						}
-						//Log.d("Similarity","i= "+i+" :"+tmp);
-					}
-				}
-			}
-			return D[(finish_a.size())-1][(finish_b.size())-1];
-		}
-		
-	}
-	
-
-	public Vector<MyPoint> processSimiRoad(Vector<Integer> inputRoad){
-
-		Vector<Integer> splitRoad = new Vector<Integer>();
-		Vector<Double> norRoad = new Vector<Double>();
-		Vector<MyPoint> finishRoad = new Vector<MyPoint>();
-
-		int count_0=0;
-		for(int i=0;i<inputRoad.size();i++){
-			if(inputRoad.get(i)!=0){
-				splitRoad.add(inputRoad.get(i));
-			}
-			else{
-				count_0++;
-				//Log.d("debug", "count_0 =  "+Integer.toString(count_0));
-			}
-		}
-
-		norRoad=normalization(splitRoad);
-		for(int i=0;i<norRoad.size();i++){
-			MyPoint tmp = new MyPoint();
-			tmp.x=norRoad.get(i);
-			tmp.y=norRoad.get(i+1);
-			finishRoad.add(tmp);
-			i=i+1;
-		}
-		return finishRoad;
-	}
-
-	public double Do_EDR(Vector<Integer> road_a,Vector<Integer> road_b){
-
-		Vector<MyPoint> input_road_a = new Vector<MyPoint>();
-		Vector<MyPoint> input_road_b = new Vector<MyPoint>();
-
-		if(road_a.size()!=0)
-			input_road_a = processSimiRoad(road_a);
-		if(road_b.size()!=0)
-			input_road_b = processSimiRoad(road_b);
-		return EDR2(input_road_a,input_road_b);
-
-	}
-
-	public double EDR2(Vector<MyPoint> road_a, Vector<MyPoint> road_b){
-				int subcost=0;
-				double threshold = 1;
-				double result=0;
-
-				if(road_a.size()==0 && road_b.size()==0){
-					return 100;
-				}
-				if(road_a.size()==0){
-					return road_b.size();
-				}
-				else if(road_b.size()==0){
-					return road_a.size();
-				}
-				else{
-					Vector<MyPoint> rest_a = new Vector<MyPoint>();
-					Vector<MyPoint> rest_b = new Vector<MyPoint>();
-					for(int i = 0;i<road_a.size()-1;i++){
-						rest_a.add(road_a.get(i));
-					}
-					for(int i = 0;i<road_b.size()-1;i++){
-						rest_b.add(road_b.get(i));
-					}
-					if((Math.abs(road_a.get(road_a.size()-1).x-road_b.get(road_b.size()-1).x)<=threshold) && ((Math.abs(road_a.get(road_a.size()-1).y-road_b.get(road_b.size()-1).y)<=threshold))){
-						subcost = 0;
-						//Log.d("reco","Subcost = 0");
-					}
-					else{
-						subcost = 1;
-						//Log.d("reco","Subcost = 1");
-					}
-					result = Math.min(EDR2(rest_a,rest_b)+subcost,Math.min(EDR2(rest_a,road_b)+1, EDR2(road_a,rest_b)+1));
-					return result;
-				}
-	}
-
-	public double Dist(int xi,int yi,int xj,int yj){
-
-		double dist=0;
-		int x = Math.abs(xi-xj);
-		//Log.d("debug", "abs x =  "+Integer.toString(x));
-		int y = Math.abs(yi-yj);
-		//Log.d("debug", "abs y =  "+Integer.toString(y));
-		
-		dist = Math.sqrt((x*x)+(y*y));
-		//Log.d("debug", "dist =  "+Double.toString(dist));
-		
-		return dist;
-	}
-	
-	public double Dist(double xi,double yi,double xj,double yj){
-
-		double dist=0;
-		double x = Math.abs(xi-xj);
-		//Log.d("debug", "abs x =  "+Integer.toString(x));
-		double y = Math.abs(yi-yj);
-		//Log.d("debug", "abs y =  "+Integer.toString(y));
-		
-		dist = Math.sqrt((x*x)+(y*y));
-		//Log.d("debug", "dist =  "+Double.toString(dist));
-		
-		return dist;
-	}
-	
-	public Vector<Double> normalization(Vector<Integer> road){
-		int xSum=0;
-		int ySum=0;
-		float xMean=0;
-		float yMean=0;
-		int xSumTmp=0;
-		int ySumTmp=0;
-		double xStandardDeviation=0;
-		double yStandardDeviation=0;
-		
-		Vector<Double> nRoad=new Vector();
-		
-		/*x*/
-		for(int i=0;i<road.size();i=i+2){
-			xSum+=road.get(i);
-		}
-		xMean=xSum/(road.size()/2);
-		
-		for(int i=0;i<road.size();i=i+2){
-			xSumTmp+=(road.get(i)-xMean)*(road.get(i)-xMean);
-		}
-		xStandardDeviation=Math.sqrt(xSumTmp/(road.size()/2));
-		
-		/*y*/
-		for(int i=1;i<road.size();i=i+2){
-			ySum+=road.get(i);
-		}
-		yMean=ySum/(road.size()/2);
-		
-		for(int i=1;i<road.size();i=i+2){
-			ySumTmp+=(road.get(i)-yMean)*(road.get(i)-yMean);
-		}
-		yStandardDeviation=Math.sqrt(ySumTmp/(road.size()/2));
-		
-		
-		/*save new normalized road*/
-		for(int i=0;i<road.size();i++){
-			nRoad.add((road.get(i)-xMean)/xStandardDeviation);
-			i=i+1;
-			nRoad.add((road.get(i)-yMean)/yStandardDeviation);
-		}
-		
-		
-		
-		return nRoad;
-	}
-	
 	/**************************************************************************/
     //TODO 儲存、載入戰術(按鈕的判斷在ButtonDraw.java裡面)
 	/**************************************************************************/
@@ -2247,11 +944,10 @@ public class MainFragment extends Fragment{
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     btnTacticSave.setBackgroundResource(R.drawable.btn_save_clicked);
                     dialog.dismiss();
-                    save_dialog();
+                    saveDialog();
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     btnTacticSave.setBackgroundResource(R.drawable.btn_save);
-
                 }
                 return true;
             }
@@ -2264,7 +960,7 @@ public class MainFragment extends Fragment{
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     btnTacticLoad.setBackgroundResource(R.drawable.btn_load_clicked);
                     dialog.dismiss();
-                    load_dialog();
+                    loadDialog();
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     btnTacticLoad.setBackgroundResource(R.drawable.btn_load);
@@ -2275,7 +971,7 @@ public class MainFragment extends Fragment{
 
     }
 
-	public void save_dialog(){
+	public void saveDialog(){
     	
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		final View myv = inflater.inflate(R.layout.save_to_strategy_layout, null);//把xml當成view來用，就能加入alert dialog裡面了
@@ -2324,54 +1020,32 @@ public class MainFragment extends Fragment{
                         //將資料寫入檔案中，若 package name 為 com.myapp
                         //就會產生 /data/data/com.myapp/files/test.txt 檔案
 
-                        pInitialPosition.clear();
-                        pInitialRotate.clear();
-
                         //region 2018.07.12 Version.2 以json格式來存檔
 						JSONObject save_strategy = new JSONObject();
 						try {
 							JSONArray tmp_arr = new JSONArray();
 							//region Initial_Position
-							tmp_arr.put(p1InitialPositionX);
-							tmp_arr.put(p1InitialPositionY);
-							tmp_arr.put(p2InitialPositionX);
-							tmp_arr.put(p2InitialPositionY);
-							tmp_arr.put(p3InitialPositionX);
-							tmp_arr.put(p3InitialPositionY);
-							tmp_arr.put(p4InitialPositionX);
-							tmp_arr.put(p4InitialPositionY);
-							tmp_arr.put(p5InitialPositionX);
-							tmp_arr.put(p5InitialPositionY);
+							for(int i=0;i<5;i++){
+								tmp_arr.put(players.get(i).initialPosition.x);
+								tmp_arr.put(players.get(i).initialPosition.y);
+							}
 
-							tmp_arr.put(d1InitialPositionX);
-							tmp_arr.put(d1InitialPositionY);
-							tmp_arr.put(d2InitialPositionX);
-							tmp_arr.put(d2InitialPositionY);
-							tmp_arr.put(d3InitialPositionX);
-							tmp_arr.put(d3InitialPositionY);
-							tmp_arr.put(d4InitialPositionX);
-							tmp_arr.put(d4InitialPositionY);
-							tmp_arr.put(d5InitialPositionX);
-							tmp_arr.put(d5InitialPositionY);
+							for(int i=0;i<5;i++){
+								tmp_arr.put(defenders.get(i).initialPosition.x);
+								tmp_arr.put(defenders.get(i).initialPosition.y);
+							}
 
-							tmp_arr.put(bInitialPositionX);
-							tmp_arr.put(bInitialPositionY);
+							tmp_arr.put(ball.initialPosition.x);
+							tmp_arr.put(ball.initialPosition.y);
 
 							save_strategy.put("Initial_Position", tmp_arr);
 							//endregion
 							//region Initial_Rotation
 							tmp_arr = new JSONArray();
-							tmp_arr.put(initialP1Rotate);
-							tmp_arr.put(initialP2Rotate);
-							tmp_arr.put(initialP3Rotate);
-							tmp_arr.put(initialP4Rotate);
-							tmp_arr.put(initialP5Rotate);
-
-							tmp_arr.put(initialD1Rotate);
-							tmp_arr.put(initialD2Rotate);
-							tmp_arr.put(initialD3Rotate);
-							tmp_arr.put(initialD4Rotate);
-							tmp_arr.put(initialD5Rotate);
+							for(int i=0;i<5;i++)
+								tmp_arr.put(players.get(i).initialRotation);
+							for(int i=0;i<5;i++)
+								tmp_arr.put(defenders.get(i).initialRotation);
 
 							save_strategy.put("Initial_Rotation", tmp_arr);
 							//endregion
@@ -2382,154 +1056,33 @@ public class MainFragment extends Fragment{
 
 							//region Player road sequence
 							tmp_arr = new JSONArray();
-							for(int i=0;i<B.getRoadSize();i++){
-								tmp_arr.put( String.valueOf(B.handleGetRoad(i) ));
+							for(int i=0;i<ball.getRoadSize();i++){
+								tmp_arr.put( String.valueOf(ball.handleGetRoad(i) ));
 							}
 							if(tmp_arr.length() > 0)
 								save_strategy.put("B", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P1.getRoadSize();i++){
-								tmp_arr.put( String.valueOf(P1.handleGetRoad(i)));
+							for(int id=0;id<5;id++){
+								tmp_arr = new JSONArray();
+								for(int i=0;i<players.get(id).getRoadSize();i++)
+									tmp_arr.put( String.valueOf(players.get(id).handleGetRoad(i)));
+								if(tmp_arr.length() > 0)
+									save_strategy.put("P"+(id+1), tmp_arr);
+								tmp_arr = new JSONArray();
+								for(int i=0;i<defenders.get(id).getRoadSize();i++)
+									tmp_arr.put( String.valueOf(defenders.get(id).handleGetRoad(i)));
+								if(tmp_arr.length() > 0)
+									save_strategy.put("D"+(id+1), tmp_arr);
+								tmp_arr = new JSONArray();
+								for(int i=0;i<players.get(id).getRotationSize();i++)
+									tmp_arr.put( String.valueOf(players.get(id).getMyRotation(i)));
+								if(tmp_arr.length() > 0)
+									save_strategy.put("P"+(id+1)+"_Rotation", tmp_arr);
+								tmp_arr = new JSONArray();
+								for(int i=0;i<defenders.get(id).getRotationSize();i++)
+									tmp_arr.put( String.valueOf(defenders.get(id).getMyRotation(i)));
+								if(tmp_arr.length() > 0)
+									save_strategy.put("D"+(id+1)+"_Rotation", tmp_arr);
 							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P1", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P2.getRoadSize();i++){
-								tmp_arr.put(  String.valueOf(P2.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P2", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P3.getRoadSize();i++){
-								tmp_arr.put(  String.valueOf(P3.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P3", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P4.getRoadSize();i++){
-								tmp_arr.put( String.valueOf(P4.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P4", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P5.getRoadSize();i++){
-								tmp_arr.put(String.valueOf(P5.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P5", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D1.getRoadSize();i++){
-								tmp_arr.put(String.valueOf(D1.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D1", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D2.getRoadSize();i++){
-								tmp_arr.put(String.valueOf(D2.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D2", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D3.getRoadSize();i++){
-								tmp_arr.put(String.valueOf(D3.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D3", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D4.getRoadSize();i++){
-								tmp_arr.put(String.valueOf(D4.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D4", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D5.getRoadSize();i++){
-								tmp_arr.put(String.valueOf(D5.handleGetRoad(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D5", tmp_arr);
-							//endregion
-
-							//region Player rotation sequence
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P1.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(P1.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P1_Rotation", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P2.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(P2.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P2_Rotation", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P3.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(P3.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P3_Rotation", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P4.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(P4.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P4_Rotation", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<P5.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(P5.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("P5_Rotation", tmp_arr);
-
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D1.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(D1.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D1_Rotation", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D2.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(D2.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D2_Rotation", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D3.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(D3.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D3_Rotation", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D4.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(D4.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D4_Rotation", tmp_arr);
-
-							tmp_arr = new JSONArray();
-							for(int i=0;i<D5.getRotation_size();i++){
-								tmp_arr.put( String.valueOf(D5.getMyRotation(i)));
-							}
-							if(tmp_arr.length() > 0)
-								save_strategy.put("D5_Rotation", tmp_arr);
 							//endregion
 
 						} catch(JSONException e){
@@ -2556,7 +1109,6 @@ public class MainFragment extends Fragment{
 
 								tmp_runbag.put("dribble_start_x", String.valueOf(runBags.get(i).getDribbleStartX()));
 								tmp_runbag.put("dribble_start_y", String.valueOf(runBags.get(i).getDribbleStartY()));
-
 								runline_array.put(tmp_runbag);
 							}
 							save_strategy.put("Runline", runline_array);
@@ -2576,341 +1128,7 @@ public class MainFragment extends Fragment{
 						}catch(Exception e){
 
 						}
-
 						//endregion
-
-                        //region Version.1 存檔 (已註解)
-/*
-                        //還要存Initial_Position
-                        if (P1_Initial_Position_x != -1) {
-                            P_Initial_Position.add(P1_Initial_Position_x);
-                            P_Initial_Position.add(P1_Initial_Position_y);
-                            tmp += "P1_Initial_Position\n";
-                            tmp += Integer.toString(P1_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(P1_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (P2_Initial_Position_x != -1) {
-                            P_Initial_Position.add(P2_Initial_Position_x);
-                            P_Initial_Position.add(P2_Initial_Position_y);
-                            tmp += "P2_Initial_Position\n";
-                            tmp += Integer.toString(P2_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(P2_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (P3_Initial_Position_x != -1) {
-                            P_Initial_Position.add(P3_Initial_Position_x);
-                            P_Initial_Position.add(P3_Initial_Position_y);
-                            tmp += "P3_Initial_Position\n";
-                            tmp += Integer.toString(P3_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(P3_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (P4_Initial_Position_x != -1) {
-                            P_Initial_Position.add(P4_Initial_Position_x);
-                            P_Initial_Position.add(P4_Initial_Position_y);
-                            tmp += "P4_Initial_Position\n";
-                            tmp += Integer.toString(P4_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(P4_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (P5_Initial_Position_x != -1) {
-                            P_Initial_Position.add(P5_Initial_Position_x);
-                            P_Initial_Position.add(P5_Initial_Position_y);
-                            tmp += "P5_Initial_Position\n";
-                            tmp += Integer.toString(P5_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(P5_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-
-                        if (B_Initial_Position_x != -1) {
-                            P_Initial_Position.add(B_Initial_Position_x);
-                            P_Initial_Position.add(B_Initial_Position_y);
-                            tmp += "B_Initial_Position\n";
-                            tmp += Integer.toString(B_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(B_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-
-                        if (D1_Initial_Position_x != -1) {
-                            P_Initial_Position.add(D1_Initial_Position_x);
-                            P_Initial_Position.add(D1_Initial_Position_y);
-                            tmp += "D1_Initial_Position\n";
-                            tmp += Integer.toString(D1_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(D1_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (D2_Initial_Position_x != -1) {
-                            P_Initial_Position.add(D2_Initial_Position_x);
-                            P_Initial_Position.add(D2_Initial_Position_y);
-                            tmp += "D2_Initial_Position\n";
-                            tmp += Integer.toString(D2_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(D2_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (D3_Initial_Position_x != -1) {
-                            P_Initial_Position.add(D3_Initial_Position_x);
-                            P_Initial_Position.add(D3_Initial_Position_y);
-                            tmp += "D3_Initial_Position\n";
-                            tmp += Integer.toString(D3_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(D3_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (D4_Initial_Position_x != -1) {
-                            P_Initial_Position.add(D4_Initial_Position_x);
-                            P_Initial_Position.add(D4_Initial_Position_y);
-                            tmp += "D4_Initial_Position\n";
-                            tmp += Integer.toString(D4_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(D4_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (D5_Initial_Position_x != -1) {
-                            P_Initial_Position.add(D5_Initial_Position_x);
-                            P_Initial_Position.add(D5_Initial_Position_y);
-                            tmp += "D5_Initial_Position\n";
-                            tmp += Integer.toString(D5_Initial_Position_x) + "\n";
-                            tmp += Integer.toString(D5_Initial_Position_y) + "\n";
-                            tmp += "---\n";
-                        }
-
-
-                        if (initial_ball_num != 0) {
-                            tmp += "initial_ball_num\n";
-                            tmp += Integer.toString(initial_ball_num) + "\n";
-                            tmp += "---\n";
-                        }
-
-                        if (Initial_P1_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_P1_rotate);
-                            tmp += "Initial_P1_rotate\n";
-                            tmp += Integer.toString(Initial_P1_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (Initial_P2_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_P2_rotate);
-                            tmp += "Initial_P2_rotate\n";
-                            tmp += Integer.toString(Initial_P2_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (Initial_P3_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_P3_rotate);
-                            tmp += "Initial_P3_rotate\n";
-                            tmp += Integer.toString(Initial_P3_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (Initial_P4_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_P4_rotate);
-                            tmp += "Initial_P4_rotate\n";
-                            tmp += Integer.toString(Initial_P4_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (Initial_P5_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_P5_rotate);
-                            tmp += "Initial_P5_rotate\n";
-                            tmp += Integer.toString(Initial_P5_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-
-
-                        if (Initial_D1_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_D1_rotate);
-                            tmp += "Initial_D1_rotate\n";
-                            tmp += Integer.toString(Initial_D1_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (Initial_D2_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_D2_rotate);
-                            tmp += "Initial_D2_rotate\n";
-                            tmp += Integer.toString(Initial_D2_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (Initial_D3_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_D3_rotate);
-                            tmp += "Initial_D3_rotate\n";
-                            tmp += Integer.toString(Initial_D3_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (Initial_D4_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_D4_rotate);
-                            tmp += "Initial_D4_rotate\n";
-                            tmp += Integer.toString(Initial_D4_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-                        if (Initial_D5_rotate != -1) {
-                            P_Initial_Rotate.add(Initial_D5_rotate);
-                            tmp += "Initial_D5_rotate\n";
-                            tmp += Integer.toString(Initial_D5_rotate) + "\n";
-                            tmp += "---\n";
-                        }
-
-                        //?sroad
-                        if (P1.getRoadSize() != 0) {
-                            tmp += "P1\n";
-                            for (int i = 0; i < P1.getRoadSize(); i++) {
-                                tmp += Integer.toString(P1.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-
-                        if (P2.getRoadSize() != 0) {
-                            tmp += "P2\n";
-                            for (int i = 0; i < P2.getRoadSize(); i++) {
-                                tmp += Integer.toString(P2.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (P3.getRoadSize() != 0) {
-                            tmp += "P3\n";
-                            for (int i = 0; i < P3.getRoadSize(); i++) {
-                                tmp += Integer.toString(P3.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (P4.getRoadSize() != 0) {
-                            tmp += "P4\n";
-                            for (int i = 0; i < P4.getRoadSize(); i++) {
-                                tmp += Integer.toString(P4.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (P5.getRoadSize() != 0) {
-                            tmp += "P5\n";
-                            for (int i = 0; i < P5.getRoadSize(); i++) {
-                                tmp += Integer.toString(P5.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (B.getRoadSize() != 0) {
-                            tmp += "B\n";
-                            for (int i = 0; i < B.getRoadSize(); i++) {
-                                tmp += Integer.toString(B.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-
-                        if (D1.getRoadSize() != 0) {
-                            tmp += "D1\n";
-                            for (int i = 0; i < D1.getRoadSize(); i++) {
-                                tmp += Integer.toString(D1.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-
-                        if (D2.getRoadSize() != 0) {
-                            tmp += "D2\n";
-                            for (int i = 0; i < D2.getRoadSize(); i++) {
-                                tmp += Integer.toString(D2.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (D3.getRoadSize() != 0) {
-                            tmp += "D3\n";
-                            for (int i = 0; i < D3.getRoadSize(); i++) {
-                                tmp += Integer.toString(D3.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (D4.getRoadSize() != 0) {
-                            tmp += "D4\n";
-                            for (int i = 0; i < D4.getRoadSize(); i++) {
-                                tmp += Integer.toString(D4.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (D5.getRoadSize() != 0) {
-                            tmp += "D5\n";
-                            for (int i = 0; i < D5.getRoadSize(); i++) {
-                                tmp += Integer.toString(D5.handleGetRoad(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-
-                        //Rotation
-                        if (P1.getRotation_size() != 0) {
-                            tmp += "P1_rotation\n";
-                            for (int i = 0; i < P1.getRotation_size(); i++) {
-                                tmp += Integer.toString(P1.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-
-                        if (P2.getRotation_size() != 0) {
-                            tmp += "P2_rotation\n";
-                            for (int i = 0; i < P2.getRotation_size(); i++) {
-                                tmp += Integer.toString(P2.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (P3.getRotation_size() != 0) {
-                            tmp += "P3_rotation\n";
-                            for (int i = 0; i < P3.getRotation_size(); i++) {
-                                tmp += Integer.toString(P3.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (P4.getRotation_size() != 0) {
-                            tmp += "P4_rotation\n";
-                            for (int i = 0; i < P4.getRotation_size(); i++) {
-                                tmp += Integer.toString(P4.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (P5.getRotation_size() != 0) {
-                            tmp += "P5_rotation\n";
-                            for (int i = 0; i < P5.getRotation_size(); i++) {
-                                tmp += Integer.toString(P5.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-
-                        if (D1.getRotation_size() != 0) {
-                            tmp += "D1_rotation\n";
-                            for (int i = 0; i < D1.getRotation_size(); i++) {
-                                tmp += Integer.toString(D1.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-
-                        if (D2.getRotation_size() != 0) {
-                            tmp += "D2_rotation\n";
-                            for (int i = 0; i < D2.getRotation_size(); i++) {
-                                tmp += Integer.toString(D2.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (D3.getRotation_size() != 0) {
-                            tmp += "D3_rotation\n";
-                            for (int i = 0; i < D3.getRotation_size(); i++) {
-                                tmp += Integer.toString(D3.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (D4.getRotation_size() != 0) {
-                            tmp += "D4_rotation\n";
-                            for (int i = 0; i < D4.getRotation_size(); i++) {
-                                tmp += Integer.toString(D4.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-                        if (D5.getRotation_size() != 0) {
-                            tmp += "D5_rotation\n";
-                            for (int i = 0; i < D5.getRotation_size(); i++) {
-                                tmp += Integer.toString(D5.getMyRotation(i)) + "\n";
-                            }
-                            tmp += "---\n";
-                        }
-
-
-                        //sRunBag
-                        tmp += "RunBag\n";
-                        for (int i = 0; i < RunLine.size(); i++) {
-                            tmp += RunLine.get(i).getRunBagInfo() + "\n";
-                            tmp += "---\n";
-                        }
-                        //writeToFile(outFile, tmp);
-*/
-                        //endregion ()
-
                         dialog.dismiss();
 
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -2940,7 +1158,7 @@ public class MainFragment extends Fragment{
 	    }
 	}
     
-	public void load_dialog(){
+	public void loadDialog(){
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View myv = inflater.inflate(R.layout.load_from_strategy_layout, null);//把xml當成view來用，就能加入alert dialog裡面了
 
@@ -3018,7 +1236,6 @@ public class MainFragment extends Fragment{
 			public View getView(int postion, View convertView, ViewGroup parent){
 				TextView tv = (TextView) super.getView(postion, convertView, parent);
 				tv.setGravity(Gravity.CENTER);
-
         		return tv;
 			}
 		};
@@ -3060,7 +1277,7 @@ public class MainFragment extends Fragment{
 				//Log.d("warning", new Long(l).toString());
 				//先清除之前的record
 				clearPaint();
-				clear_record();
+				clearRecord();
 
 				File dir = getActivity().getBaseContext().getExternalFilesDir(null);
 				String current_select_tactic = tactic_in_category.get(selectCategoryId).get(new Long(l).intValue()) + "_" + String.valueOf(selectCategoryId)+".json";
@@ -3069,7 +1286,7 @@ public class MainFragment extends Fragment{
 				readStrategy(inFile);
 				playerMoveToStartPosition();
 				//TODO:應該要改成可以知道現在是使用哪種defender資料
-				if(d1InitialPositionX == -1)
+				if(defenders.get(0).initialPosition.x == -1)
 					hasQueryDefenderFromServer = false;
 				else
 					hasQueryDefenderFromServer = true;
@@ -3132,59 +1349,30 @@ public class MainFragment extends Fragment{
 		FileInputStream stream;
 		try {
 			stream = new FileInputStream(fin);
-			String jsonStr = null;
+			String jsonString = null;
 			FileChannel fc = stream.getChannel();
 			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
+			jsonString = Charset.defaultCharset().decode(bb).toString();
 
-			pInitialRotate.clear();
-			pInitialPosition.clear();
+			JSONObject saveTacticJson = new JSONObject(jsonString);
+			initialBallNum = Integer.valueOf(saveTacticJson.getString("Initial_ball_holder"));
 
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			initialBallNum = Integer.valueOf(save_tactic_json.getString("Initial_ball_holder"));
-
-			//region Load Initial Position
-			JSONArray initial_array = save_tactic_json.getJSONArray("Initial_Position");
-			p1InitialPositionX = Integer.valueOf(initial_array.getString(0));
-			p1InitialPositionY = Integer.valueOf(initial_array.getString(1));
-			p2InitialPositionX = Integer.valueOf(initial_array.getString(2));
-			p2InitialPositionY = Integer.valueOf(initial_array.getString(3));
-			p3InitialPositionX = Integer.valueOf(initial_array.getString(4));
-			p3InitialPositionY = Integer.valueOf(initial_array.getString(5));
-			p4InitialPositionX = Integer.valueOf(initial_array.getString(6));
-			p4InitialPositionY = Integer.valueOf(initial_array.getString(7));
-			p5InitialPositionX = Integer.valueOf(initial_array.getString(8));
-			p5InitialPositionY = Integer.valueOf(initial_array.getString(9));
-
-			d1InitialPositionX = Integer.valueOf(initial_array.getString(10));
-			d1InitialPositionY = Integer.valueOf(initial_array.getString(11));
-			d2InitialPositionX = Integer.valueOf(initial_array.getString(12));
-			d2InitialPositionY = Integer.valueOf(initial_array.getString(13));
-			d3InitialPositionX = Integer.valueOf(initial_array.getString(14));
-			d3InitialPositionY = Integer.valueOf(initial_array.getString(15));
-			d4InitialPositionX = Integer.valueOf(initial_array.getString(16));
-			d4InitialPositionY = Integer.valueOf(initial_array.getString(17));
-			d5InitialPositionX = Integer.valueOf(initial_array.getString(18));
-			d5InitialPositionY = Integer.valueOf(initial_array.getString(19));
-
-			bInitialPositionX = Integer.valueOf(initial_array.getString(20));
-			bInitialPositionY = Integer.valueOf(initial_array.getString(21));
+			//region Load initial Position
+			JSONArray initialArray = saveTacticJson.getJSONArray("Initial_Position");
+			for(int i=0;i<5;i++){
+				players.get(i).initialPosition = new Point(Integer.valueOf(initialArray.getString(i*2)), Integer.valueOf(initialArray.getString(i*2+1)));
+				defenders.get(i).initialPosition = new Point(Integer.valueOf(initialArray.getString(i*2+10)), Integer.valueOf(initialArray.getString(i*2+10+1)));
+			}
+			ball.initialPosition = new Point(Integer.valueOf(initialArray.getString(20)), Integer.valueOf(initialArray.getString(21)));
 			//endregion
 
 			//region Load Initial Rotation
-			JSONArray initial_array_rotation = save_tactic_json.getJSONArray("Initial_Rotation");
-			initialP1Rotate = Integer.valueOf(initial_array_rotation.getString(0));
-			initialP2Rotate = Integer.valueOf(initial_array_rotation.getString(1));
-			initialP3Rotate = Integer.valueOf(initial_array_rotation.getString(2));
-			initialP4Rotate = Integer.valueOf(initial_array_rotation.getString(3));
-			initialP5Rotate = Integer.valueOf(initial_array_rotation.getString(4));
-
-			initialD1Rotate = Integer.valueOf(initial_array_rotation.getString(5));
-			initialD2Rotate = Integer.valueOf(initial_array_rotation.getString(6));
-			initialD3Rotate = Integer.valueOf(initial_array_rotation.getString(7));
-			initialD4Rotate = Integer.valueOf(initial_array_rotation.getString(8));
-			initialD5Rotate = Integer.valueOf(initial_array_rotation.getString(9));
+			JSONArray initialRotationArray = saveTacticJson.getJSONArray("Initial_Rotation");
+			for(int i=0;i<5;i++) {
+				players.get(i).initialRotation = Integer.valueOf(initialRotationArray.getString(i));
+				defenders.get(i).initialRotation = Integer.valueOf(initialRotationArray.getString(i+5));
+			}
 			//endregion
 
 		} catch (FileNotFoundException e) {
@@ -3198,469 +1386,55 @@ public class MainFragment extends Fragment{
 		//region Load Player road sequence
 		try{
 			stream = new FileInputStream(fin);
-			String jsonStr = null;
+			String jsonString = null;
 			FileChannel fc = stream.getChannel();
 			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
+			jsonString = Charset.defaultCharset().decode(bb).toString();
 
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P1");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P1.setRoad(Integer.valueOf(tmp_arr.getString(i)));
+			JSONObject saveTacticJson = new JSONObject(jsonString);
+			for(int i=0;i<5;i++){
+				if(saveTacticJson.has("P"+(i+1))){
+					JSONArray tmpArray = saveTacticJson.getJSONArray("P"+(i+1));
+					if(tmpArray != null) {
+						for (int j = 0; j < tmpArray.length(); j++)
+							players.get(i).setRoad(Integer.valueOf(tmpArray.getString(j)));
+					}
+				}
+				if(saveTacticJson.has("D"+(i+1))){
+					JSONArray tmpArray = saveTacticJson.getJSONArray("D"+(i+1));
+					if(tmpArray != null) {
+						for (int j = 0; j < tmpArray.length(); j++)
+							players.get(i).setRoad(Integer.valueOf(tmpArray.getString(j)));
+					}
+				}
+				if(saveTacticJson.has("P"+(i+1)+"_Rotation")){
+					JSONArray tmpArray = saveTacticJson.getJSONArray("P"+(i+1)+"_Rotation");
+					if(tmpArray != null) {
+						for (int j = 0; j < tmpArray.length(); j++)
+							players.get(i).setMyRotation(Integer.valueOf(tmpArray.getString(j)));
+					}
+				}
+				if(saveTacticJson.has("D"+(i+1)+"_Rotation")){
+					JSONArray tmpArray = saveTacticJson.getJSONArray("D"+(i+1)+"_Rotation");
+					if(tmpArray != null) {
+						for (int j = 0; j < tmpArray.length(); j++)
+							defenders.get(i).setMyRotation(Integer.valueOf(tmpArray.getString(j)));
+					}
 				}
 			}
-
+			if(saveTacticJson.has("B")){
+				JSONArray tmpArray = saveTacticJson.getJSONArray("B");
+				if(tmpArray != null) {
+					for (int j = 0; j < tmpArray.length(); j++)
+						ball.setRoad(Integer.valueOf(tmpArray.getString(j)));
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P2");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P2.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P3");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P3.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P4");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P4.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P5");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P5.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D1");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D1.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D2");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D2.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D3");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D3.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D4");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D4.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D5");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D5.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("B");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					B.setRoad(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		//endregion
-
-		//region Load Player Rotation
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P1_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P1.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P2_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P2.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P3_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P3.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P4_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P4.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("P5_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					P5.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D1_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D1.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D2_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D3.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D3_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D3.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D4_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D4.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		try{
-			stream = new FileInputStream(fin);
-			String jsonStr = null;
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
-
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray tmp_arr = save_tactic_json.getJSONArray("D5_Rotation");
-			if(tmp_arr != null) {
-				for (int i = 0; i < tmp_arr.length(); i++) {
-					D5.setMyRotation(Integer.valueOf(tmp_arr.getString(i)));
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
 
 		//endregion
 
@@ -3669,158 +1443,157 @@ public class MainFragment extends Fragment{
 		try {
 			stream = new FileInputStream(fin);
 
-			String jsonStr = null;
+			String jsonString = null;
 			FileChannel fc = stream.getChannel();
 			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 
-			jsonStr = Charset.defaultCharset().decode(bb).toString();
+			jsonString = Charset.defaultCharset().decode(bb).toString();
 
-			JSONObject save_tactic_json = new JSONObject(jsonStr);
-			JSONArray runLine = save_tactic_json.getJSONArray("Runline");
+			JSONObject saveTacticJson = new JSONObject(jsonString);
+			JSONArray runLine = saveTacticJson.getJSONArray("Runline");
 			TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-			int load_seekbar_tmp_id=0;
-			int x=0,y=0;
+			int loadSeekbarTmpId=0;
+			int x=0, y=0;
 			for(int i=0;i<runLine.length();i++){
-				JSONObject tmp_runBag = runLine.getJSONObject(i);
+				JSONObject tmpRunBag = runLine.getJSONObject(i);
 				RunBag tmp = new RunBag();
-				tmp.setStartTime(Integer.valueOf(tmp_runBag.getString("start_time")));
-				tmp.setHandler(tmp_runBag.getString("handler"));
-				tmp.setRoadStart(Integer.valueOf(tmp_runBag.getString("road_start")));
-				tmp.setRoadEnd(Integer.valueOf(tmp_runBag.getString("road_end")));
-				tmp.setDuration(Integer.valueOf(tmp_runBag.getString("duration")));
-				tmp.setBallNum(Integer.valueOf(tmp_runBag.getString("ball_num")));
-				tmp.setPathType(Integer.valueOf(tmp_runBag.getString("path_type")));
-				tmp.setScreenAngle(Float.valueOf(tmp_runBag.getString("screen_angle")));
-				tmp.setDribbleAngle(Float.valueOf(tmp_runBag.getString("dribble_angle")));
-				tmp.setDribbleLength(Float.valueOf(tmp_runBag.getString("dribble_length")));
+				tmp.setStartTime(Integer.valueOf(tmpRunBag.getString("start_time")));
+				tmp.setHandler(tmpRunBag.getString("handler"));
+				tmp.setRoadStart(Integer.valueOf(tmpRunBag.getString("road_start")));
+				tmp.setRoadEnd(Integer.valueOf(tmpRunBag.getString("road_end")));
+				tmp.setDuration(Integer.valueOf(tmpRunBag.getString("duration")));
+				tmp.setBallNum(Integer.valueOf(tmpRunBag.getString("ball_num")));
+				tmp.setPathType(Integer.valueOf(tmpRunBag.getString("path_type")));
+				tmp.setScreenAngle(Float.valueOf(tmpRunBag.getString("screen_angle")));
+				tmp.setDribbleAngle(Float.valueOf(tmpRunBag.getString("dribble_angle")));
+				tmp.setDribbleLength(Float.valueOf(tmpRunBag.getString("dribble_length")));
 
-				tmp.setDribbleStartX(Integer.valueOf(tmp_runBag.getString("dribble_start_x")));
-				tmp.setDribbleStartY(Integer.valueOf(tmp_runBag.getString("dribble_start_y")));
+				tmp.setDribbleStartX(Integer.valueOf(tmpRunBag.getString("dribble_start_x")));
+				tmp.setDribbleStartY(Integer.valueOf(tmpRunBag.getString("dribble_start_y")));
 
 				runBags.add(tmp);
 
 				//region 對應每讀一個Runbag，就會自動產生對應他順序的seekbar(用來調整時間點的bar條)
 
-				timefrag.setSeekBarId(load_seekbar_tmp_id);
+				timefrag.setSeekBarId(loadSeekbarTmpId);
 				if(tmp.getHandler().equals("P1_Handle")){
-					timefrag.createSeekbar(1,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(1,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 
 					// 在player icon所在的位置產生對應的順序標記
-					x = P1.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y = P1.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x = players.get(0).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y = players.get(0).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
-						mainwrapfrag.create_screen_bar(x, y, 1, tmp.getScreenAngle(), load_seekbar_tmp_id);
+						mainwrapfrag.create_screen_bar(x, y, 1, tmp.getScreenAngle(), loadSeekbarTmpId);
 					}else if(tmp.getPathType() == 2){
-						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 1, tmp.getDribbleAngle(), tmp.getDribbleLength(), load_seekbar_tmp_id);
+						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 1, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
-
 				}
 				else if(tmp.getHandler().equals("P2_Handle")){
-					timefrag.createSeekbar(2,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(2,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=P2.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=P2.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=players.get(1).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=players.get(1).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
-						mainwrapfrag.create_screen_bar(x, y, 2, tmp.getScreenAngle(), load_seekbar_tmp_id);
+						mainwrapfrag.create_screen_bar(x, y, 2, tmp.getScreenAngle(), loadSeekbarTmpId);
 					}else if(tmp.getPathType() == 2){
-						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 2, tmp.getDribbleAngle(), tmp.getDribbleLength(), load_seekbar_tmp_id);
+						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 2, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
 				}
 				else if(tmp.getHandler().equals("P3_Handle")){
-					timefrag.createSeekbar(3,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(3,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=P3.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=P3.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=players.get(2).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=players.get(2).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
-						mainwrapfrag.create_screen_bar(x, y, 3, tmp.getScreenAngle(), load_seekbar_tmp_id);
+						mainwrapfrag.create_screen_bar(x, y, 3, tmp.getScreenAngle(), loadSeekbarTmpId);
 					}
 					else if(tmp.getPathType() == 2){
-						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 2, tmp.getDribbleAngle(), tmp.getDribbleLength(), load_seekbar_tmp_id);
+						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 2, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
 				}
 				else if(tmp.getHandler().equals("P4_Handle")){
-					timefrag.createSeekbar(4,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(4,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=P4.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=P4.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=players.get(3).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=players.get(3).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
-						mainwrapfrag.create_screen_bar(x, y, 3, tmp.getScreenAngle(), load_seekbar_tmp_id);
+						mainwrapfrag.create_screen_bar(x, y, 3, tmp.getScreenAngle(), loadSeekbarTmpId);
 					}else if(tmp.getPathType() == 2){
-						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 3, tmp.getDribbleAngle(), tmp.getDribbleLength(), load_seekbar_tmp_id);
+						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 3, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
 				}
 				else if(tmp.getHandler().equals("P5_Handle")){
-					timefrag.createSeekbar(5,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(5,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=P5.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=P5.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=players.get(4).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=players.get(4).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
-						mainwrapfrag.create_screen_bar(x, y, 4, tmp.getScreenAngle(), load_seekbar_tmp_id);
+						mainwrapfrag.create_screen_bar(x, y, 4, tmp.getScreenAngle(), loadSeekbarTmpId);
 					}
 					else if(tmp.getPathType() == 2){
-						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 4, tmp.getDribbleAngle(), tmp.getDribbleLength(), load_seekbar_tmp_id);
+						mainwrapfrag.create_dribble_line(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 4, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
 				}
 				else if(tmp.getHandler().equals("B_Handle")){
-					timefrag.createSeekbar(6,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(6,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=B.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=B.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=ball.getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=ball.getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 				}
 				else if(tmp.getHandler().equals("D1_Handle")){
-					timefrag.createSeekbar(7,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(7,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=D1.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=D1.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=defenders.get(0).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=defenders.get(0).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 				}
 				else if(tmp.getHandler().equals("D2_Handle")){
-					timefrag.createSeekbar(8,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(8,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=D2.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=D2.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=defenders.get(1).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=defenders.get(1).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 				}
 				else if(tmp.getHandler().equals("D3_Handle")){
-					timefrag.createSeekbar(9,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(9,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=D3.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=D3.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=defenders.get(2).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=defenders.get(2).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 				}
 				else if(tmp.getHandler().equals("D4_Handle")){
-					timefrag.createSeekbar(10,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(10,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=D4.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=D4.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=defenders.get(3).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=defenders.get(3).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 				}
 				else if(tmp.getHandler().equals("D5_Handle")){
-					timefrag.createSeekbar(11,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
+					timefrag.createSeekbar(11,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
 					MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-					x=D5.getCmpltRoad().get(tmp.getRoadEnd()-1);
-					y=D5.getCmpltRoad().get(tmp.getRoadEnd());
-					mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
+					x=defenders.get(4).getCmpltRoad().get(tmp.getRoadEnd()-1);
+					y=defenders.get(4).getCmpltRoad().get(tmp.getRoadEnd());
+					mainwrapfrag.create_path_num_on_court(loadSeekbarTmpId+1, x, y,loadSeekbarTmpId);
 				}
 				//endregion
-				load_seekbar_tmp_id++;
+				loadSeekbarTmpId++;
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -3829,676 +1602,37 @@ public class MainFragment extends Fragment{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		//endregion
 
 		//TODO:讀取戰術後把 戰術跑動路徑也畫上去
 
 		//endregion
 
-		//region Version.1 讀檔 (已註解)
-		/*
-        //讀取 /data/data/com.myapp/檔名.txt 檔案內容
-			String data = readFromFile(fin);
-			String [] sData = data.split("\n");
-			for(int i =0;i<sData.length;i++){
-				Log.d("debug", "data["+i+"] ="+sData[i]);
-			P_Initial_Rotate.clear();
-			P_Initial_Position.clear();
-                //先處理Initial position
-				if(sData[i].equals("initial_ball_num")){
-					initial_ball_num = Integer.parseInt(sData[i+1]);
-					dataPacket.set_initial_ball_num(initial_ball_num);
-					i=i+2;
-					Log.d("debug", "initial_ball_num saved.");
-				}
-				if(sData[i].equals("Initial_P1_rotate")){
-					Initial_P1_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_P1_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_P1_rotate saved.");
-				}
-				if(sData[i].equals("Initial_P2_rotate")){
-					Initial_P2_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_P2_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_P2_rotate saved.");
-				}
-				if(sData[i].equals("Initial_P3_rotate")){
-					Initial_P3_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_P3_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_P3_rotate saved.");
-				}
-				if(sData[i].equals("Initial_P4_rotate")){
-					Initial_P4_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_P4_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_P4_rotate saved.");
-				}
-				if(sData[i].equals("Initial_P5_rotate")){
-					Initial_P5_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_P5_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_P5_rotate saved.");
-				}
-				
-
-				if(sData[i].equals("Initial_D1_rotate")){
-					Initial_D1_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_D1_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_D1_rotate saved.");
-				}
-				if(sData[i].equals("Initial_D2_rotate")){
-					Initial_D2_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_D2_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_D2_rotate saved.");
-				}
-				if(sData[i].equals("Initial_D3_rotate")){
-					Initial_D3_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_D3_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_D3_rotate saved.");
-				}
-				if(sData[i].equals("Initial_D4_rotate")){
-					Initial_D4_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_D4_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_D4_rotate saved.");
-				}
-				if(sData[i].equals("Initial_D5_rotate")){
-					Initial_D5_rotate=Integer.parseInt(sData[i+1]);
-					P_Initial_Rotate.add(Initial_D5_rotate);
-					i=i+2;
-					Log.d("debug", "Initial_D5_rotate saved.");
-				}
-				
-				
-				if(sData[i].equals("P1_Initial_Position")){
-					P1_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					P1_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(P1_Initial_Position_x);
-					P_Initial_Position.add(P1_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "P1 initial saved.");
-				}
-				if(sData[i].equals("P2_Initial_Position")){
-					P2_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					P2_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(P2_Initial_Position_x);
-					P_Initial_Position.add(P2_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "P2 initial saved.");
-				}
-				if(sData[i].equals("P3_Initial_Position")){
-					P3_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					P3_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(P3_Initial_Position_x);
-					P_Initial_Position.add(P3_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "P3 initial saved.");
-				}
-				if(sData[i].equals("P4_Initial_Position")){
-					P4_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					P4_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(P4_Initial_Position_x);
-					P_Initial_Position.add(P4_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "P4 initial saved.");
-				}
-				if(sData[i].equals("P5_Initial_Position")){
-					P5_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					P5_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(P5_Initial_Position_x);
-					P_Initial_Position.add(P5_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "P5 initial saved.");
-				}
-				if(sData[i].equals("B_Initial_Position")){
-					B_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					B_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(B_Initial_Position_x);
-					P_Initial_Position.add(B_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "B initial saved.");
-				}
-				
-
-				if(sData[i].equals("D1_Initial_Position")){
-					D1_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					D1_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(D1_Initial_Position_x);
-					P_Initial_Position.add(D1_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "D1 initial saved.");
-				}
-				if(sData[i].equals("D2_Initial_Position")){
-					D2_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					D2_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(D2_Initial_Position_x);
-					P_Initial_Position.add(D2_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "D2 initial saved.");
-				}
-				if(sData[i].equals("D3_Initial_Position")){
-					D3_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					D3_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(D3_Initial_Position_x);
-					P_Initial_Position.add(D3_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "D3 initial saved.");
-				}
-				if(sData[i].equals("D4_Initial_Position")){
-					D4_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					D4_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(D4_Initial_Position_x);
-					P_Initial_Position.add(D4_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "D4 initial saved.");
-				}
-				if(sData[i].equals("D5_Initial_Position")){
-					D5_Initial_Position_x=Integer.parseInt(sData[i+1]);
-					D5_Initial_Position_y=Integer.parseInt(sData[i+2]);
-					P_Initial_Position.add(D5_Initial_Position_x);
-					P_Initial_Position.add(D5_Initial_Position_y);
-					i=i+3;
-					Log.d("debug", "D5 initial saved.");
-				}
-
-                //存Player的road
-				if(sData[i].equals("P1")){
-					i++;
-					while(!sData[i].equals("---")){
-						P1.setRoad(Integer.parseInt(sData[i]));
-						P1.setRoad_3d(Integer.parseInt(sData[i]));
-						
-						P1_recommend.setRoad(Integer.parseInt(sData[i]));
-						
-						i++;
-					}
-					
-					Log.d("debug", "P1 road saved. Size="+Integer.toString(P1.getRoadSize())+"....."+Integer.toString(P1.getRoadSize_3d()));
-				}
-				if(sData[i].equals("P2")){
-					i++;
-					while(!sData[i].equals("---")){
-						P2.setRoad(Integer.parseInt(sData[i]));
-						P2.setRoad_3d(Integer.parseInt(sData[i]));
-						
-						P2_recommend.setRoad(Integer.parseInt(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P2 road saved. Size="+Integer.toString(P2.getRoadSize())+"....."+Integer.toString(P2.getRoadSize_3d()));
-				}
-				if(sData[i].equals("P3")){
-					i++;
-					while(!sData[i].equals("---")){
-						P3.setRoad(Integer.parseInt(sData[i]));
-						P3.setRoad_3d(Integer.parseInt(sData[i]));
-						P3_recommend.setRoad(Integer.parseInt(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P3 road saved. Size="+Integer.toString(P3.getRoadSize())+"....."+Integer.toString(P3.getRoadSize_3d()));
-				}
-				if(sData[i].equals("P4")){
-					i++;
-					while(!sData[i].equals("---")){
-						P4.setRoad(Integer.parseInt(sData[i]));
-						P4.setRoad_3d(Integer.parseInt(sData[i]));
-						P4_recommend.setRoad(Integer.parseInt(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P4 road saved. Size="+Integer.toString(P4.getRoadSize())+"....."+Integer.toString(P4.getRoadSize_3d()));
-				}
-				if(sData[i].equals("P5")){
-					i++;
-					while(!sData[i].equals("---")){
-						P5.setRoad(Integer.parseInt(sData[i]));
-						P5.setRoad_3d(Integer.parseInt(sData[i]));
-						P5_recommend.setRoad(Integer.parseInt(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P5 road saved. Size="+Integer.toString(P5.getRoadSize())+"....."+Integer.toString(P5.getRoadSize_3d()));
-				}
-				if(sData[i].equals("B")){
-					i++;
-					while(!sData[i].equals("---")){
-						B.setRoad(Integer.parseInt(sData[i]));
-						B.setRoad_3d(Integer.parseInt(sData[i]));
-						B_recommend.setRoad(Integer.parseInt(sData[i]));
-						i++;
-					}
-					Log.d("debug", "B road saved. Size="+Integer.toString(B.getRoadSize())+"....."+Integer.toString(B.getRoadSize_3d()));
-				}
-				
-				if(sData[i].equals("D1")){
-					i++;
-					while(!sData[i].equals("---")){
-						D1.setRoad(Integer.parseInt(sData[i]));
-						D1.setRoad_3d(Integer.parseInt(sData[i]));
-						
-						i++;
-					}
-					
-					Log.d("debug", "D1 road saved. Size="+Integer.toString(D1.getRoadSize())+"....."+Integer.toString(D1.getRoadSize_3d()));
-				}
-				if(sData[i].equals("D2")){
-					i++;
-					while(!sData[i].equals("---")){
-						D2.setRoad(Integer.parseInt(sData[i]));
-						D2.setRoad_3d(Integer.parseInt(sData[i]));
-						
-						i++;
-					}
-					Log.d("debug", "D2 road saved. Size="+Integer.toString(D2.getRoadSize())+"....."+Integer.toString(D2.getRoadSize_3d()));
-				}
-				if(sData[i].equals("D3")){
-					i++;
-					while(!sData[i].equals("---")){
-						D3.setRoad(Integer.parseInt(sData[i]));
-						D3.setRoad_3d(Integer.parseInt(sData[i]));
-						i++;
-					}
-					Log.d("debug", "D3 road saved. Size="+Integer.toString(D3.getRoadSize())+"....."+Integer.toString(D3.getRoadSize_3d()));
-				}
-				if(sData[i].equals("D4")){
-					i++;
-					while(!sData[i].equals("---")){
-						D4.setRoad(Integer.parseInt(sData[i]));
-						D4.setRoad_3d(Integer.parseInt(sData[i]));
-						i++;
-					}
-					Log.d("debug", "D4 road saved. Size="+Integer.toString(D4.getRoadSize())+"....."+Integer.toString(D4.getRoadSize_3d()));
-				}
-				if(sData[i].equals("D5")){
-					i++;
-					while(!sData[i].equals("---")){
-						D5.setRoad(Integer.parseInt(sData[i]));
-						D5.setRoad_3d(Integer.parseInt(sData[i]));
-						i++;
-					}
-					Log.d("debug", "D5 road saved. Size="+Integer.toString(D5.getRoadSize())+"....."+Integer.toString(D5.getRoadSize_3d()));
-				}
-
-                //存player的rotation
-				if(sData[i].equals("P1_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						P1.setMyRotation(Integer.parseInt(sData[i]));
-						
-						P1_recommend.setMyRotation(Integer.parseInt(sData[i]));
-						
-						i++;
-					}
-					//Log.d("debug", "P1 road saved. Size="+Integer.toString(P1.getRoadSize())+"....."+Integer.toString(P1.getRoadSize_3d()));
-				}
-				if(sData[i].equals("P2_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						P2.setMyRotation(Integer.parseInt(sData[i]));
-						
-						P2_recommend.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-				}
-				if(sData[i].equals("P3_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						P3.setMyRotation(Integer.parseInt(sData[i]));
-						P3_recommend.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-				}
-				if(sData[i].equals("P4_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						P4.setMyRotation(Integer.parseInt(sData[i]));
-						P4_recommend.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-				}
-				if(sData[i].equals("P5_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						P5.setMyRotation(Integer.parseInt(sData[i]));
-						P5_recommend.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-				}
-				
-				if(sData[i].equals("D1_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						D1.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-					//Log.d("debug", "D1 road saved. Size="+Integer.toString(D1.getRoadSize())+"....."+Integer.toString(D1.getRoadSize_3d()));
-				}
-				if(sData[i].equals("D2_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						D2.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-				}
-				if(sData[i].equals("D3_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						D3.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-				}
-				if(sData[i].equals("D4_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						D4.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-				}
-				if(sData[i].equals("D5_rotation")){
-					i++;
-					while(!sData[i].equals("---")){
-						D5.setMyRotation(Integer.parseInt(sData[i]));
-						i++;
-					}
-				}
-
-
-
-                //存Curve
-				if(sData[i].equals("P1_curve")){
-					i++;
-					while(!sData[i].equals("---")){
-						//P1.setCurve(Float.parseFloat(sData[i]));
-						//P1_recommend.setCurve(Float.parseFloat(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P1 curve saved. Size="+Integer.toString(P1.getCurveSize())+".....");
-				}
-				if(sData[i].equals("P2_curve")){
-					i++;
-					while(!sData[i].equals("---")){
-						//P2.setCurve(Float.parseFloat(sData[i]));
-						//P2_recommend.setCurve(Float.parseFloat(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P2 curve saved. Size="+Integer.toString(P1.getCurveSize())+".....");
-				}
-				if(sData[i].equals("P3_curve")){
-					i++;
-					while(!sData[i].equals("---")){
-						//P3.setCurve(Float.parseFloat(sData[i]));
-						//P3_recommend.setCurve(Float.parseFloat(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P3 curve saved. Size="+Integer.toString(P3.getCurveSize())+".....");
-				}
-				if(sData[i].equals("P4_curve")){
-					i++;
-					while(!sData[i].equals("---")){
-						//P4.setCurve(Float.parseFloat(sData[i]));
-						//P4_recommend.setCurve(Float.parseFloat(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P4 curve saved. Size="+Integer.toString(P4.getCurveSize())+".....");
-				}
-				if(sData[i].equals("P5_curve")){
-					i++;
-					while(!sData[i].equals("---")){
-						//P5.setCurve(Float.parseFloat(sData[i]));
-						//P5_recommend.setCurve(Float.parseFloat(sData[i]));
-						i++;
-					}
-					Log.d("debug", "P5 curve saved. Size="+Integer.toString(P5.getCurveSize())+".....");
-				}
-				if(sData[i].equals("B_curve")){
-					i++;
-					while(!sData[i].equals("---")){
-						//B.setCurve(Float.parseFloat(sData[i]));
-						//B_recommend.setCurve(Float.parseFloat(sData[i]));
-						i++;
-					}
-					Log.d("debug", "B curve saved. Size="+Integer.toString(B.getCurveSize())+".....");
-				}
-			//?sRunBag
-				TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-				if(sData[i].equals("RunBag")){
-					int load_seekbar_tmp_id=0;
-					int x=0,y=0;
-					i++;
-					while(i<sData.length){
-						while(!sData[i].equals("---")){
-							RunBag tmp = new RunBag();
-							tmp.setStartTime(Integer.parseInt(sData[i]));
-							i++;
-							tmp.setHandler(sData[i]);
-							i++;
-							tmp.setRoadStart(Integer.parseInt(sData[i]));
-							i++;
-							tmp.setRoadEnd(Integer.parseInt(sData[i]));
-							i++;
-							tmp.setDuration(Integer.parseInt(sData[i]));
-							i++;
-							tmp.setBall_num(Integer.parseInt(sData[i]));
-							i++;
-							tmp.setTimeLineId(load_seekbar_tmp_id);
-							RunLine.add(tmp);
-
-							
-							
-							timefrag.setSeekBarId(load_seekbar_tmp_id);
-							if(tmp.getHandler().equals("P1_Handle")){
-    							timefrag.createSeekbar(1,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=P1.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=P1.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("P2_Handle")){
-								timefrag.createSeekbar(2,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=P2.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=P2.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("P3_Handle")){
-								timefrag.createSeekbar(3,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=P3.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=P3.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("P4_Handle")){
-								timefrag.createSeekbar(4,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=P4.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=P4.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("P5_Handle")){
-								timefrag.createSeekbar(5,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=P5.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=P5.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("B_Handle")){
-								timefrag.createSeekbar(6,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=B.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=B.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("D1_Handle")){
-    							timefrag.createSeekbar(7,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=D1.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=D1.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("D2_Handle")){
-								timefrag.createSeekbar(8,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=D2.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=D2.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("D3_Handle")){
-								timefrag.createSeekbar(9,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=D3.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=D3.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("D4_Handle")){
-								timefrag.createSeekbar(10,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=D4.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=D4.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							else if(tmp.getHandler().equals("D5_Handle")){
-								timefrag.createSeekbar(11,load_seekbar_tmp_id,tmp.getStartTime(),tmp.getDuration());
-    							MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
-    							x=D5.getCmpltRoad().get(tmp.getRoadEnd()-1);
-    							y=D5.getCmpltRoad().get(tmp.getRoadEnd());
-    							mainwrapfrag.create_path_num_on_court(load_seekbar_tmp_id+1, x, y,load_seekbar_tmp_id);
-							}
-							
-							
-							
-							load_seekbar_tmp_id++;
-    				}
-						i++;
-					}
-					//Log.d("debug", "DTW = "+Double.toString(DTW(P2.getCmpltRoad(),P2.getCmpltRoad())));
-					Log.d("debug", "RunBag saved. Size="+Integer.toString(RunLine.size()));
-				}
-			}//Read data END
-			
-			dataPacket.set_P_Initial_Position(P_Initial_Position);
-			dataPacket.set_P_Initial_rotate(P_Initial_Rotate);
-			dataPacket.set_P1_Road(P1.getCmpltRoad());
-			dataPacket.set_P2_Road(P2.getCmpltRoad());
-			dataPacket.set_P3_Road(P3.getCmpltRoad());
-			dataPacket.set_P4_Road(P4.getCmpltRoad());
-			dataPacket.set_P5_Road(P5.getCmpltRoad());
-			dataPacket.set_B_Road(B.getCmpltRoad());
-			dataPacket.set_D1_Road(D1.getCmpltRoad());
-			dataPacket.set_D2_Road(D2.getCmpltRoad());
-			dataPacket.set_D3_Road(D3.getCmpltRoad());
-			dataPacket.set_D4_Road(D4.getCmpltRoad());
-			dataPacket.set_D5_Road(D5.getCmpltRoad());
-			dataPacket.set_P1_Rotate(P1.getCmpltRotate());
-			dataPacket.set_P2_Rotate(P2.getCmpltRotate());
-			dataPacket.set_P3_Rotate(P3.getCmpltRotate());
-			dataPacket.set_P4_Rotate(P4.getCmpltRotate());
-			dataPacket.set_D5_Rotate(D5.getCmpltRotate());
-			dataPacket.set_D1_Rotate(D1.getCmpltRotate());
-			dataPacket.set_D2_Rotate(D2.getCmpltRotate());
-			dataPacket.set_D3_Rotate(D3.getCmpltRotate());
-			dataPacket.set_D4_Rotate(D4.getCmpltRotate());
-			dataPacket.set_D5_Rotate(D5.getCmpltRotate());
-			*/
-			//endregion
-
 		playerMoveToStartPosition();
 	}
 	/**************************************************************************/
 	
 	/**************************************************************************/
-	public void rotatePlayer(int input){     
-			switch(rotateWhichPlayer){
-			case 1:
-				//Log,i("debug", "P1_rotate ="+Integer.toString(input));
-				p1Rotate =input;
-				pRotate =input;
-				arrow1.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialP1Rotate = input;
-				}
-				break;
-			case 2:
-				p2Rotate =input;
-				pRotate =input;
-				arrow2.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialP2Rotate = input;
-				}
-				break;
-			case 3:
-				p3Rotate =input;
-				pRotate =input;
-				arrow3.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialP3Rotate = input;
-				}
-				break;
-			case 4:
-				p4Rotate =input;
-				pRotate =input;
-				arrow4.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialP4Rotate = input;
-				}
-				break;
-			case 5:
-				p5Rotate =input;
-				pRotate =input;
-				arrow5.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialP5Rotate = input;
-				}
-				break;
-			case 6:
-				bRotate =input;
-				break;
-			case 7:
-				//Log,i("debug", "D1_rotate ="+Integer.toString(input));
-				d1Rotate =input;
-				pRotate =input;
-				arrow7.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialD1Rotate = input;
-				}
-				break;
-			case 8:
-				d2Rotate =input;
-				pRotate =input;
-				arrow8.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialD2Rotate = input;
-				}
-				break;
-			case 9:
-				d3Rotate =input;
-				pRotate =input;
-				arrow9.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialD3Rotate = input;
-				}
-				break;
-			case 10:
-				d4Rotate =input;
-				pRotate =input;
-				arrow10.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialD4Rotate = input;
-				}
-				break;
-			case 11:
-				d5Rotate =input;
-				pRotate =input;
-				arrow11.setRotation(input);
-				if(recordCheck ==false && runBags.size()==0){
-					initialD5Rotate = input;
-				}
-				break;
-			default:
-				//Log,i("debug", "rotate_which_player error!!");
-			}
+	public void rotatePlayer(int input){
+		if(rotateWhichPlayer == 6){
+			ballDrawer.rotation = 0;
+		}
+		else if(rotateWhichPlayer < 6){
+			int id = rotateWhichPlayer-1;
+			playerDrawers.get(id).rotation = input;
+			currentDrawer.rotation =input;
+			players.get(id).arrow.setRotation(input);
+			if(recordCheck ==false && runBags.size()==0)
+				players.get(id).initialRotation = input;
+		}
+		else if(rotateWhichPlayer > 6){
+			int id = rotateWhichPlayer-7;
+			defenderDrawers.get(id).rotation = input;
+			currentDrawer.rotation =input;
+			defenders.get(id).arrow.setRotation(input);
+			if(recordCheck ==false && runBags.size()==0)
+				defenders.get(4).initialRotation = input;
+		}
 	}
 	/**************************************************************************/
 
@@ -4518,7 +1652,7 @@ public class MainFragment extends Fragment{
 				public void run() { 
 					int time = 0;
 					int RunLineSize = runBags.size();
-					while (time < totalTime && playing==1) {
+					while (time < totalTime && IsTacticPlaying ==1) {
 						try {
 							Log.e("time = ", String.valueOf(time));
 							// do RunLine here!!
@@ -4544,7 +1678,7 @@ public class MainFragment extends Fragment{
 				int time = in_time;
 				int RunLineSize = in_RunLineSize;
 				int i = 0;
-				while (i < RunLineSize && playing==1) {
+				while (i < RunLineSize && IsTacticPlaying ==1) {
 					try {
 						Message m = new Message();
 						Bundle b = new Bundle();
@@ -4560,17 +1694,18 @@ public class MainFragment extends Fragment{
 		}).start();
 	}
 
-	protected void play(final boolean isDribble, final int speed, final Handler play_handler, final int roadStartIndex, final int roadEndIndex) {
+	protected void play(final int id, final boolean isDribble, final int speed, final Handler play_handler, final int roadStartIndex, final int roadEndIndex) {
 		//Log,i("debug","initial_ball_num="+Integer.toString(initial_ball_num));
 		new Thread(new Runnable() {  
 			@Override
 			public void run() {  
 				int play_k = roadStartIndex;
-				while (play_k < roadEndIndex - 1 && playing==1) {
+				while (play_k < roadEndIndex - 1 && IsTacticPlaying ==1) {
 					try {
 						Message m = new Message();
 						Bundle b = new Bundle();
 						// Bundle可以根據 ("keyName",key_value)的方式，將資料打包，要使用的時候，就可以用"keyName"去取得key_value
+						b.putInt("who", id);
 						b.putInt("what", play_k);
 						// 將play_k打包，要取得play_k的值的時候，要用"what"去取得。
 						b.putBoolean("isDribble", isDribble);
@@ -4587,435 +1722,120 @@ public class MainFragment extends Fragment{
 		}).start();
 	}
 
-	Handler P1_Handle = new Handler() {    
-		@Override
-		public void handleMessage(Message msg) {   
-			int sentInt = msg.getData().getInt("what");
-			player1.layout(P1.handleGetRoad(sentInt), P1.handleGetRoad(sentInt + 1),
-							P1.handleGetRoad(sentInt) + player1.getWidth(),
-							P1.handleGetRoad(sentInt + 1) + player1.getHeight());
-			//region 因為這一動是運球，所以讓球跟著Player的位置
-			boolean isDribble = msg.getData().getBoolean("isDribble");
-			if(isDribble)
-				ball.layout(P1.handleGetRoad(sentInt), P1.handleGetRoad(sentInt + 1),
-					P1.handleGetRoad(sentInt) + ball.getWidth(),
-					   P1.handleGetRoad(sentInt + 1) + ball.getHeight() );
-			//endregion
-
-			arrow1.layout(P1.handleGetRoad(sentInt), P1.handleGetRoad(sentInt + 1),
-					P1.handleGetRoad(sentInt) + arrow1.getWidth(),
-					P1.handleGetRoad(sentInt + 1) + arrow1.getHeight());
-			
-			if(sentInt!=1){
-				arrow1.setRotation(P1.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow1.setRotation(P1.getMyRotation(sentInt));
-			}
-
-
-			
-			
-		}
-	};
-
-	Handler P2_Handle = new Handler() {
+	Handler offenderHandler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
+			int id = msg.getData().getInt("who");
 			int sentInt = msg.getData().getInt("what");
-			player2.layout(P2.handleGetRoad(sentInt), P2.handleGetRoad(sentInt + 1),
-							P2.handleGetRoad(sentInt) + player2.getWidth(),
-							P2.handleGetRoad(sentInt + 1) + player2.getHeight());
-
+			players.get(id).image.layout(players.get(id).handleGetRoad(sentInt), players.get(id).handleGetRoad(sentInt + 1),
+					players.get(id).handleGetRoad(sentInt) + players.get(id).image.getWidth(),
+					players.get(id).handleGetRoad(sentInt + 1) + players.get(id).image.getHeight());
 			//region 因為這一動是運球，所以讓球跟著Player的位置
 			boolean isDribble = msg.getData().getBoolean("isDribble");
 			if(isDribble)
-				ball.layout(P2.handleGetRoad(sentInt), P2.handleGetRoad(sentInt + 1),
-						P2.handleGetRoad(sentInt) + ball.getWidth(),
-						P2.handleGetRoad(sentInt + 1) + ball.getHeight() );
+				ball.image.layout(players.get(id).handleGetRoad(sentInt), players.get(id).handleGetRoad(sentInt + 1),
+						players.get(id).handleGetRoad(sentInt) + ball.image.getWidth(),
+						players.get(id).handleGetRoad(sentInt + 1) + ball.image.getHeight() );
 			//endregion
 
-			arrow2.layout(P2.handleGetRoad(sentInt), P2.handleGetRoad(sentInt + 1),
-					P2.handleGetRoad(sentInt) + arrow2.getWidth(),
-					P2.handleGetRoad(sentInt + 1) + arrow2.getHeight());
-			
+
+			players.get(id).arrow.layout(players.get(id).handleGetRoad(sentInt), players.get(id).handleGetRoad(sentInt + 1),
+					players.get(id).handleGetRoad(sentInt) + players.get(id).arrow.getWidth(),
+					players.get(id).handleGetRoad(sentInt + 1) + players.get(id).arrow.getHeight());
+
 			if(sentInt!=1){
-				arrow2.setRotation(P2.getMyRotation(sentInt/2));
+				players.get(id).arrow.setRotation(players.get(id).getMyRotation(sentInt/2));
 			}
 			else{
-				arrow2.setRotation(P2.getMyRotation(sentInt));
+				players.get(id).arrow.setRotation(players.get(id).getMyRotation(sentInt));
 			}
 		}
 	};
 
-	Handler P3_Handle = new Handler() {
+	Handler defenderHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+			int id = msg.getData().getInt("who")-6;
 			int sentInt = msg.getData().getInt("what");
-			player3.layout(P3.handleGetRoad(sentInt), P3.handleGetRoad(sentInt + 1),
-							P3.handleGetRoad(sentInt) + player3.getWidth(),
-							P3.handleGetRoad(sentInt + 1) + player3.getHeight());
+			defenders.get(id).image.layout(defenders.get(id).handleGetRoad(sentInt), defenders.get(id).handleGetRoad(sentInt + 1),
+					defenders.get(id).handleGetRoad(sentInt) + defenders.get(id).image.getWidth(),
+					defenders.get(id).handleGetRoad(sentInt + 1) + defenders.get(id).image.getHeight());
 
-			//region 因為這一動是運球，所以讓球跟著Player的位置
-			boolean isDribble = msg.getData().getBoolean("isDribble");
-			if(isDribble)
-				ball.layout(P3.handleGetRoad(sentInt), P3.handleGetRoad(sentInt + 1),
-						P3.handleGetRoad(sentInt) + ball.getWidth(),
-						P3.handleGetRoad(sentInt + 1) + ball.getHeight() );
-			//endregion
+			defenders.get(id).arrow.layout(defenders.get(id).handleGetRoad(sentInt), defenders.get(id).handleGetRoad(sentInt + 1),
+					defenders.get(id).handleGetRoad(sentInt) + defenders.get(id).arrow.getWidth(),
+					defenders.get(id).handleGetRoad(sentInt + 1) + defenders.get(id).arrow.getHeight());
 
-			arrow3.layout(P3.handleGetRoad(sentInt), P3.handleGetRoad(sentInt + 1),
-					P3.handleGetRoad(sentInt) + arrow3.getWidth(),
-					P3.handleGetRoad(sentInt + 1) + arrow3.getHeight());
-			
-			if(sentInt!=1){
-				arrow3.setRotation(P3.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow3.setRotation(P3.getMyRotation(sentInt));
-			}
-		}
-	};
-
-	Handler P4_Handle = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			int sentInt = msg.getData().getInt("what");
-			player4.layout(P4.handleGetRoad(sentInt), P4.handleGetRoad(sentInt + 1),
-							P4.handleGetRoad(sentInt) + player4.getWidth(),
-							P4.handleGetRoad(sentInt + 1) + player4.getHeight());
-
-			//region 因為這一動是運球，所以讓球跟著Player的位置
-			boolean isDribble = msg.getData().getBoolean("isDribble");
-			if(isDribble)
-				ball.layout(P4.handleGetRoad(sentInt), P4.handleGetRoad(sentInt + 1),
-						P4.handleGetRoad(sentInt) + ball.getWidth(),
-						P4.handleGetRoad(sentInt + 1) + ball.getHeight() );
-			//endregion
-
-			arrow4.layout(P4.handleGetRoad(sentInt), P4.handleGetRoad(sentInt + 1),
-					P4.handleGetRoad(sentInt) + arrow4.getWidth(),
-					P4.handleGetRoad(sentInt + 1) + arrow4.getHeight());
-			
-			if(sentInt!=1){
-				arrow4.setRotation(P4.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow4.setRotation(P4.getMyRotation(sentInt));
-			}
-		}
-	};
-
-	Handler P5_Handle = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			int sentInt = msg.getData().getInt("what");
-			player5.layout(P5.handleGetRoad(sentInt), P5.handleGetRoad(sentInt + 1),
-							P5.handleGetRoad(sentInt) + player5.getWidth(),
-							P5.handleGetRoad(sentInt + 1) + player5.getHeight());
-
-			//region 因為這一動是運球，所以讓球跟著Player的位置
-			boolean isDribble = msg.getData().getBoolean("isDribble");
-			if(isDribble)
-				ball.layout(P5.handleGetRoad(sentInt), P5.handleGetRoad(sentInt + 1),
-						P5.handleGetRoad(sentInt) + ball.getWidth(),
-						P5.handleGetRoad(sentInt + 1) + ball.getHeight() );
-			//endregion
-
-			arrow5.layout(P5.handleGetRoad(sentInt), P5.handleGetRoad(sentInt + 1),
-					P5.handleGetRoad(sentInt) + arrow5.getWidth(),
-					P5.handleGetRoad(sentInt + 1) + arrow5.getHeight());
-			
-			if(sentInt!=1){
-				arrow5.setRotation(P5.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow5.setRotation(P5.getMyRotation(sentInt));
-			}
 		}
 	};
 
 	Handler B_Handle = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			int sentInt = msg.getData().getInt("what");
-			ball.layout(B.handleGetRoad(sentInt), B.handleGetRoad(sentInt + 1),
-					B.handleGetRoad(sentInt) + ball.getWidth(), B.handleGetRoad(sentInt + 1) + ball.getHeight());
-		}
-	};
-	
-	Handler D1_Handle = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			int sentInt = msg.getData().getInt("what");
-			defender1.layout(D1.handleGetRoad(sentInt), D1.handleGetRoad(sentInt + 1),
-							D1.handleGetRoad(sentInt) + defender1.getWidth(),
-							D1.handleGetRoad(sentInt + 1) + defender1.getHeight());
-			
-			arrow7.layout(D1.handleGetRoad(sentInt), D1.handleGetRoad(sentInt + 1),
-					D1.handleGetRoad(sentInt) + arrow7.getWidth(),
-					D1.handleGetRoad(sentInt + 1) + arrow7.getHeight());
-			/*
-			if(sentInt!=1){
-				arrow7.setRotation(D1.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow7.setRotation(D1.getMyRotation(sentInt));
-			}
-			*/
-		}
-	};
-	
-	Handler D2_Handle = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			int sentInt = msg.getData().getInt("what");
-			defender2.layout(D2.handleGetRoad(sentInt), D2.handleGetRoad(sentInt + 1),
-							D2.handleGetRoad(sentInt) + defender2.getWidth(),
-							D2.handleGetRoad(sentInt + 1) + defender2.getHeight());
-			
-			arrow8.layout(D2.handleGetRoad(sentInt), D2.handleGetRoad(sentInt + 1),
-					D2.handleGetRoad(sentInt) + arrow8.getWidth(),
-					D2.handleGetRoad(sentInt + 1) + arrow8.getHeight());
-			/*
-			if(sentInt!=1){
-				arrow8.setRotation(D2.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow8.setRotation(D2.getMyRotation(sentInt));
-			}
-
-			 */
-		}
-	};
-	
-	Handler D3_Handle = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			int sentInt = msg.getData().getInt("what");
-			defender3.layout(D3.handleGetRoad(sentInt), D3.handleGetRoad(sentInt + 1),
-							D3.handleGetRoad(sentInt) + defender3.getWidth(),
-							D3.handleGetRoad(sentInt + 1) + defender3.getHeight());
-			
-			arrow9.layout(D3.handleGetRoad(sentInt), D3.handleGetRoad(sentInt + 1),
-					D3.handleGetRoad(sentInt) + arrow9.getWidth(),
-					D3.handleGetRoad(sentInt + 1) + arrow9.getHeight());
-			/*
-			if(sentInt!=1){
-				arrow9.setRotation(D3.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow9.setRotation(D3.getMyRotation(sentInt));
-			}
-
-			 */
-		}
-	};
-	
-	Handler D4_Handle = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			int sentInt = msg.getData().getInt("what");
-			defender4.layout(D4.handleGetRoad(sentInt), D4.handleGetRoad(sentInt + 1),
-							D4.handleGetRoad(sentInt) + defender4.getWidth(),
-							D4.handleGetRoad(sentInt + 1) + defender4.getHeight());
-			
-			arrow10.layout(D4.handleGetRoad(sentInt), D4.handleGetRoad(sentInt + 1),
-					D4.handleGetRoad(sentInt) + arrow10.getWidth(),
-					D4.handleGetRoad(sentInt + 1) + arrow10.getHeight());
-			/*
-			if(sentInt!=1){
-				arrow10.setRotation(D4.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow10.setRotation(D4.getMyRotation(sentInt));
-			}
-
-			 */
+		int sentInt = msg.getData().getInt("what");
+		ball.image.layout(ball.handleGetRoad(sentInt), ball.handleGetRoad(sentInt + 1),
+				ball.handleGetRoad(sentInt) + ball.image.getWidth(), ball.handleGetRoad(sentInt + 1) + ball.image.getHeight());
 		}
 	};
 
-	Handler D5_Handle = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			int sentInt = msg.getData().getInt("what");
-			defender5.layout(D5.handleGetRoad(sentInt), D5.handleGetRoad(sentInt + 1),
-							D5.handleGetRoad(sentInt) + defender5.getWidth(),
-							D5.handleGetRoad(sentInt + 1) + defender5.getHeight());
-			
-			arrow11.layout(D5.handleGetRoad(sentInt), D5.handleGetRoad(sentInt + 1),
-					D5.handleGetRoad(sentInt) + arrow11.getWidth(),
-					D5.handleGetRoad(sentInt + 1) + arrow11.getHeight());
-			/*
-			if(sentInt!=1){
-				arrow11.setRotation(D5.getMyRotation(sentInt/2));
-			}
-			else{
-				arrow11.setRotation(D5.getMyRotation(sentInt));
-			}
-
-			 */
-		}
-	};
-	
 	Handler RunLineCheck_Handle = new Handler() {    
 
 		@Override
-		public void handleMessage(Message msg) {   
-
+		public void handleMessage(Message msg) {
 			int sentI = msg.getData().getInt("what");
 			int sentTime = msg.getData().getInt("time");
 			if (runBags.get(sentI).getStartTime() * 1000 == sentTime) {
 				boolean isDribble = (runBags.get(sentI).getPathType() == 2);
+
 				if ( runBags.get(sentI).getHandler().equals("P1_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), P1_Handle, runBags.get(sentI).getRoadStart(),
+					play(0, isDribble, runBags.get(sentI).getRate(), offenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("P2_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), P2_Handle, runBags.get(sentI).getRoadStart(),
+					play(1, isDribble, runBags.get(sentI).getRate(), offenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("P3_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), P3_Handle, runBags.get(sentI).getRoadStart(),
+					play(2, isDribble, runBags.get(sentI).getRate(), offenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("P4_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), P4_Handle, runBags.get(sentI).getRoadStart(),
+					play(3, isDribble, runBags.get(sentI).getRate(), offenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("P5_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), P5_Handle, runBags.get(sentI).getRoadStart(),
+					play(4, isDribble, runBags.get(sentI).getRate(), offenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("B_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), B_Handle, runBags.get(sentI).getRoadStart(),
+					play(5, isDribble, runBags.get(sentI).getRate(), B_Handle, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				}
 				else if (runBags.get(sentI).getHandler().equals("D1_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), D1_Handle, runBags.get(sentI).getRoadStart(),
+					play(6, isDribble, runBags.get(sentI).getRate(), defenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("D2_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), D2_Handle, runBags.get(sentI).getRoadStart(),
+					play(7, isDribble, runBags.get(sentI).getRate(), defenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("D3_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), D3_Handle, runBags.get(sentI).getRoadStart(),
+					play(8, isDribble, runBags.get(sentI).getRate(), defenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("D4_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), D4_Handle, runBags.get(sentI).getRoadStart(),
+					play(9, isDribble, runBags.get(sentI).getRate(), defenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("D5_Handle")) {
-					play(isDribble, runBags.get(sentI).getRate(), D5_Handle, runBags.get(sentI).getRoadStart(),
+					play(10, isDribble, runBags.get(sentI).getRate(), defenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				}
 
 				if(hasQueryDefenderFromServer && !hasInvokeCurrentTimeDefender){
 					Log.d("debug", "rate:" + runBags.get(sentI).getRate());
-					play(false, 20, D1_Handle, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
-					play(false, 20, D2_Handle, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
-					play(false, 20, D3_Handle, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
-					play(false, 20, D4_Handle, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
-					play(false, 20, D5_Handle, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
+					play(6, false, 20, defenderHandler, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
+					play(7, false, 20, defenderHandler, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
+					play(8, false, 20, defenderHandler, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
+					play(9, false, 20, defenderHandler, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
+					play(10, false, 20, defenderHandler, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000))*2, Integer.parseInt(currentTimeMaxLen.get(sentTime/1000+1))*2);
 				}
 			}
 		}
 	};
 
-	//TODO Bitmap_ontouch
-	private OnTouchListener bitmap_ontouch = new OnTouchListener() {         
-
-			private int mx, my; // 圖片被拖曳的X ,Y軸距離長度
-			private int startX, startY; // 原本圖片存在的X,Y軸位置
-			private int x, y; // 最終的顯示位置
-			private int last_mx,last_my;
-			private float tmp_y;
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {      
-				/*mx = (int) (event.getRawX());
-				my = (int) (event.getRawY());
-				switch (event.getAction()) { // ?P?_???????@
-				case MotionEvent.ACTION_DOWN:// ???U?????
-					
-					int flag = 0;
-					int sensitive = 20;
-					int rm_button_area = 50;
-					
-					if(rm_button_flag==1 && mx < last_mx+rm_button_area && mx > last_mx-rm_button_area){
-						if(rm_button_flag==1 && my < last_my+rm_button_area && my > last_my-rm_button_area){
-							////Log,i("debug", "click on rm_button");
-						}
-						else{
-							////Log,i("debug", "On other area.");
-							rm_button_flag=0;
-							rm_button.layout(0,0,1,1);
-							rm_button.invalidate();
-							////Log,i("debug", "rm_button_flag="+Integer.toString(rm_button_flag));
-						}
-					}
-					else{
-						////Log,i("debug", "On other area.");
-						rm_button_flag=0;
-						rm_button.layout(0,0,1,1);
-						rm_button.invalidate();
-						////Log,i("debug", "rm_button_flag="+Integer.toString(rm_button_flag));
-					
-					
-						for(int Curves_idx=0;Curves_idx<Curves.size();Curves_idx+=2){//Curves ?s???Ox,y ??H?@???n??2
-							for(int path_curve_idx = 0;path_curve_idx<Curves.get(Curves_idx).size()-2;path_curve_idx++){//?]???C???|?????????O???F?nplace rm_button????A??H??????????
-								
-								if(mx < Curves.get(Curves_idx).get(path_curve_idx)+sensitive && mx > Curves.get(Curves_idx).get(path_curve_idx)-sensitive){
-									if(my < Curves.get(Curves_idx+1).get(path_curve_idx)+sensitive && my > Curves.get(Curves_idx+1).get(path_curve_idx)-sensitive){
-										////Log,i("debug", "Match!!");
-										////Log,i("debug", "path_x.size = "+Integer.toString(Curves.get(Curves_idx).size()));
-										which_to_remove=Curves_idx/2;
-										
-										
-										//????rm_button
-										float fx = Curves.get(Curves_idx).get(Curves.get(Curves_idx).size()-1);
-										float fy = Curves.get(Curves_idx+1).get(Curves.get(Curves_idx+1).size()-1);
-										float flx = Curves.get(Curves_idx).get(Curves.get(Curves_idx).size()-2);
-										float fly = Curves.get(Curves_idx+1).get(Curves.get(Curves_idx+1).size()-2);
-										
-										x= (int) fx;
-										y= (int) fy-20;
-										last_mx = (int) flx;
-										last_my = (int) fly-20;
-										rm_button.setVisibility(rm_button.VISIBLE);
-										rm_button.setOnClickListener(rm_button_Listener);
-										rm_button.layout(x, y, x+rm_button_width, y+rm_button_height);
-										rm_button.invalidate();
-										rm_button_flag=1;
-										flag=1;
-										break;
-									}
-									else{
-										////Log,i("debug", "rm_button_flag="+Integer.toString(rm_button_flag));
-										////Log,i("debug", "mx = "+Integer.toString(mx));
-										////Log,i("debug", "my = "+Integer.toString(my));
-										////Log,i("debug", "last_mx = "+Integer.toString(last_mx));
-										////Log,i("debug", "last_my = "+Integer.toString(last_my));
-										
-									}
-								}
-							}
-							if(flag!=0){//?�Z???X?j??
-								flag=0;
-								break;
-							}	
-						}
-					}
-					
-				break;
-				case MotionEvent.ACTION_MOVE:
-					
-				break;
-				case MotionEvent.ACTION_UP:
-					
-				break;
-				
-				}*/
-				return false;
-			}
-		};
-		
-		
 		/*When the icon of the player is touched.*/
-		private OnTouchListener player_Listener = new OnTouchListener() {                        
-			
+		private OnTouchListener playerListener = new OnTouchListener() {
 			private int mx, my; // 圖片被拖曳的X ,Y軸距離長度
 			private int startX, startY; // 原本圖片存在的X,Y軸位置
 			private int x, y; // 最終的顯示位置
@@ -5026,18 +1846,10 @@ public class MainFragment extends Fragment{
 			private Canvas Pcanvas;
 			private Vector<Float> P_curve_x;
 			private Vector<Float> P_curve_y;
-			private Player player;
-			private int c_idx;
 			private float sample_rate;
-			private Vector<Integer> P_tempcurve_x;
-			private Vector<Integer> P_tempcurve_y;
-			//private int P_rotate;
-			private Paint player_paint;
-			private ImageView Arrow;
-			private int P_startIndex;
-			String handle_name=new String();
-			private int P_Initial_Position_x;
-			private int P_Initial_Position_y;
+
+			private Player currentPlayer;
+			String handle_name = new String();
 			private int seekbar_player_Id;
 
 			//region 用來取得掩護時圖片角度的變數
@@ -5052,7 +1864,6 @@ public class MainFragment extends Fragment{
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-
 				// TouchEvent(P1,paint,mx,my,startX,startY,v,event,"P1");
 				mx = (int) (event.getRawX());
 				my = (int) (event.getRawY());
@@ -5063,242 +1874,58 @@ public class MainFragment extends Fragment{
 				switch (event.getAction()) { // 判斷觸控的動作
 				case MotionEvent.ACTION_DOWN:// 按下圖片時
 					sample_rate = 0.0f;
-					if(v.getTag().toString().equals("1")){
-						//Log,i("debug","P1    player ontouch!" );
-						player = P1;
-						c_idx = c1Idx;
-						P_tempcurve_x = p1TempcurveX;
-						P_tempcurve_y = p1TempcurveY;
-						pRotate = p1Rotate;
-						player_paint = player1Paint;
-						rotateWhichPlayer = 1;
-						Arrow = arrow1;
-						P_startIndex = p1StartIndex;
-						handle_name = "P1_Handle";
-						P_Initial_Position_x = p1InitialPositionX;
-						P_Initial_Position_y = p1InitialPositionY;
-						seekbar_player_Id = 1;
-						rcP1 = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
-
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(1);
-						
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    P1_startIndex="+Integer.toString(P1_startIndex));
-					}
-					else if (v.getTag().toString().equals("2")){
-						//Log,i("debug","P2 player Ontouch!" );
-						player=P2;
-						c_idx= c2Idx;
-						P_tempcurve_x = p2TempcurveX;
-						P_tempcurve_y = p2TempcurveY;
-						rotateWhichPlayer =2;
-						pRotate = p2Rotate;
-						player_paint= player2Paint;
-						Arrow= arrow2;
-						P_startIndex= p2StartIndex;
-						handle_name="P2_Handle";
-						P_Initial_Position_x= p2InitialPositionX;
-						P_Initial_Position_y= p2InitialPositionY;
-						seekbar_player_Id=2;
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    P2_startIndex="+Integer.toString(P2_startIndex));
-						rcP2 =new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
-						
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(2);
-					}
-					else if (v.getTag().toString().equals("3")){
-						//Log,i("debug","P3    player ontouch!" );
-						player=P3;
-						c_idx= c3Idx;
-						P_tempcurve_x = p3TempcurveX;
-						P_tempcurve_y = p3TempcurveY;
-						pRotate = p3Rotate;
-						player_paint= player3Paint;
-						rotateWhichPlayer =3;
-						Arrow= arrow3;
-						P_startIndex= p3StartIndex;
-						handle_name="P3_Handle";
-						P_Initial_Position_x= p3InitialPositionX;
-						P_Initial_Position_y= p3InitialPositionY;
-						seekbar_player_Id=3;
-						rcP3 =new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    P3_startIndex="+Integer.toString(P3_startIndex));
-						
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(3);
-					}
-					else if (v.getTag().toString().equals("4")){
-						//Log,i("debug","P4    player ontouch!" );
-						player=P4;
-						c_idx= c4Idx;
-						P_tempcurve_x = p4TempcurveX;
-						P_tempcurve_y = p4TempcurveY;
-						pRotate = p4Rotate;
-						player_paint= player4Paint;
-						rotateWhichPlayer =4;
-						Arrow= arrow4;
-						P_startIndex= p4StartIndex;
-						handle_name="P4_Handle";
-						P_Initial_Position_x= p4InitialPositionX;
-						P_Initial_Position_y= p4InitialPositionY;
-						seekbar_player_Id=4;
-						rcP4 =new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    P4_startIndex="+Integer.toString(P4_startIndex));
-						
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(4);
-					}
-					else if (v.getTag().toString().equals("5")){
-						//Log,i("debug","P5    player ontouch!" );
-						player=P5;
-						c_idx= c5Idx;
-						P_tempcurve_x = p5TempcurveX;
-						P_tempcurve_y = p5TempcurveY;
-						pRotate = p5Rotate;
-						player_paint= player5Paint;
-						rotateWhichPlayer =5;
-						Arrow= arrow5;
-						P_startIndex= p5StartIndex;
-						handle_name="P5_Handle";
-						P_Initial_Position_x= p5InitialPositionX;
-						P_Initial_Position_y= p5InitialPositionY;
-						seekbar_player_Id=5;
-						rcP5 =new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    P5_startIndex="+Integer.toString(P5_startIndex));
-						
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(5);
-					}
-					else if (v.getTag().toString().equals("6")){
+					int id = Integer.parseInt(v.getTag().toString());
+					if(id == 6){
 						//Log,i("debug","B    player ontouch!" );
-						player=B;
+						currentPlayer = ball;
 						rotateWhichPlayer = 6;
-						c_idx= ballIdx;
-						P_tempcurve_x = ballTempcurveX;
-						P_tempcurve_y = ballTempcurveY;
-						pRotate = 0;
-						player_paint = ballPaint;
-						Arrow=null;
-						P_startIndex = bStartIndex;
+						currentDrawer.curveIndex = ballDrawer.curveIndex;
+						currentDrawer.tempCurve = ballDrawer.tempCurve;
+						currentDrawer.paint = ballDrawer.paint;
+						currentDrawer.startIndex = ballDrawer.startIndex;
 						handle_name = "B_Handle";
-						P_Initial_Position_x = bInitialPositionX;
-						P_Initial_Position_y = bInitialPositionY;
 						seekbar_player_Id = 6;
-						rcBall =new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    B_startIndex="+Integer.toString(B_startIndex));
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(6);
+						ball.rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
+
+						TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
+						timefrag.changeLayout(6);
 					}
-					else if(v.getTag().toString().equals("D1")){
+					else if(id < 6){
+						//Log,i("debug","P1    player ontouch!" );
+						currentPlayer = players.get(id-1);
+						currentDrawer.curveIndex = playerDrawers.get(id-1).curveIndex;
+						currentDrawer.tempCurve = playerDrawers.get(id-1).tempCurve;
+						currentDrawer.rotation = playerDrawers.get(id-1).rotation;
+						currentDrawer.paint = playerDrawers.get(id-1).paint;
+						currentDrawer.startIndex = playerDrawers.get(id-1).startIndex;
+						rotateWhichPlayer = 1;
+						handle_name = "P1_Handle";
+						seekbar_player_Id = 1;
+						players.get(id-1).rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
+
+						TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
+						timefrag.changeLayout(1);
+					}
+					else if(id > 6){
 						//Log,i("debug","D1 ontouch!" );
-						player=D1;
-						c_idx= cd1Idx;
-						P_tempcurve_x = d1TempcurveX;
-						P_tempcurve_y = d1TempcurveY;
-						pRotate = d1Rotate;
-						player_paint= d1Paint;
+						currentPlayer = defenders.get(id-7);
+						currentDrawer.curveIndex = defenderDrawers.get(id-7).curveIndex;
+						currentDrawer.tempCurve = defenderDrawers.get(id-7).tempCurve;
+						currentDrawer.rotation = defenderDrawers.get(id-7).rotation;
+						currentDrawer.paint= defenderDrawers.get(id-7).paint;
+						currentDrawer.startIndex= defenderDrawers.get(id-7).startIndex;
 						rotateWhichPlayer =7;
-						Arrow= arrow7;
-						P_startIndex= d1StartIndex;
 						handle_name="D1_Handle";
-						P_Initial_Position_x= d1InitialPositionX;
-						P_Initial_Position_y= d1InitialPositionY;
 						seekbar_player_Id=7;
 						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
 						//Log,i("debug", "first    D1_startIndex="+Integer.toString(D1_startIndex));
 						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 						timefrag1.changeLayout(7);
 					}
-					else if(v.getTag().toString().equals("D2")){
-						//Log,i("debug","D2 ontouch!" );
-						player=D2;
-						c_idx= cd2Idx;
-						P_tempcurve_x = d2TempcurveX;
-						P_tempcurve_y = d2TempcurveY;
-						pRotate = d2Rotate;
-						player_paint= d2Paint;
-						rotateWhichPlayer =8;
-						Arrow= arrow8;
-						P_startIndex= d2StartIndex;
-						handle_name="D2_Handle";
-						P_Initial_Position_x= d2InitialPositionX;
-						P_Initial_Position_y= d2InitialPositionY;
-						seekbar_player_Id=8;
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    D2_startIndex="+Integer.toString(D2_startIndex));
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(8);
-					}
-					else if(v.getTag().toString().equals("D3")){
-						//Log,i("debug","D3 ontouch!" );
-						player=D3;
-						c_idx= cd3Idx;
-						P_tempcurve_x = d3TempcurveX;
-						P_tempcurve_y = d3TempcurveY;
-						pRotate = d3Rotate;
-						player_paint= d3Paint;
-						rotateWhichPlayer =9;
-						Arrow= arrow9;
-						P_startIndex= d3StartIndex;
-						handle_name="D3_Handle";
-						P_Initial_Position_x= d3InitialPositionX;
-						P_Initial_Position_y= d3InitialPositionY;
-						seekbar_player_Id=9;
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    D3_startIndex="+Integer.toString(D3_startIndex));
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(9);
-					}
-					else if(v.getTag().toString().equals("D4")){
-						//Log,i("debug","D4 ontouch!" );
-						player=D4;
-						c_idx= cd4Idx;
-						P_tempcurve_x = d4TempcurveX;
-						P_tempcurve_y = d4TempcurveY;
-						pRotate = d4Rotate;
-						player_paint= d4Paint;
-						rotateWhichPlayer =10;
-						Arrow= arrow10;
-						P_startIndex= d4StartIndex;
-						handle_name="D4_Handle";
-						P_Initial_Position_x= d4InitialPositionX;
-						P_Initial_Position_y= d4InitialPositionY;
-						seekbar_player_Id=10;
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    D4_startIndex="+Integer.toString(D4_startIndex));
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(10);
-					}
-					else if(v.getTag().toString().equals("D5")){
-						//Log,i("debug","D5 ontouch!" );
-						player=D5;
-						c_idx= cd5Idx;
-						P_tempcurve_x = d5TempcurveX;
-						P_tempcurve_y = d5TempcurveY;
-						pRotate = d5Rotate;
-						player_paint= d5Paint;
-						rotateWhichPlayer =11;
-						Arrow= arrow11;
-						P_startIndex= d5StartIndex;
-						handle_name="D5_Handle";
-						P_Initial_Position_x= d5InitialPositionX;
-						P_Initial_Position_y= d5InitialPositionY;
-						seekbar_player_Id=11;
-						//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
-						//Log,i("debug", "first    D5_startIndex="+Integer.toString(D5_startIndex));
-						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.changeLayout(11);
-					}
 					else{
-						//Log,i("debug", "noooooooooo");
+						Log.d("error", "playerListener -> MotionEvent.ACTION_DOWN: Wrong selection");
 					}
-					
+
 					startTime = System.currentTimeMillis();
 					move_count = 1;
 					dum_flag = false;
@@ -5307,16 +1934,14 @@ public class MainFragment extends Fragment{
 					Pcanvas = new Canvas();
 					Pcanvas = new Canvas(Pbitmap);//把P1canvas畫的東西畫到P1bitmap上面
 
-					
 					P_curve_x = new Vector();
 					P_curve_y = new Vector();
 					
 					startX = (int) event.getX();
 					startY = my - v.getTop();
 					if (recordCheck == true) {
-						player.setRoad(0); // split positions
-						player.setRoad3D(0);
-						player.setMyRotation(-1);
+						currentPlayer.setRoad(0); // split positions
+						currentPlayer.setMyRotation(-1);
 					}
 
 					//Pcanvas.drawCircle(mx - startX + v.getWidth()/2, my - startY + v.getHeight()/2, 20, player_paint);
@@ -5330,171 +1955,105 @@ public class MainFragment extends Fragment{
 				case MotionEvent.ACTION_MOVE:// 移動圖片時
 					x = mx - startX;
 					y = my - startY;
-					
-					//x, y, x + v.getWidth(), y + v.getHeight()
-					if(v.getTag().toString().equals("1")){
-						rcP1 =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
-					}
-					else if(v.getTag().toString().equals("2")){
-						rcP2 =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
-					}
-					else if(v.getTag().toString().equals("3")){
-						rcP3 =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
-					}
-					else if(v.getTag().toString().equals("4")){
-						rcP4 =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
-					}
-					else if(v.getTag().toString().equals("5")){
-						rcP5 =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
-					}
-					else if(v.getTag().toString().equals("6")){
-						rcBall =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
-
-                        //region 這裡是先把目前持有球的player先變回無持球狀態，再接著判斷有沒有intersect，確保當兩個player太接近的時候，會導致player明明無持球卻還是呈現有持球的狀態*/
-						playerChangeToNoBall();
-                        //endregion
-
-                        //region 判斷是跟哪個player intersect
-						if(Rect.intersects(rcP1, rcBall)){
+					int id2 = Integer.parseInt(v.getTag().toString());
+					if(id2 < 6)
+						players.get(id2-1).rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
+					else if (id2 == 6){
+						ball.rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
+						/*這裡是先把目前持有球的player先變回無持球狀態，再接著判斷有沒有intersect，確保當兩個player太接近的時候，會導致player明明無持球卻還是呈現有持球的狀態*/
+						setPlayerToNoBall();
+						//region 判斷是跟哪個player intersect
+						if(Rect.intersects(players.get(0).rect, ball.rect)){
 							//Log,i("debug", "P1 Intersects!");
 							intersectName =1;
 							intersect=true;
-							if(player1Ball.getVisibility()== player1Ball.INVISIBLE){
-								player1Ball.layout((int)player1.getX()-30, (int)player1.getY(), (int)player1.getX()-30+200, (int)player1.getY()+120);
-								player1Ball.setVisibility(player1Ball.VISIBLE);
-								player1Ball.invalidate();
-								player1.setVisibility(player1.INVISIBLE);
-								player1.invalidate();
+							if(playersWithBall.get(0).getVisibility()== playersWithBall.get(0).INVISIBLE){
+								playersWithBall.get(0).layout((int)players.get(0).image.getX()-30, (int)players.get(0).image.getY(), (int)players.get(0).image.getX()-30+200, (int)players.get(0).image.getY()+120);
+								playersWithBall.get(0).setVisibility(playersWithBall.get(0).VISIBLE);
+								playersWithBall.get(0).invalidate();
+								players.get(0).image.setVisibility(players.get(0).image.INVISIBLE);
+								players.get(0).image.invalidate();
 							}
 						}
-						else if (Rect.intersects(rcP2, rcBall)){
+						else if (Rect.intersects(players.get(1).rect, ball.rect)){
 							//Log,i("debug", "P2 Intersects!");
 							intersectName =2;
 							intersect=true;
-							if(player2Ball.getVisibility()== player2Ball.INVISIBLE){
-								player2Ball.layout((int)player2.getX()-30, (int)player2.getY(), (int)player2.getX()-30+200, (int)player2.getY()+120);
-								player2Ball.setVisibility(player2Ball.VISIBLE);
-								player2Ball.invalidate();
-								player2.setVisibility(player2.INVISIBLE);
-								player2.invalidate();
+							if(playersWithBall.get(1).getVisibility()== playersWithBall.get(1).INVISIBLE){
+								playersWithBall.get(1).layout((int)players.get(1).image.getX()-30, (int)players.get(1).image.getY(), (int)players.get(1).image.getX()-30+200, (int)players.get(1).image.getY()+120);
+								playersWithBall.get(1).setVisibility(playersWithBall.get(1).VISIBLE);
+								playersWithBall.get(1).invalidate();
+								players.get(1).image.setVisibility(players.get(1).image.INVISIBLE);
+								players.get(1).image.invalidate();
 							}
 						}
-						else if (Rect.intersects(rcP3, rcBall)){
+						else if (Rect.intersects(players.get(2).rect, ball.rect)){
 							//Log,i("debug", "P3 Intersects!");
 							intersectName =3;
 							intersect=true;
-							if(player3Ball.getVisibility()== player3Ball.INVISIBLE){
-								player3Ball.layout((int)player3.getX()-30, (int)player3.getY(), (int)player3.getX()-30+200, (int)player3.getY()+120);
-								player3Ball.setVisibility(player3Ball.VISIBLE);
-								player3Ball.invalidate();
-								player3.setVisibility(player3.INVISIBLE);
-								player3.invalidate();
+							if(playersWithBall.get(2).getVisibility()== playersWithBall.get(2).INVISIBLE){
+								playersWithBall.get(2).layout((int)players.get(2).image.getX()-30, (int)players.get(2).image.getY(), (int)players.get(2).image.getX()-30+200, (int)players.get(2).image.getY()+120);
+								playersWithBall.get(2).setVisibility(playersWithBall.get(2).VISIBLE);
+								playersWithBall.get(2).invalidate();
+								players.get(2).image.setVisibility(players.get(2).image.INVISIBLE);
+								players.get(2).image.invalidate();
 							}
 						}
-						else if (Rect.intersects(rcP4, rcBall)){
+						else if (Rect.intersects(players.get(3).rect, ball.rect)){
 							//Log,i("debug", "P4 Intersects!");
 							intersectName =4;
 							intersect=true;
-							if(player4Ball.getVisibility()== player4Ball.INVISIBLE){
-								player4Ball.layout((int)player4.getX()-30, (int)player4.getY(), (int)player4.getX()-30+200, (int)player4.getY()+120);
-								player4Ball.setVisibility(player4Ball.VISIBLE);
-								player4Ball.invalidate();
-								player4.setVisibility(player4.INVISIBLE);
-								player4.invalidate();
+							if(playersWithBall.get(3).getVisibility()== playersWithBall.get(3).INVISIBLE){
+								playersWithBall.get(3).layout((int)players.get(3).image.getX()-30, (int)players.get(3).image.getY(), (int)players.get(3).image.getX()-30+200, (int)players.get(3).image.getY()+120);
+								playersWithBall.get(3).setVisibility(playersWithBall.get(3).VISIBLE);
+								playersWithBall.get(3).invalidate();
+								players.get(3).image.setVisibility(players.get(3).image.INVISIBLE);
+								players.get(3).image.invalidate();
 							}
 						}
-						else if (Rect.intersects(rcP5, rcBall)){
+						else if (Rect.intersects(players.get(4).rect, ball.rect)){
 							//Log,i("debug", "P5 Intersects!");
 							intersectName =5;
 							intersect=true;
-							if(player5Ball.getVisibility()== player5Ball.INVISIBLE){
-								player5Ball.layout((int)player5.getX()-30, (int)player5.getY(), (int)player5.getX()-30+200, (int)player5.getY()+120);
-								player5Ball.setVisibility(player5Ball.VISIBLE);
-								player5Ball.invalidate();
-								player5.setVisibility(player5.INVISIBLE);
-								player5.invalidate();
+							if(playersWithBall.get(4).getVisibility()== playersWithBall.get(4).INVISIBLE){
+								playersWithBall.get(4).layout((int)players.get(4).image.getX()-30, (int)players.get(4).image.getY(), (int)players.get(4).image.getX()-30+200, (int)players.get(4).image.getY()+120);
+								playersWithBall.get(4).setVisibility(playersWithBall.get(4).VISIBLE);
+								playersWithBall.get(4).invalidate();
+								players.get(4).image.setVisibility(players.get(4).image.INVISIBLE);
+								players.get(4).image.invalidate();
 							}
 						}
 						else{
-							switch (intersectName){
-								case 1:
-									player1.setVisibility(player1.VISIBLE);
-									if(intersect==true){
-										////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-										player1.layout((int) player1Ball.getX()+30, (int) player1Ball.getY(),(int) player1Ball.getX()+30+player1.getWidth(), (int) player1Ball.getY()+player1.getHeight());
-									}
-									player1.invalidate();
-									player1Ball.setVisibility(player1Ball.INVISIBLE);
-									player1Ball.invalidate();
-									break;
-								case 2:
-									player2.setVisibility(player2.VISIBLE);
-									if(intersect==true){
-										////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-										player2.layout((int) player2Ball.getX()+30, (int) player2Ball.getY(),(int) player2Ball.getX()+30+player2.getWidth(), (int) player2Ball.getY()+player2.getHeight());
-									}
-									player2.invalidate();
-									player2Ball.setVisibility(player2Ball.INVISIBLE);
-									player2Ball.invalidate();
-									break;
-								case 3:
-									player3.setVisibility(player3.VISIBLE);
-									if(intersect==true){
-										////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-										player3.layout((int) player3Ball.getX()+30, (int) player3Ball.getY(),(int) player3Ball.getX()+30+player3.getWidth(), (int) player3Ball.getY()+player3.getHeight());
-									}
-									player3.invalidate();
-									player3Ball.setVisibility(player3Ball.INVISIBLE);
-									player3Ball.invalidate();
-									break;
-								case 4:
-									player4.setVisibility(player4.VISIBLE);
-									if(intersect==true){
-										////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-										player4.layout((int) player4Ball.getX()+30, (int) player4Ball.getY(),(int) player4Ball.getX()+30+player4.getWidth(), (int) player4Ball.getY()+player4.getHeight());
-									}
-									player4.invalidate();
-									player4Ball.setVisibility(player4Ball.INVISIBLE);
-									player4Ball.invalidate();
-									break;
-								case 5:
-									player5.setVisibility(player5.VISIBLE);
-									if(intersect==true){
-										////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
-										player5.layout((int) player5Ball.getX()+30, (int) player5Ball.getY(),(int) player5Ball.getX()+30+player5.getWidth(), (int) player5Ball.getY()+player5.getHeight());
-									}
-									player5.invalidate();
-									player5Ball.setVisibility(player5Ball.INVISIBLE);
-									player5Ball.invalidate();
-									break;
+							if(intersectName > 0){
+								players.get(intersectName-1).image.setVisibility(players.get(intersectName-1).image.VISIBLE);
+								if(intersect){
+									////Log,i("debug","intersect=true,player1 should be layout on player_ball's position");
+									players.get(intersectName-1).image.layout((int) playersWithBall.get(intersectName-1).getX()+30, (int) playersWithBall.get(intersectName-1).getY(),(int) playersWithBall.get(intersectName-1).getX()+30+players.get(intersectName-1).image.getWidth(), (int) playersWithBall.get(intersectName-1).getY()+players.get(intersectName-1).image.getHeight());
+								}
+								players.get(intersectName-1).image.invalidate();
+								playersWithBall.get(intersectName-1).setVisibility(playersWithBall.get(intersectName-1).INVISIBLE);
+								playersWithBall.get(intersectName-1).invalidate();
 							}
-
 							intersect=false;
 							intersectName = 0;
 						}
 						//endregion
 					}
 
-
 					//region 當正在繪製軌跡時
 					if (recordCheck == true) {
 						move_count += 2;
-						player.setRoad(x);
-						player.setRoad(y);
-						player.setRoad3D((int) event.getRawX());
-						player.setRoad3D((int) event.getRawY());
-						player.setMyRotation(pRotate);
+						currentPlayer.setRoad(x);
+						currentPlayer.setRoad(y);
+						currentPlayer.setMyRotation(currentDrawer.rotation);
 						//Log,i("debug", "player setMyRotation");
-						
-						P_tempcurve_x.add(c_idx, x);
-						P_tempcurve_y.add(c_idx, y);
-						c_idx++;
-						
+						currentDrawer.tempCurve.add(currentDrawer.curveIndex, new Point(x, y));
+						currentDrawer.curveIndex++;
 						P_curve_x.add((float)mx);
 						P_curve_y.add((float)my);
 
 						// 每畫三個點
-						if(c_idx == N){
+						if(currentDrawer.curveIndex == N){
 							boolean isBallHolder = (rotateWhichPlayer == intersectName);
 							Log.i("debug", "Touch Event : "+ rotateWhichPlayer +", "+ intersectName);
 							Log.i("debug", "sample : "+sample_rate+"  "+ handle_name);
@@ -5506,8 +2065,8 @@ public class MainFragment extends Fragment{
 							float pivot_dir_x2 = 1.0f;
 							float pivot_dir_y2 = 0.0f;
 
-							float target_dir_x = P_tempcurve_x.get(2) - P_tempcurve_x.get(1);
-							float target_dir_y = P_tempcurve_y.get(2) - P_tempcurve_y.get(1);
+							float target_dir_x = currentDrawer.tempCurve.get(2).x - currentDrawer.tempCurve.get(1).x;
+							float target_dir_y = currentDrawer.tempCurve.get(2).y - currentDrawer.tempCurve.get(1).y;
 							float dot_of_two = pivot_dir_x*target_dir_x + pivot_dir_y*target_dir_y;
 							float pivot_length = 1.0f;
 							float target_length = (float)Math.sqrt(Math.pow(target_dir_x, 2) + Math.pow(target_dir_y, 2));
@@ -5603,116 +2162,100 @@ public class MainFragment extends Fragment{
 							if( whetherDraw) {
 								//region 內插出三點的曲線
 								for (int tmp = 1; tmp < N; tmp++) {
-									if (P_tempcurve_x.get(tmp - 1) < P_tempcurve_x.get(tmp)) {// x遞增
-										if (tmp == 1 && ((int) P_tempcurve_x.get(1) == (int) P_tempcurve_x.get(2))) {//第二、三格一樣，給lagrange的陣列不能有x一樣的情況，所以只能給lagrange兩格(一、二格)
-											Vector<Integer> tmp_curve_x = new Vector(), tmp_curve_y = new Vector();
-											tmp_curve_x.add(P_tempcurve_x.get(0));
-											tmp_curve_x.add(P_tempcurve_x.get(1));
-											tmp_curve_y.add(P_tempcurve_y.get(0));
-											tmp_curve_y.add(P_tempcurve_y.get(1));
-
-											for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x <= P_tempcurve_x.get(tmp); tmp_x = tmp_x + (float) 0.1) {
-												tmp_y = lagrange(tmp_curve_x, tmp_curve_y, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);
+									Vector<Point> tempCurve = currentDrawer.tempCurve;
+									if (tempCurve.get(tmp - 1).x < tempCurve.get(tmp).x) {//  x遞增
+										if (tmp == 1 && ((int) tempCurve.get(1).x == (int) tempCurve.get(2).x)) {//第二、三格一樣，給lagrange的陣列不能有x一樣的情況，所以只能給lagrange兩格(一、二格)
+											Vector<Point> intermediate = new Vector<>();
+											intermediate.add(tempCurve.get(0));
+											intermediate.add(tempCurve.get(1));
+											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
+												tmp_y = lagrange(intermediate, tmp_x);
+												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);
 											}
 
-										} else if (tmp == 2 && ((int) P_tempcurve_x.get(0) == (int) P_tempcurve_x.get(1))) {//第一、二格一樣
-											Vector<Integer> tmp_curve_x = new Vector(), tmp_curve_y = new Vector();
-											tmp_curve_x.add(P_tempcurve_x.get(1));
-											tmp_curve_x.add(P_tempcurve_x.get(2));
-											tmp_curve_y.add(P_tempcurve_y.get(1));
-											tmp_curve_y.add(P_tempcurve_y.get(2));
-											for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x <= P_tempcurve_x.get(tmp); tmp_x = tmp_x + (float) 0.1) {
-												tmp_y = lagrange(tmp_curve_x, tmp_curve_y, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//black
+										} else if (tmp == 2 && ((int) tempCurve.get(0).x == (int) tempCurve.get(1).x)) {//第一、二格一樣
+											Vector<Point> intermediate = new Vector<>();
+											intermediate.add(tempCurve.get(1));
+											intermediate.add(tempCurve.get(2));
+											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
+												tmp_y = lagrange(intermediate, tmp_x);
+												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//black
 											}
 										} else {
-											if (tmp == 1 && (int) P_tempcurve_x.get(1) > (int) P_tempcurve_x.get(2)) {//1<2   2>3
-												Vector<Integer> tmp_curve_x = new Vector(), tmp_curve_y = new Vector();
-												tmp_curve_x.add(P_tempcurve_x.get(0));
-												tmp_curve_x.add(P_tempcurve_x.get(1));
-												tmp_curve_y.add(P_tempcurve_y.get(0));
-												tmp_curve_y.add(P_tempcurve_y.get(1));
-												for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x <= P_tempcurve_x.get(tmp); tmp_x = tmp_x + (float) 0.1) {
-													tmp_y = lagrange(tmp_curve_x, tmp_curve_y, tmp_x);
-													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//black
+											if (tmp == 1 && (int) tempCurve.get(1).x > (int) tempCurve.get(2).x) {//1<2   2>3
+												Vector<Point> intermediate = new Vector<>();
+												intermediate.add(tempCurve.get(0));
+												intermediate.add(tempCurve.get(1));
+												for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
+													tmp_y = lagrange(intermediate, tmp_x);
+													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//black
 												}
-											} else if (tmp == 2 && ((int) P_tempcurve_x.get(0) > (int) P_tempcurve_x.get(1))) {//1>2   2<3
-												Vector<Integer> tmp_curve_x = new Vector(), tmp_curve_y = new Vector();
-												tmp_curve_x.add(P_tempcurve_x.get(1));
-												tmp_curve_x.add(P_tempcurve_x.get(2));
-												tmp_curve_y.add(P_tempcurve_y.get(1));
-												tmp_curve_y.add(P_tempcurve_y.get(2));
-												for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x <= P_tempcurve_x.get(tmp); tmp_x = tmp_x + (float) 0.1) {
-													tmp_y = lagrange(tmp_curve_x, tmp_curve_y, tmp_x);
-													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//black
+											} else if (tmp == 2 && ((int) tempCurve.get(0).x > (int) tempCurve.get(1).x)) {//1>2   2<3
+												Vector<Point> intermediate = new Vector<>();
+												intermediate.add(tempCurve.get(1));
+												intermediate.add(tempCurve.get(2));
+												for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
+													tmp_y = lagrange(intermediate, tmp_x);
+													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//black
 												}
 											} else {
-												for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x <= P_tempcurve_x.get(tmp); tmp_x = tmp_x + (float) 0.1) {
-													tmp_y = lagrange(P_tempcurve_x, P_tempcurve_y, tmp_x);
-													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//black
+												for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
+													tmp_y = lagrange(tempCurve, tmp_x);
+													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//black
 												}
 											}
 										}
-									} else if (P_tempcurve_x.get(tmp - 1) > P_tempcurve_x.get(tmp)) {//x遞減
-										if (tmp == 1 && ((int) P_tempcurve_x.get(1) == (int) P_tempcurve_x.get(2))) {//第二、三格一樣，給lagrange的陣列不能有x一樣的情況，所以只能給lagrange兩格(一、二格)
-											Vector<Integer> tmp_curve_x = new Vector(), tmp_curve_y = new Vector();
-											tmp_curve_x.add(P_tempcurve_x.get(0));
-											tmp_curve_x.add(P_tempcurve_x.get(1));
-											tmp_curve_y.add(P_tempcurve_y.get(0));
-											tmp_curve_y.add(P_tempcurve_y.get(1));
-											for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x >= P_tempcurve_x.get(tmp); tmp_x = tmp_x - (float) 0.1) {
-												tmp_y = lagrange(tmp_curve_x, tmp_curve_y, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//red
+									} else if (tempCurve.get(tmp - 1).x > tempCurve.get(tmp).x) {//x遞減
+										if (tmp == 1 && ((int) tempCurve.get(1).x == (int) tempCurve.get(2).x)) {//第二、三格一樣，給lagrange的陣列不能有x一樣的情況，所以只能給lagrange兩格(一、二格)
+											Vector<Point> intermediate = new Vector<>();
+											intermediate.add(tempCurve.get(0));
+											intermediate.add(tempCurve.get(1));
+											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
+												tmp_y = lagrange(intermediate, tmp_x);
+												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
 											}
-										} else if (tmp == 2 && ((int) P_tempcurve_x.get(0) == (int) P_tempcurve_x.get(1))) {//第一、二格一樣
-											Vector<Integer> tmp_curve_x = new Vector(), tmp_curve_y = new Vector();
-											tmp_curve_x.add(P_tempcurve_x.get(1));
-											tmp_curve_x.add(P_tempcurve_x.get(2));
-											tmp_curve_y.add(P_tempcurve_y.get(1));
-											tmp_curve_y.add(P_tempcurve_y.get(2));
-											for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x >= P_tempcurve_x.get(tmp); tmp_x = tmp_x - (float) 0.1) {
-												tmp_y = lagrange(tmp_curve_x, tmp_curve_y, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//red
+										} else if (tmp == 2 && ((int) tempCurve.get(0).x == (int) tempCurve.get(1).x)) {//第一、二格一樣
+											Vector<Point> intermediate = new Vector<>();
+											intermediate.add(tempCurve.get(1));
+											intermediate.add(tempCurve.get(2));
+											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
+												tmp_y = lagrange(intermediate, tmp_x);
+												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
 											}
 										}//都不一樣
 										else {
-											if (tmp == 1 && (int) P_tempcurve_x.get(1) < (int) P_tempcurve_x.get(2)) {//1>2   2<3
-												Vector<Integer> tmp_curve_x = new Vector(), tmp_curve_y = new Vector();
-												tmp_curve_x.add(P_tempcurve_x.get(0));
-												tmp_curve_x.add(P_tempcurve_x.get(1));
-												tmp_curve_y.add(P_tempcurve_y.get(0));
-												tmp_curve_y.add(P_tempcurve_y.get(1));
-												for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x >= P_tempcurve_x.get(tmp); tmp_x = tmp_x - (float) 0.1) {
-													tmp_y = lagrange(tmp_curve_x, tmp_curve_y, tmp_x);
-													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//red
+											if (tmp == 1 && (int) tempCurve.get(1).x < (int) tempCurve.get(2).x) {//1>2   2<3
+												Vector<Point> intermediate = new Vector<>();
+												intermediate.add(tempCurve.get(0));
+												intermediate.add(tempCurve.get(1));
+												for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
+													tmp_y = lagrange(intermediate, tmp_x);
+													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
 												}
-											} else if (tmp == 2 && ((int) P_tempcurve_x.get(0) < (int) P_tempcurve_x.get(1))) {//1<2   2>3
-												Vector<Integer> tmp_curve_x = new Vector(), tmp_curve_y = new Vector();
-												tmp_curve_x.add(P_tempcurve_x.get(1));
-												tmp_curve_x.add(P_tempcurve_x.get(2));
-												tmp_curve_y.add(P_tempcurve_y.get(1));
-												tmp_curve_y.add(P_tempcurve_y.get(2));
-												for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x >= P_tempcurve_x.get(tmp); tmp_x = tmp_x - (float) 0.1) {
-													tmp_y = lagrange(tmp_curve_x, tmp_curve_y, tmp_x);
-													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//red
+											} else if (tmp == 2 && ((int) tempCurve.get(0).x < (int) tempCurve.get(1).x)) {//1<2   2>3
+												Vector<Point> intermediate = new Vector<>();
+												intermediate.add(tempCurve.get(1));
+												intermediate.add(tempCurve.get(2));
+												for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
+													tmp_y = lagrange(intermediate, tmp_x);
+													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
 												}
 											} else {
-												for (float tmp_x = P_tempcurve_x.get(tmp - 1); tmp_x >= P_tempcurve_x.get(tmp); tmp_x = tmp_x - (float) 0.1) {
-													tmp_y = lagrange(P_tempcurve_x, P_tempcurve_y, tmp_x);
-													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//red
+												for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
+													tmp_y = lagrange(tempCurve, tmp_x);
+													Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
 												}
 											}
 										}
 									} else {//==  line 其中兩格一樣的話，就兩格之間畫直線
-										int tmp_x = P_tempcurve_x.get(tmp - 1);
-										if (P_tempcurve_y.get(tmp - 1) > P_tempcurve_y.get(tmp)) {
-											for (float tmp_y = P_tempcurve_y.get(tmp - 1); tmp_y >= P_tempcurve_y.get(tmp); tmp_y = tmp_y - (float) 0.1) {
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//blue
+										int tmp_x = tempCurve.get(tmp - 1).x;
+										if (tempCurve.get(tmp - 1).x > tempCurve.get(tmp).x) {
+											for (float tmp_y = tempCurve.get(tmp - 1).y; tmp_y >= tempCurve.get(tmp).y; tmp_y = tmp_y - (float) 0.1) {
+												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//blue
 											}
 										} else {
-											for (float tmp_y = P_tempcurve_y.get(tmp - 1); tmp_y <= P_tempcurve_y.get(tmp); tmp_y = tmp_y + (float) 0.1) {
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, player_paint);//green
+											for (float tmp_y = tempCurve.get(tmp - 1).y; tmp_y <= tempCurve.get(tmp).y; tmp_y = tmp_y + (float) 0.1) {
+												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//green
 											}
 										}
 									}
@@ -5724,13 +2267,9 @@ public class MainFragment extends Fragment{
 							else if(handle_name.equals("B_Handle")){
 								sample_rate = sample_rate + 1.0f;
 							}
-							c_idx=0;
-							P_tempcurve_x.clear();
-							P_tempcurve_y.clear();
-							P_tempcurve_x.add(c_idx, x);
-							P_tempcurve_y.add(c_idx, y);
-							c_idx++;
-
+							currentDrawer.clearCurve();
+							currentDrawer.tempCurve.add(currentDrawer.curveIndex, new Point(x, y));
+							currentDrawer.curveIndex++;
 						}
 						
 						tempCanvas.drawBitmap(Pbitmap, 0,0, null);
@@ -5740,17 +2279,17 @@ public class MainFragment extends Fragment{
 					}
 					//endregion
 
-					
-					if(Arrow!=null){
-						Arrow.layout(x, y, x + v.getWidth(), y + v.getHeight());
-						Arrow.setRotation(pRotate);
+
+					if(currentPlayer.arrow != null){
+						currentPlayer.arrow.layout(x, y, x + v.getWidth(), y + v.getHeight());
+						currentPlayer.arrow.setRotation(currentDrawer.rotation);
 						TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						timefrag1.setCircularSeekBarProgress(pRotate);//為了讓circular seekbar的值也一起變成儲存的狀態，但是因為android好像有bug，所以他不會更新介面上的seekbar的樣子，但值卻是有改過的
+						timefrag1.setCircularSeekBarProgress(currentDrawer.rotation);//為了讓circular seekbar的值也一起變成儲存的狀態，但是因為android好像有bug，所以他不會更新介面上的seekbar的樣子，但值卻是有改過的
 						//Log.d("debug", "setCircularSeekBarProgress P1_rotate="+Integer.toString(P1_rotate));
-						Arrow.postInvalidate();
+						currentPlayer.arrow.postInvalidate();
 					}	
 					if(intersect==true && v.getTag().toString().equals("6")==false && v.getTag().toString().equals(Integer.toString(intersectName))){
-						ball.layout(x+110, y+30, x+170, y+90);
+						ball.image.layout(x+110, y+30, x+170, y+90);
 					}
 					v.layout(x, y, x + v.getWidth(), y + v.getHeight());
 					v.postInvalidate();
@@ -5759,83 +2298,26 @@ public class MainFragment extends Fragment{
 					return true;
 
                     /*放開圖片***************************************************************************************************/
-                    case MotionEvent.ACTION_UP://放開照片時
-					////Log,i("debug", "intersect_name_pre="+Integer.toString(intersect_name_pre));
-					////Log,i("debug", "intersect_name="+Integer.toString(intersect_name));
+				case MotionEvent.ACTION_UP://放開照片時
+					Log.i("debug", "intersect_name_pre="+Integer.toString(intersectNamePre));
+					Log.i("debug", "intersect_name="+Integer.toString(intersectName));
 
-					if(v.getTag().toString().equals("6")&&intersect==true){
-						switch(intersectName){
-							case 1:
-								if(player1.getVisibility()==player1.INVISIBLE){//代表是player1_ball顯示中
-									arrow1.layout((int) player1Ball.getX(), (int) player1Ball.getY(), (int) player1Ball.getX()+ player1Ball.getWidth(), (int) player1Ball.getY()+ player1Ball.getHeight());
-								}
-								arrow1.invalidate();
-								v.layout((int) player1.getX()+110-30, (int)player1.getY()+30, (int) player1.getX()+170-30,(int)player1.getY()+90);
-								break;
-							case 2:
-								if(player2.getVisibility()==player2.INVISIBLE){//代表是player2_ball顯示中
-									arrow2.layout((int) player2Ball.getX(), (int) player2Ball.getY(), (int) player2Ball.getX()+ player2Ball.getWidth(), (int) player2Ball.getY()+ player2Ball.getHeight());
-								}
-								arrow2.invalidate();
-								v.layout((int) player2.getX()+110-30, (int)player2.getY()+30, (int) player2.getX()+170-30,(int)player2.getY()+90);
-								break;
-							case 3:
-								if(player3.getVisibility()==player3.INVISIBLE){//代表是player3_ball顯示中
-									arrow3.layout((int) player3Ball.getX(), (int) player3Ball.getY(), (int) player3Ball.getX()+ player3Ball.getWidth(), (int) player3Ball.getY()+ player3Ball.getHeight());
-								}
-								arrow3.invalidate();
-								v.layout((int) player3.getX()+110-30, (int)player3.getY()+30, (int) player3.getX()+170-30,(int)player3.getY()+90);
-								break;
-							case 4:
-								if(player4.getVisibility()==player4.INVISIBLE){//代表是player4_ball顯示中
-									arrow4.layout((int) player4Ball.getX(), (int) player4Ball.getY(), (int) player4Ball.getX()+ player4Ball.getWidth(), (int) player4Ball.getY()+ player4Ball.getHeight());
-								}
-								arrow4.invalidate();
-								v.layout((int) player4.getX()+110-30, (int)player4.getY()+30, (int) player4.getX()+170-30,(int)player4.getY()+90);	
-								break;
-							case 5:
-								if(player5.getVisibility()==player5.INVISIBLE){//代表是player5_ball顯示中
-									arrow5.layout((int) player5Ball.getX(), (int) player5Ball.getY(), (int) player5Ball.getX()+ player5Ball.getWidth(), (int) player5Ball.getY()+ player5Ball.getHeight());
-								}
-								arrow5.invalidate();
-								v.layout((int) player5.getX()+110-30, (int)player5.getY()+30, (int) player5.getX()+170-30,(int)player5.getY()+90);
-								break;
-						
+					if(v.getTag().toString().equals("6") && intersect==true){
+						if(intersectName > 0){
+							if(players.get(intersectName-1).image.getVisibility()==players.get(intersectName-1).image.INVISIBLE){//代表是player1_ball顯示中
+								players.get(intersectName-1).arrow.layout((int) playersWithBall.get(intersectName-1).getX(), (int) playersWithBall.get(intersectName-1).getY(), (int) playersWithBall.get(intersectName-1).getX()+ playersWithBall.get(intersectName-1).getWidth(), (int) playersWithBall.get(intersectName-1).getY()+ playersWithBall.get(intersectName-1).getHeight());
+							}
+							players.get(intersectName-1).arrow.invalidate();
+							v.layout((int) players.get(intersectName-1).image.getX()+110-30, (int)players.get(intersectName-1).image.getY()+30, (int) players.get(intersectName-1).image.getX()+170-30,(int)players.get(intersectName-1).image.getY()+90);
+							v.invalidate();
 						}
-						v.invalidate();
 					}
 					else if(v.getTag().toString().equals("6") && intersect == false){
-						switch(intersectName){
-							case 1:
-								if(player1.getVisibility() == player1.VISIBLE){
-									arrow1.layout((int)player1.getX(), (int)player1.getY(), (int)player1.getX()+player1.getWidth(), (int)player1.getY()+player1.getHeight());
-								}
-								arrow1.invalidate();
-								break;
-							case 2:
-								if(player2.getVisibility() == player2.VISIBLE){
-									arrow2.layout((int)player2.getX(), (int)player2.getY(), (int)player2.getX()+player2.getWidth(), (int)player2.getY()+player2.getHeight());
-								}
-								arrow2.invalidate();
-								break;
-							case 3:
-								if(player3.getVisibility() == player3.VISIBLE){
-									arrow3.layout((int)player3.getX(), (int)player3.getY(), (int)player3.getX()+player3.getWidth(), (int)player3.getY()+player3.getHeight());
-								}
-								arrow3.invalidate();
-								break;
-							case 4:
-								if(player4.getVisibility() == player4.VISIBLE){
-									arrow4.layout((int)player4.getX(), (int)player4.getY(), (int)player4.getX()+player4.getWidth(), (int)player4.getY()+player4.getHeight());
-								}
-								arrow4.invalidate();
-								break;
-							case 5:
-								if(player5.getVisibility() == player5.VISIBLE){
-									arrow5.layout((int)player5.getX(), (int)player5.getY(), (int)player5.getX()+player5.getWidth(), (int)player5.getY()+player5.getHeight());
-								}
-								arrow5.invalidate();
-								break;
+						if(intersectName > 0){
+							if(players.get(intersectName-1).image.getVisibility() == players.get(intersectName-1).image.VISIBLE){
+								players.get(intersectName-1).arrow.layout((int)players.get(intersectName-1).image.getX(), (int)players.get(intersectName-1).image.getY(), (int)players.get(intersectName-1).image.getX()+players.get(intersectName-1).image.getWidth(), (int)players.get(intersectName-1).image.getY()+players.get(intersectName-1).image.getHeight());
+							}
+							players.get(intersectName-1).arrow.invalidate();
 						}
 					}
 
@@ -5859,8 +2341,7 @@ public class MainFragment extends Fragment{
 				           	}
 				    		circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));//把tempBitmap放進circle裡
 							for(int i=0;i<move_count;i++){
-								player.getCmpltRoad().remove(player.getRoadSize()-1);
-								player.getCmpltRoad_3d().remove(player.getRoadSize_3d()-1);
+								currentPlayer.getCmpltRoad().remove(currentPlayer.getRoadSize()-1);
 							}	
 						}
 						
@@ -5956,28 +2437,28 @@ public class MainFragment extends Fragment{
 							if(isBallHolder)
 								mainwrapfrag.create_dribble_line((int)line_start_point_x, (int)line_start_point_y, rotateWhichPlayer, last_direction, drawn_length, runBags.size());
 
-							Pcanvas.drawCircle((int)line_start_point_x, (int)line_start_point_y, 10, player_paint);
+							Pcanvas.drawCircle((int)line_start_point_x, (int)line_start_point_y, 10, currentDrawer.paint);
 
 							bitmapVector.add(Pbitmap);
 							/*//Log,i("debug", "bitmap_size="+Integer.toString(Bitmap_vector.size()));
 							//Log,i("debug", "P1_curve_x_size="+Integer.toString(P1.getCmpltCurve().get(tmp).size()));
 							//Log,i("debug", "P1_curve_y_size="+Integer.toString(P1.getCmpltCurve().get(tmp+1).size()));*/
 							
-							int startIndexTmp = P_startIndex;
+							int startIndexTmp = currentDrawer.startIndex;
 							////Log,i("debug", "dum_flag = true , P_startIndex ="+Integer.toString(P_startIndex));
-							while (P_startIndex != -1) {
+							while (currentDrawer.startIndex != -1) {
 								RunBag tmp = new RunBag();
 								tmp.setStartTime(seekBarCallbackStartTime);
 								tmp.setHandler(handle_name);
-								tmp.setRoadStart(P_startIndex + 1);
-								P_startIndex += 2;
-								P_startIndex = player.getRoad(0, P_startIndex);
-								if (P_startIndex == -1) {
-									startIndexTmp = player.getLastRoad();
+								tmp.setRoadStart(currentDrawer.startIndex + 1);
+								currentDrawer.startIndex += 2;
+								currentDrawer.startIndex = currentPlayer.getRoad(0, currentDrawer.startIndex);
+								if (currentDrawer.startIndex == -1) {
+									startIndexTmp = currentPlayer.getLastRoad();
 									tmp.setRoadEnd(startIndexTmp);
 								} else {
-									tmp.setRoadEnd(P_startIndex);
-									startIndexTmp = P_startIndex;
+									tmp.setRoadEnd(currentDrawer.startIndex);
+									startIndexTmp = currentDrawer.startIndex;
 								}
 								tmp.setDuration(seekBarCallbackDuration);
 								tmp.setTimeLineId(runBags.size());
@@ -6015,177 +2496,48 @@ public class MainFragment extends Fragment{
 								mainFragSeekBarProgressLow++;
 								timefrag.createSeekbar(seekbar_player_Id);
 							}
-							P_startIndex = startIndexTmp + 1;
+							currentDrawer.startIndex = startIndexTmp + 1;
 						}
 					}
 					else{
 						if(runBags.size()==0){
-							P_Initial_Position_x=x;
-							P_Initial_Position_y=y;
+							currentPlayer.initialPosition = new Point(x, y);
 						}
 					}
 					//endregion
-					
-					if(v.getTag().toString().equals("1")){
-						P1=player;
-						c1Idx =c_idx;
-						p1TempcurveX = P_tempcurve_x;
-						p1TempcurveY = P_tempcurve_y;
-						p1Rotate = pRotate;
-						p1StartIndex =P_startIndex;
-						handle_name="P1_Handle";
-						p1InitialPositionX =P_Initial_Position_x;
-						p1InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=1;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "P1_startIndex="+Integer.toString(P1_startIndex));
-						////Log,i("debug", "P1_RoadSize="+Integer.toString(P1.getRoadSize()));
-					}
-					else if (v.getTag().toString().equals("2")){
-						P2=player;
-						c2Idx =c_idx;
-						p2TempcurveX = P_tempcurve_x;
-						p2TempcurveY = P_tempcurve_y;
-						p2Rotate = pRotate;
-						p2StartIndex =P_startIndex;
-						handle_name="P2_Handle";
-						p2InitialPositionX =P_Initial_Position_x;
-						p2InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=2;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "P2_startIndex="+Integer.toString(P2_startIndex));
-					}
-					else if (v.getTag().toString().equals("3")){
-						P3=player;
-						c3Idx =c_idx;
-						p3TempcurveX = P_tempcurve_x;
-						p3TempcurveY = P_tempcurve_y;
-						p3Rotate = pRotate;
-						p3StartIndex =P_startIndex;
-						handle_name="P3_Handle";
-						p3InitialPositionX =P_Initial_Position_x;
-						p3InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=3;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "P3_startIndex="+Integer.toString(P3_startIndex));
-					}
-					else if (v.getTag().toString().equals("4")){
-						P4=player;
-						c4Idx =c_idx;
-						p4TempcurveX = P_tempcurve_x;
-						p4TempcurveY = P_tempcurve_y;
-						p4Rotate = pRotate;
-						p4StartIndex =P_startIndex;
-						handle_name="P4_Handle";
-						p4InitialPositionX =P_Initial_Position_x;
-						p4InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=4;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "P4_startIndex="+Integer.toString(P4_startIndex));
-					}
-					else if (v.getTag().toString().equals("5")){
-						P5=player;
-						c5Idx =c_idx;
-						p5TempcurveX = P_tempcurve_x;
-						p5TempcurveY = P_tempcurve_y;
-						p5Rotate = pRotate;
-						p5StartIndex =P_startIndex;
-						handle_name="P5_Handle";
-						p5InitialPositionX =P_Initial_Position_x;
-						p5InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=5;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "P5_startIndex="+Integer.toString(P5_startIndex));
-					}
-					else if (v.getTag().toString().equals("6")){
-						B=player;
-						ballIdx =c_idx;
-						ballTempcurveX = P_tempcurve_x;
-						ballTempcurveY = P_tempcurve_y;
-						bRotate = pRotate;
-						bStartIndex =P_startIndex;
+					int id3 = Integer.parseInt(v.getTag().toString());
+					if(id3 == 6){
+						ball= currentPlayer;
+						ballDrawer.curveIndex = currentDrawer.curveIndex;
+						ballDrawer.tempCurve = currentDrawer.tempCurve;
+						ballDrawer.startIndex =currentDrawer.startIndex;
 						handle_name="B_Handle";
-						bInitialPositionX =P_Initial_Position_x;
-						bInitialPositionY =P_Initial_Position_y;
+						ball.initialPosition = currentPlayer.initialPosition;
 						seekbar_player_Id=6;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "B_startIndex="+Integer.toString(B_startIndex));
 					}
-					else if (v.getTag().toString().equals("D1")){
-						D1=player;
-						cd1Idx =c_idx;
-						d1TempcurveX = P_tempcurve_x;
-						d1TempcurveY = P_tempcurve_y;
-						d1Rotate = pRotate;
-						d1StartIndex =P_startIndex;
-						handle_name="D1_Handle";
-						d1InitialPositionX =P_Initial_Position_x;
-						d1InitialPositionY =P_Initial_Position_y;
+					else if(id3 < 6){
+						players.set(id3-1, currentPlayer);
+						playerDrawers.get(id3-1).curveIndex = currentDrawer.curveIndex;
+						playerDrawers.get(id3-1).tempCurve = currentDrawer.tempCurve;
+						playerDrawers.get(id3-1).rotation = currentDrawer.rotation;
+						playerDrawers.get(id3-1).startIndex =currentDrawer.startIndex;
+						handle_name="P" + String.valueOf(id3) + "_Handle";
+						players.get(id3-1).initialPosition = currentPlayer.initialPosition;
+						seekbar_player_Id=1;
+					}
+					else if(id3 > 6){
+						defenders.set(id3-7, currentPlayer);
+						defenderDrawers.get(id3-7).curveIndex = currentDrawer.curveIndex;
+						defenderDrawers.get(id3-7).tempCurve = currentDrawer.tempCurve;
+						defenderDrawers.get(id3-7).rotation = currentDrawer.rotation;
+						defenderDrawers.get(id3-7).startIndex = currentDrawer.startIndex;
+						handle_name="D"+ String.valueOf(id3-6) +"_Handle";
+						defenders.get(id3-7).initialPosition = currentPlayer.initialPosition;
 						seekbar_player_Id=7;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "D1_startIndex="+Integer.toString(D1_startIndex));
-						////Log,i("debug", "D1_Roadsize="+Integer.toString(D1.getRoadSize()));
-					}
-					else if (v.getTag().toString().equals("D2")){
-						D2=player;
-						cd2Idx =c_idx;
-						d2TempcurveX = P_tempcurve_x;
-						d2TempcurveY = P_tempcurve_y;
-						d2Rotate = pRotate;
-						d2StartIndex =P_startIndex;
-						handle_name="D2_Handle";
-						d2InitialPositionX =P_Initial_Position_x;
-						d2InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=8;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "D2_startIndex="+Integer.toString(D2_startIndex));
-					}
-					else if (v.getTag().toString().equals("D3")){
-						D3=player;
-						cd3Idx =c_idx;
-						d3TempcurveX = P_tempcurve_x;
-						d3TempcurveY = P_tempcurve_y;
-						d3Rotate = pRotate;
-						d3StartIndex =P_startIndex;
-						handle_name="D3_Handle";
-						d3InitialPositionX =P_Initial_Position_x;
-						d3InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=9;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "D3_startIndex="+Integer.toString(D3_startIndex));
-					}
-					else if (v.getTag().toString().equals("D4")){
-						D4=player;
-						cd4Idx =c_idx;
-						d4TempcurveX = P_tempcurve_x;
-						d4TempcurveY = P_tempcurve_y;
-						d4Rotate = pRotate;
-						d4StartIndex =P_startIndex;
-						handle_name="D4_Handle";
-						d4InitialPositionX =P_Initial_Position_x;
-						d4InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=10;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "D4_startIndex="+Integer.toString(D4_startIndex));
-					}
-					else if (v.getTag().toString().equals("D5")){
-						D5=player;
-						cd5Idx =c_idx;
-						d5TempcurveX = P_tempcurve_x;
-						d5TempcurveY = P_tempcurve_y;
-						d5Rotate = pRotate;
-						d5StartIndex =P_startIndex;
-						handle_name="D5_Handle";
-						d5InitialPositionX =P_Initial_Position_x;
-						d5InitialPositionY =P_Initial_Position_y;
-						seekbar_player_Id=11;
-						////Log,i("debug", "P_startIndex="+Integer.toString(P_startIndex));
-						////Log,i("debug", "D5_startIndex="+Integer.toString(D5_startIndex));
 					}
 					else{
-						////Log,i("debug", "noooooooooo");
+						Log.d("error", "playerListener -> MotionEvent.ACTION_UP: Wrong selection");
 					}
-
 					intersectNamePre = intersectName;//判斷球有沒有傳給別的player。p.s. --> pre = 上一個拿球的人
 					
 					return true;//放開圖片的case
@@ -6197,55 +2549,7 @@ public class MainFragment extends Fragment{
 				return true;
 			}//onTouch Event
 		};
-		 
-		
-		
-		private OnClickListener rm_button_Listener = new OnClickListener(){//"刪除路徑"
-	    	@Override
-	    	public void onClick(View v) {      
-	    		/*remove bitmap*/
-	    		/*tempBitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//??l??tempBitmap?A???w?j?p??????j?p(?j?p?Pcircle)
-	    		tempCanvas = new Canvas();
-	           	tempCanvas = new Canvas(tempBitmap);//?e?z????|
-	           	//Log,i("seekbar", "which_to_remove="+Integer.toString(which_to_remove));
-	           	for(int tmp=0;tmp<Bitmap_vector.size();tmp++){
-	           		if(tmp!=which_to_remove){
-	           			tempCanvas.drawBitmap(Bitmap_vector.get(tmp), 0, 0, null);
-	           		}
-	           	}
-	           	Bitmap_vector.remove(which_to_remove);
-	    		circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));//??tempBitmap??icircle??
-	       		*/
-	    		/*remove timeline*/
-	    		/*TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-	    		//Log,i("seekbar", "Remove the RunLine.get"+Integer.toString(which_to_remove)+".getTimeLineId ="+Integer.toString(RunLine.get(which_to_remove).getTimeLineId()));
-	    		timefrag1.remove_one_timeline(RunLine.get(which_to_remove).getTimeLineId());
-	    		*/
-	    		/*remove runline*/
-	    		/*Every component's position in the RunLine should be the same with the TimeLine SeekBarId.*/
-	    		/*for(int index=which_to_remove+1;index<RunLine.size();index++){
-	    			//Log,i("seekbar", "Change seekbar's ID, search ID(index)="+Integer.toString(index));
-	    			timefrag1.changeSeekBarId(index,index-1);
-	    			RunLine.get(index).setTimeLineId(index-1);
-	    		}
-	    		RunLine.remove(which_to_remove);
-	    		timefrag1.setRunLineId(RunLine.size()-1);
-	    		//Log,i("seekbar", "RunLine.size="+Integer.toString(RunLine.size()));
-	    		*/
-	    		/*remove Curves*/
-	    		/*Curves.remove(which_to_remove*2);
-	    		Curves.remove(which_to_remove*2);
-	    		*/
-	    		/*hide rm_button*/
-	    		/*rm_button.setVisibility(rm_button.INVISIBLE);
-				rm_button.layout(1, 1, 1+rm_button_width, 1+rm_button_height);
-				rm_button.invalidate();
-	    		*/
-	    		////Log,i("debug", "rm_button_onclick!!");
-	    	}
-	    };
 
-	    
 	    public void mainfragRemoveOnePath(int seekbarId){
 	    	whichToRemove = seekbarId;
 	    	/*remove bitmap*/
@@ -6285,17 +2589,14 @@ public class MainFragment extends Fragment{
     		runBags.remove(whichToRemove);
     		timefrag1.setRunLineId(runBags.size()-1);
     		////Log,i("seekbar", "RunLine.size="+Integer.toString(RunLine.size()));
-    		
-    		
+
     		/*remove Curves*/
     		curves.remove(whichToRemove *2);
     		curves.remove(whichToRemove *2);
-    		
 
     		mainfragSortPathnum();
 	    }
-	    
-	    
+
 	    public void mainfragSortPathnum(){
 	    	ArrayList<RunBag> list = new ArrayList<RunBag>();
 	    	for(int i = 0; i< runBags.size(); i++){

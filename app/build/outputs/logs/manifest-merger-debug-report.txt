@@ -1,116 +1,108 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:2:1-36:12
-MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\appcompat-v7-23.4.0.aar\42541f43126a8e124029519846bce7f4\AndroidManifest.xml:17:1-27:12
-MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-23.4.0.aar\38ad33382f7074caced675988300bdb7\AndroidManifest.xml:2:1-9:12
-MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-23.4.0.aar\06ef7d770607ee5d53a83d617676983d\AndroidManifest.xml:2:1-9:12
-MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-v4-23.4.0.aar\2e35c814391f734b6012f488012390d7\AndroidManifest.xml:17:1-24:12
-MERGED from [:openCVLibrary2411] D:\workspace\e-btb\openCVLibrary2411\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-11:12
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:2:1-36:12
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:2:1-36:12
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:2:1-36:12
+MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\62fafa52f9dd42022581bbecd2648120\appcompat-v7-23.4.0\AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\983788242c0c1faf8f5e833478614564\animated-vector-drawable-23.4.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\bada1e1fd7281982b48527942e9fe0ae\support-vector-drawable-23.4.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\5acf6a62f2880815e48c34f5c32b52f1\support-v4-23.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [:openCVLibrary2411] E:\0_Basketball\Android\E_BTB\openCVLibrary2411\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:2:1-36:12
 	package
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:3:5-37
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:3:5-37
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:5:5-30
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:5:5-30
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:2:11-69
 	android:versionCode
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:4:5-28
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:4:5-28
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
 	android:largeHeap
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:6:5-29
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:6:5-29
 	android:installLocation
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:6:30-60
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:6:30-60
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:7:2-8:64
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:7:2-8:64
 	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:8:6-61
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:8:6-61
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:9:2-10:65
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:9:2-10:65
 	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:10:6-62
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:10:6-62
 uses-permission#android.permission.INTERNET
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:11:2-63
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:11:2-63
 	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:11:19-61
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:11:19-61
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:12:2-72
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:12:2-72
 	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:12:19-70
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:12:19-70
 uses-sdk
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:13:5-15:41
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:13:5-15:41
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:13:5-15:41
-MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\appcompat-v7-23.4.0.aar\42541f43126a8e124029519846bce7f4\AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\appcompat-v7-23.4.0.aar\42541f43126a8e124029519846bce7f4\AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-23.4.0.aar\38ad33382f7074caced675988300bdb7\AndroidManifest.xml:5:5-44
-MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-23.4.0.aar\38ad33382f7074caced675988300bdb7\AndroidManifest.xml:5:5-44
-MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-23.4.0.aar\06ef7d770607ee5d53a83d617676983d\AndroidManifest.xml:5:5-43
-MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-23.4.0.aar\06ef7d770607ee5d53a83d617676983d\AndroidManifest.xml:5:5-43
-MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-v4-23.4.0.aar\2e35c814391f734b6012f488012390d7\AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-v4-23.4.0.aar\2e35c814391f734b6012f488012390d7\AndroidManifest.xml:20:5-43
-MERGED from [:openCVLibrary2411] D:\workspace\e-btb\openCVLibrary2411\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:openCVLibrary2411] D:\workspace\e-btb\openCVLibrary2411\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:13:5-15:41
-INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:13:5-15:41
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:13:5-15:41
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:13:5-15:41
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:13:5-15:41
+MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\62fafa52f9dd42022581bbecd2648120\appcompat-v7-23.4.0\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\62fafa52f9dd42022581bbecd2648120\appcompat-v7-23.4.0\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\983788242c0c1faf8f5e833478614564\animated-vector-drawable-23.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\983788242c0c1faf8f5e833478614564\animated-vector-drawable-23.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\bada1e1fd7281982b48527942e9fe0ae\support-vector-drawable-23.4.0\AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\bada1e1fd7281982b48527942e9fe0ae\support-vector-drawable-23.4.0\AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\5acf6a62f2880815e48c34f5c32b52f1\support-v4-23.4.0\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\5acf6a62f2880815e48c34f5c32b52f1\support-v4-23.4.0\AndroidManifest.xml:20:5-43
+MERGED from [:openCVLibrary2411] E:\0_Basketball\Android\E_BTB\openCVLibrary2411\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:openCVLibrary2411] E:\0_Basketball\Android\E_BTB\openCVLibrary2411\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:13:5-15:41
+INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:13:5-15:41
 	tools:overrideLibrary
-		ADDED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\appcompat-v7-23.4.0.aar\42541f43126a8e124029519846bce7f4\AndroidManifest.xml:23:9-75
+		ADDED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\62fafa52f9dd42022581bbecd2648120\appcompat-v7-23.4.0\AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:15:9-38
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:15:9-38
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:14:9-35
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:14:9-35
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml
 application
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:17:5-34:19
-MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\appcompat-v7-23.4.0.aar\42541f43126a8e124029519846bce7f4\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\appcompat-v7-23.4.0.aar\42541f43126a8e124029519846bce7f4\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-23.4.0.aar\38ad33382f7074caced675988300bdb7\AndroidManifest.xml:7:5-20
-MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-23.4.0.aar\38ad33382f7074caced675988300bdb7\AndroidManifest.xml:7:5-20
-MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-23.4.0.aar\06ef7d770607ee5d53a83d617676983d\AndroidManifest.xml:7:5-20
-MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-23.4.0.aar\06ef7d770607ee5d53a83d617676983d\AndroidManifest.xml:7:5-20
-MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-v4-23.4.0.aar\2e35c814391f734b6012f488012390d7\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-1\files-1.1\support-v4-23.4.0.aar\2e35c814391f734b6012f488012390d7\AndroidManifest.xml:22:5-20
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:17:5-34:19
+MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\62fafa52f9dd42022581bbecd2648120\appcompat-v7-23.4.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\62fafa52f9dd42022581bbecd2648120\appcompat-v7-23.4.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\983788242c0c1faf8f5e833478614564\animated-vector-drawable-23.4.0\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\983788242c0c1faf8f5e833478614564\animated-vector-drawable-23.4.0\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\bada1e1fd7281982b48527942e9fe0ae\support-vector-drawable-23.4.0\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\bada1e1fd7281982b48527942e9fe0ae\support-vector-drawable-23.4.0\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\5acf6a62f2880815e48c34f5c32b52f1\support-v4-23.4.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.4.0] C:\Users\tsai\.gradle\caches\transforms-2\files-2.1\5acf6a62f2880815e48c34f5c32b52f1\support-v4-23.4.0\AndroidManifest.xml:22:5-20
 	android:label
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:20:9-41
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:20:9-41
 	android:icon
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:19:9-43
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:19:9-43
 	android:allowBackup
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:18:9-35
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:18:9-35
 	android:theme
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:21:9-40
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:21:9-40
 activity#com.example.helloworld.MainActivity
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:22:9-30:20
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:22:9-30:20
 	android:label
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:24:13-45
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:24:13-45
 	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:23:13-41
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:23:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:25:13-29:29
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:25:13-29:29
 action#android.intent.action.MAIN
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:26:17-69
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:26:17-69
 	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:26:25-66
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:26:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:28:17-77
+ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:28:17-77
 	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:28:27-74
-activity#com.example.helloworld.MultiActivity
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:32:9-60
-	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:32:19-48
-activity#com.example.helloworld.ThreeDMainActivity
-ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:33:9-65
-	android:name
-		ADDED from D:\workspace\e-btb\app\src\main\AndroidManifest.xml:33:19-53
+		ADDED from E:\0_Basketball\Android\E_BTB\app\src\main\AndroidManifest.xml:28:27-74

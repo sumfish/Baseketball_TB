@@ -3,13 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_layout" >
-    
-    
-    
-    
-    
+
     <ImageView
-        android:id="@+id/player1_ball"
+        android:id="@+id/image_p1withBall"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -20,7 +16,7 @@
         android:tag="1" />
     
     <ImageView
-        android:id="@+id/player2_ball"
+        android:id="@+id/image_p2withBall"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -31,7 +27,7 @@
         android:tag="2" />
     
     <ImageView
-        android:id="@+id/player3_ball"
+        android:id="@+id/image_p3withBall"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -42,7 +38,7 @@
         android:tag="3" />
     
     <ImageView
-        android:id="@+id/player4_ball"
+        android:id="@+id/image_p4withBall"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -53,7 +49,7 @@
         android:tag="4" />
     
     <ImageView
-        android:id="@+id/player5_ball"
+        android:id="@+id/image_p5withBall"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -74,7 +70,7 @@
         android:src="@drawable/rm_button" />
     
     <ImageView
-        android:id="@+id/player1"
+        android:id="@+id/image_p1"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -85,7 +81,7 @@
         android:tag="1" />
 
        <ImageView
-           android:id="@+id/player2"
+           android:id="@+id/image_p2"
            android:layout_width="60dp"
            android:layout_height="60dp"
            android:layout_alignParentLeft="true"
@@ -96,7 +92,7 @@
            android:tag="2" />
 
        <ImageView
-           android:id="@+id/player3"
+           android:id="@+id/image_p3"
            android:layout_width="60dp"
            android:layout_height="60dp"
            android:layout_alignParentLeft="true"
@@ -107,7 +103,7 @@
            android:tag="3" />
 
        <ImageView
-           android:id="@+id/player4"
+           android:id="@+id/image_p4"
            android:layout_width="60dp"
            android:layout_height="60dp"
            android:layout_alignParentLeft="true"
@@ -118,7 +114,7 @@
            android:tag="4" />
 
        <ImageView
-           android:id="@+id/player5"
+           android:id="@+id/image_p5"
            android:layout_width="60dp"
            android:layout_height="60dp"
            android:layout_alignParentLeft="true"
@@ -129,7 +125,7 @@
            android:tag="5" />
 
        <ImageView
-           android:id="@+id/ball"
+           android:id="@+id/image_ball"
            android:layout_width="30dp"
            android:layout_height="30dp"
            android:layout_alignParentLeft="true"
@@ -141,7 +137,7 @@
 		
        
        <ImageView
-        android:id="@+id/defender1"
+        android:id="@+id/image_d1"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
@@ -149,10 +145,10 @@
         android:layout_marginLeft="0dp"
         android:layout_marginTop="230dp"
         android:src="@drawable/defender1"
-        android:tag="D1" />
+        android:tag="7" />
 
        <ImageView
-           android:id="@+id/defender2"
+           android:id="@+id/image_d2"
            android:layout_width="60dp"
            android:layout_height="60dp"
            android:layout_alignParentLeft="true"
@@ -160,10 +156,10 @@
            android:layout_marginLeft="0dp"
            android:layout_marginTop="260dp"
            android:src="@drawable/defender2"
-           android:tag="D2" />
+           android:tag="8" />
 
        <ImageView
-           android:id="@+id/defender3"
+           android:id="@+id/image_d3"
            android:layout_width="60dp"
            android:layout_height="60dp"
            android:layout_alignParentLeft="true"
@@ -171,10 +167,10 @@
            android:layout_marginLeft="0dp"
            android:layout_marginTop="290dp"
            android:src="@drawable/defender3"
-           android:tag="D3" />
+           android:tag="9" />
 
        <ImageView
-           android:id="@+id/defender4"
+           android:id="@+id/image_d4"
            android:layout_width="60dp"
            android:layout_height="60dp"
            android:layout_alignParentLeft="true"
@@ -182,10 +178,10 @@
            android:layout_marginLeft="0dp"
            android:layout_marginTop="320dp"
            android:src="@drawable/defender4"
-           android:tag="D4" />
+           android:tag="10" />
 
        <ImageView
-           android:id="@+id/defender5"
+           android:id="@+id/image_d5"
            android:layout_width="60dp"
            android:layout_height="60dp"
            android:layout_alignParentLeft="true"
@@ -193,19 +189,10 @@
            android:layout_marginLeft="0dp"
            android:layout_marginTop="350dp"
            android:src="@drawable/defender5"
-           android:tag="D5" />
-       
-       
-       
-       
-       
-       
-       
-       
+           android:tag="11" />
+
 		<!-- 這是放畫布的地方 -->
-		
-		
-		
+
     	<ImageView
     	    android:id="@+id/circle"
     	    android:layout_width="match_parent"
@@ -262,7 +249,7 @@
     	    android:src="@drawable/arrow" />
     	
     	<ImageView
-    	    android:id="@+id/arrow7"
+    	    android:id="@+id/arrow6"
     	    android:layout_alignParentLeft="true"
 	        android:layout_alignParentTop="true"
 	        android:layout_marginLeft="0dp"
@@ -272,7 +259,7 @@
     	    android:src="@drawable/arrow" />
     	
     	<ImageView
-    	    android:id="@+id/arrow8"
+    	    android:id="@+id/arrow7"
     	    android:layout_alignParentLeft="true"
 	        android:layout_alignParentTop="true"
 	        android:layout_marginLeft="0dp"
@@ -282,7 +269,7 @@
     	    android:src="@drawable/arrow" />
     	
     	<ImageView
-    	    android:id="@+id/arrow9"
+    	    android:id="@+id/arrow8"
     	    android:layout_alignParentLeft="true"
 	        android:layout_alignParentTop="true"
 	        android:layout_marginLeft="0dp"
@@ -292,7 +279,7 @@
     	    android:src="@drawable/arrow" />
     	
     	<ImageView
-    	    android:id="@+id/arrow10"
+    	    android:id="@+id/arrow9"
     	    android:layout_alignParentLeft="true"
 	        android:layout_alignParentTop="true"
 	        android:layout_marginLeft="0dp"
@@ -302,7 +289,7 @@
     	    android:src="@drawable/arrow" />
     	
     	<ImageView
-    	    android:id="@+id/arrow11"
+    	    android:id="@+id/arrow10"
     	    android:layout_alignParentLeft="true"
 	        android:layout_alignParentTop="true"
 	        android:layout_marginLeft="0dp"
@@ -311,7 +298,6 @@
     	    android:layout_height="60dp"
     	    android:src="@drawable/arrow" />
 
-    	
     	
     	<!-- 
     	<RelativeLayout 

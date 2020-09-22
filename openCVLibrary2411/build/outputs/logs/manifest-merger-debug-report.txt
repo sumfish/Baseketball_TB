@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-8:12
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-8:12
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-8:12
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-8:12
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-8:12
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-8:12
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-8:12
+ADDED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-7:12
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-7:12
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-7:12
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-7:12
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-7:12
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-7:12
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:2:1-7:12
 	package
-		ADDED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:3:7-27
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:3:7-27
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:5:7-35
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:5:7-35
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:2:11-69
+		ADDED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:2:11-69
 	android:versionCode
-		ADDED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:4:7-34
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml:4:7-34
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
 uses-sdk
-ADDED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:7:5-43
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:7:5-43
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:7:5-43
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:7:5-43
-INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:7:5-43
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
-		ADDED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:7:5-43
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml:7:15-40
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
-		INJECTED from D:\workspace\e-btb\openCVLibrary2411\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+		ADDED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml
+		INJECTED from E:\0_Basketball\Android\E_BTB\openCVLibrary2411\src\main\AndroidManifest.xml

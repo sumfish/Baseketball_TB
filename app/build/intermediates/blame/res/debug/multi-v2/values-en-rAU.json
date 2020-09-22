@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\workspace\\e-btb\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rAU\\values-en-rAU.xml",
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rAU\\values-en-rAU.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\42541f43126a8e124029519846bce7f4\\res\\values-en-rAU\\values-en-rAU.xml",
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-en-rAU\\values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

@@ -43,80 +43,6 @@ public class RunBag implements Serializable{
 		rate = -1;
 		ballNum =-1;
 	}
-	
-	public Vector<Integer> parseRunBagToIntVec(){
-		Vector<Integer> output = new Vector();
-		/*tmp=Integer.toString(start_time)+"\n";
-		tmp+=handler+"\n";
-		tmp+=Integer.toString(road_start)+"\n";
-		tmp+=Integer.toString(road_end)+"\n";
-		tmp+=Integer.toString(duration)+"\n";
-		tmp+=Integer.toString(ball_num);*/
-		if(startTime !=-1)
-			output.add(startTime);
-		else
-			return null;
-		///////////////////////////////////////////
-		if(handler.equals("null")==false){
-			if(handler.equals("P1_Handle")){
-				output.add(0);
-			}
-			else if(handler.equals("P2_Handle")){
-				output.add(1);
-			}
-			else if(handler.equals("P3_Handle")){
-				output.add(2);
-			}
-			else if(handler.equals("P4_Handle")){
-				output.add(3);
-			}
-			else if(handler.equals("P5_Handle")){
-				output.add(4);
-			}
-			else if(handler.equals("B_Handle")){
-				output.add(5);
-			}
-			else if(handler.equals("D1_Handle")){
-				output.add(6);
-			}
-			else if(handler.equals("D2_Handle")){
-				output.add(7);
-			}
-			else if(handler.equals("D3_Handle")){
-				output.add(8);
-			}
-			else if(handler.equals("D4_Handle")){
-				output.add(9);
-			}
-			else if(handler.equals("D5_Handle")){
-				output.add(10);
-			}
-		}
-		else
-			return null;
-		///////////////////////////////////////////
-		if(roadStart !=-1)
-			output.add(roadStart);
-		else
-			return null;
-		///////////////////////////////////////////
-		if(roadEnd !=-1)
-			output.add(roadEnd);
-		else
-			return null;
-		///////////////////////////////////////////
-		if(duration!=-1)
-			output.add(duration);
-		else
-			return null;
-		///////////////////////////////////////////
-		if(ballNum !=-1)
-			output.add(ballNum);
-		else
-			return null;
-
-		return output;
-	}
 
 	public String getRunBagInfo(){
 		String tmp = new String();
@@ -127,7 +53,6 @@ public class RunBag implements Serializable{
 		tmp += Integer.toString(duration)+"\n";
 		tmp += Integer.toString(ballNum);
 		return tmp;
-		
 	}
 	
 	public void setBallNum(int input_num){

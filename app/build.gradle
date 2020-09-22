@@ -6,7 +6,7 @@ android {
     //compileOptions.encoding = 'UTF-8'
     defaultConfig {
         applicationId "com.example.helloworld"
-        minSdkVersion 11
+        minSdkVersion 19
         targetSdkVersion 23
     }
 

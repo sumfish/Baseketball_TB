@@ -1,27 +1,21 @@
 package com.example.helloworld;
 
 import android.content.Intent;
-import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 
 public class MultiActivity extends ActionBarActivity{
 	ImageView img1, img2,img3,img4,img5,imghcourt,ball;
-	int check_court;
+	int checkCourt;
 	
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,15 +26,15 @@ public class MultiActivity extends ActionBarActivity{
         button.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
         button.setOnClickListener(btnListener);
         button_half.setOnClickListener(halfListener);
-        check_court=0;
-        img1 = (ImageView)findViewById(R.id.player1);
-        img2 = (ImageView)findViewById(R.id.player2);
-        img3 = (ImageView)findViewById(R.id.player3);
-        img4 = (ImageView)findViewById(R.id.player4);
-        img5 = (ImageView)findViewById(R.id.player5);
+        checkCourt =0;
+        img1 = (ImageView)findViewById(R.id.image_p1);
+        img2 = (ImageView)findViewById(R.id.image_p2);
+        img3 = (ImageView)findViewById(R.id.image_p3);
+        img4 = (ImageView)findViewById(R.id.image_p4);
+        img5 = (ImageView)findViewById(R.id.image_p5);
         imghcourt = (ImageView)findViewById(R.id.h_court);
         imghcourt.setVisibility(View.GONE);
-        ball = (ImageView)findViewById(R.id.ball);
+        ball = (ImageView)findViewById(R.id.image_ball);
         img1.setOnTouchListener(imgListener);
         img2.setOnTouchListener(imgListener);
         img3.setOnTouchListener(imgListener);
@@ -62,7 +56,7 @@ public class MultiActivity extends ActionBarActivity{
 	private OnClickListener halfListener = new OnClickListener(){
     	@Override
     	public void onClick(View v){
-    		if(check_court==0){
+    		if(checkCourt ==0){
     			RelativeLayout multimain = (RelativeLayout) findViewById(R.id.main);
         		Button court_btn = (Button) findViewById(R.id.half);
         		imghcourt.setVisibility(View.VISIBLE);
@@ -70,9 +64,9 @@ public class MultiActivity extends ActionBarActivity{
         		multimain.setBackgroundResource(R.drawable.black);
     			court_btn.setText("����");
         			
-        		check_court=1;
+        		checkCourt =1;
     		}
-    		else if (check_court == 1){
+    		else if (checkCourt == 1){
     			RelativeLayout multimain = (RelativeLayout) findViewById(R.id.main);
         		Button court_btn = (Button) findViewById(R.id.half);
         		imghcourt = (ImageView)findViewById(R.id.h_court);
@@ -81,7 +75,7 @@ public class MultiActivity extends ActionBarActivity{
         		multimain.setBackgroundResource(R.drawable.court);
     			court_btn.setText("�b��");
     			
-    			check_court=0;
+    			checkCourt =0;
     		}
     		
     	}

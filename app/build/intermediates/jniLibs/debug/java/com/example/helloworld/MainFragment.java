@@ -79,8 +79,6 @@ import android.widget.ToggleButton;
 
 public class MainFragment extends Fragment{
 
-	private int before_query_runbag_length;
-	private int numFrame;
 	private boolean firstTimeQuery = true;
 	private int playing=0;
 	private Long startTime;

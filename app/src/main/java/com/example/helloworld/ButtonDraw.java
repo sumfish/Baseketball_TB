@@ -94,7 +94,7 @@ public class ButtonDraw extends Fragment {
 				if(event.getAction() == MotionEvent.ACTION_DOWN) {
 					play.setBackgroundResource(R.drawable.icon_play_click);
 					mainfrag.setPlayerToNoBall();
-					mainfrag.setPlaying(1);
+					mainfrag.setIsTacticPlaying(1);
 					mainfrag.playButton();
 				} else if (event.getAction() == MotionEvent.ACTION_UP) {
 					play.setBackgroundResource(R.drawable.icon_play);
@@ -330,7 +330,7 @@ public class ButtonDraw extends Fragment {
     	public void onClick(View v) {
 	////////////////////////Save each road(RunBag) and add into RunLine////////////////////////
     		mainfrag.setPlayerToNoBall();
-    		mainfrag.setPlaying(1);
+    		mainfrag.setIsTacticPlaying(1);
     		mainfrag.playButton();
     	}
     };
@@ -388,7 +388,7 @@ public class ButtonDraw extends Fragment {
 
 			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
 			mainfrag.clearPaint();
-			mainfrag.clear_record();
+			mainfrag.clearRecord();
 			record.setChecked(false);
 			mCallback.setRecordCheck(false);
 			mCallback.setClean();

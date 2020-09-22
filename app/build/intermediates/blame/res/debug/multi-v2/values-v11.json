@@ -1,29 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\workspace\\e-btb\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
+            "outputFile": "E:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
             "map": [
                 {
-                    "source": "D:\\workspace\\e-btb\\app\\src\\main\\res\\values-v11\\styles.xml",
-                    "from": {
-                        "startLines": "6",
-                        "startColumns": "4",
-                        "startOffsets": "182",
-                        "endLines": "8",
-                        "endColumns": "12",
-                        "endOffsets": "313"
-                    },
-                    "to": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "4",
-                        "endColumns": "12",
-                        "endOffsets": "184"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.4.0.aar\\42541f43126a8e124029519846bce7f4\\res\\values-v11\\values-v11.xml",
+                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\62fafa52f9dd42022581bbecd2648120\\appcompat-v7-23.4.0\\res\\values-v11\\values-v11.xml",
                     "from": {
                         "startLines": "2,8,14,20,26,32,38,39,40,45,50,52,54,55,56,107,159",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -39,6 +20,25 @@
                         "endLines": "10,16,22,28,34,40,41,42,47,52,54,56,57,58,109,161,162",
                         "endColumns": "12,12,12,12,12,12,88,100,12,12,12,12,70,82,12,12,90",
                         "endOffsets": "603,1028,1456,1882,2309,2734,2823,2924,3332,3752,3859,3988,4059,4142,7850,11698,11789"
+                    }
+                },
+                {
+                    "source": "E:\\0_Basketball\\Android\\E_BTB\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "from": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "182",
+                        "endLines": "8",
+                        "endColumns": "12",
+                        "endOffsets": "313"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "4",
+                        "endColumns": "12",
+                        "endOffsets": "184"
                     }
                 }
             ]

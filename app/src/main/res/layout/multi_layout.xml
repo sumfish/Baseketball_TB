@@ -34,7 +34,7 @@
                android:src="@drawable/h_court"
                />
     <ImageView
-               android:id="@+id/player1"
+               android:id="@+id/image_p1"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_alignParentLeft="true"
@@ -43,7 +43,7 @@
                android:layout_marginLeft="160dp"
                android:src="@drawable/ic_launcher" />
        <ImageView
-               android:id="@+id/player2"
+               android:id="@+id/image_p2"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_alignParentLeft="true"
@@ -52,7 +52,7 @@
                android:layout_marginLeft="100dp"
                android:src="@drawable/ic_launcher" />
        <ImageView
-               android:id="@+id/player3"
+               android:id="@+id/image_p3"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_alignParentLeft="true"
@@ -61,7 +61,7 @@
                android:layout_marginLeft="275dp"
                android:src="@drawable/ic_launcher" />
        <ImageView
-               android:id="@+id/player4"
+               android:id="@+id/image_p4"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_alignParentLeft="true"
@@ -70,7 +70,7 @@
                android:layout_marginLeft="450dp"
                android:src="@drawable/ic_launcher" />
        <ImageView
-               android:id="@+id/player5"
+               android:id="@+id/image_p5"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_alignParentLeft="true"
@@ -79,7 +79,7 @@
                android:layout_marginLeft="390dp"
                android:src="@drawable/ic_launcher" />
        <ImageView
-               android:id="@+id/ball"
+               android:id="@+id/image_ball"
                android:layout_width="30dp"
                android:layout_height="wrap_content"
                android:layout_alignParentLeft="true"
