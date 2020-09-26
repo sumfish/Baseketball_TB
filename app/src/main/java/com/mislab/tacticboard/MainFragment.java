@@ -75,6 +75,7 @@ public class MainFragment extends Fragment{
 	private int IsTacticPlaying = 0;
 	private Long startTime;
 	private Long endTime;
+	
 
 	private int selectCategoryId = 13;
 	private String selectTacticName = "New_Tactic";
