@@ -54,9 +54,9 @@ public class ImageSelect extends Fragment {
     public static int [] imageWidth = new int[5];
     public static int [] imageHeight = new int[5];
     private static Bitmap [] originImage;
-    private Button btnImageSelectPg, btnImageSelectSg, btnImageSelectSf, btnImageSelectPf, btnImageSelectC;
-    private Button btn_send_bitmap;
-    private int currentSelectImage = 0; // 0 - 4
+    private Button[] btnPosition;
+    private Button btnSendBitmap;
+    private int currentSelectImage = 0; // 0-4
 
     private InetAddress serverAddr;
     private int UDP_SERVER_PORT = 3983;
@@ -73,88 +73,33 @@ public class ImageSelect extends Fragment {
         getActivity().findViewById(R.id.image_select).setVisibility(View.GONE);
     }
 
-    public void Mainfrag_Set_UDP_IP(InetAddress IP,int port){
-        serverAddr = IP;
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        btnImageSelectPg = (Button) getView().findViewById(R.id.btn_select_pg);
-        btnImageSelectPg.setOnClickListener(btn_image_select_pg_Listener);
-
-        btnImageSelectSg = (Button) getView().findViewById(R.id.btn_select_sg);
-        btnImageSelectSg.setOnClickListener(btn_image_select_sg_Listener);
-
-        btnImageSelectSf = (Button) getView().findViewById(R.id.btn_select_sf);
-        btnImageSelectSf.setOnClickListener(btn_image_select_sf_Listener);
-
-        btnImageSelectPf = (Button) getView().findViewById(R.id.btn_select_pf);
-        btnImageSelectPf.setOnClickListener(btn_image_select_pf_Listener);
-
-        btnImageSelectC = (Button) getView().findViewById(R.id.btn_select_c);
-        btnImageSelectC.setOnClickListener(btn_image_select_c_Listener);
-
-        btn_send_bitmap = (Button)getView().findViewById(R.id.btn_send);
-        btn_send_bitmap.setOnClickListener(btn_send_bitmap_Listener);
+        btnPosition = new Button[5];
+        btnPosition[0] = (Button) getView().findViewById(R.id.btn_select_pg);
+        btnPosition[1] = (Button) getView().findViewById(R.id.btn_select_sg);
+        btnPosition[2] = (Button) getView().findViewById(R.id.btn_select_sf);
+        btnPosition[3] = (Button) getView().findViewById(R.id.btn_select_pf);
+        btnPosition[4] = (Button) getView().findViewById(R.id.btn_select_c);
+        for(int i=0;i<5;i++)
+            setOnClick(btnPosition[i], i);
     }
 
-    private View.OnClickListener btn_image_select_pg_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            currentSelectImage = 0;
-            startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
-        }
-    };
+    private void setOnClick(final Button btn, final int id){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                currentSelectImage = id;
+                startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
+            }
+        });
+    }
 
-    private View.OnClickListener btn_image_select_sg_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            currentSelectImage = 1;
-            startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
-        }
-    };
-
-    private View.OnClickListener btn_image_select_sf_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            currentSelectImage = 2;
-            startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
-        }
-    };
-
-    private View.OnClickListener btn_image_select_pf_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            currentSelectImage = 3;
-            startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
-        }
-    };
-
-    private View.OnClickListener btn_image_select_c_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            currentSelectImage = 4;
-            startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
-        }
-    };
-
-    private View.OnClickListener btn_send_bitmap_Listener = new View.OnClickListener() {
+    private View.OnClickListener btnSendBitmapListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             JSONObject packet = new JSONObject();
@@ -309,25 +254,7 @@ public class ImageSelect extends Fragment {
 
                 Log.d("debug", "bmp:"+selectedImage[currentSelectImage].getWidth()+","+selectedImage[currentSelectImage].getHeight());
                 Log.d("debug", "Config"+selectedImage[currentSelectImage].getConfig());
-
-                switch (currentSelectImage){
-                    case 0:
-                        btnImageSelectPg.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
-                        break;
-                    case 1:
-                        btnImageSelectSg.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
-                        break;
-                    case 2:
-                        btnImageSelectSf.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
-                        break;
-                    case 3:
-                        btnImageSelectPf.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
-                        break;
-                    case 4:
-                        btnImageSelectC.setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
-                        break;
-
-                }
+                btnPosition[currentSelectImage].setBackgroundDrawable(new BitmapDrawable(getResources(), testBmp));
                 hasSelected[currentSelectImage] = true;
                 imageWidth[currentSelectImage] = faceClip.width;
                 imageHeight[currentSelectImage] = faceClip.height;

@@ -1,4 +1,4 @@
-#Tue Sep 22 20:12:15 CST 2020
-base.0=E\:\\0_Basketball\\Android\\E_BTB\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Fri Sep 25 20:53:29 CST 2020
+base.0=D\:\\workspace\\e-btb\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

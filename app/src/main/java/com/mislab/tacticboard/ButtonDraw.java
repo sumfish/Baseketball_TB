@@ -5,14 +5,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutionException;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -75,7 +73,7 @@ public class ButtonDraw extends Fragment {
 		
 	}
 	
-	@TargetApi(Build.VERSION_CODES.M)
+	//@TargetApi(Build.VERSION_CODES.M)
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
@@ -186,7 +184,7 @@ public class ButtonDraw extends Fragment {
         button_DTW.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);*/
         
         final Button buttonSendtoUE4 = (Button) getView().findViewById(R.id.button_SendtoUE4);
-        buttonSendtoUE4.setOnClickListener(sendtoUE4);
+        buttonSendtoUE4.setOnClickListener(sendtoVR);
         buttonSendtoUE4.setTextSize(TypedValue.COMPLEX_UNIT_PX,20);
 		buttonSendtoUE4.setOnTouchListener(new View.OnTouchListener() {
 			@Override
@@ -340,14 +338,13 @@ public class ButtonDraw extends Fragment {
     private OnClickListener btn2Listener = new OnClickListener(){//"??????b"
     	@Override
     	public void onClick(View v) {//"顯示時間軸"
-    			getActivity().findViewById(R.id.time_line).setVisibility(View.VISIBLE);
-    			FragmentManager fragmentManager =getFragmentManager();
-		    	FragmentTransaction transaction = fragmentManager.beginTransaction();
-		    	timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
-		    	transaction.show(timeline);
-		    	transaction.commit();
-		    	fragmentManager.executePendingTransactions();
-    		
+			getActivity().findViewById(R.id.time_line).setVisibility(View.VISIBLE);
+			FragmentManager fragmentManager =getFragmentManager();
+			FragmentTransaction transaction = fragmentManager.beginTransaction();
+			timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
+			transaction.show(timeline);
+			transaction.commit();
+			fragmentManager.executePendingTransactions();
     	}
     };
     
@@ -432,84 +429,52 @@ public class ButtonDraw extends Fragment {
     };
 
     
-    private OnClickListener sendtoUE4 = new OnClickListener(){//"SendtoUE4"
+    private OnClickListener sendtoVR = new OnClickListener(){//"SendtoUE4"
     	@Override
     	public void onClick(View v) {
-    		//MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-    		//mainfrag.Mainfrag_SendtoUE4();
-    		//Button Btn_sendToVR = (Button) getView().findViewById(R.id.button_SendtoUE4);
-    		//Btn_sendToVR.setBackgroundResource(R.drawable.icon_connect_click);
+		//MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+		//mainfrag.Mainfrag_SendtoUE4();
+		//Button Btn_sendToVR = (Button) getView().findViewById(R.id.button_SendtoUE4);
+		//Btn_sendToVR.setBackgroundResource(R.drawable.icon_connect_click);
     	}
     };
-	
-    private OnClickListener settings = new OnClickListener(){//"?]?w"
-    	@Override
-    	public void onClick(View v) {
-    		final String[] strategies = {"UDP ?]?w","?]?w??j???"};
-    		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-    		
-    		builder.setTitle("--- ?]?w ---");
-    		builder.setItems(strategies, new DialogInterface.OnClickListener(){
-    	         @Override
-				 //只要你在onClick處理事件內，使用which參數，就可以知道按下陣列裡的哪一個了
-    	         public void onClick(DialogInterface dialog, int which) {
-    	        	 	MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-    	                // TODO Auto-generated method stub
-    	        	 	if(which==0){//UDP 設定
-    	        	 		setUDP();
-    	        	 	}
-    	        	 	else if (which==1){//設定最大時間
-    	        	 		//mainfrag.Mainfrag_Set_Total_time(text);
-    	        	 		
-    	        	 	}
-    	          }
-    	    });
-            AlertDialog about_dialog = builder.create();
-            about_dialog.show();
-    	}
-    };
-    
-    
+
     private void setUDP(){
     	LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View v = inflater.inflate(R.layout.dialog_set_udp, null);
-    	AlertDialog.Builder UDP_Dialog = new AlertDialog.Builder(getActivity());
-    	UDP_Dialog.setTitle("--- TCP ?]?w ---");
-    	   UDP_Dialog.setView(v);
+    	AlertDialog.Builder UDPDialog = new AlertDialog.Builder(getActivity());
+    	UDPDialog.setTitle("--- TCP ?]?w ---");
+    	   UDPDialog.setView(v);
     	   
-    	   UDP_Dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    	   UDPDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
     	    // do something when the button is clicked
     	    public void onClick(DialogInterface arg0, int arg1) {
-	    	    EditText UDP_IP = (EditText) (v.findViewById(R.id.edit_UDP_IP));
-	    	    Log.i("socket", "IP:"+UDP_IP.getText().toString());
+	    	    EditText UDPIP = (EditText) (v.findViewById(R.id.edit_UDP_IP));
+	    	    Log.i("socket", "IP:"+UDPIP.getText().toString());
 	    	    InetAddress outIP=null;
 	    	    try {
-					outIP = InetAddress.getByName(UDP_IP.getText().toString());
+					outIP = InetAddress.getByName(UDPIP.getText().toString());
 				} catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	    	    	
 	    	    	
-	    	    EditText UDP_Port = (EditText) (v.findViewById(R.id.edit_UDP_Port));
-	    	    Log.i("socket", "Port:"+UDP_Port.getText().toString());
-	    	    int outPort = Integer.parseInt(UDP_Port.getText().toString());
+	    	    EditText UDPPort = (EditText) (v.findViewById(R.id.edit_UDP_Port));
+	    	    Log.i("socket", "Port:"+UDPPort.getText().toString());
+	    	    int outPort = Integer.parseInt(UDPPort.getText().toString());
 	    	    
 	    	    MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-	    	    mainfrag.setUDPIp(outIP, outPort);
-
-	    	    
+	    	    mainfrag.setUDPIP(outIP, outPort);
     	    }
     	    });
-    	   
-    	   
-    	   UDP_Dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    	   UDPDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
     	          // do something when the button is clicked
     	    public void onClick(DialogInterface arg0, int arg1) {
     	    //...
     	     }
     	    });
-    	   UDP_Dialog.show();
+    	   UDPDialog.show();
     }
 	
 }

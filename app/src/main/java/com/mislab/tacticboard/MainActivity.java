@@ -17,16 +17,13 @@ public class MainActivity extends ActionBarActivity implements TimeLine.Callback
 	private int seekBarCallbackStartTime;
 	private int seekBarCallbackDuration;
 	private int seekBarCallbackId;
-	private boolean recordcheck;//檢查是否按下錄製鍵
-	private Vector<RunBag> RunLine;
-	private Player P1,P2,P3,P4,P5,B;
-	private String seekbar_player;
+	private boolean isRecording;//檢查是否按下錄製鍵
 
 	public void seekBarStartTime(int startTime){//接收從Timeline傳過來的時間
 		seekBarCallbackStartTime = startTime;
 		mainfrag.setStartTime(startTime);
 	}
-	
+
 	public void seekBarDuration(int duration){//接收從Timeline傳過來的持續時間
 		seekBarCallbackDuration = duration;
 		mainfrag.setDuration(duration);
@@ -36,12 +33,12 @@ public class MainActivity extends ActionBarActivity implements TimeLine.Callback
 		mainfrag.setSeekBarCallBackId(id);
 	}
 	////////////////////////////Timeline的時間(startTime,duration)要傳給main_fragment///////////////////////////
-	
-	public void setRecordCheck(boolean in_recordcheck){//in_recordcheck是在ButtonDraw裡面，透過interface的方式，使ButtonDraw可以呼叫這裡的function，進而設定recordcheck的值
-		recordcheck = in_recordcheck;
-		mainfrag.setRecordCheck(in_recordcheck);
+
+	public void setRecordCheck(boolean isRecording){//in_recordcheck是在ButtonDraw裡面，透過interface的方式，使ButtonDraw可以呼叫這裡的function，進而設定recordcheck的值
+		this.isRecording = isRecording;
+		mainfrag.setRecording(isRecording);
 	}
-	///////////////////////////recordcheck要傳給main_fragment/////////////////////////////////////////////////
+	///////////////////////////recordcheck要傳給mainFragment/////////////////////////////////////////////////
 	
 	public void setClean(){
 		mainfrag.clearPaint();

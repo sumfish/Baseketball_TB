@@ -6,12 +6,12 @@ import android.graphics.Point;
 import java.util.Vector;
 
 public class PlayerDrawer {
+    /* 為了方便先都用public, 雖然這樣不好XD*/
     public int startIndex;
     public int rotation;
     public Paint paint;
     public int curveIndex;
     public Vector<Point> tempCurve;
-
     public PlayerDrawer(int colorHash){
         startIndex = 0;
         rotation = 0;
@@ -21,7 +21,7 @@ public class PlayerDrawer {
         paint.setAlpha(100);
 
         curveIndex = 0;
-        tempCurve = new Vector<>();
+        tempCurve = new Vector<Point>();
     }
 
     public void clearRecord(){

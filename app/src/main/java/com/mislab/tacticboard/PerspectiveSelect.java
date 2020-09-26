@@ -1,6 +1,7 @@
 package com.mislab.tacticboard;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,8 +27,7 @@ import java.util.Vector;
 
 public class PerspectiveSelect extends Fragment {
     private InetAddress serverAddr;
-    private Button btn_3PP, btn_1, btn_2, btn_3, btn_4, btn_5;
-    private List<Button> btnList;
+    private Button[] btnList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,235 +50,51 @@ public class PerspectiveSelect extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
-
-        btn_3PP = (Button) getView().findViewById(R.id.btn_select_3PP);
-        btn_3PP.setOnClickListener(btn_3PP_Listener);
-
-        btn_1 = (Button) getView().findViewById(R.id.btn_select_1PP_1);
-        btn_1.setOnClickListener(btn_1_Listener);
-
-        btn_2 = (Button) getView().findViewById(R.id.btn_select_1PP_2);
-        btn_2.setOnClickListener(btn_2_Listener);
-
-        btn_3 = (Button) getView().findViewById(R.id.btn_select_1PP_3);
-        btn_3.setOnClickListener(btn_3_Listener);
-
-        btn_4 = (Button) getView().findViewById(R.id.btn_select_1PP_4);
-        btn_4.setOnClickListener(btn_4_Listener);
-
-        btn_5 = (Button) getView().findViewById(R.id.btn_select_1PP_5);
-        btn_5.setOnClickListener(btn_5_Listener);
-
-        btnList = new ArrayList<>();
-        for(int i=0 ; i<6 ; i++){
-
-
-        }
-
+        btnList[0] = (Button) getView().findViewById(R.id.btn_select_3PP);
+        btnList[1] = (Button) getView().findViewById(R.id.btn_select_1PP_1);
+        btnList[2] = (Button) getView().findViewById(R.id.btn_select_1PP_2);
+        btnList[3] = (Button) getView().findViewById(R.id.btn_select_1PP_3);
+        btnList[4] = (Button) getView().findViewById(R.id.btn_select_1PP_4);
+        btnList[5] = (Button) getView().findViewById(R.id.btn_select_1PP_5);
+        btnList = new Button[6];
+        for(int i=0 ; i<6 ; i++)
+            setOnClick(btnList[i], i);
     }
 
-    private View.OnClickListener btn_3PP_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            JSONObject packet = new JSONObject();
-            try {
-                packet.put("Perspective", 0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            final String string_packet = packet.toString();
-
-            Thread socket_thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Socket clientSocket = null;
-                    DataOutputStream dataOutputStream = null;
-
-                    try {
-                        clientSocket = new Socket(serverAddr, 2044);
-                        dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-                        Log.d("debug", "Bytes size:"+string_packet.length());
-
-                        dataOutputStream.write(string_packet.getBytes());
-                        clientSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+    private void setOnClick(final Button btn, final int id){
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject packet = new JSONObject();
+                try {
+                    packet.put("Perspective", id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            });
-            socket_thread.start();
-            Log.d("debug", "Send to Server!");
-        }
-    };
+                final String stringPacket = packet.toString();
 
-    private View.OnClickListener btn_1_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            JSONObject packet = new JSONObject();
-            try {
-                packet.put("Perspective", 1);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            final String string_packet = packet.toString();
-            Log.d("debug", string_packet);
-            Thread socket_thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Socket clientSocket = null;
-                    DataOutputStream dataOutputStream = null;
+                Thread socket_thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Socket clientSocket = null;
+                        DataOutputStream dataOutputStream = null;
 
-                    try {
-                        clientSocket = new Socket(serverAddr, 2044);
-                        dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-                        Log.d("debug", "Bytes size:"+string_packet.length());
+                        try {
+                            clientSocket = new Socket(serverAddr, 2044);
+                            dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
+                            Log.d("debug", "Bytes size:"+stringPacket.length());
 
-                        dataOutputStream.write(string_packet.getBytes());
-                        clientSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            dataOutputStream.write(stringPacket.getBytes());
+                            clientSocket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
-            socket_thread.start();
-            Log.d("debug", "Send to Server!");
-        }
-    };
-
-    private View.OnClickListener btn_2_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            JSONObject packet = new JSONObject();
-            try {
-                packet.put("Perspective", 2);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                });
+                socket_thread.start();
+                Log.d("debug", "Send to Server!");
             }
-            final String string_packet = packet.toString();
-
-            Thread socket_thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Socket clientSocket = null;
-                    DataOutputStream dataOutputStream = null;
-
-                    try {
-                        clientSocket = new Socket(serverAddr, 2044);
-                        dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-                        Log.d("debug", "Bytes size:"+string_packet.length());
-
-                        dataOutputStream.write(string_packet.getBytes());
-                        clientSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            socket_thread.start();
-            Log.d("debug", "Send to Server!");
-        }
-    };
-
-    private View.OnClickListener btn_3_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            JSONObject packet = new JSONObject();
-            try {
-                packet.put("Perspective", 3);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            final String string_packet = packet.toString();
-
-            Thread socket_thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Socket clientSocket = null;
-                    DataOutputStream dataOutputStream = null;
-
-                    try {
-                        clientSocket = new Socket(serverAddr, 2044);
-                        dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-                        Log.d("debug", "Bytes size:"+string_packet.length());
-
-                        dataOutputStream.write(string_packet.getBytes());
-                        clientSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            socket_thread.start();
-            Log.d("debug", "Send to Server!");
-        }
-    };
-
-    private View.OnClickListener btn_4_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            JSONObject packet = new JSONObject();
-            try {
-                packet.put("Perspective", 4);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            final String string_packet = packet.toString();
-
-            Thread socket_thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Socket clientSocket = null;
-                    DataOutputStream dataOutputStream = null;
-
-                    try {
-                        clientSocket = new Socket(serverAddr, 2044);
-                        dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-                        Log.d("debug", "Bytes size:"+string_packet.length());
-
-                        dataOutputStream.write(string_packet.getBytes());
-                        clientSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            socket_thread.start();
-            Log.d("debug", "Send to Server!");
-        }
-    };
-
-    private View.OnClickListener btn_5_Listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            JSONObject packet = new JSONObject();
-            try {
-                packet.put("Perspective", 5);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            final String string_packet = packet.toString();
-
-            Thread socket_thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Socket clientSocket = null;
-                    DataOutputStream dataOutputStream = null;
-
-                    try {
-                        clientSocket = new Socket(serverAddr, 2044);
-                        dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
-                        Log.d("debug", "Bytes size:"+string_packet.length());
-
-                        dataOutputStream.write(string_packet.getBytes());
-                        clientSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            socket_thread.start();
-            Log.d("debug", "Send to Server!");
-        }
-    };
+        });
+    }
 }
 

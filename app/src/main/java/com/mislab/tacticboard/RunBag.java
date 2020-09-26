@@ -54,16 +54,16 @@ public class RunBag implements Serializable{
 		return tmp;
 	}
 	
-	public void setBallNum(int input_num){
-		ballNum =input_num;
+	public void setBallNum(int number){
+		ballNum =number;
 	}
 	
 	public int getBallNum(){
 		return ballNum;
 	}
 	
-	public void setTimeLineId(int input_id){
-		timelineId =input_id;
+	public void setTimeLineId(int id){
+		timelineId =id;
 	}
 	
 	public int getTimeLineId(){
@@ -74,32 +74,32 @@ public class RunBag implements Serializable{
 		return startTime;
 	}
 	
-	public void setStartTime(int in_time){
-		startTime = in_time;
+	public void setStartTime(int time){
+		startTime = time;
 	}
 	
 	public String getHandler(){
 		return handler;
 	}
 	
-	public void setHandler(String in_handler){
-		handler = in_handler;
+	public void setHandler(String handler){
+		this.handler = handler;
 	}
 	
 	public int getRoadStart(){
 		return roadStart;
 	}
 	
-	public void setRoadStart(int in_start){
-		roadStart = in_start;
+	public void setRoadStart(int roadStart){
+		this.roadStart = roadStart;
 	}
 	
 	public int getRoadEnd(){
 		return roadEnd;
 	}
 	
-	public void setRoadEnd(int in_end){
-		roadEnd = in_end;
+	public void setRoadEnd(int roadEnd){
+		this.roadEnd = roadEnd;
 	}
 	
 	public int getDuration(){

@@ -20,8 +20,8 @@ public class Player{
 	public Player(ImageView image, ImageView arrow){
 		this.image = image;
 		this.arrow = arrow;
-		this.road = new Vector<>();
-		this.rotation = new Vector<>();
+		this.road = new Vector<Integer>();
+		this.rotation = new Vector<Integer>();
 		this.initialPosition = new Point(-1, -1);
 		this.initialRotation = -1;
 		this.rect = new Rect();

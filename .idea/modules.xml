@@ -3,9 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/E_BTB.iml" filepath="$PROJECT_DIR$/.idea/modules/E_BTB.iml" group="E_BTB" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="E_BTB/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="e-btb/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/e-btb.iml" filepath="$PROJECT_DIR$/.idea/modules/e-btb.iml" group="e-btb" />
-      <module fileurl="file://$PROJECT_DIR$/openCVLibrary2411/openCVLibrary2411.iml" filepath="$PROJECT_DIR$/openCVLibrary2411/openCVLibrary2411.iml" group="E_BTB/openCVLibrary2411" />
+      <module fileurl="file://$PROJECT_DIR$/openCVLibrary2411/openCVLibrary2411.iml" filepath="$PROJECT_DIR$/openCVLibrary2411/openCVLibrary2411.iml" group="e-btb/openCVLibrary2411" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/workspace-e-btb.iml" filepath="$PROJECT_DIR$/.idea/modules/workspace-e-btb.iml" group="e-btb" />
     </modules>
   </component>
 </project>

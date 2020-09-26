@@ -25,8 +25,7 @@ import android.widget.ToggleButton;
 
 public class TimeLine extends Fragment {
 
-
-	public int pathnum=0;
+	public int pathNumber =0;
 	private ToggleButton toDefenderButton;
 
 	public interface CallbackInterface{
@@ -50,8 +49,8 @@ public class TimeLine extends Fragment {
 
 	//private CircularSeekBar directionSeekBar;
 	private CircularControl directionSeekBar;
-	private int SeekBarId,RunLineId;
-	private int TimeLine_SeekBarProgressLow;
+	private int seekBarId, runlineId;
+	private int timeLineSeekBarProgressLow;
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
 
@@ -65,9 +64,9 @@ public class TimeLine extends Fragment {
 		directionSeekBar = (CircularControl) getView().findViewById(R.id.circularSeekBar);
 		directionSeekBar.setOnTouchListener(directionOnTouch);
 		Button back_button = (Button) getView().findViewById(R.id.button_back_to_main_timeline);
-		back_button.setOnClickListener(back_button_onclick);
+		back_button.setOnClickListener(backButtonOnclick);
 		toDefenderButton = (ToggleButton) getView().findViewById(R.id.change_to_defender_timeline);
-		toDefenderButton.setOnClickListener(change_to_defender_timeline_onclick);
+		toDefenderButton.setOnClickListener(changeToDefenderTimelineOnclick);
 
 	}
 
@@ -83,8 +82,8 @@ public class TimeLine extends Fragment {
 		getActivity().findViewById(R.id.time_line).setVisibility(View.GONE);
 	}
 
-	public void changeLayout(int whichlayout){
-		gone_all_player_timeline();
+	public void changeLayout(int whichLayout){
+		disableAllPlayerTimeline();
 		RelativeLayout target = (RelativeLayout) getView().findViewById(R.id.main_timeline_relativelayout);
 		target.setVisibility(View.GONE);
 		target = (RelativeLayout) getView().findViewById(R.id.all_player_wrap);
@@ -93,7 +92,7 @@ public class TimeLine extends Fragment {
 		directionSeekBar.invalidate();
 		TextView text = (TextView) getView().findViewById(R.id.player_timeline_title);
 
-		switch(whichlayout){
+		switch(whichLayout){
 			case 1:
 				target = (RelativeLayout) getView().findViewById(R.id.player1_timeline_wrap);
 				target.setVisibility(View.VISIBLE);
@@ -153,7 +152,7 @@ public class TimeLine extends Fragment {
 		}
 	}
 
-	public void gone_all_player_timeline(){
+	public void disableAllPlayerTimeline(){
 		RelativeLayout target = (RelativeLayout) getView().findViewById(R.id.all_player_wrap);
 		target.setVisibility(View.GONE);
 		/**************後面要放全部player的timelinewrap****************/
@@ -182,7 +181,7 @@ public class TimeLine extends Fragment {
 	}
 
 
-	private OnClickListener back_button_onclick = new OnClickListener(){//"��^�D�ɶ��b"
+	private OnClickListener backButtonOnclick = new OnClickListener(){//"��^�D�ɶ��b"
 		@Override
 		public void onClick(View v) {  //"返回主時間軸"
 			RelativeLayout target = (RelativeLayout) getView().findViewById(R.id.main_timeline_relativelayout);
@@ -191,12 +190,12 @@ public class TimeLine extends Fragment {
 			target.setVisibility(View.VISIBLE);
 			target = (RelativeLayout) getView().findViewById(R.id.defender_timeline_wrap);
 			target.setVisibility(View.GONE);
-			gone_all_player_timeline();
+			disableAllPlayerTimeline();
 			directionSeekBar.setVisibility(View.GONE);
 		}
 	};
 
-	private OnClickListener change_to_defender_timeline_onclick = new OnClickListener() {
+	private OnClickListener changeToDefenderTimelineOnclick = new OnClickListener() {
 		public void onClick(View v) {
 			// 當按鈕第一次被點擊時候響應的事件
 			if (toDefenderButton.isChecked()) {
@@ -216,72 +215,72 @@ public class TimeLine extends Fragment {
 	};
 
 
-	public void setSeekBarId(int id_in){
-		SeekBarId=id_in;
+	public void setSeekBarId(int id){
+		seekBarId = id;
 	}
 
-	public void setRunLineId(int id_in){
-		RunLineId=id_in;
-		Log.i("debug", "Set !   RunLineId="+Integer.toString(RunLineId));
+	public void setRunlineId(int id){
+		runlineId =id;
+		Log.i("debug", "Set !   RunLineId="+Integer.toString(runlineId));
 	}
 
-	public void changeSeekBarId(int search_id,int change_to_id){
+	public void changeSeekBarId(int searchId,int changeToId){
 
 		/*all player's timeline*/
 		TextView alltexttmp = null;
 		LinearLayout allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player1timeline);
-		if(allplayertextplace.findViewById(search_id)!=null){
-			alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+		if(allplayertextplace.findViewById(searchId)!=null){
+			alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 		}
 		else{
 			allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player2timeline);
-			if(allplayertextplace.findViewById(search_id)!=null){
-				alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+			if(allplayertextplace.findViewById(searchId)!=null){
+				alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 			}
 			else{
 				allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player3timeline);
-				if(allplayertextplace.findViewById(search_id)!=null){
-					alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+				if(allplayertextplace.findViewById(searchId)!=null){
+					alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 				}
 				else{
 					allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player4timeline);
-					if(allplayertextplace.findViewById(search_id)!=null){
-						alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+					if(allplayertextplace.findViewById(searchId)!=null){
+						alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 					}
 					else{
 						allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player5timeline);
-						if(allplayertextplace.findViewById(search_id)!=null){
-							alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+						if(allplayertextplace.findViewById(searchId)!=null){
+							alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 						}
 						else{
 							allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_balltimeline);
-							if(allplayertextplace.findViewById(search_id)!=null){
-								alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+							if(allplayertextplace.findViewById(searchId)!=null){
+								alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 							}
 							else{
 								allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D1timeline);
-								if(allplayertextplace.findViewById(search_id)!=null){
-									alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+								if(allplayertextplace.findViewById(searchId)!=null){
+									alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 								}
 								else{
 									allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D2timeline);
-									if(allplayertextplace.findViewById(search_id)!=null){
-										alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+									if(allplayertextplace.findViewById(searchId)!=null){
+										alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 									}
 									else{
 										allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D3timeline);
-										if(allplayertextplace.findViewById(search_id)!=null){
-											alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+										if(allplayertextplace.findViewById(searchId)!=null){
+											alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 										}
 										else{
 											allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D4timeline);
-											if(allplayertextplace.findViewById(search_id)!=null){
-												alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+											if(allplayertextplace.findViewById(searchId)!=null){
+												alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 											}
 											else{
 												allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D5timeline);
-												if(allplayertextplace.findViewById(search_id)!=null){
-													alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+												if(allplayertextplace.findViewById(searchId)!=null){
+													alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 												}
 											}
 										}
@@ -295,7 +294,7 @@ public class TimeLine extends Fragment {
 		}
 		alltexttmp.setText(Integer.toString(Integer.parseInt(alltexttmp.getText().toString())-1));
 		/*這一定要的*/
-		alltexttmp.setId(change_to_id);
+		alltexttmp.setId(changeToId);
 		alltexttmp.invalidate();
 
 
@@ -305,58 +304,58 @@ public class TimeLine extends Fragment {
 
 		TextView texttmp = null;
 		LinearLayout playertextplace=(LinearLayout) getView().findViewById(R.id.player1_pathNum_place);
-		if(playertextplace.findViewById(search_id)!=null){
-			texttmp = (TextView) playertextplace.findViewById(search_id);
+		if(playertextplace.findViewById(searchId)!=null){
+			texttmp = (TextView) playertextplace.findViewById(searchId);
 		}
 		else{
 			playertextplace=(LinearLayout) getView().findViewById(R.id.player2_pathNum_place);
-			if(playertextplace.findViewById(search_id)!=null){
-				texttmp = (TextView) playertextplace.findViewById(search_id);
+			if(playertextplace.findViewById(searchId)!=null){
+				texttmp = (TextView) playertextplace.findViewById(searchId);
 			}
 			else{
 				playertextplace=(LinearLayout) getView().findViewById(R.id.player3_pathNum_place);
-				if(playertextplace.findViewById(search_id)!=null){
-					texttmp = (TextView) playertextplace.findViewById(search_id);
+				if(playertextplace.findViewById(searchId)!=null){
+					texttmp = (TextView) playertextplace.findViewById(searchId);
 				}
 				else{
 					playertextplace=(LinearLayout) getView().findViewById(R.id.player4_pathNum_place);
-					if(playertextplace.findViewById(search_id)!=null){
-						texttmp = (TextView) playertextplace.findViewById(search_id);
+					if(playertextplace.findViewById(searchId)!=null){
+						texttmp = (TextView) playertextplace.findViewById(searchId);
 					}
 					else{
 						playertextplace=(LinearLayout) getView().findViewById(R.id.player5_pathNum_place);
-						if(playertextplace.findViewById(search_id)!=null){
-							texttmp = (TextView) playertextplace.findViewById(search_id);
+						if(playertextplace.findViewById(searchId)!=null){
+							texttmp = (TextView) playertextplace.findViewById(searchId);
 						}
 						else{
 							playertextplace=(LinearLayout) getView().findViewById(R.id.defender1_pathNum_place);
-							if(playertextplace.findViewById(search_id)!=null){
-								texttmp = (TextView) playertextplace.findViewById(search_id);
+							if(playertextplace.findViewById(searchId)!=null){
+								texttmp = (TextView) playertextplace.findViewById(searchId);
 							}
 							else{
 								playertextplace=(LinearLayout) getView().findViewById(R.id.defender2_pathNum_place);
-								if(playertextplace.findViewById(search_id)!=null){
-									texttmp = (TextView) playertextplace.findViewById(search_id);
+								if(playertextplace.findViewById(searchId)!=null){
+									texttmp = (TextView) playertextplace.findViewById(searchId);
 								}
 								else{
 									playertextplace=(LinearLayout) getView().findViewById(R.id.defender3_pathNum_place);
-									if(playertextplace.findViewById(search_id)!=null){
-										texttmp = (TextView) playertextplace.findViewById(search_id);
+									if(playertextplace.findViewById(searchId)!=null){
+										texttmp = (TextView) playertextplace.findViewById(searchId);
 									}
 									else{
 										playertextplace=(LinearLayout) getView().findViewById(R.id.defender4_pathNum_place);
-										if(playertextplace.findViewById(search_id)!=null){
-											texttmp = (TextView) playertextplace.findViewById(search_id);
+										if(playertextplace.findViewById(searchId)!=null){
+											texttmp = (TextView) playertextplace.findViewById(searchId);
 										}
 										else{
 											playertextplace=(LinearLayout) getView().findViewById(R.id.defender5_pathNum_place);
-											if(playertextplace.findViewById(search_id)!=null){
-												texttmp = (TextView) playertextplace.findViewById(search_id);
+											if(playertextplace.findViewById(searchId)!=null){
+												texttmp = (TextView) playertextplace.findViewById(searchId);
 											}
 											else{
 												playertextplace=(LinearLayout) getView().findViewById(R.id.ball_pathNum_place);
-												if(playertextplace.findViewById(search_id)!=null){
-													texttmp = (TextView) playertextplace.findViewById(search_id);
+												if(playertextplace.findViewById(searchId)!=null){
+													texttmp = (TextView) playertextplace.findViewById(searchId);
 												}
 												else{
 													texttmp=null;
@@ -374,64 +373,64 @@ public class TimeLine extends Fragment {
 		}
 		texttmp.setText(Integer.toString(Integer.parseInt(texttmp.getText().toString())-1));
 		/*這一定要的*/
-		texttmp.setId(change_to_id);
+		texttmp.setId(changeToId);
 		texttmp.invalidate();
 
 
 		ImageView rmtmp = null;
 		LinearLayout playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.player1_path_rm_button_place);
-		if(playerrmbuttonplace.findViewById(search_id)!=null){
-			rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+		if(playerrmbuttonplace.findViewById(searchId)!=null){
+			rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 		}
 		else{
 			playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.player2_path_rm_button_place);
-			if(playerrmbuttonplace.findViewById(search_id)!=null){
-				rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+			if(playerrmbuttonplace.findViewById(searchId)!=null){
+				rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 			}
 			else{
 				playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.player3_path_rm_button_place);
-				if(playerrmbuttonplace.findViewById(search_id)!=null){
-					rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+				if(playerrmbuttonplace.findViewById(searchId)!=null){
+					rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 				}
 				else{
 					playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.player4_path_rm_button_place);
-					if(playerrmbuttonplace.findViewById(search_id)!=null){
-						rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+					if(playerrmbuttonplace.findViewById(searchId)!=null){
+						rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 					}
 					else{
 						playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.player5_path_rm_button_place);
-						if(playerrmbuttonplace.findViewById(search_id)!=null){
-							rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+						if(playerrmbuttonplace.findViewById(searchId)!=null){
+							rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 						}
 						else{
 							playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.defender1_path_rm_button_place);
-							if(playerrmbuttonplace.findViewById(search_id)!=null){
-								rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+							if(playerrmbuttonplace.findViewById(searchId)!=null){
+								rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 							}
 							else{
 								playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.defender2_path_rm_button_place);
-								if(playerrmbuttonplace.findViewById(search_id)!=null){
-									rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+								if(playerrmbuttonplace.findViewById(searchId)!=null){
+									rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 								}
 								else{
 									playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.defender3_path_rm_button_place);
-									if(playerrmbuttonplace.findViewById(search_id)!=null){
-										rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+									if(playerrmbuttonplace.findViewById(searchId)!=null){
+										rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 									}
 									else{
 										playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.defender4_path_rm_button_place);
-										if(playerrmbuttonplace.findViewById(search_id)!=null){
-											rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+										if(playerrmbuttonplace.findViewById(searchId)!=null){
+											rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 										}
 										else{
 											playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.defender5_path_rm_button_place);
-											if(playerrmbuttonplace.findViewById(search_id)!=null){
-												rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+											if(playerrmbuttonplace.findViewById(searchId)!=null){
+												rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 											}
 											else{
 												playerrmbuttonplace=(LinearLayout) getView().findViewById(R.id.ball_path_rm_button_place);
-												if(playerrmbuttonplace.findViewById(search_id)!=null){
-													rmtmp = (ImageView) playerrmbuttonplace.findViewById(search_id);
+												if(playerrmbuttonplace.findViewById(searchId)!=null){
+													rmtmp = (ImageView) playerrmbuttonplace.findViewById(searchId);
 												}
 												else{
 													rmtmp=null;
@@ -446,65 +445,65 @@ public class TimeLine extends Fragment {
 				}
 			}
 		}
-		rmtmp.setId(change_to_id);
+		rmtmp.setId(changeToId);
 		rmtmp.invalidate();
 
 
 
 		MySeekBar tmp = null;
 		LinearLayout linearLayout=(LinearLayout) getView().findViewById(R.id.player1_timeline_place);
-		if(linearLayout.findViewById(search_id)!=null){
-			tmp = (MySeekBar) linearLayout.findViewById(search_id);
+		if(linearLayout.findViewById(searchId)!=null){
+			tmp = (MySeekBar) linearLayout.findViewById(searchId);
 		}
 		else{
 			linearLayout=(LinearLayout) getView().findViewById(R.id.player2_timeline_place);
-			if(linearLayout.findViewById(search_id)!=null){
-				tmp = (MySeekBar) linearLayout.findViewById(search_id);
+			if(linearLayout.findViewById(searchId)!=null){
+				tmp = (MySeekBar) linearLayout.findViewById(searchId);
 			}
 			else{
 				linearLayout=(LinearLayout) getView().findViewById(R.id.player3_timeline_place);
-				if(linearLayout.findViewById(search_id)!=null){
-					tmp = (MySeekBar) linearLayout.findViewById(search_id);
+				if(linearLayout.findViewById(searchId)!=null){
+					tmp = (MySeekBar) linearLayout.findViewById(searchId);
 				}
 				else{
 					linearLayout=(LinearLayout) getView().findViewById(R.id.player4_timeline_place);
-					if(linearLayout.findViewById(search_id)!=null){
-						tmp = (MySeekBar) linearLayout.findViewById(search_id);
+					if(linearLayout.findViewById(searchId)!=null){
+						tmp = (MySeekBar) linearLayout.findViewById(searchId);
 					}
 					else{
 						linearLayout=(LinearLayout) getView().findViewById(R.id.player5_timeline_place);
-						if(linearLayout.findViewById(search_id)!=null){
-							tmp = (MySeekBar) linearLayout.findViewById(search_id);
+						if(linearLayout.findViewById(searchId)!=null){
+							tmp = (MySeekBar) linearLayout.findViewById(searchId);
 						}
 						else{
 							linearLayout=(LinearLayout) getView().findViewById(R.id.ball_timeline_place);
-							if(linearLayout.findViewById(search_id)!=null){
-								tmp = (MySeekBar) linearLayout.findViewById(search_id);
+							if(linearLayout.findViewById(searchId)!=null){
+								tmp = (MySeekBar) linearLayout.findViewById(searchId);
 							}
 							else{
 								linearLayout=(LinearLayout) getView().findViewById(R.id.defender1_timeline_place);
-								if(linearLayout.findViewById(search_id)!=null){
-									tmp = (MySeekBar) linearLayout.findViewById(search_id);
+								if(linearLayout.findViewById(searchId)!=null){
+									tmp = (MySeekBar) linearLayout.findViewById(searchId);
 								}
 								else{
 									linearLayout=(LinearLayout) getView().findViewById(R.id.defender2_timeline_place);
-									if(linearLayout.findViewById(search_id)!=null){
-										tmp = (MySeekBar) linearLayout.findViewById(search_id);
+									if(linearLayout.findViewById(searchId)!=null){
+										tmp = (MySeekBar) linearLayout.findViewById(searchId);
 									}
 									else{
 										linearLayout=(LinearLayout) getView().findViewById(R.id.defender3_timeline_place);
-										if(linearLayout.findViewById(search_id)!=null){
-											tmp = (MySeekBar) linearLayout.findViewById(search_id);
+										if(linearLayout.findViewById(searchId)!=null){
+											tmp = (MySeekBar) linearLayout.findViewById(searchId);
 										}
 										else{
 											linearLayout=(LinearLayout) getView().findViewById(R.id.defender4_timeline_place);
-											if(linearLayout.findViewById(search_id)!=null){
-												tmp = (MySeekBar) linearLayout.findViewById(search_id);
+											if(linearLayout.findViewById(searchId)!=null){
+												tmp = (MySeekBar) linearLayout.findViewById(searchId);
 											}
 											else{
 												linearLayout=(LinearLayout) getView().findViewById(R.id.defender5_timeline_place);
-												if(linearLayout.findViewById(search_id)!=null){
-													tmp = (MySeekBar) linearLayout.findViewById(search_id);
+												if(linearLayout.findViewById(searchId)!=null){
+													tmp = (MySeekBar) linearLayout.findViewById(searchId);
 												}
 												else{
 													tmp=null;
@@ -519,67 +518,67 @@ public class TimeLine extends Fragment {
 				}
 			}
 		}
-		tmp.setId(change_to_id);
+		tmp.setId(changeToId);
 		tmp.invalidate();
 
 	}
 
-	public void set_pathnum_text(int search_id , int show_text){
+	public void setPathNumberText(int searchId , int showText){
 
 		TextView alltexttmp = null;
 		LinearLayout allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player1timeline);
-		if(allplayertextplace.findViewById(search_id)!=null){
-			alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+		if(allplayertextplace.findViewById(searchId)!=null){
+			alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 		}
 		else{
 			allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player2timeline);
-			if(allplayertextplace.findViewById(search_id)!=null){
-				alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+			if(allplayertextplace.findViewById(searchId)!=null){
+				alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 			}
 			else{
 				allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player3timeline);
-				if(allplayertextplace.findViewById(search_id)!=null){
-					alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+				if(allplayertextplace.findViewById(searchId)!=null){
+					alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 				}
 				else{
 					allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player4timeline);
-					if(allplayertextplace.findViewById(search_id)!=null){
-						alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+					if(allplayertextplace.findViewById(searchId)!=null){
+						alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 					}
 					else{
 						allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player5timeline);
-						if(allplayertextplace.findViewById(search_id)!=null){
-							alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+						if(allplayertextplace.findViewById(searchId)!=null){
+							alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 						}
 						else{
 							allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_balltimeline);
-							if(allplayertextplace.findViewById(search_id)!=null){
-								alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+							if(allplayertextplace.findViewById(searchId)!=null){
+								alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 							}
 							else{
 								allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D1timeline);
-								if(allplayertextplace.findViewById(search_id)!=null){
-									alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+								if(allplayertextplace.findViewById(searchId)!=null){
+									alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 								}
 								else{
 									allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D2timeline);
-									if(allplayertextplace.findViewById(search_id)!=null){
-										alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+									if(allplayertextplace.findViewById(searchId)!=null){
+										alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 									}
 									else{
 										allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D3timeline);
-										if(allplayertextplace.findViewById(search_id)!=null){
-											alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+										if(allplayertextplace.findViewById(searchId)!=null){
+											alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 										}
 										else{
 											allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D4timeline);
-											if(allplayertextplace.findViewById(search_id)!=null){
-												alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+											if(allplayertextplace.findViewById(searchId)!=null){
+												alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 											}
 											else{
 												allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_D5timeline);
-												if(allplayertextplace.findViewById(search_id)!=null){
-													alltexttmp = (TextView) allplayertextplace.findViewById(search_id);
+												if(allplayertextplace.findViewById(searchId)!=null){
+													alltexttmp = (TextView) allplayertextplace.findViewById(searchId);
 												}
 											}
 										}
@@ -591,65 +590,65 @@ public class TimeLine extends Fragment {
 				}
 			}
 		}
-		alltexttmp.setText(Integer.toString(show_text));
+		alltexttmp.setText(Integer.toString(showText));
 		/*這一定要的*/
 		alltexttmp.invalidate();
 
 
 		TextView texttmp = null;
 		LinearLayout playertextplace=(LinearLayout) getView().findViewById(R.id.player1_pathNum_place);
-		if(playertextplace.findViewById(search_id)!=null){
-			texttmp = (TextView) playertextplace.findViewById(search_id);
+		if(playertextplace.findViewById(searchId)!=null){
+			texttmp = (TextView) playertextplace.findViewById(searchId);
 		}
 		else{
 			playertextplace=(LinearLayout) getView().findViewById(R.id.player2_pathNum_place);
-			if(playertextplace.findViewById(search_id)!=null){
-				texttmp = (TextView) playertextplace.findViewById(search_id);
+			if(playertextplace.findViewById(searchId)!=null){
+				texttmp = (TextView) playertextplace.findViewById(searchId);
 			}
 			else{
 				playertextplace=(LinearLayout) getView().findViewById(R.id.player3_pathNum_place);
-				if(playertextplace.findViewById(search_id)!=null){
-					texttmp = (TextView) playertextplace.findViewById(search_id);
+				if(playertextplace.findViewById(searchId)!=null){
+					texttmp = (TextView) playertextplace.findViewById(searchId);
 				}
 				else{
 					playertextplace=(LinearLayout) getView().findViewById(R.id.player4_pathNum_place);
-					if(playertextplace.findViewById(search_id)!=null){
-						texttmp = (TextView) playertextplace.findViewById(search_id);
+					if(playertextplace.findViewById(searchId)!=null){
+						texttmp = (TextView) playertextplace.findViewById(searchId);
 					}
 					else{
 						playertextplace=(LinearLayout) getView().findViewById(R.id.player5_pathNum_place);
-						if(playertextplace.findViewById(search_id)!=null){
-							texttmp = (TextView) playertextplace.findViewById(search_id);
+						if(playertextplace.findViewById(searchId)!=null){
+							texttmp = (TextView) playertextplace.findViewById(searchId);
 						}
 						else{
 							playertextplace=(LinearLayout) getView().findViewById(R.id.defender1_pathNum_place);
-							if(playertextplace.findViewById(search_id)!=null){
-								texttmp = (TextView) playertextplace.findViewById(search_id);
+							if(playertextplace.findViewById(searchId)!=null){
+								texttmp = (TextView) playertextplace.findViewById(searchId);
 							}
 							else{
 								playertextplace=(LinearLayout) getView().findViewById(R.id.defender2_pathNum_place);
-								if(playertextplace.findViewById(search_id)!=null){
-									texttmp = (TextView) playertextplace.findViewById(search_id);
+								if(playertextplace.findViewById(searchId)!=null){
+									texttmp = (TextView) playertextplace.findViewById(searchId);
 								}
 								else{
 									playertextplace=(LinearLayout) getView().findViewById(R.id.defender3_pathNum_place);
-									if(playertextplace.findViewById(search_id)!=null){
-										texttmp = (TextView) playertextplace.findViewById(search_id);
+									if(playertextplace.findViewById(searchId)!=null){
+										texttmp = (TextView) playertextplace.findViewById(searchId);
 									}
 									else{
 										playertextplace=(LinearLayout) getView().findViewById(R.id.defender4_pathNum_place);
-										if(playertextplace.findViewById(search_id)!=null){
-											texttmp = (TextView) playertextplace.findViewById(search_id);
+										if(playertextplace.findViewById(searchId)!=null){
+											texttmp = (TextView) playertextplace.findViewById(searchId);
 										}
 										else{
 											playertextplace=(LinearLayout) getView().findViewById(R.id.defender5_pathNum_place);
-											if(playertextplace.findViewById(search_id)!=null){
-												texttmp = (TextView) playertextplace.findViewById(search_id);
+											if(playertextplace.findViewById(searchId)!=null){
+												texttmp = (TextView) playertextplace.findViewById(searchId);
 											}
 											else{
 												playertextplace=(LinearLayout) getView().findViewById(R.id.ball_pathNum_place);
-												if(playertextplace.findViewById(search_id)!=null){
-													texttmp = (TextView) playertextplace.findViewById(search_id);
+												if(playertextplace.findViewById(searchId)!=null){
+													texttmp = (TextView) playertextplace.findViewById(searchId);
 												}
 												else{
 													texttmp=null;
@@ -665,17 +664,15 @@ public class TimeLine extends Fragment {
 				}
 			}
 		}
-		texttmp.setText(Integer.toString(show_text));
+		texttmp.setText(Integer.toString(showText));
 		texttmp.invalidate();
 	}
 
-
-
-	public void setSeekBarProgressLow(int Low_in){
-		TimeLine_SeekBarProgressLow=Low_in;
+	public void setSeekBarProgressLow(int low){
+		timeLineSeekBarProgressLow =low;
 	}
 
-	public void clear_record_layout(){
+	public void clearRecordLayout(){
 		LinearLayout linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player1timeline);
 		linearLayout.removeAllViews();
 		linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player2timeline);
@@ -760,11 +757,10 @@ public class TimeLine extends Fragment {
 		relative.removeAllViews();
 
 
-		pathnum=0;
+		pathNumber =0;
 	}
 
-
-	public void remove_one_timeline(int input_id){
+	public void removeOneTimeline(int input_id){
 
 
 		/*******************要刪掉rmbutton 跟  數字 然後要把數字的數量-1*********************/
@@ -915,7 +911,7 @@ public class TimeLine extends Fragment {
 				}
 			}
 		}
-		pathnum--;
+		pathNumber--;
 		playertextplace.removeView(texttmp);
 
 
@@ -1178,77 +1174,77 @@ public class TimeLine extends Fragment {
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player1_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player1_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player1_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==2){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_player2timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player2_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player2_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player2_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==3){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_player3timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player3_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player3_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player3_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==4){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_player4timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player4_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player4_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player4_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==5){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_player5timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player5_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player5_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player5_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==6){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_balltimeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.ball_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.ball_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.ball_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==7){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D1timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender1_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender1_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender1_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==8){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D2timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender2_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender2_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender2_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==9){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D3timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender3_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender3_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender3_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==10){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D4timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender4_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender4_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender4_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==11){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D5timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender5_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender5_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender5_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else {
 			Log.d("debug", "Error! player can't found.  Player code = "+Integer.toString(player));
@@ -1262,7 +1258,7 @@ public class TimeLine extends Fragment {
 		alltextlp.setMargins(5, 20, 10, 0);
 		alltext.setLayoutParams(alltextlp);
 		alltext.setGravity((Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL));
-		alltext.setText(Integer.toString(pathnum));
+		alltext.setText(Integer.toString(pathNumber));
 		alltext.setBackgroundResource(R.drawable.path_num_3);
 		alltext.setId(id);
 		Log.d("seekbar", "set text id = "+Integer.toString(id));
@@ -1274,7 +1270,7 @@ public class TimeLine extends Fragment {
 		textlp.setMargins(5, 20, 10, 0);
 		text.setLayoutParams(textlp);
 		text.setGravity((Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL));
-		text.setText(Integer.toString(pathnum));
+		text.setText(Integer.toString(pathNumber));
 		text.setBackgroundResource(R.drawable.path_num_3);
 		text.setId(id);
 		playerpathnumplace.addView(text);
@@ -1332,77 +1328,77 @@ public class TimeLine extends Fragment {
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player1_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player1_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player1_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==2){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_player2timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player2_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player2_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player2_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==3){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_player3timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player3_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player3_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player3_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==4){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_player4timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player4_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player4_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player4_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==5){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_player5timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.player5_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.player5_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.player5_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==6){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_balltimeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.ball_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.ball_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.ball_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==7){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D1timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender1_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender1_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender1_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==8){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D2timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender2_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender2_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender2_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==9){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D3timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender3_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender3_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender3_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==10){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D4timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender4_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender4_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender4_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else if (player==11){
 			linearLayout = (LinearLayout) getView().findViewById(R.id.LinearLayout_of_D5timeline);
 			playertimelineplace = (LinearLayout) getView().findViewById(R.id.defender5_timeline_place);
 			playerpathnumplace=(LinearLayout) getView().findViewById(R.id.defender5_pathNum_place);
 			playerrmbutton=(LinearLayout) getView().findViewById(R.id.defender5_path_rm_button_place);
-			pathnum++;
+			pathNumber++;
 		}
 		else {
 			Log.d("debug", "Error! player can't found.  Player code = "+Integer.toString(player));
@@ -1420,9 +1416,9 @@ public class TimeLine extends Fragment {
 		alltextlp.setMargins(5, 20, 10, 0);
 		alltext.setLayoutParams(alltextlp);
 		alltext.setGravity((Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL));
-		alltext.setText(Integer.toString(pathnum));
+		alltext.setText(Integer.toString(pathNumber));
 		alltext.setBackgroundResource(R.drawable.path_num_3);
-		alltext.setId(SeekBarId);
+		alltext.setId(seekBarId);
 		linearLayout.addView(alltext);
 
 		/*player's own timeline*/
@@ -1431,9 +1427,9 @@ public class TimeLine extends Fragment {
 		textlp.setMargins(5, 20, 10, 0);
 		text.setLayoutParams(textlp);
 		text.setGravity((Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL));
-		text.setText(Integer.toString(pathnum));
+		text.setText(Integer.toString(pathNumber));
 		text.setBackgroundResource(R.drawable.path_num_3);
-		text.setId(SeekBarId);
+		text.setId(seekBarId);
 		playerpathnumplace.addView(text);
 		/*			 */
 
@@ -1444,23 +1440,23 @@ public class TimeLine extends Fragment {
 		/****************normal*******************/
 		MySeekBar tmp = new MySeekBar(getActivity());
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-		tmp.setProgressLow(TimeLine_SeekBarProgressLow);
-		tmp.setProgressHigh(TimeLine_SeekBarProgressLow+1);
+		tmp.setProgressLow(timeLineSeekBarProgressLow);
+		tmp.setProgressHigh(timeLineSeekBarProgressLow +1);
 
 		lp.topMargin=55;
-		tmp.setId(SeekBarId);
+		tmp.setId(seekBarId);
 		MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
 		tmp.setOnSeekBarChangeListener(mySeekBarOnChange);
 		playertimelineplace.addView(tmp);
 
 		Vector<Integer> input=new Vector();
-		input.add(RunLineId);
-		input.add(TimeLine_SeekBarProgressLow);//這也要記得改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		input.add(runlineId);
+		input.add(timeLineSeekBarProgressLow);//這也要記得改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		input.add(1);
 		mainfrag.setSeekBarToRunBag(input);
-		mCallback.seekBarStartTime(TimeLine_SeekBarProgressLow);
+		mCallback.seekBarStartTime(timeLineSeekBarProgressLow);
 		mCallback.seekBarDuration(1);
-		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(RunLineId));
+		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(runlineId));
 		/*************************************/
 		/*			*/
 
@@ -1471,8 +1467,8 @@ public class TimeLine extends Fragment {
 		rmbuttonlp.setMargins(10, 20, 0, 0);
 		rmbutton.setLayoutParams(rmbuttonlp);
 		rmbutton.setImageResource(R.drawable.btn_delete);
-		rmbutton.setId(SeekBarId);
-		Log.d("seekbar", "rmbutton ID = "+Integer.toString(SeekBarId));
+		rmbutton.setId(seekBarId);
+		Log.d("seekbar", "rmbutton ID = "+Integer.toString(seekBarId));
 		rmbutton.setOnTouchListener(rmbuttonListener);
 		playerrmbutton.addView(rmbutton);
 
@@ -1510,8 +1506,8 @@ public class TimeLine extends Fragment {
 			 * Vector<Integer> input: 0=Id,1=StartTime,2=Duration
 			 *
 			 * **/
-			TimeLine_SeekBarProgressLow=(int)progressHigh;
-			Log.d("debug", "SeekBarId : "+Integer.toString(seekBar.getId())+"  set TimeLine_SeekBarProgressLow! "+Integer.toString(TimeLine_SeekBarProgressLow));
+			timeLineSeekBarProgressLow =(int)progressHigh;
+			Log.d("debug", "SeekBarId : "+Integer.toString(seekBar.getId())+"  set TimeLine_SeekBarProgressLow! "+Integer.toString(timeLineSeekBarProgressLow));
 
 			Vector<Integer> input=new Vector();
 			input.add(seekBar.getId());
@@ -1536,10 +1532,10 @@ public class TimeLine extends Fragment {
 		public void onProgressAfter() {
 			// TODO Auto-generated method stub
 			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-			mainfrag.setMainFragProLow(TimeLine_SeekBarProgressLow);
+			mainfrag.setMainFragProLow(timeLineSeekBarProgressLow);
 
 			/*TODO �ˬd�Ƨ�*/
-			mainfrag.sortPathnum();
+			mainfrag.sortPathNumber();
 			//Log.d("debug", "Progress after,TimeLine_SeekBarProgressLow = "+Integer.toString(TimeLine_SeekBarProgressLow));
 		}
 	};
@@ -1548,7 +1544,7 @@ public class TimeLine extends Fragment {
 		@Override
 		public boolean onTouch(View view, MotionEvent motionEvent) {
 			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-			mainfrag.rotatePlayer((int) directionSeekBar.get_degree());
+			mainfrag.rotatePlayer((int) directionSeekBar.getDegree());
 			return false;
 		}
 	};
@@ -1565,7 +1561,7 @@ public class TimeLine extends Fragment {
 	};
 
 	public void setCircularSeekBarProgress(int input){
-		directionSeekBar.set_degree(input);
+		directionSeekBar.setDegree(input);
 	}
 
 }

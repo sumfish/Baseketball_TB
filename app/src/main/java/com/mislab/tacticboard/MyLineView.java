@@ -81,7 +81,6 @@ public class MyLineView extends View {
         setMeasuredDimension(width, height);
     }
 
-
     private int measureWidth(int measureSpec) {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
