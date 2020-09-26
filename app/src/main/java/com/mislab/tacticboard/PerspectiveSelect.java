@@ -50,6 +50,7 @@ public class PerspectiveSelect extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
+        btnList = new Button[6];
         btnList[0] = (Button) getView().findViewById(R.id.btn_select_3PP);
         btnList[1] = (Button) getView().findViewById(R.id.btn_select_1PP_1);
         btnList[2] = (Button) getView().findViewById(R.id.btn_select_1PP_2);
@@ -57,10 +58,11 @@ public class PerspectiveSelect extends Fragment {
         btnList[4] = (Button) getView().findViewById(R.id.btn_select_1PP_4);
         btnList[5] = (Button) getView().findViewById(R.id.btn_select_1PP_5);
         btnList = new Button[6];
-        for(int i=0 ; i<6 ; i++)
-            setOnClick(btnList[i], i);
+        //for(int i=0 ; i<6 ; i++)
+        //    setOnClick(btnList[i], i);
     }
 
+    /*
     private void setOnClick(final Button btn, final int id){
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,5 +98,6 @@ public class PerspectiveSelect extends Fragment {
             }
         });
     }
+    */
 }
 

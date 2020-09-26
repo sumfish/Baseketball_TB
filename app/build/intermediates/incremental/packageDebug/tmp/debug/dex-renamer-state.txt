@@ -1,4 +1,4 @@
-#Fri Sep 25 20:53:29 CST 2020
-base.0=D\:\\workspace\\e-btb\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Sat Sep 26 21:20:32 CST 2020
+base.0=D\:\\btb\\e-btb\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

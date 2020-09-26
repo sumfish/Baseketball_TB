@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\workspace\\e-btb\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
+            "outputFile": "D:\\btb\\e-btb\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\tsai\\.gradle\\caches\\transforms-2\\files-2.1\\e9e29cd2a9518cf785984639da063b36\\appcompat-v7-23.4.0\\res\\values-land\\values-land.xml",
+                    "source": "C:\\Users\\summer\\.gradle\\caches\\transforms-2\\files-2.1\\e9e29cd2a9518cf785984639da063b36\\appcompat-v7-23.4.0\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",
