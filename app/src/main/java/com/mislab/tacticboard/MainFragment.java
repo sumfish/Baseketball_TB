@@ -7,8 +7,6 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -75,7 +73,7 @@ public class MainFragment extends Fragment{
 	private int IsTacticPlaying = 0;
 	private Long startTime;
 	private Long endTime;
-	
+
 
 	private int selectCategoryId = 13;
 	private String selectTacticName = "New_Tactic";
@@ -211,7 +209,7 @@ public class MainFragment extends Fragment{
 		
 		bitmapVector = new Vector();
 		
-		circle = (ImageView) getActivity().findViewById(R.id.circle);
+		circle = (ImageView) getActivity().findViewById(R.id.circle); //主要畫布
 
         /*獲取元件的長與寬，並初始化tempBitmap，接著先放一次的透明路徑在circle上*/
         ViewTreeObserver vto2 = circle.getViewTreeObserver();
@@ -849,7 +847,7 @@ public class MainFragment extends Fragment{
 	}
 
 	public void changePlayerToNoBall(){
-		if(intersectId !=0){
+		if(intersectId !=0){ //有球員持球
 			ImageView currentImage = players.get(intersectId -1).image;
 			ImageView currentArrow = players.get(intersectId -1).arrow;
 			currentImage.setVisibility(currentImage.VISIBLE);
@@ -1770,10 +1768,10 @@ public class MainFragment extends Fragment{
 		private int move_count;
 		private boolean dum_flag;
 		private Bitmap Pbitmap;
-		private Canvas Pcanvas;
+		//private Canvas Pcanvas; //原本井井用到的
+		private DrawCanvas Dcanvas;
 		private Vector<Float> P_curve_x;
 		private Vector<Float> P_curve_y;
-		private float sample_rate;
 
 		private Player currentPlayer;
 		String handle_name = new String();
@@ -1790,9 +1788,9 @@ public class MainFragment extends Fragment{
 		//endregion
 
 		@Override
-		public boolean onTouch(View v, MotionEvent event) {
+		public boolean onTouch(View v, MotionEvent event) { // v是事件來源物件, e是儲存有觸控資訊的物件
 			// TouchEvent(P1,paint,mx,my,startX,startY,v,event,"P1");
-			mx = (int) (event.getRawX());
+			mx = (int) (event.getRawX()); //get相對於屏幕邊界的距離  getx()是相對於自己元件的邊界距離
 			my = (int) (event.getRawY());
 
 			////Log,i("debug","Position  x= "+Integer.toString(mx) );
@@ -1800,24 +1798,24 @@ public class MainFragment extends Fragment{
 
 			switch (event.getAction()) { // 判斷觸控的動作
 			case MotionEvent.ACTION_DOWN:// 按下圖片時
-				sample_rate = 0.0f;
 				int id = Integer.parseInt(v.getTag().toString());
-				if(id == 6){
+				if(id == 6){ //ball
 					//Log,i("debug","B    player ontouch!" );
 					currentPlayer = ball;
-					rotateWhichPlayer = 6;
+					rotateWhichPlayer = 6;    /////////////////// what
 					currentDrawer.curveIndex = ballDrawer.curveIndex;
 					currentDrawer.tempCurve = ballDrawer.tempCurve;
 					currentDrawer.paint = ballDrawer.paint;
 					currentDrawer.startIndex = ballDrawer.startIndex;
 					handle_name = "B_Handle";
-					seekbar_player_Id = 6;
+					seekbar_player_Id = 6; ////////////////////////////////
+					//////////////// 相對?
 					ball.rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
 
 					TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 					timefrag.changeLayout(6);
 				}
-				else if(id < 6){
+				else if(id < 6){ //player進攻者(藍色衣服)
 					//Log,i("debug","P1    player ontouch!" );
 					currentPlayer = players.get(id-1);
 					currentDrawer.curveIndex = playerDrawers.get(id-1).curveIndex;
@@ -1825,15 +1823,15 @@ public class MainFragment extends Fragment{
 					currentDrawer.rotation = playerDrawers.get(id-1).rotation;
 					currentDrawer.paint = playerDrawers.get(id-1).paint;
 					currentDrawer.startIndex = playerDrawers.get(id-1).startIndex;
-					rotateWhichPlayer = 1;
+					rotateWhichPlayer = id;
 					handle_name = "P1_Handle";
-					seekbar_player_Id = 1;
+					seekbar_player_Id = id;
 					players.get(id-1).rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
 
 					TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 					timefrag.changeLayout(1);
 				}
-				else if(id > 6){
+				else if(id > 6){ //defender(黃色衣服)
 					//Log,i("debug","D1 ontouch!" );
 					currentPlayer = defenders.get(id-7);
 					currentDrawer.curveIndex = defenderDrawers.get(id-7).curveIndex;
@@ -1841,9 +1839,9 @@ public class MainFragment extends Fragment{
 					currentDrawer.rotation = defenderDrawers.get(id-7).rotation;
 					currentDrawer.paint= defenderDrawers.get(id-7).paint;
 					currentDrawer.startIndex= defenderDrawers.get(id-7).startIndex;
-					rotateWhichPlayer =7;
+					rotateWhichPlayer =id-6;
 					handle_name="D1_Handle";
-					seekbar_player_Id=7;
+					seekbar_player_Id=id-6;
 					//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
 					//Log,i("debug", "first    D1_startIndex="+Integer.toString(D1_startIndex));
 					TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
@@ -1855,11 +1853,11 @@ public class MainFragment extends Fragment{
 
 				startTime = System.currentTimeMillis();
 				move_count = 1;
-				dum_flag = false;
+				dum_flag = false; ////////////////////////////
 
 				Pbitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
-				Pcanvas = new Canvas();
-				Pcanvas = new Canvas(Pbitmap);//把P1canvas畫的東西畫到P1bitmap上面
+				Dcanvas = new DrawCanvas();
+				Dcanvas.canvas = new Canvas(Pbitmap);
 
 				P_curve_x = new Vector();
 				P_curve_y = new Vector();
@@ -1872,6 +1870,7 @@ public class MainFragment extends Fragment{
 				}
 
 				//Pcanvas.drawCircle(mx - startX + v.getWidth()/2, my - startY + v.getHeight()/2, 20, player_paint);
+				//是中心點嗎
 				line_start_point_x = mx - startX + v.getWidth()/2;
 				line_start_point_y = my - startY + v.getHeight()/2;
 
@@ -1880,20 +1879,24 @@ public class MainFragment extends Fragment{
 
 			/*移動圖片***************************************************************************************************/
 			case MotionEvent.ACTION_MOVE:// 移動圖片時
+				//圖片的左上角座標
 				x = mx - startX;
 				y = my - startY;
 				int id2 = Integer.parseInt(v.getTag().toString());
 				if(id2 < 6)
 					players.get(id2-1).rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
-				else if (id2 == 6){
+				else if (id2 == 6){ //人會吸住球的部分(球移動)
 					ball.rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
+
 					/*這裡是先把目前持有球的player先變回無持球狀態，再接著判斷有沒有intersect，確保當兩個player太接近的時候，會導致player明明無持球卻還是呈現有持球的狀態*/
 					changePlayerToNoBall();
+
 					//region 判斷是跟哪個player intersect
 					if(Rect.intersects(players.get(0).rect, ball.rect)){
 						//Log,i("debug", "P1 Intersects!");
 						intersectId =1;
 						intersect=true;
+						//持球圖片的設定
 						if(playersWithBall.get(0).getVisibility()== playersWithBall.get(0).INVISIBLE){
 							playersWithBall.get(0).layout((int)players.get(0).image.getX()-30, (int)players.get(0).image.getY(), (int)players.get(0).image.getX()-30+200, (int)players.get(0).image.getY()+120);
 							playersWithBall.get(0).setVisibility(playersWithBall.get(0).VISIBLE);
@@ -1951,6 +1954,7 @@ public class MainFragment extends Fragment{
 						}
 					}
 					else{
+						//球在移動中 沒有在任何人手上的狀況
 						if(intersectId > 0){
 							players.get(intersectId -1).image.setVisibility(players.get(intersectId -1).image.VISIBLE);
 							if(intersect){
@@ -1969,22 +1973,24 @@ public class MainFragment extends Fragment{
 
 				//region 當正在繪製軌跡時
 				if (isRecording == true) {
-					move_count += 2;
+					move_count += 2; ////////////為甚麼是2 XY
+					///// 處理正在被移動的player
 					currentPlayer.setRoad(x);
 					currentPlayer.setRoad(y);
 					currentPlayer.setMyRotation(currentDrawer.rotation);
-					//Log,i("debug", "player setMyRotation");
+					//Log.i("debug", "player setMyRotation");
 					currentDrawer.tempCurve.add(currentDrawer.curveIndex, new Point(x, y));
 					currentDrawer.curveIndex++;
 					P_curve_x.add((float)mx);
 					P_curve_y.add((float)my);
 
 					// 每畫三個點
-					if(currentDrawer.curveIndex == N){
-						boolean isBallHolder = (rotateWhichPlayer == intersectId);
-						Log.i("debug", "Touch Event : "+ rotateWhichPlayer +", "+ intersectId);
-						Log.i("debug", "sample : "+sample_rate+"  "+ handle_name);
-						boolean whetherDraw = ((sample_rate >= 1.0F) && handle_name.equals("B_Handle")) || (!handle_name.equals("B_Handle") && !isBallHolder);
+					if(currentDrawer.curveIndex == N) { //N為3
+						boolean isBallHolder = (rotateWhichPlayer == intersectId);  //可以將rotate改成movewhichplayer
+						Log.i("debug", "Touch Event : " + rotateWhichPlayer + ", " + intersectId);
+
+						//畫無球跑動的線或是球在移動線
+						boolean whetherDraw = (handle_name.equals("B_Handle")) || (!handle_name.equals("B_Handle") && !isBallHolder);
 
 						//region 找到畫出的路徑相對於平板坐標系的旋轉角度，才能知道掩護的線要畫在哪裡的垂直角度上
 						float pivot_dir_x = 0.0f;
@@ -1994,24 +2000,21 @@ public class MainFragment extends Fragment{
 
 						float target_dir_x = currentDrawer.tempCurve.get(2).x - currentDrawer.tempCurve.get(1).x;
 						float target_dir_y = currentDrawer.tempCurve.get(2).y - currentDrawer.tempCurve.get(1).y;
-						float dot_of_two = pivot_dir_x*target_dir_x + pivot_dir_y*target_dir_y;
+						float dot_of_two = pivot_dir_x * target_dir_x + pivot_dir_y * target_dir_y;
 						float pivot_length = 1.0f;
-						float target_length = (float)Math.sqrt(Math.pow(target_dir_x, 2) + Math.pow(target_dir_y, 2));
-						double cos_val = dot_of_two/target_length/pivot_length;
-						screen_direction = 180.0f * (float)Math.acos(cos_val)/3.1415f;
+						float target_length = (float) Math.sqrt(Math.pow(target_dir_x, 2) + Math.pow(target_dir_y, 2));
+						double cos_val = dot_of_two / target_length / pivot_length;
+						screen_direction = 180.0f * (float) Math.acos(cos_val) / 3.1415f;
 
 						//region 用來計算掩護橫線應該畫的方向
 						float degree_threshold = 10f;
-						if( Math.abs(screen_direction) < degree_threshold){
+						if (Math.abs(screen_direction) < degree_threshold) {
 							screen_direction = 90.0f;
-						}
-						else if( Math.abs(screen_direction - 90.0f) < degree_threshold){
+						} else if (Math.abs(screen_direction - 90.0f) < degree_threshold) {
 							screen_direction = 0.0f;
-						}
-						else if(Math.abs(screen_direction - 180.0f) < degree_threshold){
+						} else if (Math.abs(screen_direction - 180.0f) < degree_threshold) {
 							screen_direction = 90.0f;
-						}
-						else {
+						} else {
 
 							//   |
 							// --| +-
@@ -2037,28 +2040,25 @@ public class MainFragment extends Fragment{
 						//endregion
 
 						//region 用來計算運球圖片應該放的角度(根據球員前進的路線)
-						float dot_of_two2 = pivot_dir_x2*target_dir_x + pivot_dir_y2*target_dir_y;
-						double cos_val2 = dot_of_two2/target_length/pivot_length;
+						// ????????
+						float dot_of_two2 = pivot_dir_x2 * target_dir_x + pivot_dir_y2 * target_dir_y;
+						double cos_val2 = dot_of_two2 / target_length / pivot_length;
 
 
-						last_direction = 180.0f * (float)Math.acos(cos_val2)/3.1415f;
+						last_direction = 180.0f * (float) Math.acos(cos_val2) / 3.1415f;
 						////Log,i("debug", "target direction: "+ target_dir_x + ", " + target_dir_y);
 
-						if(Math.abs(last_direction) < degree_threshold){
+						if (Math.abs(last_direction) < degree_threshold) {
 							last_direction = 0.0f;
-						}
-						else if(Math.abs(last_direction - 90.0f) < degree_threshold){
-							if(target_dir_y < 0.0f){
+						} else if (Math.abs(last_direction - 90.0f) < degree_threshold) {
+							if (target_dir_y < 0.0f) {
 								last_direction = 270.0f;
-							}
-							else{
+							} else {
 								last_direction = 90.0f;
 							}
-						}
-						else if(Math.abs(last_direction - 180.0f) < degree_threshold){
+						} else if (Math.abs(last_direction - 180.0f) < degree_threshold) {
 							last_direction = 180.0f;
-						}
-						else{
+						} else {
 							//   |
 							// --| +-
 							//------->x (這個方向是基準)
@@ -2086,122 +2086,22 @@ public class MainFragment extends Fragment{
 						previousDribbleDirection.add(last_direction);
 						//endregion
 
-						if( whetherDraw) {
-							//region 內插出三點的曲線
-							for (int tmp = 1; tmp < N; tmp++) {
-								Vector<Point> tempCurve = currentDrawer.tempCurve;
-								if (tempCurve.get(tmp - 1).x < tempCurve.get(tmp).x) {//  x遞增
-									if (tmp == 1 && ((int) tempCurve.get(1).x == (int) tempCurve.get(2).x)) {//第二、三格一樣，給lagrange的陣列不能有x一樣的情況，所以只能給lagrange兩格(一、二格)
-										Vector<Point> intermediate = new Vector<Point>();
-										intermediate.add(tempCurve.get(0));
-										intermediate.add(tempCurve.get(1));
-										for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
-											tmp_y = lagrange(intermediate, tmp_x);
-											Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);
-										}
-
-									} else if (tmp == 2 && ((int) tempCurve.get(0).x == (int) tempCurve.get(1).x)) {//第一、二格一樣
-										Vector<Point> intermediate = new Vector<Point>();
-										intermediate.add(tempCurve.get(1));
-										intermediate.add(tempCurve.get(2));
-										for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
-											tmp_y = lagrange(intermediate, tmp_x);
-											Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//black
-										}
-									} else {
-										if (tmp == 1 && (int) tempCurve.get(1).x > (int) tempCurve.get(2).x) {//1<2   2>3
-											Vector<Point> intermediate = new Vector<Point>();
-											intermediate.add(tempCurve.get(0));
-											intermediate.add(tempCurve.get(1));
-											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
-												tmp_y = lagrange(intermediate, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//black
-											}
-										} else if (tmp == 2 && ((int) tempCurve.get(0).x > (int) tempCurve.get(1).x)) {//1>2   2<3
-											Vector<Point> intermediate = new Vector<Point>();
-											intermediate.add(tempCurve.get(1));
-											intermediate.add(tempCurve.get(2));
-											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
-												tmp_y = lagrange(intermediate, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//black
-											}
-										} else {
-											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x <= tempCurve.get(tmp).x; tmp_x = tmp_x + (float) 0.1) {
-												tmp_y = lagrange(tempCurve, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//black
-											}
-										}
-									}
-								} else if (tempCurve.get(tmp - 1).x > tempCurve.get(tmp).x) {//x遞減
-									if (tmp == 1 && ((int) tempCurve.get(1).x == (int) tempCurve.get(2).x)) {//第二、三格一樣，給lagrange的陣列不能有x一樣的情況，所以只能給lagrange兩格(一、二格)
-										Vector<Point> intermediate = new Vector<Point>();
-										intermediate.add(tempCurve.get(0));
-										intermediate.add(tempCurve.get(1));
-										for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
-											tmp_y = lagrange(intermediate, tmp_x);
-											Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
-										}
-									} else if (tmp == 2 && ((int) tempCurve.get(0).x == (int) tempCurve.get(1).x)) {//第一、二格一樣
-										Vector<Point> intermediate = new Vector<Point>();
-										intermediate.add(tempCurve.get(1));
-										intermediate.add(tempCurve.get(2));
-										for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
-											tmp_y = lagrange(intermediate, tmp_x);
-											Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
-										}
-									}//都不一樣
-									else {
-										if (tmp == 1 && (int) tempCurve.get(1).x < (int) tempCurve.get(2).x) {//1>2   2<3
-											Vector<Point> intermediate = new Vector<Point>();
-											intermediate.add(tempCurve.get(0));
-											intermediate.add(tempCurve.get(1));
-											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
-												tmp_y = lagrange(intermediate, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
-											}
-										} else if (tmp == 2 && ((int) tempCurve.get(0).x < (int) tempCurve.get(1).x)) {//1<2   2>3
-											Vector<Point> intermediate = new Vector<Point>();
-											intermediate.add(tempCurve.get(1));
-											intermediate.add(tempCurve.get(2));
-											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
-												tmp_y = lagrange(intermediate, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
-											}
-										} else {
-											for (float tmp_x = tempCurve.get(tmp - 1).x; tmp_x >= tempCurve.get(tmp).x; tmp_x = tmp_x - (float) 0.1) {
-												tmp_y = lagrange(tempCurve, tmp_x);
-												Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//red
-											}
-										}
-									}
-								} else {//==  line 其中兩格一樣的話，就兩格之間畫直線
-									int tmp_x = tempCurve.get(tmp - 1).x;
-									if (tempCurve.get(tmp - 1).x > tempCurve.get(tmp).x) {
-										for (float tmp_y = tempCurve.get(tmp - 1).y; tmp_y >= tempCurve.get(tmp).y; tmp_y = tmp_y - (float) 0.1) {
-											Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//blue
-										}
-									} else {
-										for (float tmp_y = tempCurve.get(tmp - 1).y; tmp_y <= tempCurve.get(tmp).y; tmp_y = tmp_y + (float) 0.1) {
-											Pcanvas.drawCircle(tmp_x + v.getWidth() / 2, tmp_y + v.getHeight() / 2, 5, currentDrawer.paint);//green
-										}
-									}
-								}
+						if (whetherDraw) { //畫線
+							//將point調整到圖片的正中心
+							Vector<Point> tempCurve = currentDrawer.tempCurve;
+							for (int k=0; k<tempCurve.size(); k++){
+								tempCurve.get(k).x+=v.getWidth()/2;
+								tempCurve.get(k).y+=v.getHeight()/2;
 							}
-
-							//endregion
-							sample_rate = 0.0f;
-						}
-						else if(handle_name.equals("B_Handle")){
-							sample_rate = sample_rate + 1.0f;
+							Dcanvas.DrawPath(tempCurve, currentDrawer.paint);
 						}
 						currentDrawer.clearCurve();
 						currentDrawer.tempCurve.add(currentDrawer.curveIndex, new Point(x, y));
 						currentDrawer.curveIndex++;
 					}
 
-					tempCanvas.drawBitmap(Pbitmap, 0,0, null);
-					Pcanvas.drawBitmap(Pbitmap, 0, 0, transparentPaint);
-
+					tempCanvas.drawBitmap(Pbitmap, 0, 0, null);
+					Dcanvas.canvas.drawBitmap(Pbitmap, 0, 0, transparentPaint);
 					circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 				}
 				//endregion
@@ -2225,10 +2125,24 @@ public class MainFragment extends Fragment{
 				return true;
 
 				/*放開圖片***************************************************************************************************/
-			case MotionEvent.ACTION_UP://放開照片時
+			case MotionEvent.ACTION_UP:
 				Log.i("debug", "intersect_name_pre="+Integer.toString(preIntersectId));
 				Log.i("debug", "intersect_name="+Integer.toString(intersectId));
+				/*
+				// 利用起終點重畫球的虛線
+				if(isRecording == true&&handle_name.equals("B_Handle")){
+					// get point
+					int B_start_index=currentPlayer.findLastValueIndex(0);
+					Point B_start_point= new Point(currentPlayer.handleGetRoad(B_start_index+1),currentPlayer.handleGetRoad(B_start_index+2));
+					int B_end_index=currentPlayer.getRoadSize();
+					Point B_end_point= new Point(currentPlayer.handleGetRoad(B_end_index-2),currentPlayer.handleGetRoad(B_end_index-1));
+					Log.i("debug","ball_start_p="+Integer.toString(B_start_point.x)+","+Integer.toString(B_start_point.y));
+					Log.i("debug","ball_end_p="+Integer.toString(B_end_point.x)+","+Integer.toString(B_end_point.y));
 
+					//draw new line
+				}*/
+
+				// 調整圖片顯示球的狀態
 				if(v.getTag().toString().equals("6") && intersect==true){
 					if(intersectId > 0){
 						if(players.get(intersectId -1).image.getVisibility()==players.get(intersectId -1).image.INVISIBLE){//代表是player1_ball顯示中
@@ -2364,7 +2278,9 @@ public class MainFragment extends Fragment{
 						if(isBallHolder)
 							mainwrapfrag.createDribbleLine((int)line_start_point_x, (int)line_start_point_y, rotateWhichPlayer, last_direction, drawn_length, runBags.size());
 
-						Pcanvas.drawCircle((int)line_start_point_x, (int)line_start_point_y, 10, currentDrawer.paint);
+						// 不知道在畫啥 先把原本的Pcanvas改成我寫的Dcanvas
+						//Pcanvas.drawCircle((int)line_start_point_x, (int)line_start_point_y, 10, currentDrawer.paint);
+						Dcanvas.canvas.drawCircle((int)line_start_point_x, (int)line_start_point_y, 10, currentDrawer.paint);
 
 						bitmapVector.add(Pbitmap);
 						/*//Log,i("debug", "bitmap_size="+Integer.toString(Bitmap_vector.size()));

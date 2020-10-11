@@ -12,6 +12,7 @@ public class PlayerDrawer {
     public Paint paint;
     public int curveIndex;
     public Vector<Point> tempCurve;
+
     public PlayerDrawer(int colorHash){
         startIndex = 0;
         rotation = 0;
@@ -19,9 +20,12 @@ public class PlayerDrawer {
         paint.setAntiAlias(true); // 設置畫筆的鋸齒效果。 true是去除。
         paint.setColor(colorHash);  // 設置顏色
         paint.setAlpha(100);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(10f); //畫筆粗細
 
         curveIndex = 0;
         tempCurve = new Vector<Point>();
+
     }
 
     public void clearRecord(){

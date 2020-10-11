@@ -42,7 +42,7 @@ public class Player{
 		return road.size()-1;
 	}
 	
-	public int handleGetRoad(int in_index){
+	public int handleGetRoad(int in_index){ //
 		return road.get(in_index);
 	}
 
@@ -70,4 +70,8 @@ public class Player{
 		return rotation.size();
 	}
 
+	///////////
+	public int findLastValueIndex(int value){
+		return road.lastIndexOf(value);
+	}
 }
