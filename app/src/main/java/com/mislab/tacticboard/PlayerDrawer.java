@@ -19,9 +19,9 @@ public class PlayerDrawer {
         paint = new Paint();
         paint.setAntiAlias(true); // 設置畫筆的鋸齒效果。 true是去除。
         paint.setColor(colorHash);  // 設置顏色
-        paint.setAlpha(100);
+        paint.setAlpha(255);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10f); //畫筆粗細
+        paint.setStrokeWidth(8f); //畫筆粗細
 
         curveIndex = 0;
         tempCurve = new Vector<Point>();

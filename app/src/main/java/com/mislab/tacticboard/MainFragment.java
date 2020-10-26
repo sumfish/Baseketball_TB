@@ -137,8 +137,6 @@ public class MainFragment extends Fragment{
 	// For screen
 	private Vector<Float> previousDirection;
 	public boolean isScreenEnable;
-	// For dribble
-	private Vector<Float> previousDribbleDirection;
 
 
 	@Override
@@ -152,7 +150,6 @@ public class MainFragment extends Fragment{
 
 		selectCategoryId = 0;
 		previousDirection = new Vector<Float>();
-		previousDribbleDirection = new Vector<Float>();
 		isScreenEnable = false;
 		hasQueryDefenderFromServer = false;
 		//region Initialize Player icons on the view
@@ -827,24 +824,6 @@ public class MainFragment extends Fragment{
 		MainWrap mainwrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 		mainwrap.clearRecordLayout();
 	}
-	
-	public int lagrange(Vector<Point> curve, float x){
-		int y=0;
-		float tmpy=0;
-	    for (int i=0; i<curve.size(); ++i)
-	    {
-	        float a = 1, b = 1;
-	        for (int j=0; j<curve.size(); ++j)
-	        {
-	            if (j == i) continue;
-	            a *= x - curve.get(j).x;
-	            b *= curve.get(i).x - curve.get(j).x;
-	        }
-	        tmpy=(curve.get(i).y * a / b);
-	        y += curve.get(i).y * a / b;
-	    }	 
-		return y;
-	}
 
 	public void changePlayerToNoBall(){
 		if(intersectId !=0){ //有球員持球
@@ -1069,11 +1048,6 @@ public class MainFragment extends Fragment{
 
 								tmp_runbag.put("path_type", String.valueOf(runBags.get(i).getPathType()));
 								tmp_runbag.put("screen_angle", String.valueOf(runBags.get(i).getScreenAngle()));
-								tmp_runbag.put("dribble_angle", String.valueOf(runBags.get(i).getDribbleAngle()));
-								tmp_runbag.put("dribble_length", String.valueOf(runBags.get(i).getDribbleLength()));
-
-								tmp_runbag.put("dribble_start_x", String.valueOf(runBags.get(i).getDribbleStartX()));
-								tmp_runbag.put("dribble_start_y", String.valueOf(runBags.get(i).getDribbleStartY()));
 								runline_array.put(tmp_runbag);
 							}
 							save_strategy.put("Runline", runline_array);
@@ -1390,11 +1364,6 @@ public class MainFragment extends Fragment{
 				tmp.setBallNum(Integer.valueOf(tmpRunBag.getString("ball_num")));
 				tmp.setPathType(Integer.valueOf(tmpRunBag.getString("path_type")));
 				tmp.setScreenAngle(Float.valueOf(tmpRunBag.getString("screen_angle")));
-				tmp.setDribbleAngle(Float.valueOf(tmpRunBag.getString("dribble_angle")));
-				tmp.setDribbleLength(Float.valueOf(tmpRunBag.getString("dribble_length")));
-
-				tmp.setDribbleStartX(Integer.valueOf(tmpRunBag.getString("dribble_start_x")));
-				tmp.setDribbleStartY(Integer.valueOf(tmpRunBag.getString("dribble_start_y")));
 
 				runBags.add(tmp);
 
@@ -1413,8 +1382,6 @@ public class MainFragment extends Fragment{
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
 						mainwrapfrag.createScreenBar(x, y, 1, tmp.getScreenAngle(), loadSeekbarTmpId);
-					}else if(tmp.getPathType() == 2){
-						mainwrapfrag.createDribbleLine(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 1, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
 				}
 				else if(tmp.getHandler().equals("P2_Handle")){
@@ -1427,8 +1394,6 @@ public class MainFragment extends Fragment{
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
 						mainwrapfrag.createScreenBar(x, y, 2, tmp.getScreenAngle(), loadSeekbarTmpId);
-					}else if(tmp.getPathType() == 2){
-						mainwrapfrag.createDribbleLine(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 2, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
 				}
 				else if(tmp.getHandler().equals("P3_Handle")){
@@ -1442,9 +1407,6 @@ public class MainFragment extends Fragment{
 					if(tmp.getPathType() == 1){
 						mainwrapfrag.createScreenBar(x, y, 3, tmp.getScreenAngle(), loadSeekbarTmpId);
 					}
-					else if(tmp.getPathType() == 2){
-						mainwrapfrag.createDribbleLine(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 2, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
-					}
 				}
 				else if(tmp.getHandler().equals("P4_Handle")){
 					timefrag.createSeekbar(4,loadSeekbarTmpId,tmp.getStartTime(),tmp.getDuration());
@@ -1456,8 +1418,6 @@ public class MainFragment extends Fragment{
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
 						mainwrapfrag.createScreenBar(x, y, 3, tmp.getScreenAngle(), loadSeekbarTmpId);
-					}else if(tmp.getPathType() == 2){
-						mainwrapfrag.createDribbleLine(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 3, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
 				}
 				else if(tmp.getHandler().equals("P5_Handle")){
@@ -1470,9 +1430,6 @@ public class MainFragment extends Fragment{
 					// 如果這一動有要擋拆
 					if(tmp.getPathType() == 1){
 						mainwrapfrag.createScreenBar(x, y, 4, tmp.getScreenAngle(), loadSeekbarTmpId);
-					}
-					else if(tmp.getPathType() == 2){
-						mainwrapfrag.createDribbleLine(tmp.getDribbleStartX(), tmp.getDribbleStartY(), 4, tmp.getDribbleAngle(), tmp.getDribbleLength(), loadSeekbarTmpId);
 					}
 				}
 				else if(tmp.getHandler().equals("B_Handle")){
@@ -1770,6 +1727,7 @@ public class MainFragment extends Fragment{
 		private Bitmap Pbitmap;
 		//private Canvas Pcanvas; //原本井井用到的
 		private DrawCanvas Dcanvas;
+		private Bitmap TempBMap; //存畫球曲線的前一動
 		private Vector<Float> P_curve_x;
 		private Vector<Float> P_curve_y;
 
@@ -2083,26 +2041,29 @@ public class MainFragment extends Fragment{
 						//endregion
 
 						previousDirection.add(screen_direction);
-						previousDribbleDirection.add(last_direction);
 						//endregion
 
-						if (whetherDraw) { //畫線
+						//畫線
+						if (whetherDraw) {
+							if(handle_name.equals("B_Handle")){
+								TempBMap= Pbitmap.copy(Bitmap.Config.ARGB_8888, true); //複製一份
+							}
 							//將point調整到圖片的正中心
 							Vector<Point> tempCurve = currentDrawer.tempCurve;
 							for (int k=0; k<tempCurve.size(); k++){
 								tempCurve.get(k).x+=v.getWidth()/2;
 								tempCurve.get(k).y+=v.getHeight()/2;
 							}
-							Dcanvas.DrawPath(tempCurve, currentDrawer.paint);
+							Dcanvas.DrawCurvePath(tempCurve, currentDrawer.paint);
 						}
 						currentDrawer.clearCurve();
 						currentDrawer.tempCurve.add(currentDrawer.curveIndex, new Point(x, y));
 						currentDrawer.curveIndex++;
 					}
 
-					tempCanvas.drawBitmap(Pbitmap, 0, 0, null);
-					Dcanvas.canvas.drawBitmap(Pbitmap, 0, 0, transparentPaint);
-					circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+					tempCanvas.drawBitmap(Pbitmap, 0, 0, null); //Pbitmap
+					Dcanvas.canvas.drawBitmap(Pbitmap, 0, 0, transparentPaint); //這行註解好像沒有影響
+					//circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap)); //這行註解好像沒有影響
 				}
 				//endregion
 
@@ -2128,19 +2089,69 @@ public class MainFragment extends Fragment{
 			case MotionEvent.ACTION_UP:
 				Log.i("debug", "intersect_name_pre="+Integer.toString(preIntersectId));
 				Log.i("debug", "intersect_name="+Integer.toString(intersectId));
-				/*
-				// 利用起終點重畫球的虛線
+
+				int B_start_index=currentPlayer.findLastValueIndex(0);
+				int B_end_index=currentPlayer.getRoadSize();
+
+				// region 利用起終點重畫球的虛線
 				if(isRecording == true&&handle_name.equals("B_Handle")){
 					// get point
-					int B_start_index=currentPlayer.findLastValueIndex(0);
 					Point B_start_point= new Point(currentPlayer.handleGetRoad(B_start_index+1),currentPlayer.handleGetRoad(B_start_index+2));
-					int B_end_index=currentPlayer.getRoadSize();
 					Point B_end_point= new Point(currentPlayer.handleGetRoad(B_end_index-2),currentPlayer.handleGetRoad(B_end_index-1));
-					Log.i("debug","ball_start_p="+Integer.toString(B_start_point.x)+","+Integer.toString(B_start_point.y));
-					Log.i("debug","ball_end_p="+Integer.toString(B_end_point.x)+","+Integer.toString(B_end_point.y));
+
+					//將point調整到圖片的正中心
+					B_end_point.x+=v.getWidth()/2;
+					B_start_point.x+=v.getWidth()/2;
+					B_end_point.y+=v.getHeight()/2;
+					B_start_point.y+=v.getHeight()/2;
+
+					//回前一個畫布狀態(還沒畫傳球線)
+					//Pbitmap=TempBMap.copy(Bitmap.Config.ARGB_8888, true);
+					//circle.setImageDrawable(new BitmapDrawable(getResources(), Pbitmap));
+					//circle.setImageDrawable(new BitmapDrawable(getResources(), TempBMap)); //這行註解好像沒有影響
 
 					//draw new line
-				}*/
+					//Dcanvas.canvas = new Canvas(TempBMap);
+
+					Dcanvas.DrawStraightLine(B_start_point,B_end_point,currentDrawer.paint);
+					tempCanvas.drawBitmap(Pbitmap, 0, 0, null);
+					//下面這個還在研究要不要加
+					//Dcanvas.canvas.drawBitmap(Pbitmap, 0, 0, transparentPaint);
+					//circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+				}
+				// endregion
+
+				// region 畫dribble的運球鋸齒線
+				boolean isBallHolder = (rotateWhichPlayer == intersectId);
+				if(isRecording==true&&isBallHolder){
+					Vector<Point> tempPoints= new Vector<>();
+
+					//拿一整段曲線的點 B_start_index是0(路線分隔)，所以要加1
+					for (int i=B_start_index+1; i<B_end_index-1; i+=2){
+						//將point調整到圖片的正中心
+						tempPoints.add(new Point(currentPlayer.handleGetRoad(i)+v.getWidth()/2,currentPlayer.handleGetRoad(i+1)+v.getHeight()/2));
+					}
+					Dcanvas.DrawZigzag(tempPoints,currentDrawer.paint);
+					tempCanvas.drawBitmap(Pbitmap, 0, 0, null);
+				}
+				// endregion
+
+				// region 畫箭頭
+				if(isRecording == true){
+					// 拿sample到的最後一個點跟倒數第五個點
+					Point B_end_point = new Point(currentPlayer.handleGetRoad(B_end_index - 2), currentPlayer.handleGetRoad(B_end_index - 1)); //倒數1
+					Point B_start_point = new Point(currentPlayer.handleGetRoad(B_end_index - 10), currentPlayer.handleGetRoad(B_end_index - 9)); //倒數5
+
+					// 將point調整到圖片的正中心
+					B_end_point.x += v.getWidth() / 2;
+					B_start_point.x += v.getWidth() / 2;
+					B_end_point.y += v.getHeight() / 2;
+					B_start_point.y += v.getHeight() / 2;
+
+					Dcanvas.DrawArrow(B_end_point,B_start_point,currentDrawer.paint);
+					tempCanvas.drawBitmap(Pbitmap, 0, 0, null);
+				}
+				// endregion
 
 				// 調整圖片顯示球的狀態
 				if(v.getTag().toString().equals("6") && intersect==true){
@@ -2207,12 +2218,10 @@ public class MainFragment extends Fragment{
 						// 把最後最有可能的方向趨勢作為掩護screen_bar要旋轉的方向
 
 						// direction_hist 用來統計最有可能的方向趨勢，每5度一個bin
-						Vector<Integer> direction_hist, dribble_direction_hist;
+						Vector<Integer> direction_hist;
 						direction_hist = new Vector<Integer>();
-						dribble_direction_hist = new Vector<Integer>();
 						for(int i=0 ; i<72 ; i++){
 							direction_hist.add(0);
-							dribble_direction_hist.add(0);
 						}
 
 						// 統計最近5個線段的方向趨勢
@@ -2221,29 +2230,20 @@ public class MainFragment extends Fragment{
 
 						for(int i=1 ; i<sample_length ; i++){
 							float angle_trans = previousDirection.get(prev_dir_length - i);
-							float dri_angle_trans = previousDribbleDirection.get(prev_dir_length - i);
 							// 前面設的previous_direction的方向有些是負的
 							// 如果不把她轉成正的，vector取到的index就會是負的
 							if(previousDirection.get(prev_dir_length - i) < 0.0f){
 								angle_trans = 360.0f + angle_trans;
 							}
-							if(previousDribbleDirection.get(prev_dir_length - i) < 0.0f){
-								dri_angle_trans = 360.0f + angle_trans;
-							}
 
 							int prev_hist_value = direction_hist.get( Math.round(angle_trans/10));
 							direction_hist.set( Math.round(angle_trans/10) , prev_hist_value+1);
-
-							int dri_prev_hist_value = dribble_direction_hist.get(Math.round(dri_angle_trans/10));
-							dribble_direction_hist.set(Math.round(dri_angle_trans/10), dri_prev_hist_value+1);
 						}
 
 						// 找出統計出來最大的方向趨勢
 						int maxIndex = 0;
 						int maxValue = direction_hist.get(0);
 
-						int driMaxIndex = 0;
-						int driMaxValue = dribble_direction_hist.get(0);
 
 						for(int i=1;i<direction_hist.size();i++){
 							if(direction_hist.get(i) > maxValue){
@@ -2251,14 +2251,9 @@ public class MainFragment extends Fragment{
 								maxIndex = i;
 							}
 
-							if(dribble_direction_hist.get(i) > driMaxValue){
-								driMaxValue = dribble_direction_hist.get(i);
-								driMaxIndex = i;
-							}
 						}
 
 						previousDirection.clear();
-						previousDribbleDirection.clear();
 
 						////Log,i("debug", "Screen direction : " + screen_direction);
 						////Log,i("debug", "Last direction : "+ last_direction);
@@ -2269,14 +2264,11 @@ public class MainFragment extends Fragment{
 							mainwrapfrag.createScreenBar(x, y, rotateWhichPlayer,  screen_direction, runBags.size());
 						//endregion
 
-						last_direction = driMaxIndex*10.0f + 5.0f;
-						boolean isBallHolder = (rotateWhichPlayer == intersectId);
+						//boolean isBallHolder = (rotateWhichPlayer == intersectId);
 						float drawn_length = (float)Math.sqrt( Math.pow(x + v.getWidth()/2 - line_start_point_x, 2) + Math.pow(y + v.getHeight()/2 - line_start_point_y, 2));
 						////Log,i("debug","Drawn length: "+ drawn_length);
 						drawn_length = drawn_length / 150.0f / 2.0f;
 
-						if(isBallHolder)
-							mainwrapfrag.createDribbleLine((int)line_start_point_x, (int)line_start_point_y, rotateWhichPlayer, last_direction, drawn_length, runBags.size());
 
 						// 不知道在畫啥 先把原本的Pcanvas改成我寫的Dcanvas
 						//Pcanvas.drawCircle((int)line_start_point_x, (int)line_start_point_y, 10, currentDrawer.paint);
@@ -2316,10 +2308,6 @@ public class MainFragment extends Fragment{
 							//region 20180712 在Runbag中加入掩護及運球的資訊
 							if(isBallHolder){
 								tmp.setPathType(2);
-								tmp.setDribbleAngle(last_direction);
-								tmp.setDribbleLength(drawn_length);
-								tmp.setDribbleStartX((int)line_start_point_x);
-								tmp.setDribbleStartY((int)line_start_point_y);
 							}
 							else if(isScreenEnable){
 								tmp.setPathType(1);
@@ -2417,7 +2405,6 @@ public class MainFragment extends Fragment{
 		MainWrap mainwrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 		mainwrap.removeTextView(whichToRemove);
 		mainwrap.removeScreenBar(whichToRemove);
-		mainwrap.removeDribbleLine(whichToRemove);
 
 		/*remove runline*/
 		/*Every component's position in the RunLine should be the same with the TimeLine SeekBarId.*/
