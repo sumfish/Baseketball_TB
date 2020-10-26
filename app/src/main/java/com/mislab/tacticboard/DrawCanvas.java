@@ -6,11 +6,13 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Paint;
 
+import java.util.Stack;
 import java.util.Vector;
 
 public class DrawCanvas {
     public Canvas canvas;
     private Path path;
+    private Stack<Path> pathHistory; //記錄每筆畫畫
     private DashPathEffect DashEffect; //虛線效果
     private DashPathEffect LineEffect; //實線效果
 
@@ -19,28 +21,29 @@ public class DrawCanvas {
     private double arrowrad = Math.atan(L / H);
     private double arraow_len = Math.sqrt(L * L + H * H);
 
-    private int ZigzagCount; //用在判斷鋸齒向量要正還是負
-    private static float zigDistance=50.0f; //畫鋸齒線時在兩點間每隔多少距離內插一個點
-    private static float zigLength=25.0f; //zigzag的大小長度
+    private int zigzagCount; //用在判斷鋸齒向量要正還是負
+    private static float zigDistance=25.0f; //畫鋸齒線時在兩點間每隔多少距離內插一個點
+    private static float zigLength=12.5f; //zigzag的大小長度
 
     public DrawCanvas(){
         this.canvas=new Canvas();
         this.path=new Path();
+        this.pathHistory=new Stack<Path>();
         this.DashEffect=new DashPathEffect(new float[]{20,20},0);
         this.LineEffect=new DashPathEffect(new float[]{0,0},0);
-        this.ZigzagCount=0;
+        this.zigzagCount=0;
     }
 
     // calculate path from 3 points
-    private void RenderCurvePath(Vector<Point> tempCurvePoint){
+    private void renderCurvePath(Vector<Point> tempCurvePoint){
         // start from P0
         path.moveTo(tempCurvePoint.get(0).x,tempCurvePoint.get(0).y);
         path.quadTo(tempCurvePoint.get(1).x,tempCurvePoint.get(1).y,tempCurvePoint.get(2).x,tempCurvePoint.get(2).y);
     }
 
     // draw curve line on the canvas
-    public void DrawCurvePath(Vector<Point> tempCurvePoint, Paint painter){
-        RenderCurvePath(tempCurvePoint);
+    public void drawCurvePath(Vector<Point> tempCurvePoint, Paint painter){
+        renderCurvePath(tempCurvePoint);
         painter.setPathEffect(LineEffect);
         canvas.drawPath(path, painter);
         path.rewind();
@@ -93,10 +96,10 @@ public class DrawCanvas {
     //給一條曲線軌跡畫zigzag鋸齒線
     public void DrawZigzag(Vector<Point> tempCurvePoint, Paint painter){
         Vector<Point>zigzagP=CreateZigzag(interpolation(tempCurvePoint));
-        int lgnoreforstraight=2; //留2個點(zigzag&last)不要畫 在最後畫直線
+        int lgnoreforstraight=4; //留4個點(zigzag&last)不要畫 在最後畫直線
 
         path.moveTo(zigzagP.get(0).x,zigzagP.get(0).y);
-        for (int i=2; i<zigzagP.size()-lgnoreforstraight; i++){ //i=2跳過第一個zigzag點可先形成直線
+        for (int i=4; i<zigzagP.size()-lgnoreforstraight; i++){ //i=2跳過第一個zigzag點可先形成直線
             path.lineTo(zigzagP.get(i).x,zigzagP.get(i).y);
         }
         //畫最後一點直接連成尾巴直線
@@ -126,7 +129,7 @@ public class DrawCanvas {
             dy=y2-y1;
             distance=(float)Math.sqrt(dx*dx+dy*dy);
 
-            if(ZigzagCount/2==0){
+            if(zigzagCount%2==0){
                 mx += (dy/distance*zigLength);
                 my -= (dx/distance*zigLength);
             }
@@ -136,6 +139,7 @@ public class DrawCanvas {
             }
             zigzag.add(new Point((int)mx,(int)my));
             zigzag.add(tempCurvePoint.get(i));
+            zigzagCount++;
         }
         return zigzag;
     }
