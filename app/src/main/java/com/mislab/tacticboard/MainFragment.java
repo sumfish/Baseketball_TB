@@ -39,6 +39,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.BitmapDrawable;
@@ -1721,13 +1722,10 @@ public class MainFragment extends Fragment{
 		private int mx, my; // 圖片被拖曳的X ,Y軸距離長度
 		private int startX, startY; // 原本圖片存在的X,Y軸位置
 		private int x, y; // 最終的顯示位置
-		private float tmp_y;
 		private int move_count;
 		private boolean dum_flag;
-		private Bitmap Pbitmap;
-		//private Canvas Pcanvas; //原本井井用到的
+		private Bitmap Dbitmap; //每次畫的暫存bitmap
 		private DrawCanvas Dcanvas;
-		private Bitmap TempBMap; //存畫球曲線的前一動
 		private Vector<Float> P_curve_x;
 		private Vector<Float> P_curve_y;
 
@@ -1740,10 +1738,6 @@ public class MainFragment extends Fragment{
 		private float last_direction;
 		//endregion
 
-		//region 用來畫運球路徑的
-		private float line_start_point_x;
-		private float line_start_point_y;
-		//endregion
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) { // v是事件來源物件, e是儲存有觸控資訊的物件
@@ -1813,9 +1807,9 @@ public class MainFragment extends Fragment{
 				move_count = 1;
 				dum_flag = false; ////////////////////////////
 
-				Pbitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
+				Dbitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
 				Dcanvas = new DrawCanvas();
-				Dcanvas.canvas = new Canvas(Pbitmap);
+				Dcanvas.canvas = new Canvas(Dbitmap);
 
 				P_curve_x = new Vector();
 				P_curve_y = new Vector();
@@ -1826,11 +1820,6 @@ public class MainFragment extends Fragment{
 					currentPlayer.setRoad(0); // split positions
 					currentPlayer.setMyRotation(-1);
 				}
-
-				//Pcanvas.drawCircle(mx - startX + v.getWidth()/2, my - startY + v.getHeight()/2, 20, player_paint);
-				//是中心點嗎
-				line_start_point_x = mx - startX + v.getWidth()/2;
-				line_start_point_y = my - startY + v.getHeight()/2;
 
 				return true;
 
@@ -1936,7 +1925,6 @@ public class MainFragment extends Fragment{
 					currentPlayer.setRoad(x);
 					currentPlayer.setRoad(y);
 					currentPlayer.setMyRotation(currentDrawer.rotation);
-					//Log.i("debug", "player setMyRotation");
 					currentDrawer.tempCurve.add(currentDrawer.curveIndex, new Point(x, y));
 					currentDrawer.curveIndex++;
 					P_curve_x.add((float)mx);
@@ -1946,9 +1934,10 @@ public class MainFragment extends Fragment{
 					if(currentDrawer.curveIndex == N) { //N為3
 						boolean isBallHolder = (rotateWhichPlayer == intersectId);  //可以將rotate改成movewhichplayer
 						Log.i("debug", "Touch Event : " + rotateWhichPlayer + ", " + intersectId);
-
 						//畫無球跑動的線或是球在移動線
-						boolean whetherDraw = (handle_name.equals("B_Handle")) || (!handle_name.equals("B_Handle") && !isBallHolder);
+						boolean whetherDraw = (handle_name.equals("B_Handle")) || (!handle_name.equals("B_Handle") ); //&& !isBallHolder
+						//是否是無球移動
+						boolean whetherJustNoneHolder = (!handle_name.equals("B_Handle") && !isBallHolder);
 
 						//region 找到畫出的路徑相對於平板坐標系的旋轉角度，才能知道掩護的線要畫在哪裡的垂直角度上
 						float pivot_dir_x = 0.0f;
@@ -1997,73 +1986,25 @@ public class MainFragment extends Fragment{
 						}
 						//endregion
 
-						//region 用來計算運球圖片應該放的角度(根據球員前進的路線)
-						// ????????
-						float dot_of_two2 = pivot_dir_x2 * target_dir_x + pivot_dir_y2 * target_dir_y;
-						double cos_val2 = dot_of_two2 / target_length / pivot_length;
-
-
-						last_direction = 180.0f * (float) Math.acos(cos_val2) / 3.1415f;
-						////Log,i("debug", "target direction: "+ target_dir_x + ", " + target_dir_y);
-
-						if (Math.abs(last_direction) < degree_threshold) {
-							last_direction = 0.0f;
-						} else if (Math.abs(last_direction - 90.0f) < degree_threshold) {
-							if (target_dir_y < 0.0f) {
-								last_direction = 270.0f;
-							} else {
-								last_direction = 90.0f;
-							}
-						} else if (Math.abs(last_direction - 180.0f) < degree_threshold) {
-							last_direction = 180.0f;
-						} else {
-							//   |
-							// --| +-
-							//------->x (這個方向是基準)
-							//   |
-							// -+| ++
-							//   V
-
-							// 如果是在四相中的任何一相(不包含90度 180度 270度)
-							if ((target_dir_x > 0.0f) && (target_dir_y < 0.0f)) {
-								last_direction = 360.0f - last_direction;
-
-							} else if ((target_dir_x > 0.0f) && (target_dir_y > 0.0f)) {
-								last_direction = last_direction;
-
-							} else if ((target_dir_x < 0.0f) && (target_dir_y > 0.0f)) {
-								last_direction = last_direction;
-
-							} else if ((target_dir_x < 0.0f) && (target_dir_y < 0.0f)) {
-								last_direction = 360.f - last_direction;
-							}
-						}
-						//endregion
-
 						previousDirection.add(screen_direction);
 						//endregion
 
 						//畫線
 						if (whetherDraw) {
-							if(handle_name.equals("B_Handle")){
-								TempBMap= Pbitmap.copy(Bitmap.Config.ARGB_8888, true); //複製一份
-							}
 							//將point調整到圖片的正中心
 							Vector<Point> tempCurve = currentDrawer.tempCurve;
 							for (int k=0; k<tempCurve.size(); k++){
 								tempCurve.get(k).x+=v.getWidth()/2;
 								tempCurve.get(k).y+=v.getHeight()/2;
 							}
-							Dcanvas.DrawCurvePath(tempCurve, currentDrawer.paint);
+							Dcanvas.drawCurvePath(tempCurve, currentDrawer.paint,whetherJustNoneHolder);
 						}
 						currentDrawer.clearCurve();
 						currentDrawer.tempCurve.add(currentDrawer.curveIndex, new Point(x, y));
 						currentDrawer.curveIndex++;
 					}
 
-					tempCanvas.drawBitmap(Pbitmap, 0, 0, null); //Pbitmap
-					Dcanvas.canvas.drawBitmap(Pbitmap, 0, 0, transparentPaint); //這行註解好像沒有影響
-					//circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap)); //這行註解好像沒有影響
+					tempCanvas.drawBitmap(Dbitmap, 0, 0, null); //Dbitmap 一定要放 user才會邊畫邊看到線條
 				}
 				//endregion
 
@@ -2093,46 +2034,50 @@ public class MainFragment extends Fragment{
 				int B_start_index=currentPlayer.findLastValueIndex(0);
 				int B_end_index=currentPlayer.getRoadSize();
 
-				// region 利用起終點重畫球的虛線
-				if(isRecording == true&&handle_name.equals("B_Handle")){
-					// get point
-					Point B_start_point= new Point(currentPlayer.handleGetRoad(B_start_index+1),currentPlayer.handleGetRoad(B_start_index+2));
-					Point B_end_point= new Point(currentPlayer.handleGetRoad(B_end_index-2),currentPlayer.handleGetRoad(B_end_index-1));
+				boolean isBallHolder = (rotateWhichPlayer == intersectId)&&handle_name.equals("P1_Handle");
 
-					//將point調整到圖片的正中心
-					B_end_point.x+=v.getWidth()/2;
-					B_start_point.x+=v.getWidth()/2;
-					B_end_point.y+=v.getHeight()/2;
-					B_start_point.y+=v.getHeight()/2;
+				// region 重劃線(傳球或運球)
+				if(isRecording == true&&(isBallHolder||handle_name.equals("B_Handle"))){
 
-					//回前一個畫布狀態(還沒畫傳球線)
-					//Pbitmap=TempBMap.copy(Bitmap.Config.ARGB_8888, true);
-					//circle.setImageDrawable(new BitmapDrawable(getResources(), Pbitmap));
-					//circle.setImageDrawable(new BitmapDrawable(getResources(), TempBMap)); //這行註解好像沒有影響
+					// undo原本user畫的曲線
+					tempBitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
+					tempCanvas = new Canvas();
+					tempCanvas = new Canvas(tempBitmap);
 
-					//draw new line
-					//Dcanvas.canvas = new Canvas(TempBMap);
-
-					Dcanvas.DrawStraightLine(B_start_point,B_end_point,currentDrawer.paint);
-					tempCanvas.drawBitmap(Pbitmap, 0, 0, null);
-					//下面這個還在研究要不要加
-					//Dcanvas.canvas.drawBitmap(Pbitmap, 0, 0, transparentPaint);
-					//circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
-				}
-				// endregion
-
-				// region 畫dribble的運球鋸齒線
-				boolean isBallHolder = (rotateWhichPlayer == intersectId);
-				if(isRecording==true&&isBallHolder){
-					Vector<Point> tempPoints= new Vector<>();
-
-					//拿一整段曲線的點 B_start_index是0(路線分隔)，所以要加1
-					for (int i=B_start_index+1; i<B_end_index-1; i+=2){
-						//將point調整到圖片的正中心
-						tempPoints.add(new Point(currentPlayer.handleGetRoad(i)+v.getWidth()/2,currentPlayer.handleGetRoad(i+1)+v.getHeight()/2));
+					for(int tmp = 0; tmp< bitmapVector.size(); tmp++){
+						tempCanvas.drawBitmap(bitmapVector.get(tmp), 0, 0, null);
 					}
-					Dcanvas.DrawZigzag(tempPoints,currentDrawer.paint);
-					tempCanvas.drawBitmap(Pbitmap, 0, 0, null);
+					circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));//把tempBitmap放進circle裡
+
+					//做新的Dbitmap
+					Dbitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);
+					Dcanvas = new DrawCanvas();
+					Dcanvas.canvas = new Canvas(Dbitmap);
+
+					//利用起終點重畫球的虛線
+					if(handle_name.equals("B_Handle")){
+						// get point
+						Point B_start_point= new Point(currentPlayer.handleGetRoad(B_start_index+1),currentPlayer.handleGetRoad(B_start_index+2));
+						Point B_end_point= new Point(currentPlayer.handleGetRoad(B_end_index-2),currentPlayer.handleGetRoad(B_end_index-1));
+
+						//將point調整到圖片的正中心
+						B_end_point.x+=v.getWidth()/2;
+						B_start_point.x+=v.getWidth()/2;
+						B_end_point.y+=v.getHeight()/2;
+						B_start_point.y+=v.getHeight()/2;
+						Dcanvas.drawStraightLine(B_start_point,B_end_point,currentDrawer.paint);
+					}
+					else if(isBallHolder){
+						ballDrawer.clearCurve(); //把之前球的位置清掉
+						Vector<Point> tempPoints= new Vector<>();
+
+						//拿一整段曲線的點 B_start_index是0(路線分隔)，所以要加1
+						for (int i=B_start_index+1; i<B_end_index-1; i+=2){
+							//將point調整到圖片的正中心
+							tempPoints.add(new Point(currentPlayer.handleGetRoad(i)+v.getWidth()/2,currentPlayer.handleGetRoad(i+1)+v.getHeight()/2));
+						}
+						Dcanvas.drawZigzag(tempPoints,currentDrawer.paint);
+					}
 				}
 				// endregion
 
@@ -2142,18 +2087,22 @@ public class MainFragment extends Fragment{
 					Point B_end_point = new Point(currentPlayer.handleGetRoad(B_end_index - 2), currentPlayer.handleGetRoad(B_end_index - 1)); //倒數1
 					Point B_start_point = new Point(currentPlayer.handleGetRoad(B_end_index - 10), currentPlayer.handleGetRoad(B_end_index - 9)); //倒數5
 
+					if(handle_name.equals("B_Handle")){ //調整一下讓傳球線的箭頭不要太歪(畫直線)
+						B_start_point= new Point(currentPlayer.handleGetRoad(B_start_index+1),currentPlayer.handleGetRoad(B_start_index+2));
+					}
+
 					// 將point調整到圖片的正中心
 					B_end_point.x += v.getWidth() / 2;
 					B_start_point.x += v.getWidth() / 2;
 					B_end_point.y += v.getHeight() / 2;
 					B_start_point.y += v.getHeight() / 2;
 
-					Dcanvas.DrawArrow(B_end_point,B_start_point,currentDrawer.paint);
-					tempCanvas.drawBitmap(Pbitmap, 0, 0, null);
+					Dcanvas.drawArrow(B_end_point,B_start_point,currentDrawer.paint);
+					tempCanvas.drawBitmap(Dbitmap, 0, 0, null); // 將這次user畫的bitmap畫到global的tempbitmap
 				}
 				// endregion
 
-				// 調整圖片顯示球的狀態
+				// region 調整圖片顯示球的狀態
 				if(v.getTag().toString().equals("6") && intersect==true){
 					if(intersectId > 0){
 						if(players.get(intersectId -1).image.getVisibility()==players.get(intersectId -1).image.INVISIBLE){//代表是player1_ball顯示中
@@ -2172,6 +2121,7 @@ public class MainFragment extends Fragment{
 						players.get(intersectId -1).arrow.invalidate();
 					}
 				}
+				//endregion
 
 				//region 防呆，畫的時間太短的話，不會採用
 				if (isRecording == true) {
@@ -2188,9 +2138,11 @@ public class MainFragment extends Fragment{
 						tempBitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
 						tempCanvas = new Canvas();
 						tempCanvas = new Canvas(tempBitmap);//畫透明路徑
+
 						for(int tmp = 0; tmp< bitmapVector.size(); tmp++){
 							tempCanvas.drawBitmap(bitmapVector.get(tmp), 0, 0, null);
 						}
+						//bitmap--->drawble
 						circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));//把tempBitmap放進circle裡
 						for(int i=0;i<move_count;i++){
 							currentPlayer.getCmpltRoad().remove(currentPlayer.getRoadSize()-1);
@@ -2198,6 +2150,7 @@ public class MainFragment extends Fragment{
 					}
 
 					if(dum_flag == true){
+
 						TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 						////Log,i("debug", "Test for run into this block.");
 
@@ -2264,20 +2217,11 @@ public class MainFragment extends Fragment{
 							mainwrapfrag.createScreenBar(x, y, rotateWhichPlayer,  screen_direction, runBags.size());
 						//endregion
 
-						//boolean isBallHolder = (rotateWhichPlayer == intersectId);
-						float drawn_length = (float)Math.sqrt( Math.pow(x + v.getWidth()/2 - line_start_point_x, 2) + Math.pow(y + v.getHeight()/2 - line_start_point_y, 2));
-						////Log,i("debug","Drawn length: "+ drawn_length);
-						drawn_length = drawn_length / 150.0f / 2.0f;
-
-
-						// 不知道在畫啥 先把原本的Pcanvas改成我寫的Dcanvas
-						//Pcanvas.drawCircle((int)line_start_point_x, (int)line_start_point_y, 10, currentDrawer.paint);
-						Dcanvas.canvas.drawCircle((int)line_start_point_x, (int)line_start_point_y, 10, currentDrawer.paint);
-
-						bitmapVector.add(Pbitmap);
+						// 很重要 存每一動的Dbitmap
+						bitmapVector.add(Dbitmap);
 						/*//Log,i("debug", "bitmap_size="+Integer.toString(Bitmap_vector.size()));
 						//Log,i("debug", "P1_curve_x_size="+Integer.toString(P1.getCmpltCurve().get(tmp).size()));
-						//Log,i("debug", "P1_curve_y_size="+Integer.toString(P1.getCmpltCurve().get(tmp+1).size()));*/
+						Log,i("debug", "P1_curve_y_size="+Integer.toString(P1.getCmpltCurve().get(tmp+1).size()));*/
 
 						int startIndexTmp = currentDrawer.startIndex;
 						////Log,i("debug", "dum_flag = true , P_startIndex ="+Integer.toString(P_startIndex));
@@ -2374,7 +2318,7 @@ public class MainFragment extends Fragment{
 				return true;//放開圖片的case
 			}//switch觸控動作
 
-			Pbitmap.recycle();
+			Dbitmap.recycle();
 			System.gc();
 
 			return true;

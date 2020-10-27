@@ -12,14 +12,14 @@ import java.util.Vector;
 public class DrawCanvas {
     public Canvas canvas;
     private Path path;
-    private Stack<Path> pathHistory; //記錄每筆畫畫
+
     private DashPathEffect dashEffect; //虛線效果
     private DashPathEffect lineEffect; //實線效果
 
     private static double H = 22; // 箭頭高度
     private static double L = 12; // 箭頭底邊的一半
     private double arrowAngle = Math.atan(L / H);
-    private double arraowLen = Math.sqrt(L * L + H * H);
+    private double arrowLen = Math.sqrt(L * L + H * H);
 
     private int zigzagCount; //用在判斷鋸齒向量要正還是負
     private static float zigDistance=25.0f; //畫鋸齒線時在兩點間每隔多少距離內插一個點
@@ -28,7 +28,6 @@ public class DrawCanvas {
     public DrawCanvas(){
         this.canvas=new Canvas();
         this.path=new Path();
-        this.pathHistory=new Stack<Path>();
         this.dashEffect=new DashPathEffect(new float[]{20,20},0);
         this.lineEffect=new DashPathEffect(new float[]{0,0},0);
         this.zigzagCount=0;
@@ -42,7 +41,7 @@ public class DrawCanvas {
     }
 
     // draw curve line on the canvas
-    public void drawCurvePath(Vector<Point> tempCurvePoint, Paint painter){
+    public void drawCurvePath(Vector<Point> tempCurvePoint, Paint painter, Boolean NoneHolder){
         renderCurvePath(tempCurvePoint);
         painter.setPathEffect(lineEffect);
         canvas.drawPath(path, painter);
@@ -60,8 +59,8 @@ public class DrawCanvas {
 
     //給線的兩點座標畫箭頭
     public void drawArrow(Point startP, Point endP, Paint painter){
-        double[] arr_1 = rotateVec(endP.x - startP.x, endP.y - startP.y, arrowAngle, arraowLen);
-        double[] arr_2 = rotateVec(endP.x - startP.x, endP.y - startP.y, -arrowAngle, arraowLen);
+        double[] arr_1 = rotateVec(endP.x - startP.x, endP.y - startP.y, arrowAngle, arrowLen);
+        double[] arr_2 = rotateVec(endP.x - startP.x, endP.y - startP.y, -arrowAngle, arrowLen);
         double x3=startP.x+arr_1[0];
         double y3=startP.y+arr_1[1];
         double x4=startP.x+arr_2[0];
@@ -73,6 +72,7 @@ public class DrawCanvas {
         path.close(); //會形成三角形
 
         painter.setStyle(Paint.Style.FILL_AND_STROKE);//有設這個三角形才會填滿
+        painter.setPathEffect(lineEffect);
         canvas.drawPath(path,painter);
         painter.setStyle(Paint.Style.STROKE);//設回原本的畫筆筆觸
         path.rewind();
@@ -182,8 +182,4 @@ public class DrawCanvas {
         return interPoints;
     }
 
-    //塗掉User畫傳球線時的曲線筆觸
-    public void EraseBallCurvePath(){
-
-    }
 }
