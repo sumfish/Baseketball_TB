@@ -160,7 +160,7 @@ public class MainFragment extends Fragment{
 			ImageView playerImg = (ImageView)getView().findViewById(resources.getIdentifier("image_p"+(i+1), "id", getActivity().getPackageName()));
 			playerImg.setOnTouchListener(playerListener);
 			ImageView arrowImg = (ImageView)getView().findViewById(resources.getIdentifier("arrow"+(i+1), "id", getActivity().getPackageName()));
-			players.add(new Player(playerImg, arrowImg));
+			players.add(new Player(playerImg, arrowImg)); //player id 0-4
 		}
 		defenders = new Vector<Player>();
 		for(int i=0 ; i<5 ; i++){
@@ -1606,6 +1606,7 @@ public class MainFragment extends Fragment{
 	}
 
 	//region Message Handlers
+	//在UI上用handler更新
 	Handler offenderHandler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
@@ -1735,7 +1736,6 @@ public class MainFragment extends Fragment{
 
 		//region 用來取得掩護時圖片角度的變數
 		private float screen_direction;
-		private float last_direction;
 		//endregion
 
 
@@ -1776,7 +1776,7 @@ public class MainFragment extends Fragment{
 					currentDrawer.paint = playerDrawers.get(id-1).paint;
 					currentDrawer.startIndex = playerDrawers.get(id-1).startIndex;
 					rotateWhichPlayer = id;
-					handle_name = "P1_Handle";
+					handle_name = "P"+Integer.toString(id)+"_Handle";
 					seekbar_player_Id = id;
 					players.get(id-1).rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
 
@@ -1792,7 +1792,7 @@ public class MainFragment extends Fragment{
 					currentDrawer.paint= defenderDrawers.get(id-7).paint;
 					currentDrawer.startIndex= defenderDrawers.get(id-7).startIndex;
 					rotateWhichPlayer =id-6;
-					handle_name="D1_Handle";
+					handle_name = "D"+Integer.toString(id-6)+"_Handle";
 					seekbar_player_Id=id-6;
 					//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
 					//Log,i("debug", "first    D1_startIndex="+Integer.toString(D1_startIndex));
@@ -1936,8 +1936,6 @@ public class MainFragment extends Fragment{
 						Log.i("debug", "Touch Event : " + rotateWhichPlayer + ", " + intersectId);
 						//畫無球跑動的線或是球在移動線
 						boolean whetherDraw = (handle_name.equals("B_Handle")) || (!handle_name.equals("B_Handle") ); //&& !isBallHolder
-						//是否是無球移動
-						boolean whetherJustNoneHolder = (!handle_name.equals("B_Handle") && !isBallHolder);
 
 						//region 找到畫出的路徑相對於平板坐標系的旋轉角度，才能知道掩護的線要畫在哪裡的垂直角度上
 						float pivot_dir_x = 0.0f;
@@ -1997,7 +1995,7 @@ public class MainFragment extends Fragment{
 								tempCurve.get(k).x+=v.getWidth()/2;
 								tempCurve.get(k).y+=v.getHeight()/2;
 							}
-							Dcanvas.drawCurvePath(tempCurve, currentDrawer.paint,whetherJustNoneHolder);
+							Dcanvas.drawCurvePath(tempCurve, currentDrawer.paint);
 						}
 						currentDrawer.clearCurve();
 						currentDrawer.tempCurve.add(currentDrawer.curveIndex, new Point(x, y));
@@ -2034,7 +2032,7 @@ public class MainFragment extends Fragment{
 				int B_start_index=currentPlayer.findLastValueIndex(0);
 				int B_end_index=currentPlayer.getRoadSize();
 
-				boolean isBallHolder = (rotateWhichPlayer == intersectId)&&handle_name.equals("P1_Handle");
+				boolean isBallHolder = (rotateWhichPlayer == intersectId)&&(handle_name.charAt(0)=='P'); //是進攻者
 
 				// region 重劃線(傳球或運球)
 				if(isRecording == true&&(isBallHolder||handle_name.equals("B_Handle"))){

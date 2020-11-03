@@ -41,7 +41,7 @@ public class DrawCanvas {
     }
 
     // draw curve line on the canvas
-    public void drawCurvePath(Vector<Point> tempCurvePoint, Paint painter, Boolean NoneHolder){
+    public void drawCurvePath(Vector<Point> tempCurvePoint, Paint painter){
         renderCurvePath(tempCurvePoint);
         painter.setPathEffect(lineEffect);
         canvas.drawPath(path, painter);
@@ -129,6 +129,7 @@ public class DrawCanvas {
             dy=y2-y1;
             distance=(float)Math.sqrt(dx*dx+dy*dy);
 
+            // 一正一負的方向-->可以畫成zigzag
             if(zigzagCount%2==0){
                 mx += (dy/distance*zigLength);
                 my -= (dx/distance*zigLength);
