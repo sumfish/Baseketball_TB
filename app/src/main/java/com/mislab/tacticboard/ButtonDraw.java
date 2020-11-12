@@ -47,7 +47,7 @@ public class ButtonDraw extends Fragment {
 	private boolean isScreenEnable = false;
 
 	private TextView advanced_text = null;
-	
+
 	public interface CallbackInterface{//連接MainActivity，告訴MainActivity現在有沒有在錄製狀態
 		public void setRecordCheck(boolean in_recordcheck);
 		public void setClean();
@@ -152,7 +152,11 @@ public class ButtonDraw extends Fragment {
         Button buttonClear = (Button) getView().findViewById(R.id.button_clear);
         buttonClear.setOnClickListener(clearListener);
         buttonClear.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
-        
+
+        // 新增undo按鈕
+		Button buttonUndo = (Button) getView().findViewById(R.id.button_undo);
+		buttonUndo.setOnClickListener(undoListener);
+
         Button buttonLoad = (Button) getView().findViewById(R.id.button_strategies);
         buttonLoad.setOnClickListener(strategies);
         buttonLoad.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
@@ -378,7 +382,21 @@ public class ButtonDraw extends Fragment {
     		}
     	}
     };
-    
+
+    private OnClickListener undoListener = new OnClickListener() {
+		@Override
+		public void onClick(View view) {//undo鍵
+			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+			if(mainfrag.getRunBags()==0) {
+				Log.d("undo","can not undo (have no runbag)");
+				return;
+			}
+			mainfrag.undoRecord();
+			mainfrag.undoPaint();
+
+		}
+	};
+
     private OnClickListener clearListener = new OnClickListener(){//"?M??..."
     	@Override
     	public void onClick(View v) {//"清除..."

@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_screen_bar.png.flat",
-        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\screen_bar.png"
-    },
-    {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_black.jpg.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-ldpi\\black.jpg"
+    },
+    {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_screen_bar.png.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\screen_bar.png"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_player4_ball.png.flat",
@@ -40,12 +40,12 @@
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\curve_left_up.jpg"
     },
     {
-        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\raw_court2_obj.flat",
-        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\raw\\court2_obj"
-    },
-    {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_black.jpg.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\black.jpg"
+    },
+    {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\raw_court2_obj.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\raw\\court2_obj"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_zigzag_line5.png.flat",
@@ -64,12 +64,12 @@
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-xxhdpi\\h_court.jpg"
     },
     {
-        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_curve_left_down.jpg.flat",
-        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\curve_left_down.jpg"
-    },
-    {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\layout_dialog_manager_tactic.xml.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\layout\\dialog_manager_tactic.xml"
+    },
+    {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_curve_left_down.jpg.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\curve_left_down.jpg"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_record.png.flat",
@@ -84,12 +84,12 @@
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-hdpi\\plane.jpg"
     },
     {
-        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_white_with_alpha_hole.png.flat",
-        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-hdpi\\white_with_alpha_hole.png"
-    },
-    {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_h_court.jpg.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-xhdpi\\h_court.jpg"
+    },
+    {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_white_with_alpha_hole.png.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-hdpi\\white_with_alpha_hole.png"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_lock.png.flat",
@@ -148,24 +148,24 @@
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\layout\\fragment_timeline.xml"
     },
     {
-        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_play_button.png.flat",
-        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\play_button.png"
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_icon_send.png.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-mdpi\\icon_send.png"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_perspective_button.xml.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\perspective_button.xml"
     },
     {
-        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_icon_send.png.flat",
-        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-mdpi\\icon_send.png"
-    },
-    {
-        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_earth.jpg.flat",
-        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-hdpi\\earth.jpg"
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_play_button.png.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\play_button.png"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_unlock.png.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-hdpi\\ic_unlock.png"
+    },
+    {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_earth.jpg.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-hdpi\\earth.jpg"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_zigzag_line4.png.flat",
@@ -360,6 +360,10 @@
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\ceiling.jpg"
     },
     {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_undo.png.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\icon_undo.png"
+    },
+    {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_def_button.png.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-xxhdpi\\def_button.png"
     },
@@ -378,6 +382,10 @@
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_floor.jpg.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-hdpi\\floor.jpg"
+    },
+    {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_undo_click.png.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\icon_undo_click.png"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_left_down.jpg.flat",
@@ -488,6 +496,10 @@
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\rm_button_click.png"
     },
     {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_garbage.png.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\icon_garbage.png"
+    },
+    {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\raw_camaro2_obj.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\raw\\camaro2_obj"
     },
@@ -502,6 +514,10 @@
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_court_o.jpg.flat",
         "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable-mdpi\\court_o.jpg"
+    },
+    {
+        "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_garbage_click.png.flat",
+        "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\drawable\\icon_garbage_click.png"
     },
     {
         "merged": "D:\\btb\\e-btb\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_image_select_pf.png.flat",

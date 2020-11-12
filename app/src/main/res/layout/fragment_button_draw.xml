@@ -22,7 +22,7 @@
     	    
     	    <TextView
     	        android:id="@+id/tools_text"
-    	        android:layout_width="80dp"
+    	        android:layout_width="50dp"
     	        android:layout_height="match_parent"
     	        android:background="#303841"
     	        android:gravity="center"
@@ -87,7 +87,7 @@
 
     	    <TextView
     	        android:id="@+id/timeline_text"
-    	        android:layout_width="80dp"
+    	        android:layout_width="70dp"
     	        android:layout_height="match_parent"
     	        android:background="#303841"
     	        android:gravity="center"
@@ -97,12 +97,21 @@
 				android:fontFamily="@font/decalotype"/>
 
 			<Button
+				android:id="@+id/button_undo"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:minHeight="0dp"
+				android:minWidth="0dp"
+				android:background="@drawable/icon_undo"
+				android:textSize="10dp" />
+
+			<Button
 				android:id="@+id/button_clear"
 				android:layout_width="40dp"
 				android:layout_height="40dp"
 				android:minHeight="0dp"
 				android:minWidth="0dp"
-				android:background="@drawable/icon_clean"
+				android:background="@drawable/icon_garbage"
 				android:textSize="10dp" />
 
     	    <Button

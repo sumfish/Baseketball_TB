@@ -760,12 +760,16 @@ public class TimeLine extends Fragment {
 		pathNumber =0;
 	}
 
+	public void seekBarProgressUndo(){
+		timeLineSeekBarProgressLow=timeLineSeekBarProgressLow-1;
+	}
+
 	public void removeOneTimeline(int input_id){
 
 
 		/*******************要刪掉rmbutton 跟  數字 然後要把數字的數量-1*********************/
 
-		/*all player's timeline*/
+		/*all player's timeline 找尋所有timeline裡的某一筆後消除*/
 		TextView alltexttmp = null;
 		LinearLayout allplayertextplace=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player1timeline);
 		if(allplayertextplace.findViewById(input_id)!=null){

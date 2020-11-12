@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import java.util.Vector;
 
-public class Player{
+public class Player {
 	public ImageView image;
 	public ImageView arrow;
 
@@ -17,7 +17,7 @@ public class Player{
 	private Vector<Integer> road;
 	private Vector<Integer> rotation;
 
-	public Player(ImageView image, ImageView arrow){
+	public Player(ImageView image, ImageView arrow) {
 		this.image = image;
 		this.arrow = arrow;
 		this.road = new Vector<Integer>();
@@ -27,51 +27,57 @@ public class Player{
 		this.rect = new Rect();
 	}
 
-	public void clearAll(){
+	public void clearAll() {
 		this.road.clear();
 		this.rotation.clear();
 		this.initialPosition = new Point(-1, -1);
 		this.initialRotation = -1;
 	}
 
-	public int getRoad(int find, int startIndex){
-		return road.indexOf(find,startIndex);
+	public int getRoad(int find, int startIndex) {
+		return road.indexOf(find, startIndex);
 	}
-	
-	public int getLastRoad(){
-		return road.size()-1;
+
+	public int getLastRoad() {
+		return road.size() - 1;
 	}
-	
-	public int handleGetRoad(int in_index){ //
+
+	public int handleGetRoad(int in_index) { //
 		return road.get(in_index);
 	}
 
-	public void setRoad(int add_object){
+	public void setRoad(int add_object) {
 		road.add(add_object);
 	}
-	
-	public int getRoadSize(){
+
+	public int getRoadSize() {
 		return road.size();
 	}
-	
-	public Vector<Integer> getCmpltRoad(){
+
+	public Vector<Integer> getCmpltRoad() {
 		return road;
 	}
 
-	public void setMyRotation(int input){
+	public void setMyRotation(int input) {
 		rotation.add(input);
 	}
-	
-	public int getMyRotation(int input){
+
+	public int getMyRotation(int input) {
 		return rotation.get(input);
 	}
-	
-	public int getRotationSize(){
+
+	public int getRotationSize() {
 		return rotation.size();
 	}
 
 	///////////
-	public int findLastValueIndex(int value){
+	public int findLastValueIndex(int value) {
 		return road.lastIndexOf(value);
+	}
+	/// undo時直接拿掉上一筆資料
+	public void undoARoad(int startIndex) {
+		for (int i=startIndex;i<this.getRoadSize()-1;i++){
+			road.remove(getLastRoad()-1);
+		}
 	}
 }

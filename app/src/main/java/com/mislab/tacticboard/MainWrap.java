@@ -145,24 +145,6 @@ public class MainWrap extends Fragment{
 
 	//region 標示運球線段
 	@SuppressLint("ResourceType")
-	public void createDribbleLine(int x, int y, int playerID, float direction, float length, int id){
-		RelativeLayout mainwrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);
-		ImageView img = new ImageView(getActivity());
-		img.setX(x); //+ 60.0f);
-		img.setY(y); //+ 60.0f);
-
-		img.setPivotX(0);
-		img.setPivotY(0);
-		img.setRotation(direction);
-
-		img.setId(789123);
-		img.setScaleX(length);
-		Resources resources = getResources();
-		int screenBarId = resources.getIdentifier("zigzag_line"+String.valueOf(playerID), "drawable", getActivity().getPackageName());
-		img.setBackgroundResource(screenBarId);
-		img.setTag("dribble_line_"+id);
-		mainwrap.addView(img);
-	}
 
 	public void removeDribbleLine(int remove_id){
 		RelativeLayout mainwrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);

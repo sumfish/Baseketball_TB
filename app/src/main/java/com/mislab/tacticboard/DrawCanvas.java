@@ -80,7 +80,7 @@ public class DrawCanvas {
     }
 
     //依照角度計算箭頭的線應該會畫在甚麼座標上
-    public double[] rotateVec(int px, int py, double angle, double newLength){
+    private double[] rotateVec(int px, int py, double angle, double newLength){
         double vector[] = new double[2];
         //點的旋轉
         double vx = px * Math.cos(angle) - py * Math.sin(angle);
@@ -99,17 +99,19 @@ public class DrawCanvas {
         int lgnoreforstraight=4; //留4個點(zigzag&last)不要畫 在最後畫直線
 
         path.moveTo(zigzagP.get(0).x,zigzagP.get(0).y);
-        for (int i=4; i<zigzagP.size()-lgnoreforstraight; i++){ //i=2跳過第一個zigzag點可先形成直線
-            path.lineTo(zigzagP.get(i).x,zigzagP.get(i).y);
+        if(zigzagP.size()>4){ //點的數量可以畫zigzag(前五個點0-4會畫直線)
+            for (int i=4; i<zigzagP.size()-lgnoreforstraight; i++){ //i=2跳過第一個zigzag點可先形成直線
+                path.lineTo(zigzagP.get(i).x,zigzagP.get(i).y);
+            }
+            //畫最後一點直接連成尾巴直線
+            path.lineTo(tempCurvePoint.get(tempCurvePoint.size()-1).x,tempCurvePoint.get(tempCurvePoint.size()-1).y);
+            canvas.drawPath(path,painter);
+            path.rewind();
         }
-        //畫最後一點直接連成尾巴直線
-        path.lineTo(tempCurvePoint.get(tempCurvePoint.size()-1).x,tempCurvePoint.get(tempCurvePoint.size()-1).y);
-        canvas.drawPath(path,painter);
-        path.rewind();
     }
 
     //計算zigzag鋸齒線的點
-    public Vector<Point> createZigzag(Vector<Point> tempCurvePoint){
+    private Vector<Point> createZigzag(Vector<Point> tempCurvePoint){
         Vector<Point>zigzag=new Vector<>();
         float x1,x2,y1,y2,dx,dy,mx,my,distance;
         for(int i=0; i<tempCurvePoint.size(); i++){
@@ -146,7 +148,7 @@ public class DrawCanvas {
     }
 
     //兩點之間等距離內插(resample)
-    public Vector<Point> interpolation(Vector<Point> curvePoint){
+    private Vector<Point> interpolation(Vector<Point> curvePoint){
         Vector<Point>interPoints=new Vector<>();
         float x1,x2,y1,y2,dx,dy;
         double distance;

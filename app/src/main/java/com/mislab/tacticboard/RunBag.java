@@ -13,13 +13,9 @@ public class RunBag implements Serializable{
 	private int timelineId;
 	private int ballNum;
 
-	//region 用來表示掩護及運球
+	//region 用來表示掩護
 	private int pathType; //0:無球跑動 1:結束動作為掩護 2:運球
 	private float screenAngle;
-	private float dribbleAngle;
-	private float dribbleLength;
-	private int dribbleStartX;
-	private int dribbleStartY;
 	//endregion
 
 	
@@ -132,35 +128,5 @@ public class RunBag implements Serializable{
 		this.screenAngle = screenAngle;
 	}
 
-	public float getDribbleAngle() {
-		return dribbleAngle;
-	}
 
-	public void setDribbleAngle(float dribbleAngle) {
-		this.dribbleAngle = dribbleAngle;
-	}
-
-	public float getDribbleLength() {
-		return dribbleLength;
-	}
-
-	public void setDribbleLength(float dribbleLength) {
-		this.dribbleLength = dribbleLength;
-	}
-
-	public int getDribbleStartX() {
-		return dribbleStartX;
-	}
-
-	public void setDribbleStartX(int dribbleStartX) {
-		this.dribbleStartX = dribbleStartX;
-	}
-
-	public int getDribbleStartY() {
-		return dribbleStartY;
-	}
-
-	public void setDribbleStartY(int dribbleStartY) {
-		this.dribbleStartY = dribbleStartY;
-	}
 }
