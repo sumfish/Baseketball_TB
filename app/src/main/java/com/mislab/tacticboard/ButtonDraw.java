@@ -393,6 +393,11 @@ public class ButtonDraw extends Fragment {
 			}
 			mainfrag.undoRecord();
 			mainfrag.undoPaint();
+			if(mainfrag.getRunBags()==0){ //上面undo執行完會拿掉一個
+				record.setChecked(false);
+				mCallback.setRecordCheck(false);
+				mCallback.setClean();
+			}
 
 		}
 	};

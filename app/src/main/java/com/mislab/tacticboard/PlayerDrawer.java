@@ -28,6 +28,11 @@ public class PlayerDrawer {
 
     }
 
+    //給undo用
+    public void setStartIndex(int index){
+        startIndex=index;
+    }
+
     public void clearRecord(){
         startIndex = 0;
     }

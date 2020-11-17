@@ -755,11 +755,11 @@ public class MainFragment extends Fragment{
 			}
 			ballDrawer.clearCurve();
 		}
-		/**/
+		/*開始錄製的鍵 intersect在的位置就是持球者*/
 		if(isRecording == false && input==true && firstRecord ==true && intersectId !=0){
 			firstRecord =false;
-			initialBallHolderId = intersectId;
-			//Log,i("socket", "initial_ball_num="+Integer.toString(initial_ball_num));
+			initialBallHolderId = preIntersectId;
+			Log.d("socket", "initial_ball_num="+Integer.toString(initialBallHolderId));
 		}
 		
 		
@@ -817,47 +817,88 @@ public class MainFragment extends Fragment{
 
 		int timefragIndex=0;
 		int ballholder;
+		Player undoPlayer;
+		PlayerDrawer undoDrawer;
 
 		//從runbag上一動的資訊去移動image的位置
 		int lastEndIndex = runBags.get(runBags.size()-1).getRoadStart(); //下一個的起頭是上一個的終點
 		String handler = runBags.get(runBags.size()-1).getHandler(); //which to move back
 		Log.d("undo","undo which player:"+handler);
 
-		if(handler.equals("B_Handle")){
-			if(runBags.size()==1){
+		if(handler.equals("B_Handle")){ //球的移動
+
+			undoPlayer=ball;
+			undoDrawer=ballDrawer;
+
+			if(runBags.size()==1){ //上一動是最初拿球的人
 				ballholder=initialBallHolderId;
+				preIntersectId=ballholder; //重新開始錄製那邊要用的參數
+				Log.d("undo","initial ballholder ID"+String.valueOf(ballholder));
 			}else{
 				ballholder=runBags.get(runBags.size()-2).getBallNum(); //要返回的上一動球在誰身上 (球要回到某人手上
+				Log.d("undo","last ballholder ID"+String.valueOf(ballholder));
 			}
 
+			//讓原持球者回到無持球狀態 (undo完會再改為正確intersectid)
 			intersectId=runBags.get(runBags.size()-1).getBallNum(); //現在這一動球在誰身上
-			Log.d("undo","undo pass ball intersectID"+String.valueOf(intersectId));
-			Log.d("undo","original ballholder ID"+String.valueOf(ballholder));
-
-
+			Log.d("undo","undo pass ball playerID is"+String.valueOf(intersectId));
 			intersect=false; // 在undo時 球不會有intersection問題(changePlayerToNoBall()裡面的判斷式)
 			changePlayerToNoBall();
-			preIntersectId = ballholder;
 
-			playersWithBall.get(ballholder-1).layout((int)players.get(ballholder-1).image.getX()-30, (int)players.get(ballholder-1).image.getY(), (int)players.get(ballholder-1).image.getX()-30+200, (int)players.get(ballholder-1).image.getY()+120);
+			//讓上一動持球者拿球 這一動的回到原本狀態
+			playersWithBall.get(ballholder-1).layout((int)players.get(ballholder-1).image.getX()-30, (int)players.get(ballholder-1).image.getY(),
+					(int)players.get(ballholder-1).image.getX()-30+200, (int)players.get(ballholder-1).image.getY()+120);
 			playersWithBall.get(ballholder-1).setVisibility(playersWithBall.get(ballholder-1).VISIBLE);
-			players.get(ballholder-1).arrow.layout((int) playersWithBall.get(ballholder-1).getX(), (int) playersWithBall.get(ballholder-1).getY(), (int) playersWithBall.get(ballholder-1).getX()+ playersWithBall.get(ballholder-1).getWidth(), (int) playersWithBall.get(ballholder-1).getY()+ playersWithBall.get(ballholder-1).getHeight());
+			players.get(ballholder-1).arrow.layout((int) playersWithBall.get(ballholder-1).getX(), (int) playersWithBall.get(ballholder-1).getY(),
+					(int) playersWithBall.get(ballholder-1).getX()+ playersWithBall.get(ballholder-1).getWidth(), (int) playersWithBall.get(ballholder-1).getY()+ playersWithBall.get(ballholder-1).getHeight());
 			players.get(ballholder-1).image.setVisibility(players.get(ballholder-1).image.INVISIBLE);
-			ball.image.layout((int) players.get(ballholder -1).image.getX()+110-30, (int)players.get(ballholder -1).image.getY()+30, (int) players.get(ballholder -1).image.getX()+170-30,(int)players.get(ballholder -1).image.getY()+90);
-			
+			ball.image.layout((int) players.get(ballholder -1).image.getX()+110-30, (int)players.get(ballholder -1).image.getY()+30,
+					(int) players.get(ballholder -1).image.getX()+170-30,(int)players.get(ballholder -1).image.getY()+90);
+
 			timefragIndex=6; //ball
-		}else{
+			intersectId=ballholder; //讓intersectid回到undo完的這個人身上
+			intersect=true;
+
+		}else{ //現在這個持球者或無持球者的移動(球無轉移)
 			int which= handler.charAt(1)-48; //char to int
-			Log.d("player","Undo player is:"+String.valueOf(which));
+
+			boolean isdribble=(runBags.get(runBags.size()-1).getPathType()==2);
+			Log.d("player","Undo player is:"+String.valueOf(which)+" ,Is dribble"+isdribble);
+
 			if(handler.charAt(0)=='P'){ //Player
-				// person
-				players.get(which-1).image.layout(players.get(which-1).handleGetRoad(lastEndIndex),players.get(which-1).handleGetRoad(lastEndIndex+1),
-						players.get(which-1).handleGetRoad(lastEndIndex)+players.get(which-1).image.getWidth(),
-						players.get(which-1).handleGetRoad(lastEndIndex+1)+players.get(which-1).image.getHeight());
-				// arrow
-				players.get(which-1).arrow.layout(players.get(which-1).handleGetRoad(lastEndIndex),players.get(which-1).handleGetRoad(lastEndIndex+1),
-						players.get(which-1).handleGetRoad(lastEndIndex)+players.get(which-1).arrow.getWidth(),
-						players.get(which-1).handleGetRoad(lastEndIndex+1)+players.get(which-1).arrow.getHeight());
+				undoPlayer=players.get(which-1);
+				undoDrawer=playerDrawers.get(which-1);
+
+				if(isdribble){
+
+					// person //這邊要debug一下!!!!!!!!!!!!!!!!!
+					players.get(which-1).image.layout(players.get(which-1).handleGetRoad(lastEndIndex),players.get(which-1).handleGetRoad(lastEndIndex+1),
+							players.get(which-1).handleGetRoad(lastEndIndex)+players.get(which-1).image.getWidth(),
+							players.get(which-1).handleGetRoad(lastEndIndex+1)+players.get(which-1).image.getHeight());
+					playersWithBall.get(which-1).layout((int)players.get(which-1).image.getX(), (int)players.get(which-1).image.getY(),
+							(int)players.get(which-1).image.getX()+200, (int)players.get(which-1).image.getY()+120);
+					ball.image.layout((int) players.get(which -1).image.getX()+110, (int)players.get(which -1).image.getY()+30,
+							(int) players.get(which -1).image.getX()+170,(int)players.get(which -1).image.getY()+90);
+
+					// arrow
+					players.get(which-1).arrow.layout((int)playersWithBall.get(which-1).getX(),(int)playersWithBall.get(which-1).getY(),
+							(int)playersWithBall.get(which-1).getX()+playersWithBall.get(which-1).getWidth(),
+							(int)playersWithBall.get(which-1).getY()+playersWithBall.get(which-1).getHeight());
+
+					players.get(which-1).image.setVisibility(players.get(which-1).image.INVISIBLE);
+					playersWithBall.get(which-1).setVisibility(playersWithBall.get(which-1).VISIBLE);
+
+				}else{
+					// person
+					players.get(which-1).image.layout(players.get(which-1).handleGetRoad(lastEndIndex),players.get(which-1).handleGetRoad(lastEndIndex+1),
+							players.get(which-1).handleGetRoad(lastEndIndex)+players.get(which-1).image.getWidth(),
+							players.get(which-1).handleGetRoad(lastEndIndex+1)+players.get(which-1).image.getHeight());
+					// arrow
+					players.get(which-1).arrow.layout(players.get(which-1).handleGetRoad(lastEndIndex),players.get(which-1).handleGetRoad(lastEndIndex+1),
+							players.get(which-1).handleGetRoad(lastEndIndex)+players.get(which-1).arrow.getWidth(),
+							players.get(which-1).handleGetRoad(lastEndIndex+1)+players.get(which-1).arrow.getHeight());
+				}
+
 				players.get(which-1).image.invalidate();
 				players.get(which-1).arrow.invalidate();
 
@@ -867,6 +908,9 @@ public class MainFragment extends Fragment{
 
 				timefragIndex=which;
 			}else{ //Defender
+				undoPlayer=defenders.get(which-1);
+				undoDrawer=defenderDrawers.get(which-1);
+
 				// person
 				defenders.get(which-1).image.layout(defenders.get(which-1).handleGetRoad(lastEndIndex),defenders.get(which-1).handleGetRoad(lastEndIndex+1),
 						defenders.get(which-1).handleGetRoad(lastEndIndex)+defenders.get(which-1).image.getWidth(),
@@ -875,19 +919,18 @@ public class MainFragment extends Fragment{
 				defenders.get(which-1).arrow.layout(defenders.get(which-1).handleGetRoad(lastEndIndex),defenders.get(which-1).handleGetRoad(lastEndIndex+1),
 						defenders.get(which-1).handleGetRoad(lastEndIndex)+defenders.get(which-1).arrow.getWidth(),
 						defenders.get(which-1).handleGetRoad(lastEndIndex+1)+defenders.get(which-1).arrow.getHeight());
-				defenders.get(which-1).image.invalidate();
-				defenders.get(which-1).arrow.invalidate();
+				//defenders.get(which-1).image.invalidate();
+				//defenders.get(which-1).arrow.invalidate();
 
 				timefragIndex=which+6;
 			}
 
-			// time layout
-			TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-			timefrag.changeLayout(timefragIndex);
 		}
+		// time layout 顯示這一動狀況
+		TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
+		timefrag.changeLayout(timefragIndex);
 
 		//region remove timeline 要知道上一個record是誰
-		TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 		timefrag.removeOneTimeline(runBags.get(runBags.size()-1).getTimeLineId());
 		timefrag.setRunlineId(runBags.size()-1); //還沒有很仔細看
 		mainFragSeekBarProgressLow--; //seekbar位置調整
@@ -898,10 +941,14 @@ public class MainFragment extends Fragment{
 		mainwrap.removeTextView(runBags.size()-1);
 		mainwrap.removeScreenBar(runBags.size()-1);
 
-		runBags.remove(runBags.size()-1);
-
 		//移除player的record
-
+		Log.d("undo","play's road:"+String.valueOf(undoPlayer.getCmpltRoad()));
+		Log.d("undo","play's road start index:"+String.valueOf(runBags.get(runBags.size()-1).getRoadStart()));
+		Log.d("undo","play's road end index:"+String.valueOf(runBags.get(runBags.size()-1).getRoadEnd()));
+		undoPlayer.undoARoad(runBags.get(runBags.size()-1).getRoadEnd()-runBags.get(runBags.size()-1).getRoadStart()+1+1); //多一個1是因為要消掉每筆戰術之間的0
+		undoDrawer.setStartIndex(runBags.get(runBags.size()-1).getRoadStart()-1);
+		runBags.remove(runBags.size()-1);
+		Log.d("undo","after undo play's road:"+String.valueOf(undoPlayer.getCmpltRoad()));
 	}
 
 	public void clearPaint(){//清除全部筆跡
@@ -1886,7 +1933,7 @@ public class MainFragment extends Fragment{
 					timefrag.changeLayout(6);
 				}
 				else if(id < 6){ //player進攻者(藍色衣服)
-					//Log,i("debug","P1    player ontouch!" );
+					//Log.d("debug","P1    player ontouch" );
 					currentPlayer = players.get(id-1);
 					currentDrawer.curveIndex = playerDrawers.get(id-1).curveIndex;
 					currentDrawer.tempCurve = playerDrawers.get(id-1).tempCurve;
@@ -2034,7 +2081,7 @@ public class MainFragment extends Fragment{
 						intersectId = 0;
 					}
 					//endregion
-					Log.d("ball","ball with player"+String.valueOf(intersectId));
+					//Log.d("ball","ball with player"+String.valueOf(intersectId));
 				}
 
 				//region 當正在繪製軌跡時
@@ -2125,7 +2172,7 @@ public class MainFragment extends Fragment{
 				}
 				//endregion
 
-
+				//讓arrow黏住人
 				if(currentPlayer.arrow != null){
 					currentPlayer.arrow.layout(x, y, x + v.getWidth(), y + v.getHeight());
 					currentPlayer.arrow.setRotation(currentDrawer.rotation);
@@ -2134,6 +2181,8 @@ public class MainFragment extends Fragment{
 					//Log.d("debug", "setCircularSeekBarProgress P1_rotate="+Integer.toString(P1_rotate));
 					currentPlayer.arrow.postInvalidate();
 				}
+
+				//讓球黏住人
 				if(intersect==true && v.getTag().toString().equals("6")==false && v.getTag().toString().equals(Integer.toString(intersectId))){
 					ball.image.layout(x+110, y+30, x+170, y+90);
 				}
@@ -2358,13 +2407,7 @@ public class MainFragment extends Fragment{
 							}
 							tmp.setDuration(seekBarCallbackDuration);
 							tmp.setTimeLineId(runBags.size());
-
-							if(preIntersectId == intersectId){
-								tmp.setBallNum(0);
-							}
-							else{
-								tmp.setBallNum(intersectId);
-							}
+							tmp.setBallNum(intersectId);
 
 							//region 20180712 在Runbag中加入掩護的資訊
 							if(isBallHolder){
@@ -2430,7 +2473,7 @@ public class MainFragment extends Fragment{
 				else{
 					Log.d("error", "playerListener -> MotionEvent.ACTION_UP: Wrong selection");
 				}
-				preIntersectId = intersectId;//判斷球有沒有傳給別的player。p.s. --> pre = 上一個拿球的人
+				preIntersectId = intersectId;//留著undo那邊記錄用
 
 				return true;//放開圖片的case
 			}//switch觸控動作

@@ -75,9 +75,13 @@ public class Player {
 		return road.lastIndexOf(value);
 	}
 	/// undo時直接拿掉上一筆資料
-	public void undoARoad(int startIndex) {
-		for (int i=startIndex;i<this.getRoadSize()-1;i++){
-			road.remove(getLastRoad()-1);
+	public void undoARoad(int count) {
+		for (int i=0;i<count;i++){
+			road.remove(getRoadSize()-1);
+			//rotation.remove(getLastRoad()-1);
+		}
+		for (int i=0;i<count/2+1;i++){
+			rotation.remove(getRotationSize()-1);
 		}
 	}
 }
