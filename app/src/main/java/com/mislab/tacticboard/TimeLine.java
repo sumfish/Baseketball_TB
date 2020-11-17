@@ -1466,6 +1466,7 @@ public class TimeLine extends Fragment {
 
 
 		/*Add rmbutton*/
+		/* 這邊先關掉(不能移掉任意一條戰術路徑)
 		ImageView rmbutton = new ImageView(getActivity());
 		LayoutParams rmbuttonlp = new LayoutParams(60,60);
 		rmbuttonlp.setMargins(10, 20, 0, 0);
@@ -1475,7 +1476,7 @@ public class TimeLine extends Fragment {
 		Log.d("seekbar", "rmbutton ID = "+Integer.toString(seekBarId));
 		rmbutton.setOnTouchListener(rmbuttonListener);
 		playerrmbutton.addView(rmbutton);
-
+		*/
 
 	}
 

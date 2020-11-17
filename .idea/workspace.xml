@@ -12,30 +12,17 @@
   <component name="ChangeListManager">
     <list default="true" id="ce000b7c-eb27-4362-86c6-ab49ea1137f0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/e-btb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/e-btb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/ButtonDraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/ButtonDraw.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/MainFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/MainFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/PlayerDrawer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/PlayerDrawer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/openCVLibrary2411/openCVLibrary2411.iml" beforeDir="false" afterPath="$PROJECT_DIR$/openCVLibrary2411/openCVLibrary2411.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/TimeLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/TimeLine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="F3NKBC095217" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="ASUS_API_19" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -58,8 +45,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="F3NKBC095217" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-11-16T13:40:37.585Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="ASUS_API_19" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-11-17T12:35:31.476Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
@@ -138,38 +125,38 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1857" height="205" key="GridCell.Tab.0.bottom" timestamp="1605616311955">
+    <state width="1857" height="74" key="GridCell.Tab.0.bottom" timestamp="1605616766153">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1857" height="205" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616311955" />
-    <state width="1857" height="205" key="GridCell.Tab.0.center" timestamp="1605616311955">
+    <state width="1857" height="74" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616766153" />
+    <state width="1857" height="74" key="GridCell.Tab.0.center" timestamp="1605616766153">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1857" height="205" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616311955" />
-    <state width="1857" height="205" key="GridCell.Tab.0.left" timestamp="1605616311955">
+    <state width="1857" height="74" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616766153" />
+    <state width="1857" height="74" key="GridCell.Tab.0.left" timestamp="1605616766152">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1857" height="205" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616311955" />
-    <state width="1857" height="205" key="GridCell.Tab.0.right" timestamp="1605616311955">
+    <state width="1857" height="74" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616766152" />
+    <state width="1857" height="74" key="GridCell.Tab.0.right" timestamp="1605616766153">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1857" height="205" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616311955" />
-    <state width="1857" height="205" key="GridCell.Tab.1.bottom" timestamp="1605616295407">
+    <state width="1857" height="74" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616766153" />
+    <state width="1857" height="74" key="GridCell.Tab.1.bottom" timestamp="1605616766153">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1857" height="205" key="GridCell.Tab.1.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616295407" />
-    <state width="1857" height="205" key="GridCell.Tab.1.center" timestamp="1605616295407">
+    <state width="1857" height="74" key="GridCell.Tab.1.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616766153" />
+    <state width="1857" height="74" key="GridCell.Tab.1.center" timestamp="1605616766153">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1857" height="205" key="GridCell.Tab.1.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616295407" />
-    <state width="1857" height="205" key="GridCell.Tab.1.left" timestamp="1605616295407">
+    <state width="1857" height="74" key="GridCell.Tab.1.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616766153" />
+    <state width="1857" height="74" key="GridCell.Tab.1.left" timestamp="1605616766153">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1857" height="205" key="GridCell.Tab.1.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616295407" />
-    <state width="1857" height="205" key="GridCell.Tab.1.right" timestamp="1605616295407">
+    <state width="1857" height="74" key="GridCell.Tab.1.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616766153" />
+    <state width="1857" height="74" key="GridCell.Tab.1.right" timestamp="1605616766153">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1857" height="205" key="GridCell.Tab.1.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616295407" />
+    <state width="1857" height="74" key="GridCell.Tab.1.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605616766153" />
     <state x="100" y="100" width="1717" height="831" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1605529422418">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
