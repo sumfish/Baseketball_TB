@@ -1956,9 +1956,9 @@ public class MainFragment extends Fragment{
 					currentDrawer.rotation = defenderDrawers.get(id-7).rotation;
 					currentDrawer.paint= defenderDrawers.get(id-7).paint;
 					currentDrawer.startIndex= defenderDrawers.get(id-7).startIndex;
-					rotateWhichPlayer =id-6;
+					rotateWhichPlayer =id;
 					handle_name = "D"+Integer.toString(id-6)+"_Handle";
-					seekbar_player_Id=id-6;
+					seekbar_player_Id=id;
 					//Log,i("debug", "first    P_startIndex="+Integer.toString(P_startIndex));
 					//Log,i("debug", "first    D1_startIndex="+Integer.toString(D1_startIndex));
 					TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
@@ -2012,9 +2012,9 @@ public class MainFragment extends Fragment{
 						if(playersWithBall.get(0).getVisibility()== playersWithBall.get(0).INVISIBLE){
 							playersWithBall.get(0).layout((int)players.get(0).image.getX()-30, (int)players.get(0).image.getY(), (int)players.get(0).image.getX()-30+200, (int)players.get(0).image.getY()+120);
 							playersWithBall.get(0).setVisibility(playersWithBall.get(0).VISIBLE);
-							playersWithBall.get(0).invalidate();
+							//playersWithBall.get(0).invalidate();
 							players.get(0).image.setVisibility(players.get(0).image.INVISIBLE);
-							players.get(0).image.invalidate();
+							//players.get(0).image.invalidate();
 						}
 					}
 					else if (Rect.intersects(players.get(1).rect, ball.rect)){
@@ -2024,9 +2024,9 @@ public class MainFragment extends Fragment{
 						if(playersWithBall.get(1).getVisibility()== playersWithBall.get(1).INVISIBLE){
 							playersWithBall.get(1).layout((int)players.get(1).image.getX()-30, (int)players.get(1).image.getY(), (int)players.get(1).image.getX()-30+200, (int)players.get(1).image.getY()+120);
 							playersWithBall.get(1).setVisibility(playersWithBall.get(1).VISIBLE);
-							playersWithBall.get(1).invalidate();
+							//playersWithBall.get(1).invalidate();
 							players.get(1).image.setVisibility(players.get(1).image.INVISIBLE);
-							players.get(1).image.invalidate();
+							//players.get(1).image.invalidate();
 						}
 					}
 					else if (Rect.intersects(players.get(2).rect, ball.rect)){
@@ -2036,9 +2036,9 @@ public class MainFragment extends Fragment{
 						if(playersWithBall.get(2).getVisibility()== playersWithBall.get(2).INVISIBLE){
 							playersWithBall.get(2).layout((int)players.get(2).image.getX()-30, (int)players.get(2).image.getY(), (int)players.get(2).image.getX()-30+200, (int)players.get(2).image.getY()+120);
 							playersWithBall.get(2).setVisibility(playersWithBall.get(2).VISIBLE);
-							playersWithBall.get(2).invalidate();
+							//playersWithBall.get(2).invalidate();
 							players.get(2).image.setVisibility(players.get(2).image.INVISIBLE);
-							players.get(2).image.invalidate();
+							//players.get(2).image.invalidate();
 						}
 					}
 					else if (Rect.intersects(players.get(3).rect, ball.rect)){
@@ -2048,9 +2048,9 @@ public class MainFragment extends Fragment{
 						if(playersWithBall.get(3).getVisibility()== playersWithBall.get(3).INVISIBLE){
 							playersWithBall.get(3).layout((int)players.get(3).image.getX()-30, (int)players.get(3).image.getY(), (int)players.get(3).image.getX()-30+200, (int)players.get(3).image.getY()+120);
 							playersWithBall.get(3).setVisibility(playersWithBall.get(3).VISIBLE);
-							playersWithBall.get(3).invalidate();
+							//playersWithBall.get(3).invalidate();
 							players.get(3).image.setVisibility(players.get(3).image.INVISIBLE);
-							players.get(3).image.invalidate();
+							//players.get(3).image.invalidate();
 						}
 					}
 					else if (Rect.intersects(players.get(4).rect, ball.rect)){
@@ -2060,9 +2060,9 @@ public class MainFragment extends Fragment{
 						if(playersWithBall.get(4).getVisibility()== playersWithBall.get(4).INVISIBLE){
 							playersWithBall.get(4).layout((int)players.get(4).image.getX()-30, (int)players.get(4).image.getY(), (int)players.get(4).image.getX()-30+200, (int)players.get(4).image.getY()+120);
 							playersWithBall.get(4).setVisibility(playersWithBall.get(4).VISIBLE);
-							playersWithBall.get(4).invalidate();
+							//playersWithBall.get(4).invalidate();
 							players.get(4).image.setVisibility(players.get(4).image.INVISIBLE);
-							players.get(4).image.invalidate();
+							//players.get(4).image.invalidate();
 						}
 					}
 					else{
@@ -2098,7 +2098,6 @@ public class MainFragment extends Fragment{
 
 					// 每畫三個點
 					if(currentDrawer.curveIndex == N) { //N為3
-						boolean isBallHolder = (rotateWhichPlayer == intersectId);  //可以將rotate改成movewhichplayer
 						Log.i("debug", "Touch Event : " + rotateWhichPlayer + ", " + intersectId);
 						//畫無球跑動的線或是球在移動線
 						boolean whetherDraw = (handle_name.equals("B_Handle")) || (!handle_name.equals("B_Handle") ); //&& !isBallHolder
@@ -2203,8 +2202,8 @@ public class MainFragment extends Fragment{
 				boolean isBallHolder = (rotateWhichPlayer == intersectId)&&(handle_name.charAt(0)=='P'); //是進攻者
 
 				// region 重劃線(傳球或運球)
-				if(isRecording == true&&(isBallHolder||handle_name.equals("B_Handle"))){
-
+				//if(isRecording == true&&(isBallHolder||handle_name.equals("B_Handle"))){
+				if(isRecording == true){
 					// undo原本user畫的曲線
 					tempBitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
 					tempCanvas = new Canvas();
@@ -2224,7 +2223,7 @@ public class MainFragment extends Fragment{
 					if(handle_name.equals("B_Handle")){
 						// get point
 						Point B_start_point= new Point(currentPlayer.handleGetRoad(B_start_index+1),currentPlayer.handleGetRoad(B_start_index+2));
-						Point B_end_point= new Point(currentPlayer.handleGetRoad(B_end_index-2),currentPlayer.handleGetRoad(B_end_index-1));
+						Point B_end_point= new Point(currentPlayer.handleGetRoad(B_end_index-8),currentPlayer.handleGetRoad(B_end_index-7)); //////不畫最後3點
 
 						//將point調整到圖片的正中心
 						B_end_point.x+=v.getWidth()/2;
@@ -2234,15 +2233,31 @@ public class MainFragment extends Fragment{
 						Dcanvas.drawStraightLine(B_start_point,B_end_point,currentDrawer.paint);
 					}
 					else if(isBallHolder){
-						ballDrawer.clearCurve(); //把之前球的位置清掉
 						Vector<Point> tempPoints= new Vector<>();
 
 						//拿一整段曲線的點 B_start_index是0(路線分隔)，所以要加1
-						for (int i=B_start_index+1; i<B_end_index-1; i+=2){
+						for (int i=B_start_index+1; i<B_end_index-7; i+=2){//////不畫最後3點
 							//將point調整到圖片的正中心
 							tempPoints.add(new Point(currentPlayer.handleGetRoad(i)+v.getWidth()/2,currentPlayer.handleGetRoad(i+1)+v.getHeight()/2));
 						}
-							Dcanvas.drawZigzag(tempPoints,currentDrawer.paint);
+						ballDrawer.clearCurve(); //把之前球的位置清掉
+						Dcanvas.drawZigzag(tempPoints,currentDrawer.paint);
+					}else{ //重劃曲線
+						Vector<Point> tempPoints= new Vector<>();
+						int count=0;
+						//拿一整段曲線的點 B_start_index是0(路線分隔)，所以要加1
+						for (int i=B_start_index+1; i<B_end_index-7; i+=2){//////不畫最後3點
+							//將point調整到圖片的正中心
+							tempPoints.add(new Point(currentPlayer.handleGetRoad(i)+v.getWidth()/2,currentPlayer.handleGetRoad(i+1)+v.getHeight()/2));
+							count++;
+							if(count==3){
+								Dcanvas.drawCurvePath(tempPoints,currentDrawer.paint);
+								Log.d("draw","draw curve"+String.valueOf(i));
+								tempPoints.clear();
+								tempPoints.add(new Point(currentPlayer.handleGetRoad(i)+v.getWidth()/2,currentPlayer.handleGetRoad(i+1)+v.getHeight()/2));
+								count=1;
+							}
+						}
 					}
 				}
 				// endregion
@@ -2250,8 +2265,8 @@ public class MainFragment extends Fragment{
 				// region 畫箭頭
 				if(isRecording == true){
 					// 拿sample到的最後一個點跟倒數第五個點
-					Point B_end_point = new Point(currentPlayer.handleGetRoad(B_end_index - 2), currentPlayer.handleGetRoad(B_end_index - 1)); //倒數1
-					Point B_start_point = new Point(currentPlayer.handleGetRoad(B_end_index - 10), currentPlayer.handleGetRoad(B_end_index - 9)); //倒數5
+					Point B_end_point = new Point(currentPlayer.handleGetRoad(B_end_index - 8), currentPlayer.handleGetRoad(B_end_index - 7)); //倒數4 (不畫最後3點)
+					Point B_start_point = new Point(currentPlayer.handleGetRoad(B_end_index - 12), currentPlayer.handleGetRoad(B_end_index - 11)); //倒數6
 
 					if(handle_name.equals("B_Handle")){ //調整一下讓傳球線的箭頭不要太歪(畫直線)
 						B_start_point= new Point(currentPlayer.handleGetRoad(B_start_index+1),currentPlayer.handleGetRoad(B_start_index+2));
