@@ -16,14 +16,25 @@ public class DrawCanvas {
     private DashPathEffect dashEffect; //虛線效果
     private DashPathEffect lineEffect; //實線效果
 
+    // arrow
+    double[] arr_1,arr_2; //箭頭的向量
+    double x3,y3,x4,y4; //箭頭三角形底部的兩個點
+    double vx,vy,d; //依照角度計算箭頭的線應該會畫在甚麼座標上
     private static double H = 22; // 箭頭高度
     private static double L = 12; // 箭頭底邊的一半
     private double arrowAngle = Math.atan(L / H);
     private double arrowLen = Math.sqrt(L * L + H * H);
 
+    //zigzag
+    float x1,x2,y1,y2,dx,dy,mx,my,distance;
     private int zigzagCount; //用在判斷鋸齒向量要正還是負
     private static float zigDistance=25.0f; //畫鋸齒線時在兩點間每隔多少距離內插一個點
     private static float zigLength=12.5f; //zigzag的大小長度
+    int lgnoreforstraight=4; //留4個點(zigzag&last)不要畫 在最後畫直線
+    Vector<Point>zigzag=new Vector<>(); //讓直線變成zigzag(計算要內插的點)
+    int previousCount=0;
+    int interCount=0;
+
 
     public DrawCanvas(){
         this.canvas=new Canvas();
@@ -41,10 +52,14 @@ public class DrawCanvas {
     }
 
     // draw curve line on the canvas
-    public void drawCurvePath(Vector<Point> tempCurvePoint, Paint painter){
+    public void drawCurvePath(Vector<Point> tempCurvePoint, Paint painter, boolean isReDraw){
         renderCurvePath(tempCurvePoint);
         painter.setPathEffect(lineEffect);
+        if(!isReDraw){
+            painter.setAlpha(255);
+        }
         canvas.drawPath(path, painter);
+        painter.setAlpha(150);
         path.rewind();
     }
 
@@ -59,12 +74,12 @@ public class DrawCanvas {
 
     //給線的兩點座標畫箭頭
     public void drawArrow(Point startP, Point endP, Paint painter){
-        double[] arr_1 = rotateVec(endP.x - startP.x, endP.y - startP.y, arrowAngle, arrowLen);
-        double[] arr_2 = rotateVec(endP.x - startP.x, endP.y - startP.y, -arrowAngle, arrowLen);
-        double x3=startP.x+arr_1[0];
-        double y3=startP.y+arr_1[1];
-        double x4=startP.x+arr_2[0];
-        double y4=startP.y+arr_2[1];
+        arr_1 = rotateVec(endP.x - startP.x, endP.y - startP.y, arrowAngle, arrowLen);
+        arr_2 = rotateVec(endP.x - startP.x, endP.y - startP.y, -arrowAngle, arrowLen);
+        x3=startP.x+arr_1[0];
+        y3=startP.y+arr_1[1];
+        x4=startP.x+arr_2[0];
+        y4=startP.y+arr_2[1];
 
         path.moveTo(startP.x,startP.y);
         path.lineTo((float)x3, (float)y3);
@@ -83,9 +98,9 @@ public class DrawCanvas {
     private double[] rotateVec(int px, int py, double angle, double newLength){
         double vector[] = new double[2];
         //點的旋轉
-        double vx = px * Math.cos(angle) - py * Math.sin(angle);
-        double vy = px * Math.sin(angle) + py * Math.cos(angle);
-        double d = Math.sqrt(vx * vx + vy * vy);
+        vx = px * Math.cos(angle) - py * Math.sin(angle);
+        vy = px * Math.sin(angle) + py * Math.cos(angle);
+        d = Math.sqrt(vx * vx + vy * vy);
         vx = vx / d * newLength;
         vy = vy / d * newLength;
         vector[0] = vx;
@@ -96,7 +111,6 @@ public class DrawCanvas {
     //給一條曲線軌跡畫zigzag鋸齒線
     public void drawZigzag(Vector<Point> tempCurvePoint, Paint painter){
         Vector<Point>zigzagP=createZigzag(interpolation(tempCurvePoint));
-        int lgnoreforstraight=4; //留4個點(zigzag&last)不要畫 在最後畫直線
 
         path.moveTo(zigzagP.get(0).x,zigzagP.get(0).y);
         if(zigzagP.size()>4){ //點的數量可以畫zigzag(前五個點0-4會畫直線)
@@ -112,8 +126,7 @@ public class DrawCanvas {
 
     //計算zigzag鋸齒線的點
     private Vector<Point> createZigzag(Vector<Point> tempCurvePoint){
-        Vector<Point>zigzag=new Vector<>();
-        float x1,x2,y1,y2,dx,dy,mx,my,distance;
+        zigzag.clear();
         for(int i=0; i<tempCurvePoint.size(); i++){
             if(i==0){
                 zigzag.add(tempCurvePoint.get(i));
@@ -150,10 +163,8 @@ public class DrawCanvas {
     //兩點之間等距離內插(resample)
     private Vector<Point> interpolation(Vector<Point> curvePoint){
         Vector<Point>interPoints=new Vector<>();
-        float x1,x2,y1,y2,dx,dy;
-        double distance;
-        int interCount=0;
-        int previousCount=1; //點太密 可能會跳過一些點去sample要內插的兩點
+        interCount=0;
+        previousCount=1; //點太密 可能會跳過一些點去sample要內插的兩點
         for(int i=0; i<curvePoint.size(); i++) {
             if (i == 0) {
                 interPoints.add(curvePoint.get(i));
@@ -168,7 +179,7 @@ public class DrawCanvas {
             dx=x2-x1;
             dy=y2-y1;
 
-            distance=Math.sqrt(dx*dx+dy*dy);
+            distance=(float)Math.sqrt(dx*dx+dy*dy);
             interCount= (int)(distance/zigDistance)+1;
             if(distance<zigDistance){ //兩點很近不用內插(不會紀錄太近的下一個點)
                 previousCount++;

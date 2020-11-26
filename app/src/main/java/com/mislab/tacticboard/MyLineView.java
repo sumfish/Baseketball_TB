@@ -74,7 +74,7 @@ public class MyLineView extends View {
 		mTextHeight = fontMetrics.bottom;*/
 	}
 
-	//默認執行，計算view的寬高，在onDraw()之前
+	//
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = measureWidth(widthMeasureSpec);
         int height = measureHeight(heightMeasureSpec);
@@ -87,7 +87,7 @@ public class MyLineView extends View {
         //wrap_content
         if (specMode == MeasureSpec.AT_MOST) {
         }
-        //fill_parent或者精確值
+        //fill_parent嚙諄者綽蕭T嚙踝蕭
         else if (specMode == MeasureSpec.EXACTLY) {
         }
 
@@ -101,7 +101,7 @@ public class MyLineView extends View {
         //wrap_content
         if (specMode == MeasureSpec.AT_MOST) {
         }
-        //fill_parent或者精確值
+        //fill_parent嚙諄者綽蕭T嚙踝蕭
         else if (specMode == MeasureSpec.EXACTLY) {
             defaultHeight = specSize;
         }
