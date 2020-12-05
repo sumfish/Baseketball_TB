@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="e-btb/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/e-btb.iml" filepath="$PROJECT_DIR$/.idea/modules/e-btb.iml" group="e-btb" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/openCVLibrary2411/openCVLibrary2411.iml" filepath="$PROJECT_DIR$/.idea/modules/openCVLibrary2411/openCVLibrary2411.iml" group="e-btb/openCVLibrary2411" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Baseketball_TB.iml" filepath="$PROJECT_DIR$/.idea/modules/Baseketball_TB.iml" group="Baseketball_TB" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="Baseketball_TB/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/openCVLibrary2411/openCVLibrary2411.iml" filepath="$PROJECT_DIR$/.idea/modules/openCVLibrary2411/openCVLibrary2411.iml" group="Baseketball_TB/openCVLibrary2411" />
     </modules>
   </component>
 </project>

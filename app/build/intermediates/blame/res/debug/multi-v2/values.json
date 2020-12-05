@@ -1,29 +1,44 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\btb\\e-btb\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "D:\\Baseketball_TB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
-                    "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\values\\attrs_my_line_view.xml",
+                    "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\values\\dimens.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "19",
-                        "endLines": "7",
-                        "endColumns": "24",
-                        "endOffsets": "317"
+                        "startLines": "3,4",
+                        "startColumns": "4,4",
+                        "startOffsets": "92,151",
+                        "endColumns": "57,55",
+                        "endOffsets": "145,202"
                     },
                     "to": {
-                        "startLines": "1543",
-                        "startColumns": "4",
-                        "startOffsets": "113999",
-                        "endLines": "1548",
-                        "endColumns": "24",
-                        "endOffsets": "114288"
+                        "startLines": "156,157",
+                        "startColumns": "4,4",
+                        "startOffsets": "10149,10207",
+                        "endColumns": "57,55",
+                        "endOffsets": "10202,10258"
                     }
                 },
                 {
-                    "source": "D:\\btb\\e-btb\\openCVLibrary2411\\build\\intermediates\\packaged_res\\debug\\values\\values.xml",
+                    "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "5,3,4,8,7,6",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "154,59,100,425,354,208",
+                        "endColumns": "52,39,52,71,69,144",
+                        "endOffsets": "202,94,148,492,419,348"
+                    },
+                    "to": {
+                        "startLines": "200,201,202,203,204,205",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "13023,13076,13116,13169,13241,13311",
+                        "endColumns": "52,39,52,71,69,144",
+                        "endOffsets": "13071,13111,13164,13236,13306,13451"
+                    }
+                },
+                {
+                    "source": "D:\\Baseketball_TB\\openCVLibrary2411\\build\\intermediates\\packaged_res\\debug\\values\\values.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -42,24 +57,7 @@
                     }
                 },
                 {
-                    "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\values\\dimens.xml",
-                    "from": {
-                        "startLines": "3,4",
-                        "startColumns": "4,4",
-                        "startOffsets": "92,151",
-                        "endColumns": "57,55",
-                        "endOffsets": "145,202"
-                    },
-                    "to": {
-                        "startLines": "156,157",
-                        "startColumns": "4,4",
-                        "startOffsets": "10149,10207",
-                        "endColumns": "57,55",
-                        "endOffsets": "10202,10258"
-                    }
-                },
-                {
-                    "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\values\\strategy_category.xml",
+                    "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\values\\strategy_category.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -75,6 +73,25 @@
                         "endLines": "18",
                         "endColumns": "12",
                         "endOffsets": "695"
+                    }
+                },
+                {
+                    "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\values\\attrs_my_line_view.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "19",
+                        "endLines": "7",
+                        "endColumns": "24",
+                        "endOffsets": "317"
+                    },
+                    "to": {
+                        "startLines": "1543",
+                        "startColumns": "4",
+                        "startOffsets": "113999",
+                        "endLines": "1548",
+                        "endColumns": "24",
+                        "endOffsets": "114288"
                     }
                 },
                 {
@@ -97,24 +114,7 @@
                     }
                 },
                 {
-                    "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "5,3,4,8,7,6",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "154,59,100,425,354,208",
-                        "endColumns": "52,39,52,71,69,144",
-                        "endOffsets": "202,94,148,492,419,348"
-                    },
-                    "to": {
-                        "startLines": "200,201,202,203,204,205",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "13023,13076,13116,13169,13241,13311",
-                        "endColumns": "52,39,52,71,69,144",
-                        "endOffsets": "13071,13111,13164,13236,13306,13451"
-                    }
-                },
-                {
-                    "source": "D:\\btb\\e-btb\\app\\src\\main\\res\\values\\styles.xml",
+                    "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
                         "startLines": "6,15",
                         "startColumns": "4,4",

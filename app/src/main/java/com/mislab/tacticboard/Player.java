@@ -24,7 +24,12 @@ public class Player {
 		this.rotation = new Vector<Integer>();
 		this.initialPosition = new Point(-1, -1);
 		this.initialRotation = -1;
-		this.rect = new Rect();
+		this.rect = new Rect(0,0,0,0);
+	}
+
+	//指定rect大小(用於計算跟球的intersect)
+	public void setRect(int l, int t, int r, int b){
+		rect.set(l,t,r,b);
 	}
 
 	public void clearAll() {

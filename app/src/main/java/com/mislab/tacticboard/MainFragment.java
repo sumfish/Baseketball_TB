@@ -46,6 +46,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.app.Fragment;
@@ -248,7 +249,8 @@ public class MainFragment extends Fragment{
 	    try {
 			serverAddr = InetAddress.getByName("192.168.11.104");
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
+			//  todo Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	    Log.i("socket", "start");
@@ -906,9 +908,10 @@ public class MainFragment extends Fragment{
 				players.get(which-1).arrow.invalidate();
 
 				//重新定義現在player的rec
-				players.get(which-1).rect =new Rect(players.get(which-1).handleGetRoad(lastEndIndex),players.get(which-1).handleGetRoad(lastEndIndex+1),
+				//players.get(which-1).rect =new Rect(players.get(which-1).handleGetRoad(lastEndIndex),players.get(which-1).handleGetRoad(lastEndIndex+1),
+				//		players.get(which-1).handleGetRoad(lastEndIndex)+ players.get(which-1).image.getWidth(),players.get(which-1).handleGetRoad(lastEndIndex+1)+players.get(which-1).image.getHeight());
+				players.get(which-1).setRect(players.get(which-1).handleGetRoad(lastEndIndex),players.get(which-1).handleGetRoad(lastEndIndex+1),
 						players.get(which-1).handleGetRoad(lastEndIndex)+ players.get(which-1).image.getWidth(),players.get(which-1).handleGetRoad(lastEndIndex+1)+players.get(which-1).image.getHeight());
-
 				timefragIndex=which;
 			}else{ //Defender
 				undoPlayer=defenders.get(which-1);
@@ -1017,7 +1020,8 @@ public class MainFragment extends Fragment{
 				Player thisPlayer = players.get(i);
 				thisPlayer.image.layout(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
 				thisPlayer.arrow.layout(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.arrow.getWidth(), thisPlayer.initialPosition.y + thisPlayer.arrow.getHeight());
-				thisPlayer.rect = new Rect(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
+				//thisPlayer.rect = new Rect(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
+				thisPlayer.setRect(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
 				thisPlayer.image.invalidate();
 				thisPlayer.arrow.setRotation(thisPlayer.initialRotation);
 				thisPlayer.arrow.invalidate();
@@ -1033,7 +1037,8 @@ public class MainFragment extends Fragment{
 		}
 		if(ball.initialPosition.x != -1){
 			ball.image.layout(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
-			ball.rect = new Rect(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
+			//ball.rect = new Rect(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
+			ball.setRect(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
 		}
 	}
 
@@ -1657,7 +1662,8 @@ public class MainFragment extends Fragment{
 		}
 		//endregion
 
-		//TODO:讀取戰術後把 戰術跑動路徑也畫上去
+		//讀取戰術後把戰術跑動路徑也畫上去
+
 
 		//endregion
 
@@ -1904,6 +1910,16 @@ public class MainFragment extends Fragment{
 
 		//region 用來取得掩護時圖片角度的變數
 		private float screen_direction;
+		float pivot_dir_x = 0.0f;
+		float pivot_dir_y = -1.0f;
+
+		float target_dir_x ;
+		float target_dir_y ;
+		float dot_of_two ;
+		float pivot_length = 1.0f;
+		float target_length ;
+		double cos_val ;
+		float degree_threshold = 10f;
 		//endregion
 
 
@@ -1930,7 +1946,8 @@ public class MainFragment extends Fragment{
 					handle_name = "B_Handle";
 					seekbar_player_Id = 6; ////////////////////////////////
 					//////////////// 相對?
-					ball.rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
+					//ball.rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
+					ball.setRect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
 
 					TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 					timefrag.changeLayout(6);
@@ -1946,7 +1963,8 @@ public class MainFragment extends Fragment{
 					rotateWhichPlayer = id;
 					handle_name = "P"+Integer.toString(id)+"_Handle";
 					seekbar_player_Id = id;
-					players.get(id-1).rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
+					//players.get(id-1).rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
+					players.get(id-1).setRect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
 
 					TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 					timefrag.changeLayout(id);
@@ -1975,15 +1993,14 @@ public class MainFragment extends Fragment{
 				move_count = 1;
 				dum_flag = false; ////////////////////////////
 
-				Dbitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
-				Dcanvas = new DrawCanvas();
-				Dcanvas.canvas = new Canvas(Dbitmap);
-
 				startX = (int) event.getX();
 				startY = my - v.getTop();
 				if (isRecording == true) {
 					currentPlayer.setRoad(0); // split positions
 					currentPlayer.setMyRotation(-1);
+					Dbitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
+					Dcanvas = new DrawCanvas();
+					Dcanvas.canvas = new Canvas(Dbitmap);
 				}
 
 				return true;
@@ -1996,10 +2013,12 @@ public class MainFragment extends Fragment{
 				y = my - startY;
 				int id2 = Integer.parseInt(v.getTag().toString());
 				if(id2 < 6)
-					players.get(id2-1).rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
-				else if (id2 == 6){ //人會吸住球的部分(球移動)
-					ball.rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
+					//players.get(id2-1).rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
+					players.get(id2-1).setRect(x,y,x+ v.getWidth(),y+v.getHeight());
 
+				else if (id2 == 6){ //人會吸住球的部分(球移動)
+					//ball.rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
+					ball.setRect(x,y,x+ v.getWidth(),y+v.getHeight());
 					/*這裡是先把目前持有球的player先變回無持球狀態，再接著判斷有沒有intersect，確保當兩個player太接近的時候，會導致player明明無持球卻還是呈現有持球的狀態*/
 					changePlayerToNoBall();
 
@@ -2010,10 +2029,14 @@ public class MainFragment extends Fragment{
 						intersect=true;
 						//持球圖片的設定
 						if(playersWithBall.get(0).getVisibility()== playersWithBall.get(0).INVISIBLE){ //VISIBLE 0 //INVISIBILITY 4
-							Log.d("debug", "P1 Intersects!");
+							//Trace.beginSection("change image");
+							//Debug.startMethodTracing("change image");
+							//Log.d("debug", "P1 Intersects!");
 							players.get(0).image.setVisibility(players.get(0).image.INVISIBLE);
 							playersWithBall.get(0).layout((int)players.get(0).image.getX()-30, (int)players.get(0).image.getY(), (int)players.get(0).image.getX()-30+200, (int)players.get(0).image.getY()+120);
 							playersWithBall.get(0).setVisibility(playersWithBall.get(0).VISIBLE);
+							//Debug.stopMethodTracing();
+							//Trace.endSection();
 						}
 					}
 					else if (Rect.intersects(players.get(1).rect, ball.rect)){
@@ -2064,7 +2087,7 @@ public class MainFragment extends Fragment{
 					//endregion
 					//Log.d("ball","ball with player"+String.valueOf(intersectId));
 					actionMovePreIntersectId=intersectId;
-					Log.d("preintersect",String.valueOf(actionMovePreIntersectId));
+					//Log.d("preintersect",String.valueOf(actionMovePreIntersectId));
 				}
 
 				//region 當正在繪製軌跡時
@@ -2082,19 +2105,15 @@ public class MainFragment extends Fragment{
 						Log.i("debug", "Touch Event : " + rotateWhichPlayer + ", " + intersectId);
 
 						//region 找到畫出的路徑相對於平板坐標系的旋轉角度，才能知道掩護的線要畫在哪裡的垂直角度上
-						float pivot_dir_x = 0.0f;
-						float pivot_dir_y = -1.0f;
 
-						float target_dir_x = currentDrawer.tempCurve.get(2).x - currentDrawer.tempCurve.get(1).x;
-						float target_dir_y = currentDrawer.tempCurve.get(2).y - currentDrawer.tempCurve.get(1).y;
-						float dot_of_two = pivot_dir_x * target_dir_x + pivot_dir_y * target_dir_y;
-						float pivot_length = 1.0f;
-						float target_length = (float) Math.sqrt(Math.pow(target_dir_x, 2) + Math.pow(target_dir_y, 2));
-						double cos_val = dot_of_two / target_length / pivot_length;
+						target_dir_x = currentDrawer.tempCurve.get(2).x - currentDrawer.tempCurve.get(1).x;
+						target_dir_y = currentDrawer.tempCurve.get(2).y - currentDrawer.tempCurve.get(1).y;
+						dot_of_two = pivot_dir_x * target_dir_x + pivot_dir_y * target_dir_y;
+						target_length = (float) Math.sqrt(Math.pow(target_dir_x, 2) + Math.pow(target_dir_y, 2));
+						cos_val = dot_of_two / target_length / pivot_length;
 						screen_direction = 180.0f * (float) Math.acos(cos_val) / 3.1415f;
 
 						//region 用來計算掩護橫線應該畫的方向
-						float degree_threshold = 10f;
 						if (Math.abs(screen_direction) < degree_threshold) {
 							screen_direction = 90.0f;
 						} else if (Math.abs(screen_direction - 90.0f) < degree_threshold) {
@@ -2180,6 +2199,7 @@ public class MainFragment extends Fragment{
 				// region 重劃線(傳球或運球)
 				//if(isRecording == true&&(isBallHolder||handle_name.equals("B_Handle"))){
 				if(isRecording == true){
+
 					// undo原本user畫的曲線
 					tempBitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
 					tempCanvas = new Canvas();

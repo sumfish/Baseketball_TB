@@ -5,6 +5,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.Stack;
 import java.util.Vector;
@@ -42,6 +43,7 @@ public class DrawCanvas {
         this.dashEffect=new DashPathEffect(new float[]{20,20},0);
         this.lineEffect=new DashPathEffect(new float[]{0,0},0);
         this.zigzagCount=0;
+        Log.d("canvas","create canvas");
     }
 
     // calculate path from 3 points
