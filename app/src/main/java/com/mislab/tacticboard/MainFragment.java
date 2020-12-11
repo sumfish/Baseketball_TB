@@ -143,6 +143,9 @@ public class MainFragment extends Fragment{
 	// draw軌跡
 	private static Vector<Point> tempCurve;//&& !isBallHolder
 
+	// for undo ball alert
+	private boolean isAlert=false;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -818,7 +821,7 @@ public class MainFragment extends Fragment{
 
 	}
 
-	public void undoRecord(){ ///還沒完成
+	public void undoRecord(){
 
 		int timefragIndex=0;
 		int ballholder;
@@ -831,6 +834,8 @@ public class MainFragment extends Fragment{
 		Log.d("undo","undo which player:"+handler);
 
 		if(handler.equals("B_Handle")){ //球的移動
+
+			isAlert=false; //可以繼續畫(Undo落地球的時候)
 
 			undoPlayer=ball;
 			undoDrawer=ballDrawer;
@@ -1936,7 +1941,17 @@ public class MainFragment extends Fragment{
 			case MotionEvent.ACTION_DOWN:// 按下圖片時
 				int id = Integer.parseInt(v.getTag().toString());
 				if(id == 6){ //ball
+					//如果球現在噴在地上，會彈出alertDialog指示user undo
+					if(intersectId==0&&isRecording==true){
+						Log.d("undo","ball cannot be played by air");
+						isAlert=true;
+						showAlertDialogButton();
+						return true;
+					}else{
+						isAlert=false;
+					}
 					//Log,i("debug","B    player ontouch!" );
+					Log.d("undo",String.valueOf(intersectId));
 					currentPlayer = ball;
 					rotateWhichPlayer = 6;    /////////////////// what
 					currentDrawer.curveIndex = ballDrawer.curveIndex;
@@ -2008,6 +2023,8 @@ public class MainFragment extends Fragment{
 
 			/*移動圖片***************************************************************************************************/
 			case MotionEvent.ACTION_MOVE:// 移動圖片時
+				if(isAlert==true) return true;
+
 				//圖片的左上角座標
 				x = mx - startX;
 				y = my - startY;
@@ -2190,6 +2207,8 @@ public class MainFragment extends Fragment{
 			case MotionEvent.ACTION_UP:
 				Log.i("debug", "intersect_name_pre="+Integer.toString(preIntersectId));
 				Log.i("debug", "intersect_name="+Integer.toString(intersectId));
+
+				if(isAlert==true) return true;
 
 				int B_start_index=currentPlayer.findLastValueIndex(0);
 				int B_end_index=currentPlayer.getRoadSize();
@@ -2489,6 +2508,34 @@ public class MainFragment extends Fragment{
 			return true;
 		}//onTouch Event
 	};
+
+	//噴在地上的球不能繼續畫的警示
+	@TargetApi(Build.VERSION_CODES.O)
+	public void showAlertDialogButton(){
+		//create an alert builder
+		AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
+		//builder.setTitle("-- Alert --");
+
+		//set the custom layout 動態載入使用inflater
+		View v =getLayoutInflater().inflate(R.layout.dialog_undo_alert,null);
+		builder.setView(v);
+
+		//add a button
+		Button backButton = v.findViewById(R.id.button_alert_back_to_main);
+
+		final AlertDialog dialog=builder.create(); //final不能重新賦值
+		dialog.show();
+		dialog.getWindow().setLayout(650,390);
+
+		backButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.dismiss();
+			}
+		});
+
+
+	}
 
 	public void removeOnePath(int seekbarId){
 		whichToRemove = seekbarId;
