@@ -716,6 +716,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-xxhdpi\\ic_unlock.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\anim_zoom.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\anim\\zoom.xml"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\raw_camaro_mtl.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\raw\\camaro_mtl"
     },
@@ -798,6 +802,10 @@
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_curve_left_up.jpg.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\curve_left_up.jpg"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\anim_zoom_dribble_ball.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\anim\\zoom_dribble_ball.xml"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_barong.jpg.flat",
