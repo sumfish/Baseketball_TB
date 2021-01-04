@@ -4,7 +4,13 @@
     android:layout_height="match_parent"
     android:id="@+id/main_layout" >
 
-    <ImageView
+	<com.mislab.tacticboard.IsScreen
+		android:id='@+id/screen_dialog'
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+
+	<ImageView
         android:id="@+id/image_p1withBall"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -126,8 +132,8 @@
 
        <ImageView
            android:id="@+id/image_ball"
-           android:layout_width="30dp"
-           android:layout_height="30dp"
+           android:layout_width="35dp"
+           android:layout_height="35dp"
            android:layout_alignParentLeft="true"
            android:layout_alignParentTop="true"
            android:layout_marginLeft="0dp"

@@ -17,8 +17,15 @@
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/merger.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/ButtonDraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/ButtonDraw.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/MainFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/MainFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/zoom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/anim/zoom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/anim/zoom_dribble_ball.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/anim/zoom_dribble_ball.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_button_draw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_button_draw.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_main.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +49,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="layoutResourceFile_vertical" />
+        <option value="Interface" />
+        <option value="Class" />
         <option value="resourceFile" />
       </list>
     </option>
@@ -56,13 +65,19 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="R52N51BNJGY" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-12-16T14:12:43.590Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../b_old/ver5_setballnum/Baseketball_TB-500d5e7ae358de90217d42b080bb5d1874c3c395" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Baseketball_TB\app\src\main\res\drawable" />
+      <recent name="D:\Baseketball_TB\app\src\main\res\layout" />
+      <recent name="D:\Baseketball_TB\app\src\main\res\dialog" />
       <recent name="D:\Baseketball_TB\app\src\main\res\anim" />
     </key>
   </component>
@@ -140,58 +155,74 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="540" y="274" key="AndroidCreateResourceFileDialog" timestamp="1607524326486">
+    <state x="769" y="230" key="#com.intellij.ide.util.MemberChooser" timestamp="1609165180786">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="540" y="274" key="AndroidCreateResourceFileDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607524326486" />
-    <state x="709" y="277" key="FileChooserDialogImpl" timestamp="1607167126969">
+    <state x="769" y="230" key="#com.intellij.ide.util.MemberChooser/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609165180786" />
+    <state x="694" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1609162938356">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="709" y="277" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607167126969" />
-    <state width="1877" height="152" key="GridCell.Tab.0.bottom" timestamp="1608022933740">
+    <state x="694" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609162938356" />
+    <state x="540" y="274" key="AndroidCreateResourceFileDialog" timestamp="1609340867613">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="152" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608022933740" />
+    <state x="540" y="274" key="AndroidCreateResourceFileDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609340867613" />
+    <state x="819" y="286" key="AndroidProcessChooserDialog" timestamp="1609159629642">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="819" y="286" key="AndroidProcessChooserDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609159629642" />
+    <state x="709" y="277" key="FileChooserDialogImpl" timestamp="1608029472145">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="709" y="277" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608029472145" />
+    <state width="1857" height="360" key="GridCell.Tab.0.bottom" timestamp="1609338928757">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1857" height="360" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609338928757" />
     <state width="1877" height="120" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607179592881" />
-    <state width="1877" height="152" key="GridCell.Tab.0.center" timestamp="1608022933740">
+    <state width="1857" height="360" key="GridCell.Tab.0.center" timestamp="1609338928757">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="152" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608022933740" />
+    <state width="1857" height="360" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609338928757" />
     <state width="1877" height="120" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607179592880" />
-    <state width="1877" height="152" key="GridCell.Tab.0.left" timestamp="1608022933740">
+    <state width="1857" height="360" key="GridCell.Tab.0.left" timestamp="1609338928757">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="152" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608022933740" />
+    <state width="1857" height="360" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609338928757" />
     <state width="1877" height="120" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607179592880" />
-    <state width="1877" height="152" key="GridCell.Tab.0.right" timestamp="1608022933740">
+    <state width="1857" height="360" key="GridCell.Tab.0.right" timestamp="1609338928757">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="152" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608022933740" />
+    <state width="1857" height="360" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609338928757" />
     <state width="1877" height="120" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607179592880" />
-    <state width="1877" height="152" key="GridCell.Tab.1.bottom" timestamp="1608022933741">
+    <state width="1857" height="360" key="GridCell.Tab.1.bottom" timestamp="1609338928757">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="152" key="GridCell.Tab.1.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608022933741" />
+    <state width="1857" height="360" key="GridCell.Tab.1.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609338928757" />
     <state width="1877" height="120" key="GridCell.Tab.1.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607179569523" />
-    <state width="1877" height="152" key="GridCell.Tab.1.center" timestamp="1608022933741">
+    <state width="1857" height="360" key="GridCell.Tab.1.center" timestamp="1609338928757">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="152" key="GridCell.Tab.1.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608022933741" />
+    <state width="1857" height="360" key="GridCell.Tab.1.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609338928757" />
     <state width="1877" height="120" key="GridCell.Tab.1.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607179569523" />
-    <state width="1877" height="152" key="GridCell.Tab.1.left" timestamp="1608022933741">
+    <state width="1857" height="360" key="GridCell.Tab.1.left" timestamp="1609338928757">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="152" key="GridCell.Tab.1.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608022933741" />
+    <state width="1857" height="360" key="GridCell.Tab.1.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609338928757" />
     <state width="1877" height="120" key="GridCell.Tab.1.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607179569523" />
-    <state width="1877" height="152" key="GridCell.Tab.1.right" timestamp="1608022933741">
+    <state width="1857" height="360" key="GridCell.Tab.1.right" timestamp="1609338928757">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="152" key="GridCell.Tab.1.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1608022933741" />
+    <state width="1857" height="360" key="GridCell.Tab.1.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609338928757" />
     <state width="1877" height="120" key="GridCell.Tab.1.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1607179569523" />
-    <state x="645" y="340" key="com.intellij.ide.util.TipDialog" timestamp="1607095480249">
+    <state x="766" y="298" key="chooseDestDirectoryDialog" timestamp="1609339733570">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="645" y="340" key="com.intellij.ide.util.TipDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607095480249" />
+    <state x="766" y="298" key="chooseDestDirectoryDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609339733570" />
+    <state x="645" y="340" key="com.intellij.ide.util.TipDialog" timestamp="1609334200663">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="645" y="340" key="com.intellij.ide.util.TipDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609334200663" />
     <state x="2679" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1607179299242">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

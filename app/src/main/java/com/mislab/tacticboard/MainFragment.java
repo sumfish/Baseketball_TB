@@ -31,6 +31,8 @@ import org.json.JSONObject;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
@@ -68,6 +70,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -141,6 +144,7 @@ public class MainFragment extends Fragment{
 	// For screen
 	private Vector<Float> previousDirection;
 	public boolean isScreenEnable;
+	private IsScreen screenDialog;
 
 	// draw軌跡
 	private static Vector<Point> tempCurve;//&& !isBallHolder
@@ -216,6 +220,8 @@ public class MainFragment extends Fragment{
 		//endregion
 
 		removeButton = (ImageView) getView().findViewById(R.id.rm_button);
+		screenDialog = getView().findViewById(R.id.screen_dialog);
+		screenDialog.setVisibility(screenDialog.INVISIBLE);
 
 		transparentPaint =new Paint();
 		transparentPaint.setAntiAlias(true); // 設置畫筆的鋸齒效果。 true是去除。
@@ -1950,15 +1956,6 @@ public class MainFragment extends Fragment{
 			case MotionEvent.ACTION_DOWN:// 按下圖片時
 				int id = Integer.parseInt(v.getTag().toString());
 				if(id == 6){ //ball
-					//如果球現在噴在地上，會彈出alertDialog指示user undo
-					if(intersectId==0&&isRecording==true){
-						Log.d("undo","ball cannot be played by air");
-						isAlert=true;
-						showAlertDialogButton();
-						return true;
-					}else{
-						isAlert=false;
-					}
 					//Log,i("debug","B    player ontouch!" );
 					Log.d("undo",String.valueOf(intersectId));
 					currentPlayer = ball;
@@ -1976,6 +1973,16 @@ public class MainFragment extends Fragment{
 
 					TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 					timefrag.changeLayout(6);
+
+					//如果球現在噴在地上，會彈出alertDialog指示user undo
+					if(intersectId==0&&isRecording==true){
+						Log.d("undo","ball cannot be played by air");
+						isAlert=true;
+						showAlertDialogButton();
+						return true;
+					}else{
+						isAlert=false;
+					}
 				}
 				else if(id < 6){ //player進攻者(藍色衣服)
 					//Log.d("debug","P1    player ontouch" );
@@ -2212,7 +2219,8 @@ public class MainFragment extends Fragment{
 
 				//讓球黏住人
 				if(intersect==true && v.getTag().toString().equals("6")==false && v.getTag().toString().equals(Integer.toString(intersectId))){
-					ball.image.layout(x+110, y+30, x+170, y+90);
+					//ball.image.layout(x+110, y+30, x+170, y+90);
+					ball.image.layout(x+110,y+30, x+110+ball.image.getWidth(),y+30+ball.image.getHeight());
 				}
 				v.layout(x, y, x + v.getWidth(), y + v.getHeight());
 				v.postInvalidate();
@@ -2234,7 +2242,8 @@ public class MainFragment extends Fragment{
 							players.get(intersectId -1).arrow.layout((int) playersWithBall.get(intersectId -1).getX(), (int) playersWithBall.get(intersectId -1).getY(), (int) playersWithBall.get(intersectId -1).getX()+ playersWithBall.get(intersectId -1).getWidth(), (int) playersWithBall.get(intersectId -1).getY()+ playersWithBall.get(intersectId -1).getHeight());
 						}
 						players.get(intersectId -1).arrow.invalidate();
-						v.layout((int) players.get(intersectId -1).image.getX()+110-30, (int)players.get(intersectId -1).image.getY()+30, (int) players.get(intersectId -1).image.getX()+170-30,(int)players.get(intersectId -1).image.getY()+90);
+						//v.layout((int) players.get(intersectId -1).image.getX()+110-30, (int)players.get(intersectId -1).image.getY()+30, (int) players.get(intersectId -1).image.getX()+170-30,(int)players.get(intersectId -1).image.getY()+90);
+						v.layout((int) players.get(intersectId -1).image.getX()+110-30, (int)players.get(intersectId -1).image.getY()+30, (int) players.get(intersectId -1).image.getX()+110-30+v.getWidth(), (int)players.get(intersectId -1).image.getY()+30+v.getHeight());
 						v.invalidate();
 					}
 				}
@@ -2361,11 +2370,20 @@ public class MainFragment extends Fragment{
 						// endregion
 
 						TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
-						////Log,i("debug", "Test for run into this block.");
 
 						///call MainWrap 's function
 						MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 						mainwrapfrag.createPathNumberOnCourt(runBags.size()+1, x, y, runBags.size());
+
+						// 跳出問是不是擋人的dynamic layout
+						// 無球跑動的人
+
+						if(!isBallHolder&&(handle_name.charAt(0)=='P')){
+							screenDialog.setVisibility(View.VISIBLE);
+							screenDialog.layout(x+v.getWidth()/2+35,y+v.getHeight()/2,x+v.getWidth()/2+screenDialog.getWidth()+35,y+screenDialog.getHeight()+v.getHeight()/2);
+							//screenDialog.setButtonPosition(x,y);
+							//卡 thread 等這邊的執行
+						}
 
 						//region 用來畫出掩護的線
 
@@ -2415,6 +2433,18 @@ public class MainFragment extends Fragment{
 
 						screen_direction = maxIndex*10.0f + 5.0f;
 
+						/*
+						// region 無球跑動者-->一般軌跡或擋人的alert dialog
+						if(Integer.valueOf(v.getTag().toString())<6&&Integer.valueOf(v.getTag().toString())!=intersectId){
+							ChooseScreenOrRunning();
+							try {
+								wait();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						// endregion
+						*/
 						if(isScreenEnable)
 							mainwrapfrag.createScreenBar(x, y, rotateWhichPlayer,  screen_direction, runBags.size());
 						//endregion
@@ -2446,6 +2476,7 @@ public class MainFragment extends Fragment{
 							tmp.setTimeLineId(runBags.size());
 							tmp.setBallNum(intersectId);
 
+							Log.d("screen?",String.valueOf(isScreenEnable));
 							//region 20180712 在Runbag中加入掩護的資訊
 							if(isBallHolder){
 								tmp.setPathType(2);
@@ -2453,6 +2484,10 @@ public class MainFragment extends Fragment{
 							else if(isScreenEnable){
 								tmp.setPathType(1);
 								tmp.setScreenAngle(screen_direction);
+
+
+								///// 幫下一動default 不是擋人
+								isScreenEnable=false;
 							}
 							else{
 								tmp.setPathType(0);
@@ -2521,6 +2556,38 @@ public class MainFragment extends Fragment{
 			return true;
 		}//onTouch Event
 	};
+
+	//選擇要擋人還是普通走位
+	@TargetApi(Build.VERSION_CODES.O)
+	public void ChooseScreenOrRunning(){
+		AlertDialog.Builder build= new AlertDialog.Builder(getActivity());
+		View v =getLayoutInflater().inflate(R.layout.screen_or_move,null);
+		build.setView(v);
+
+		Button move=v.findViewById(R.id.button_move);
+		Button screen=v.findViewById(R.id.button_screen);
+
+		final AlertDialog dialog= build.create(); //final不能重新賦值
+		dialog.show();
+		dialog.getWindow().setLayout(450,280);
+
+		move.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.dismiss();
+				notify();
+			}
+		});
+
+		screen.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				isScreenEnable=true;
+				notify();
+				dialog.dismiss();
+			}
+		});
+	}
 
 	//噴在地上的球不能繼續畫的警示
 	@TargetApi(Build.VERSION_CODES.O)

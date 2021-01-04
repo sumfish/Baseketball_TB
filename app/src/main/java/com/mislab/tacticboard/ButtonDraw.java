@@ -149,13 +149,54 @@ public class ButtonDraw extends Fragment {
         record.setOnClickListener(recordListener);
         record.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
         
-        Button buttonClear = (Button) getView().findViewById(R.id.button_clear);
-        buttonClear.setOnClickListener(clearListener);
+        final Button buttonClear = (Button) getView().findViewById(R.id.button_clear);
+        //buttonClear.setOnClickListener(clearListener);
         buttonClear.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
+		buttonClear.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent) {
+				if(motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+					buttonClear.setBackgroundResource(R.drawable.icon_garbage_click);
+					MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+					mainfrag.clearPaint();
+					mainfrag.clearRecord();
+					record.setChecked(false);
+					mCallback.setRecordCheck(false);
+					mCallback.setClean();
+
+				} else if(motionEvent.getAction()==MotionEvent.ACTION_UP){
+					buttonClear.setBackgroundResource(R.drawable.icon_garbage);
+				}
+				return true;
+			}
+		});
 
         // 新增undo按鈕
-		Button buttonUndo = (Button) getView().findViewById(R.id.button_undo);
-		buttonUndo.setOnClickListener(undoListener);
+		final Button buttonUndo = (Button) getView().findViewById(R.id.button_undo);
+		buttonUndo.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent) {
+				if(motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+					buttonUndo.setBackgroundResource(R.drawable.icon_undo_click);
+					MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+					if(mainfrag.getRunBags()==0) {
+						Log.d("undo","can not undo (have no runbag)");
+						return true;
+					}
+					mainfrag.undoRecord();
+					mainfrag.undoPaint();
+					if(mainfrag.getRunBags()==0){ //上面undo執行完會拿掉一個
+						record.setChecked(false);
+						mCallback.setRecordCheck(false);
+						mCallback.setClean();
+					}
+
+				} else if(motionEvent.getAction()==MotionEvent.ACTION_UP){
+					buttonUndo.setBackgroundResource(R.drawable.icon_undo);
+				}
+				return true;
+			}
+		});
 
         Button buttonLoad = (Button) getView().findViewById(R.id.button_strategies);
         buttonLoad.setOnClickListener(strategies);
@@ -383,24 +424,6 @@ public class ButtonDraw extends Fragment {
     	}
     };
 
-    private OnClickListener undoListener = new OnClickListener() {
-		@Override
-		public void onClick(View view) {//undo鍵
-			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-			if(mainfrag.getRunBags()==0) {
-				Log.d("undo","can not undo (have no runbag)");
-				return;
-			}
-			mainfrag.undoRecord();
-			mainfrag.undoPaint();
-			if(mainfrag.getRunBags()==0){ //上面undo執行完會拿掉一個
-				record.setChecked(false);
-				mCallback.setRecordCheck(false);
-				mCallback.setClean();
-			}
-
-		}
-	};
 
     private OnClickListener clearListener = new OnClickListener(){//"?M??..."
     	@Override
