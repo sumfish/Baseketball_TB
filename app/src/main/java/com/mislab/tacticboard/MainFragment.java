@@ -53,6 +53,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Fragment;
 import android.os.Trace;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -72,6 +73,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -141,11 +143,6 @@ public class MainFragment extends Fragment{
 	private int UDP_SERVER_PORT = 3985;
 	/*************************************************************/
 
-	// For screen
-	private Vector<Float> previousDirection;
-	public boolean isScreenEnable;
-	private IsScreen screenDialog;
-
 	// draw軌跡
 	private static Vector<Point> tempCurve;//&& !isBallHolder
 
@@ -170,8 +167,6 @@ public class MainFragment extends Fragment{
 		zoomAnimationDribbleBall = AnimationUtils.loadAnimation(getActivity(),R.anim.zoom_dribble_ball);
 
 		selectCategoryId = 0;
-		previousDirection = new Vector<Float>();
-		isScreenEnable = false;
 		hasQueryDefenderFromServer = false;
 		//region Initialize Player icons on the view
 		Resources resources = getResources();
@@ -220,8 +215,6 @@ public class MainFragment extends Fragment{
 		//endregion
 
 		removeButton = (ImageView) getView().findViewById(R.id.rm_button);
-		screenDialog = getView().findViewById(R.id.screen_dialog);
-		screenDialog.setVisibility(screenDialog.INVISIBLE);
 
 		transparentPaint =new Paint();
 		transparentPaint.setAntiAlias(true); // 設置畫筆的鋸齒效果。 true是去除。
@@ -966,6 +959,7 @@ public class MainFragment extends Fragment{
 		MainWrap mainwrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 		mainwrap.removeTextView(runBags.size()-1);
 		mainwrap.removeScreenBar(runBags.size()-1);
+		mainwrap.removeScreenLayout();
 
 		//移除player的record
 		Log.d("undo","play's road:"+String.valueOf(undoPlayer.getCmpltRoad()));
@@ -1914,6 +1908,26 @@ public class MainFragment extends Fragment{
 	};
 	//endregion
 
+	private OnTouchListener reactForNotScreen = new OnTouchListener() {
+		@Override
+		public boolean onTouch(View view, MotionEvent motionEvent) {
+			MainWrap mainWrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
+			int[] margin = mainWrap.getScreenLayoutPosition();
+			if(!(motionEvent.getX()>margin[0]&&motionEvent.getX()<margin[2]&&motionEvent.getY()>margin[1]&&motionEvent.getY()<margin[3])){
+				mainWrap.removeScreenLayout();
+				setViewAlpha(255);
+				circle.setOnTouchListener(null);
+			}
+			return false;
+		}
+	};
+
+	//在user調好screen bar角度後 設定runbag擋人資訊
+	public void setRunBagScreen(float direction){
+		runBags.get(runBags.size()-1).setPathType(1);
+		runBags.get(runBags.size()-1).setScreenAngle(direction);
+	}
+
 	/* When the icon of the player is touched. */
 	private OnTouchListener playerListener = new OnTouchListener() {
 		private int mx, my; // 圖片被拖曳的X ,Y軸距離長度
@@ -1927,21 +1941,6 @@ public class MainFragment extends Fragment{
 		private Player currentPlayer;
 		String handle_name = new String();
 		private int seekbar_player_Id;
-
-		//region 用來取得掩護時圖片角度的變數
-		private float screen_direction;
-		float pivot_dir_x = 0.0f;
-		float pivot_dir_y = -1.0f;
-
-		float target_dir_x ;
-		float target_dir_y ;
-		float dot_of_two ;
-		float pivot_length = 1.0f;
-		float target_length ;
-		double cos_val ;
-		float degree_threshold = 10f;
-		//endregion
-
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) { // v是事件來源物件, e是儲存有觸控資訊的物件
@@ -2145,50 +2144,6 @@ public class MainFragment extends Fragment{
 					if(currentDrawer.curveIndex == N) { //N為3
 						Log.i("debug", "Touch Event : " + rotateWhichPlayer + ", " + intersectId);
 
-						//region 找到畫出的路徑相對於平板坐標系的旋轉角度，才能知道掩護的線要畫在哪裡的垂直角度上
-
-						target_dir_x = currentDrawer.tempCurve.get(2).x - currentDrawer.tempCurve.get(1).x;
-						target_dir_y = currentDrawer.tempCurve.get(2).y - currentDrawer.tempCurve.get(1).y;
-						dot_of_two = pivot_dir_x * target_dir_x + pivot_dir_y * target_dir_y;
-						target_length = (float) Math.sqrt(Math.pow(target_dir_x, 2) + Math.pow(target_dir_y, 2));
-						cos_val = dot_of_two / target_length / pivot_length;
-						screen_direction = 180.0f * (float) Math.acos(cos_val) / 3.1415f;
-
-						//region 用來計算掩護橫線應該畫的方向
-						if (Math.abs(screen_direction) < degree_threshold) {
-							screen_direction = 90.0f;
-						} else if (Math.abs(screen_direction - 90.0f) < degree_threshold) {
-							screen_direction = 0.0f;
-						} else if (Math.abs(screen_direction - 180.0f) < degree_threshold) {
-							screen_direction = 90.0f;
-						} else {
-
-							//   |
-							// --| +-
-							//------->x
-							//   |
-							// -+| ++
-							//   V
-
-							// 如果是在四相中的任何一相(不包含90度 180度 270度)
-							if ((target_dir_x > 0.0f) && (target_dir_y < 0.0f)) {
-								screen_direction = 180.0f - screen_direction;
-
-							} else if ((target_dir_x > 0.0f) && (target_dir_y > 0.0f)) {
-								screen_direction = 180.0f - screen_direction;
-
-							} else if ((target_dir_x < 0.0f) && (target_dir_y > 0.0f)) {
-								screen_direction = -(180.0f - screen_direction);
-
-							} else if ((target_dir_x < 0.0f) && (target_dir_y < 0.0f)) {
-								screen_direction = screen_direction;
-							}
-						}
-						//endregion
-
-						previousDirection.add(screen_direction);
-						//endregion
-
 						//畫線
 						//將point調整到圖片的正中心
 						tempCurve = currentDrawer.tempCurve;
@@ -2375,85 +2330,15 @@ public class MainFragment extends Fragment{
 						MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 						mainwrapfrag.createPathNumberOnCourt(runBags.size()+1, x, y, runBags.size());
 
-						// 跳出問是不是擋人的dynamic layout
-						// 無球跑動的人
-
+						//region 跳出問 無球跑動的人 是不是擋人的dynamic layout
 						if(!isBallHolder&&(handle_name.charAt(0)=='P')){
-							screenDialog.setVisibility(View.VISIBLE);
-							screenDialog.layout(x+v.getWidth()/2+35,y+v.getHeight()/2,x+v.getWidth()/2+screenDialog.getWidth()+35,y+screenDialog.getHeight()+v.getHeight()/2);
-							//screenDialog.setButtonPosition(x,y);
-							//卡 thread 等這邊的執行
+							circle.setOnTouchListener(reactForNotScreen);
+							mainwrapfrag.createIsScreenLayout(x,y,rotateWhichPlayer,runBags.size());
 						}
-
-						//region 用來畫出掩護的線
-
-						// 依照每5度為一個bin來統計方向趨勢
-						// 根據過去的所計算出來的方向來統計
-						// 把最後最有可能的方向趨勢作為掩護screen_bar要旋轉的方向
-
-						// direction_hist 用來統計最有可能的方向趨勢，每5度一個bin
-						Vector<Integer> direction_hist;
-						direction_hist = new Vector<Integer>();
-						for(int i=0 ; i<72 ; i++){
-							direction_hist.add(0);
-						}
-
-						// 統計最近5個線段的方向趨勢
-						int prev_dir_length = previousDirection.size();
-						int sample_length = (prev_dir_length > 5)?5:prev_dir_length;
-
-						for(int i=1 ; i<sample_length ; i++){
-							float angle_trans = previousDirection.get(prev_dir_length - i);
-							// 前面設的previous_direction的方向有些是負的
-							// 如果不把她轉成正的，vector取到的index就會是負的
-							if(previousDirection.get(prev_dir_length - i) < 0.0f){
-								angle_trans = 360.0f + angle_trans;
-							}
-
-							int prev_hist_value = direction_hist.get( Math.round(angle_trans/10));
-							direction_hist.set( Math.round(angle_trans/10) , prev_hist_value+1);
-						}
-
-						// 找出統計出來最大的方向趨勢
-						int maxIndex = 0;
-						int maxValue = direction_hist.get(0);
-
-
-						for(int i=1;i<direction_hist.size();i++){
-							if(direction_hist.get(i) > maxValue){
-								maxValue = direction_hist.get(i);
-								maxIndex = i;
-							}
-
-						}
-
-						previousDirection.clear();
-
-						////Log,i("debug", "Screen direction : " + screen_direction);
-
-						screen_direction = maxIndex*10.0f + 5.0f;
-
-						/*
-						// region 無球跑動者-->一般軌跡或擋人的alert dialog
-						if(Integer.valueOf(v.getTag().toString())<6&&Integer.valueOf(v.getTag().toString())!=intersectId){
-							ChooseScreenOrRunning();
-							try {
-								wait();
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-						// endregion
-						*/
-						if(isScreenEnable)
-							mainwrapfrag.createScreenBar(x, y, rotateWhichPlayer,  screen_direction, runBags.size());
-						//endregion
+						//end region
 
 						// 很重要 存每一動的Dbitmap
 						bitmapVector.add(Dbitmap);
-						/*//Log,i("debug", "bitmap_size="+Integer.toString(Bitmap_vector.size()));
-						//Log,i("debug", "P1_curve_x_size="+Integer.toString(P1.getCmpltCurve().get(tmp).size()));
-						Log,i("debug", "P1_curve_y_size="+Integer.toString(P1.getCmpltCurve().get(tmp+1).size()));*/
 
 						int startIndexTmp = currentDrawer.startIndex;
 
@@ -2476,20 +2361,11 @@ public class MainFragment extends Fragment{
 							tmp.setTimeLineId(runBags.size());
 							tmp.setBallNum(intersectId);
 
-							Log.d("screen?",String.valueOf(isScreenEnable));
 							//region 20180712 在Runbag中加入掩護的資訊
+							// 20210107 如果是擋人的話 會在按下screen layout confirm button時再去runbag更改
 							if(isBallHolder){
 								tmp.setPathType(2);
-							}
-							else if(isScreenEnable){
-								tmp.setPathType(1);
-								tmp.setScreenAngle(screen_direction);
-
-
-								///// 幫下一動default 不是擋人
-								isScreenEnable=false;
-							}
-							else{
+							}else{
 								tmp.setPathType(0);
 							}
 							//endregion
@@ -2556,38 +2432,6 @@ public class MainFragment extends Fragment{
 			return true;
 		}//onTouch Event
 	};
-
-	//選擇要擋人還是普通走位
-	@TargetApi(Build.VERSION_CODES.O)
-	public void ChooseScreenOrRunning(){
-		AlertDialog.Builder build= new AlertDialog.Builder(getActivity());
-		View v =getLayoutInflater().inflate(R.layout.screen_or_move,null);
-		build.setView(v);
-
-		Button move=v.findViewById(R.id.button_move);
-		Button screen=v.findViewById(R.id.button_screen);
-
-		final AlertDialog dialog= build.create(); //final不能重新賦值
-		dialog.show();
-		dialog.getWindow().setLayout(450,280);
-
-		move.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				dialog.dismiss();
-				notify();
-			}
-		});
-
-		screen.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				isScreenEnable=true;
-				notify();
-				dialog.dismiss();
-			}
-		});
-	}
 
 	//噴在地上的球不能繼續畫的警示
 	@TargetApi(Build.VERSION_CODES.O)
@@ -2657,6 +2501,18 @@ public class MainFragment extends Fragment{
 		////Log,i("seekbar", "RunLine.size="+Integer.toString(RunLine.size()));
 
 		sortPathNumber();
+	}
+
+	//讓人物和球view都呈現半透明/不透明
+	public void setViewAlpha(int value){
+		for (int i=0;i<players.size();i++){
+			players.get(i).image.setImageAlpha(value);
+			players.get(i).arrow.setImageAlpha(value);
+			defenders.get(i).image.setImageAlpha(value);
+			defenders.get(i).arrow.setImageAlpha(value);
+			playersWithBall.get(i).setImageAlpha(value);
+		}
+		ball.image.setImageAlpha(value);
 	}
 
 	public void sortPathNumber(){

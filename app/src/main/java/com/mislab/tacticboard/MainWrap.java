@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,19 @@ import android.widget.TextView;
 
 
 
-/* 處理球場上的路徑編號顯示, 擋拆指示線, 運球指示線 */
+/* 處理球場上的路徑編號顯示, 擋拆指示線, 運球指示線, 詢問是否擋人 */
 
 public class MainWrap extends Fragment{
+
+	private IsScreen ask;
+
+	//同步紀錄詢問擋人的時候: player & screen bar ID
+	private int whichPlayer; //根據ID拿不同顏色的bar
+	private int recordID;
+
+	private int nowX,nowY;
+	private ImageView bar;
+
 
 	public void onAttach(Activity activity){ 
 		super.onAttach(activity);
@@ -34,6 +45,10 @@ public class MainWrap extends Fragment{
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState){ 
 		super.onActivityCreated(savedInstanceState);
+		whichPlayer=0;
+		recordID=0;
+		nowX=0;
+		nowY=0;
 	}
 	
 	@Override
@@ -65,7 +80,51 @@ public class MainWrap extends Fragment{
 		text.setId(id);
 		mainWrap.addView(text);
 	}
-	
+
+	// 放詢問是否擋人的layout
+	public void createIsScreenLayout(int x,int y, int rotateWhich, int id){
+		whichPlayer=rotateWhich;
+		recordID=id;
+		nowX=x;
+		nowY=y;
+
+		RelativeLayout mainWrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);
+		ask = new IsScreen(getActivity());
+		LayoutParams screenLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+		ask.setX(nowX+100);
+		ask.setY(nowY+90);
+		ask.setLayoutParams(screenLayoutParams);
+		mainWrap.addView(ask);
+	}
+
+	// 把screen bar圖片放上fragment
+	public void putScreenBar(){
+		RelativeLayout mainWrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);
+
+		bar = new ImageView(getActivity());
+		bar.setScaleX(0.1f);
+		bar.setScaleY(0.1f);
+		bar.setX(nowX);
+		bar.setY(nowY-440);
+		Resources resources = getResources();
+		int screenBarId = resources.getIdentifier("screen_bar"+String.valueOf(whichPlayer), "drawable", getActivity().getPackageName());
+		bar.setBackgroundResource(screenBarId);
+		bar.setTag("screen_bar_"+recordID);
+		mainWrap.addView(bar);
+	}
+
+	public void setScreenBarRotate(float direction){
+		bar.setRotation(direction);
+	}
+
+	public void removeScreenLayout(){
+		RelativeLayout mainWrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);
+		mainWrap.removeView(ask);
+	}
+
+	public int[] getScreenLayoutPosition(){
+		return new int[]{nowX+100,nowY+90,nowX+100+ask.getWidth(),nowY+90+ask.getHeight()};
+	}
 	public void setPathNumberText(int searchId , int text){
 		TextView tempText = null;
 		RelativeLayout mainWrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);
@@ -102,7 +161,7 @@ public class MainWrap extends Fragment{
 	}
 	//endregion
 
-	//region 標示掩護方向的圖片
+	//region 標示掩護方向的圖片 (獨立於canvas那邊)
 	@SuppressLint("ResourceType")
 	public void createScreenBar(int x, int y, int playerId, float direction, int id){
 		//addview here

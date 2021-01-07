@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     android:id="@+id/main_layout" >
 
-	<com.mislab.tacticboard.IsScreen
-		android:id='@+id/screen_dialog'
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		/>
-
 	<ImageView
         android:id="@+id/image_p1withBall"
         android:layout_width="60dp"

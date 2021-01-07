@@ -79,7 +79,7 @@ public class CircularControl extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) { //畫轉盤中間箭頭的位置
         //background
         canvas.drawBitmap(bg, bgWidth - bgRadius, bgHeight - bgRadius,null); // 畫背景圖
 
@@ -93,7 +93,8 @@ public class CircularControl extends View {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
+    public boolean onTouchEvent(MotionEvent event){  //讓circular control動起來
+
         int tempX = (int)event.getX(); // 觸控的x座標
         int tempY = (int)event.getY(); // 觸控的y座標
         double touchDistance = Math.hypot(tempX- bgWidth,tempY- bgHeight); // 觸控的位置與背景中心的距離

@@ -202,22 +202,6 @@ public class ButtonDraw extends Fragment {
         buttonLoad.setOnClickListener(strategies);
         buttonLoad.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
 
-        final Button buttonScreen = (Button) getView().findViewById(R.id.btn_screen);
-        buttonScreen.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				isScreenEnable = !isScreenEnable;
-				mainFragment.isScreenEnable =isScreenEnable;
-				if(isScreenEnable){
-					buttonScreen.setBackgroundResource(R.drawable.screen);
-
-				}
-				else{
-					buttonScreen.setBackgroundResource(R.drawable.screen_disable);
-				}
-			}
-		});
-
         /*
         Button button_settings = (Button) getView().findViewById(R.id.button_settings);
         button_settings.setOnClickListener(settings);

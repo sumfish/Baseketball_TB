@@ -67,13 +67,7 @@
 		       android:background="@drawable/icon_strategy"
 		       android:textSize="10dp" />
 
-			<Button
-				android:id="@+id/btn_screen"
-				android:layout_width="40dp"
-				android:layout_height="40dp"
-				android:background="@drawable/screen_disable">
 
-			</Button>
     	    
     	</LinearLayout>
 

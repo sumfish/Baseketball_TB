@@ -308,7 +308,7 @@
     	android:layout_height="wrap_content"
     	android:layout_marginLeft="0dp"
     	android:orientation="vertical"
-    	android:visibility="gone"
+		android:visibility="gone"
         > 
 
         <Button 

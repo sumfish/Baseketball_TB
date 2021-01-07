@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="50dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
+    android:id="@+id/layout_screen"
     android:background="@drawable/screen_layout">
 
     <TextView
-        android:id="@+id/imageAlert"
-        android:layout_width="45dp"
+        android:id="@+id/text_screen"
+        android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp"
         android:background="@xml/screen_dialog_text"
         android:layout_gravity="center"
         android:text="Screen?"
         android:gravity="center"
         android:fontFamily="casual"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:textStyle="bold" />
 
     <ImageButton
@@ -24,10 +27,21 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:scaleType='fitCenter'
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginBottom="3dp"
         android:layout_gravity="center"
         android:src="@drawable/screen"
         android:background="@drawable/button_background"
         />
+
+    <!--
+    <com.mislab.tacticboard.CircularControl
+        android:id="@+id/screenDirection"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="3dp" />-->
 
 </LinearLayout>
