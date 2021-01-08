@@ -20,7 +20,9 @@ public class IsScreen extends LinearLayout {
     private LinearLayout itself;
     private MainWrap mainwrap;
     private MainFragment mainfrag;
+    private  ButtonDraw mainButton;
     private Activity activity; //先把context轉型成activity
+    private Boolean originalIsTimelineShow=false;
 
     public IsScreen(Context context) {
         super(context);
@@ -42,6 +44,13 @@ public class IsScreen extends LinearLayout {
         activity=(Activity) context;
         mainwrap=(MainWrap) activity.getFragmentManager().findFragmentById(R.id.MainWrap_frag); //放路徑元件
         mainfrag=(MainFragment) activity.getFragmentManager().findFragmentById(R.id.Main); //放人物元件
+        mainButton=(ButtonDraw) activity.getFragmentManager().findFragmentById(R.id.ButtonDraw); //放UI上面的按鈕群
+
+        // 讓TimeLine Fragment隱藏
+        if(mainButton.getisTimelineShow()==true){
+            mainButton.getTimeLineView().performClick();
+            originalIsTimelineShow=true;
+        }
 
     }
 
@@ -56,7 +65,7 @@ public class IsScreen extends LinearLayout {
 
             //把原本BUTTON的位置換成轉盤 控制BAR
             directionControl= new CircularControl(getContext());
-            LayoutParams circularC= new LayoutParams(120,120);
+            LayoutParams circularC= new LayoutParams(170,170);
             circularC.setMargins(10,10,10,1);
             directionControl.setLayoutParams(circularC);
             itself.addView(directionControl);
@@ -95,6 +104,10 @@ public class IsScreen extends LinearLayout {
             mainwrap.removeScreenLayout();
             //改變 runbag 裡面最新一動的擋人資訊(pathtype % direction)
             mainfrag.setRunBagScreen(directionControl.getDegree());
+            // 讓TimeLine Fragment出現
+            if(mainButton.getisTimelineShow()==false&&originalIsTimelineShow==true){
+                mainButton.getTimeLineView().performClick();
+            }
         }
     };
 }

@@ -94,9 +94,9 @@
 				android:id="@+id/button_undo"
 				android:layout_width="40dp"
 				android:layout_height="40dp"
-				android:minHeight="0dp"
-				android:minWidth="0dp"
 				android:background="@drawable/icon_undo"
+				android:minWidth="0dp"
+				android:minHeight="0dp"
 				android:textSize="10dp" />
 
 			<Button

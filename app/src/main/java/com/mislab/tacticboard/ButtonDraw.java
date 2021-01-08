@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutionException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -74,6 +75,7 @@ public class ButtonDraw extends Fragment {
 	}
 	
 	//@TargetApi(Build.VERSION_CODES.M)
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
@@ -104,42 +106,6 @@ public class ButtonDraw extends Fragment {
 		btnTimeline = (Button) getView().findViewById(R.id.button02);
 		btnTimeline.setOnClickListener(btn2Listener);
 		btnTimeline.setTextSize(TypedValue.COMPLEX_UNIT_PX, 20);
-		btnTimeline.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN) {
-					isTimelineShow = !isTimelineShow;
-					if(isTimelineShow){
-						btnTimeline.setBackgroundResource(R.drawable.icon_hide_timeline);
-						getActivity().findViewById(R.id.time_line).setVisibility(View.VISIBLE);
-						FragmentManager fragmentManager =getFragmentManager();
-						FragmentTransaction transaction = fragmentManager.beginTransaction();
-						timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
-
-						getActivity().findViewById(R.id.image_select).setVisibility(View.GONE);
-						btnImage.setBackgroundResource(R.drawable.icon_image);
-						isImageSelect = !isImageSelect;
-
-						transaction.show(timeline);
-						transaction.commit();
-						fragmentManager.executePendingTransactions();
-					}
-					else{
-						btnTimeline.setBackgroundResource(R.drawable.icon_show_timeline);
-						FragmentManager fragmentManager =getFragmentManager();
-						timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
-						if (null != timeline){
-							getActivity().findViewById(R.id.time_line).setVisibility(View.GONE);
-							FragmentTransaction fragTran = fragmentManager.beginTransaction();
-							fragTran.hide(timeline);
-							fragTran.commit();
-							fragmentManager.executePendingTransactions();
-						}
-					}
-				}
-				return true;
-			}
-		});
 
 		btnImage = (Button) getView().findViewById(R.id.btn_image);
 		btnImage.setOnClickListener(btn_imageListener);
@@ -267,6 +233,15 @@ public class ButtonDraw extends Fragment {
 		getActivity().findViewById(R.id.ButtonDraw).setVisibility(View.GONE);
 	}
 
+	//check timeline view and its status (for isScreen layout)
+	public Boolean getisTimelineShow(){
+		return isTimelineShow;
+	}
+
+	public Button getTimeLineView(){
+		return btnTimeline;
+	}
+
     private View.OnTouchListener defListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -367,13 +342,34 @@ public class ButtonDraw extends Fragment {
     private OnClickListener btn2Listener = new OnClickListener(){//"??????b"
     	@Override
     	public void onClick(View v) {//"顯示時間軸"
-			getActivity().findViewById(R.id.time_line).setVisibility(View.VISIBLE);
-			FragmentManager fragmentManager =getFragmentManager();
-			FragmentTransaction transaction = fragmentManager.beginTransaction();
-			timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
-			transaction.show(timeline);
-			transaction.commit();
-			fragmentManager.executePendingTransactions();
+			isTimelineShow = !isTimelineShow;
+			if(isTimelineShow){
+				btnTimeline.setBackgroundResource(R.drawable.icon_hide_timeline);
+				getActivity().findViewById(R.id.time_line).setVisibility(View.VISIBLE);
+				FragmentManager fragmentManager =getFragmentManager();
+				FragmentTransaction transaction = fragmentManager.beginTransaction();
+				timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
+
+				getActivity().findViewById(R.id.image_select).setVisibility(View.GONE);
+				btnImage.setBackgroundResource(R.drawable.icon_image);
+				isImageSelect = !isImageSelect;
+
+				transaction.show(timeline);
+				transaction.commit();
+				fragmentManager.executePendingTransactions();
+			}
+			else{
+				btnTimeline.setBackgroundResource(R.drawable.icon_show_timeline);
+				FragmentManager fragmentManager =getFragmentManager();
+				timeline = (TimeLine) fragmentManager.findFragmentById(R.id.time_line);
+				if (null != timeline){
+					getActivity().findViewById(R.id.time_line).setVisibility(View.GONE);
+					FragmentTransaction fragTran = fragmentManager.beginTransaction();
+					fragTran.hide(timeline);
+					fragTran.commit();
+					fragmentManager.executePendingTransactions();
+				}
+			}
     	}
     };
     
