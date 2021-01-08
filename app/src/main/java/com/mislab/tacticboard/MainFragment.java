@@ -1924,8 +1924,12 @@ public class MainFragment extends Fragment{
 
 	//在user調好screen bar角度後 設定runbag擋人資訊
 	public void setRunBagScreen(float direction){
+		Log.d("check screen",runBags.get(runBags.size()-1).getHandler());
+		//Log.d("check screen","ORIGINAL:"+Integer.valueOf(runBags.get(runBags.size()-1).getPathType()));
 		runBags.get(runBags.size()-1).setPathType(1);
 		runBags.get(runBags.size()-1).setScreenAngle(direction);
+		//Log.d("check screen","After setting:"+Integer.valueOf(runBags.get(runBags.size()-1).getPathType()));
+
 	}
 
 	/* When the icon of the player is touched. */
@@ -2294,7 +2298,7 @@ public class MainFragment extends Fragment{
 								count++;
 								if(count==3){
 									Dcanvas.drawCurvePath(tempPoints,currentDrawer.paint,true);
-									Log.d("draw","draw curve"+String.valueOf(i));
+									//Log.d("draw","draw curve"+String.valueOf(i));
 									tempPoints.clear();
 									tempPoints.add(new Point(currentPlayer.handleGetRoad(i)+v.getWidth()/2,currentPlayer.handleGetRoad(i+1)+v.getHeight()/2));
 									count=1;
