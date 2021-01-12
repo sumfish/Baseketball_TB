@@ -153,6 +153,10 @@ public class MainFragment extends Fragment{
 	private Animation zoomAnimation;
 	private Animation zoomAnimationDribbleBall;
 
+	//screen layout timeline
+	private Boolean originalIsTimelineShow=false;
+	//screen layout disable view ontouch event
+	private Boolean disableOntouch=false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -969,6 +973,12 @@ public class MainFragment extends Fragment{
 		undoDrawer.setStartIndex(runBags.get(runBags.size()-1).getRoadStart()-1);
 		runBags.remove(runBags.size()-1);
 		Log.d("undo","after undo play's road:"+String.valueOf(undoPlayer.getCmpltRoad()));
+
+		//region screen layout
+		//如果在screen layout出現時按undo 要讓view變回不透明
+		setViewAlpha(255);
+		enableViewOnTouch();
+		//endregion
 	}
 
 	public void clearPaint(){//清除全部筆跡
@@ -1009,6 +1019,13 @@ public class MainFragment extends Fragment{
 		
 		MainWrap mainwrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 		mainwrap.clearRecordLayout();
+
+		//region screen layout
+		//如果在screen layout出現時按undo 要讓view變回不透明
+		setViewAlpha(255);
+		//view的ontouch
+		enableViewOnTouch();
+		//endregion
 	}
 
 	public void changePlayerToNoBall(){
@@ -1912,15 +1929,21 @@ public class MainFragment extends Fragment{
 		@Override
 		public boolean onTouch(View view, MotionEvent motionEvent) {
 			MainWrap mainWrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
+			ButtonDraw mainButton = (ButtonDraw) getActivity().getFragmentManager().findFragmentById(R.id.ButtonDraw);
 			int[] margin = mainWrap.getScreenLayoutPosition();
 			if(!(motionEvent.getX()>margin[0]&&motionEvent.getX()<margin[2]&&motionEvent.getY()>margin[1]&&motionEvent.getY()<margin[3])){
 				mainWrap.removeScreenLayout();
 				setViewAlpha(255);
+				if(originalIsTimelineShow==true&&mainButton.getisTimelineShow()==false) mainButton.getTimeLineView().performClick(); //跑出timeline
 				circle.setOnTouchListener(null);
 			}
 			return false;
 		}
 	};
+
+	public void setReactForNotScreenFail(){
+		circle.setOnTouchListener(null);
+	}
 
 	//在user調好screen bar角度後 設定runbag擋人資訊
 	public void setRunBagScreen(float direction){
@@ -1929,8 +1952,17 @@ public class MainFragment extends Fragment{
 		runBags.get(runBags.size()-1).setPathType(1);
 		runBags.get(runBags.size()-1).setScreenAngle(direction);
 		//Log.d("check screen","After setting:"+Integer.valueOf(runBags.get(runBags.size()-1).getPathType()));
-
 	}
+
+	//拿掉or復原10個球員和球view的touch listener
+	public void disableViewOnTouch(){ ;
+		disableOntouch=true;
+	}
+
+	public void enableViewOnTouch(){
+		disableOntouch=false;
+	}
+
 
 	/* When the icon of the player is touched. */
 	private OnTouchListener playerListener = new OnTouchListener() {
@@ -1948,6 +1980,7 @@ public class MainFragment extends Fragment{
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) { // v是事件來源物件, e是儲存有觸控資訊的物件
+			if(disableOntouch==true) return false;
 			// TouchEvent(P1,paint,mx,my,startX,startY,v,event,"P1");
 			mx = (int) (event.getRawX()); //get相對於屏幕邊界的距離  getx()是相對於自己元件的邊界距離
 			my = (int) (event.getRawY());
@@ -2332,11 +2365,13 @@ public class MainFragment extends Fragment{
 
 						///call MainWrap 's function
 						MainWrap mainwrapfrag = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
+						ButtonDraw mainButton= (ButtonDraw) getActivity().getFragmentManager().findFragmentById(R.id.ButtonDraw);
 						mainwrapfrag.createPathNumberOnCourt(runBags.size()+1, x, y, runBags.size());
 
 						//region 跳出問 無球跑動的人 是不是擋人的dynamic layout
 						if(!isBallHolder&&(handle_name.charAt(0)=='P')){
-							circle.setOnTouchListener(reactForNotScreen);
+							originalIsTimelineShow=mainButton.getisTimelineShow();
+							circle.setOnTouchListener(reactForNotScreen); //如果碰UI其他位置 會讓screen layout消失
 							mainwrapfrag.createIsScreenLayout(x,y,rotateWhichPlayer,runBags.size());
 						}
 						//end region

@@ -20,7 +20,7 @@ public class IsScreen extends LinearLayout {
     private LinearLayout itself;
     private MainWrap mainwrap;
     private MainFragment mainfrag;
-    private  ButtonDraw mainButton;
+    private ButtonDraw mainButton;
     private Activity activity; //先把context轉型成activity
     private Boolean originalIsTimelineShow=false;
 
@@ -85,6 +85,12 @@ public class IsScreen extends LinearLayout {
             //讓所有player呈現半透明
             mainfrag.setViewAlpha(100);
 
+            //讓fragment那邊任意點layout以外的UI都會取消screen的設定消失
+            mainfrag.setReactForNotScreenFail();
+
+            //限制user只能按ok 按其他地方(人或球view)都不會有反應 但可以按上面那排按鈕
+            mainfrag.disableViewOnTouch();
+
         }
     };
 
@@ -108,6 +114,8 @@ public class IsScreen extends LinearLayout {
             if(mainButton.getisTimelineShow()==false&&originalIsTimelineShow==true){
                 mainButton.getTimeLineView().performClick();
             }
+            //設定view回到listen ontouch
+            mainfrag.enableViewOnTouch();
         }
     };
 }
