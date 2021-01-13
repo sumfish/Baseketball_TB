@@ -2065,6 +2065,7 @@ public class MainFragment extends Fragment{
 					Log.d("error", "playerListener -> MotionEvent.ACTION_DOWN: Wrong selection");
 				}
 
+				startTime = System.currentTimeMillis();
 				move_count = 1;
 				dum_flag = false; ////////////////////////////
 
@@ -2252,7 +2253,9 @@ public class MainFragment extends Fragment{
 				//region 防呆，畫的時間太短的話，不會採用
 				if (isRecording == true) {
 
-					// 改成移動距離太短的話不會採用
+					// 移動距離太短或是時間太短的話不會採用
+					endTime=System.currentTimeMillis();
+
 					int drawStartIndex=currentPlayer.findLastValueIndex(0);
 					int drawEndIndex=currentPlayer.getRoadSize();
 					Point drawEnd= new Point(currentPlayer.handleGetRoad( drawEndIndex- 2), currentPlayer.handleGetRoad(drawEndIndex-1));
@@ -2261,7 +2264,7 @@ public class MainFragment extends Fragment{
 					double Dis= Math.sqrt(Math.pow(drawEnd.x-drawStart.x,2)+Math.pow(drawStart.y-drawEnd.y,2));
 					Log.d("not draw","Distance of drawing:"+String.valueOf(Dis));
 
-					if(Dis>50){
+					if(Dis>50&&endTime-startTime>150){
 						dum_flag=true;
 					}
 					else{ //這一筆畫畫不會採計
