@@ -959,11 +959,12 @@ public class MainFragment extends Fragment{
 		mainFragSeekBarProgressLow--; //seekbar位置調整
 		//endregion
 
-		/*remove pathnumber and screenbar on the court*/
+		/*remove pathnumber and screenbar and screenLayout on the court*/
 		MainWrap mainwrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
+		MainWrapScreen mainWrapScreen = (MainWrapScreen) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_screen);
 		mainwrap.removeTextView(runBags.size()-1);
 		mainwrap.removeScreenBar(runBags.size()-1);
-		mainwrap.removeScreenLayout();
+		mainWrapScreen.removeScreenLayout();
 
 		//移除player的record
 		Log.d("undo","play's road:"+String.valueOf(undoPlayer.getCmpltRoad()));
@@ -1928,11 +1929,11 @@ public class MainFragment extends Fragment{
 	private OnTouchListener reactForNotScreen = new OnTouchListener() {
 		@Override
 		public boolean onTouch(View view, MotionEvent motionEvent) {
-			MainWrap mainWrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
+			MainWrapScreen mainWrapScreen = (MainWrapScreen) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_screen);
 			ButtonDraw mainButton = (ButtonDraw) getActivity().getFragmentManager().findFragmentById(R.id.ButtonDraw);
-			int[] margin = mainWrap.getScreenLayoutPosition();
+			int[] margin = mainWrapScreen.getScreenLayoutPosition();
 			if(!(motionEvent.getX()>margin[0]&&motionEvent.getX()<margin[2]&&motionEvent.getY()>margin[1]&&motionEvent.getY()<margin[3])){
-				mainWrap.removeScreenLayout();
+				mainWrapScreen.removeScreenLayout();
 				setViewAlpha(255);
 				if(originalIsTimelineShow==true&&mainButton.getisTimelineShow()==false) mainButton.getTimeLineView().performClick(); //跑出timeline
 				circle.setOnTouchListener(null);
@@ -2375,7 +2376,8 @@ public class MainFragment extends Fragment{
 						if(!isBallHolder&&(handle_name.charAt(0)=='P')){
 							originalIsTimelineShow=mainButton.getisTimelineShow();
 							circle.setOnTouchListener(reactForNotScreen); //如果碰UI其他位置 會讓screen layout消失
-							mainwrapfrag.createIsScreenLayout(x,y,rotateWhichPlayer,runBags.size());
+							MainWrapScreen mainScreen = (MainWrapScreen) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_screen);
+							mainScreen.createIsScreenLayout(x,y,rotateWhichPlayer,runBags.size());
 						}
 						//end region
 
@@ -2389,7 +2391,7 @@ public class MainFragment extends Fragment{
 							RunBag tmp = new RunBag();
 							tmp.setStartTime(seekBarCallbackStartTime);
 							tmp.setHandler(handle_name);
-							tmp.setRoadStart(currentDrawer.startIndex + 1);
+							tmp.setRoadStart(currentDrawer.startIndex + 1); //避掉0
 							currentDrawer.startIndex += 2;
 							currentDrawer.startIndex = currentPlayer.getRoad(0, currentDrawer.startIndex);
 							if (currentDrawer.startIndex == -1) {
@@ -2422,9 +2424,11 @@ public class MainFragment extends Fragment{
 							timefrag.createSeekbar(seekbar_player_Id);
 						}
 						currentDrawer.startIndex = startIndexTmp + 1;
+					}else{
+						//把圖片放回之前有效軌跡的末端  --> current player起點
 					}
 				}
-				else{
+				else{ //還沒record時 紀錄user放人物的位置
 					if(runBags.size()==0){
 						currentPlayer.initialPosition = new Point(x, y);
 					}

@@ -69,7 +69,14 @@
 	       android:layout_height="fill_parent"
 	       tools:layout="@layout/fragment_main" />
 	   
-       <fragment 
+       <fragment
+		   android:id="@+id/MainWrap_screen"
+		   android:name="com.mislab.tacticboard.MainWrapScreen"
+		   android:layout_width="fill_parent"
+		   android:layout_height="fill_parent"
+		   tools:layout="@layout/fragment_main_screen"/>
+
+		<fragment
            android:id="@+id/time_line"
            android:name="com.mislab.tacticboard.TimeLine"
            android:layout_width="match_parent"

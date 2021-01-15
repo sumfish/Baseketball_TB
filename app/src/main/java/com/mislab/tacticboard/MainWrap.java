@@ -22,15 +22,7 @@ import android.widget.TextView;
 
 public class MainWrap extends Fragment{
 
-	private IsScreen ask;
-
-	//同步紀錄詢問擋人的時候: player & screen bar ID
-	private int whichPlayer; //根據ID拿不同顏色的bar
-	private int recordID;
-
-	private int nowX,nowY;
 	private ImageView bar;
-
 
 	public void onAttach(Activity activity){ 
 		super.onAttach(activity);
@@ -45,10 +37,6 @@ public class MainWrap extends Fragment{
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState){ 
 		super.onActivityCreated(savedInstanceState);
-		whichPlayer=0;
-		recordID=0;
-		nowX=0;
-		nowY=0;
 	}
 	
 	@Override
@@ -81,24 +69,13 @@ public class MainWrap extends Fragment{
 		mainWrap.addView(text);
 	}
 
-	// 放詢問是否擋人的layout
-	public void createIsScreenLayout(int x,int y, int rotateWhich, int id){
-		whichPlayer=rotateWhich;
-		recordID=id;
-		nowX=x;
-		nowY=y;
-
-		RelativeLayout mainWrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);
-		ask = new IsScreen(getActivity());
-		LayoutParams screenLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-		ask.setX(nowX+100);
-		ask.setY(nowY+90);
-		ask.setLayoutParams(screenLayoutParams);
-		mainWrap.addView(ask);
-	}
-
 	// 把screen bar圖片放上fragment
-	public void putScreenBar(){
+	public void putScreenBar(int nowX, int nowY, int Player, int ID){
+
+		//同步紀錄詢問擋人的時候: player & screen bar ID
+		int whichPlayer=Player; //根據ID拿不同顏色的bar
+		int recordID=ID;
+
 		RelativeLayout mainWrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);
 
 		bar = new ImageView(getActivity());
@@ -117,14 +94,6 @@ public class MainWrap extends Fragment{
 		bar.setRotation(direction);
 	}
 
-	public void removeScreenLayout(){
-		RelativeLayout mainWrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);
-		mainWrap.removeView(ask);
-	}
-
-	public int[] getScreenLayoutPosition(){
-		return new int[]{nowX+100,nowY+90,nowX+100+ask.getWidth(),nowY+90+ask.getHeight()};
-	}
 	public void setPathNumberText(int searchId , int text){
 		TextView tempText = null;
 		RelativeLayout mainWrap = (RelativeLayout) getView().findViewById(R.id.mainfrag_wrap);

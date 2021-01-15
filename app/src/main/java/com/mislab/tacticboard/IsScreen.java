@@ -19,6 +19,7 @@ public class IsScreen extends LinearLayout {
     private TextView title;
     private LinearLayout itself;
     private MainWrap mainwrap;
+    private MainWrapScreen mainscreen;
     private MainFragment mainfrag;
     private ButtonDraw mainButton;
     private Activity activity; //先把context轉型成activity
@@ -45,6 +46,7 @@ public class IsScreen extends LinearLayout {
         mainwrap=(MainWrap) activity.getFragmentManager().findFragmentById(R.id.MainWrap_frag); //放路徑元件
         mainfrag=(MainFragment) activity.getFragmentManager().findFragmentById(R.id.Main); //放人物元件
         mainButton=(ButtonDraw) activity.getFragmentManager().findFragmentById(R.id.ButtonDraw); //放UI上面的按鈕群
+        mainscreen=(MainWrapScreen) activity.getFragmentManager().findFragmentById(R.id.MainWrap_screen); //放screen layout
 
         // 讓TimeLine Fragment隱藏
         if(mainButton.getisTimelineShow()==true){
@@ -61,7 +63,7 @@ public class IsScreen extends LinearLayout {
             itself.removeView(askIsScreen);
 
             //show up the screen bar
-            mainwrap.putScreenBar();
+            mainscreen.passInfo2CreateScreenBar();
 
             //把原本BUTTON的位置換成轉盤 控制BAR
             directionControl= new CircularControl(getContext());
@@ -107,7 +109,7 @@ public class IsScreen extends LinearLayout {
         @Override
         public void onClick(View view) {
             mainfrag.setViewAlpha(255);
-            mainwrap.removeScreenLayout();
+            mainscreen.removeScreenLayout();
             //改變 runbag 裡面最新一動的擋人資訊(pathtype % direction)
             mainfrag.setRunBagScreen(directionControl.getDegree());
             // 讓TimeLine Fragment出現
