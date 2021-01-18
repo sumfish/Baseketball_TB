@@ -4,22 +4,6 @@
             "outputFile": "D:\\Baseketball_TB\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\summer\\.gradle\\caches\\transforms-2\\files-2.1\\e9e29cd2a9518cf785984639da063b36\\appcompat-v7-23.4.0\\res\\values-v11\\values-v11.xml",
-                    "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1"
-                    },
-                    "to": {
-                        "startLines": "7,13,19,25,31,37,43,44,45,50,55,57,59,60,61,112,164",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "314,733,1158,1586,2012,2439,2864,2953,3054,3462,3882,3989,4118,4189,4272,7918,11704",
-                        "endLines": "12,18,24,30,36,42,43,44,49,54,56,58,59,60,111,163,164",
-                        "endColumns": "12,12,12,12,12,12,88,100,12,12,12,12,70,82,12,12,90",
-                        "endOffsets": "728,1153,1581,2007,2434,2859,2948,3049,3457,3877,3984,4113,4184,4267,7913,11699,11790"
-                    }
-                },
-                {
                     "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\values-v11\\styles.xml",
                     "from": {
                         "startLines": "6",

@@ -1464,6 +1464,7 @@ public class TimeLine extends Fragment {
 		/*************************************/
 		/*			*/
 
+		/*Add RangeSlider*/
 
 		/*Add rmbutton*/
 		/* 這邊先關掉(不能移掉任意一條戰術路徑)

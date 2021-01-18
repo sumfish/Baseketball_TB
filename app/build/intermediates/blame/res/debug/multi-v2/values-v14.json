@@ -21,22 +21,6 @@
                         "endColumns": "12",
                         "endOffsets": "323"
                     }
-                },
-                {
-                    "source": "C:\\Users\\summer\\.gradle\\caches\\transforms-2\\files-2.1\\e9e29cd2a9518cf785984639da063b36\\appcompat-v7-23.4.0\\res\\values-v14\\values-v14.xml",
-                    "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,-1,-1"
-                    },
-                    "to": {
-                        "startLines": "7,12,13,14,20,26,27,28,31,32",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "328,604,675,758,1168,1590,1710,1773,1927,1990",
-                        "endLines": "11,12,13,19,25,26,27,30,31,32",
-                        "endColumns": "12,70,82,12,12,119,62,12,62,131",
-                        "endOffsets": "599,670,753,1163,1585,1705,1768,1922,1985,2117"
-                    }
                 }
             ]
         }

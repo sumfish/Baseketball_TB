@@ -1,16 +1,18 @@
 package com.mislab.tacticboard;
 import java.util.Vector;
-import android.support.v7.app.ActionBarActivity;
+//import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import org.opencv.android.OpenCVLoader;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 /*中繼站的角色*/
 /*連接各個元件然後負責幫忙傳遞訊息到正確的元件上面*/
 /*播放、切換自由移動、切換3D環場*/
 
-public class MainActivity extends ActionBarActivity implements TimeLine.CallbackInterface ,ButtonDraw.CallbackInterface{
+public class MainActivity extends AppCompatActivity implements TimeLine.CallbackInterface ,ButtonDraw.CallbackInterface{
 
 	private MainFragment mainfrag;
 	private TimeLine timefrag;

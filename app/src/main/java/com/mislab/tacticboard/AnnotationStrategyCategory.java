@@ -1,6 +1,6 @@
 package com.mislab.tacticboard;
 
-import android.support.annotation.IntDef;
+//import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,10 +24,11 @@ public class AnnotationStrategyCategory {
         System.out.println("Category : "+ category);
     }
 
+    /*
     @IntDef({THREE_POINTS, SCREEN_3_POINTS, SCREEN_JUMP_SHOT, JUMP_SHOT, CUT, HAND_OFF, POST_UP, POST_UP_LOW,
             POST_UP_HIGH, ISO, PICK_AND_ROW, PICK_AND_ROW2, OTHERS})
     @Retention(RetentionPolicy.SOURCE)
-
+    */
     public @interface StrategyCategory{
 
     }
