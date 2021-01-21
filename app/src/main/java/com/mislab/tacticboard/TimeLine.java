@@ -2,6 +2,7 @@ package com.mislab.tacticboard;
 
 import java.util.Vector;
 
+import com.google.android.material.slider.RangeSlider;
 import com.mislab.tacticboard.CircularSeekBar.OnSeekChangeListener;
 
 import android.app.Activity;
@@ -23,10 +24,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
+
 public class TimeLine extends Fragment {
 
 	public int pathNumber =0;
 	private ToggleButton toDefenderButton;
+	private int progressHighest=0;
 
 	public interface CallbackInterface{
 		public void seekBarStartTime(int progress);
@@ -1283,6 +1287,7 @@ public class TimeLine extends Fragment {
 		/*Add SeekBar*/
 		/**TODO setProgressHigh可以設定後滑塊的位置**/
 		/****************Load*******************/
+		/*
 		MySeekBar tmp = new MySeekBar(getActivity());
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 
@@ -1302,11 +1307,34 @@ public class TimeLine extends Fragment {
 		mCallback.seekBarStartTime(progresslow);
 		mCallback.seekBarDuration(id);
 		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(id));
-
+		*/
 		/*************************************/
 		/*			*/
 
+		/*Add RangeSlider*/
+		RangeSlider slider=new RangeSlider(getActivity());
+		slider.setValueFrom(0);
+		slider.setValues((float)timeLineSeekBarProgressLow,(float)timeLineSeekBarProgressLow+1);
+		slider.setValueTo(15);
+		slider.setStepSize(1);
+		slider.setThumbRadius(8);
+		slider.setId(seekBarId);
+		slider.addOnChangeListener(rangesliderOnchange);
+		playertimelineplace.addView(slider);
+		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(runlineId));
+
+		Vector<Integer> input=new Vector();
+		input.add(runlineId);
+		input.add(timeLineSeekBarProgressLow);//這也要記得改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		input.add(1);
+		MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+		mainfrag.setSeekBarToRunBag(input);
+		mCallback.seekBarStartTime(timeLineSeekBarProgressLow);
+		mCallback.seekBarDuration(1);
+
+
 		/*Add rmbutton*/
+		/*
 		ImageView rmbutton = new ImageView(getActivity());
 		LayoutParams rmbuttonlp = new LayoutParams(60,60);
 		rmbuttonlp.setMargins(10, 20, 0, 0);
@@ -1316,7 +1344,7 @@ public class TimeLine extends Fragment {
 		Log.d("seekbar", "rmbutton ID = "+Integer.toString(id));
 		rmbutton.setOnTouchListener(rmbuttonListener);
 		playerrmbutton.addView(rmbutton);
-
+		*/
 	}
 
 
@@ -1428,7 +1456,7 @@ public class TimeLine extends Fragment {
 		/*player's own timeline*/
 		TextView text = new TextView(getActivity());
 		LayoutParams textlp = new LayoutParams(60,60);
-		textlp.setMargins(5, 20, 10, 0);
+		textlp.setMargins(5, 30, 10, 0);
 		text.setLayoutParams(textlp);
 		text.setGravity((Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL));
 		text.setText(Integer.toString(pathNumber));
@@ -1438,33 +1466,26 @@ public class TimeLine extends Fragment {
 		/*			 */
 
 
-
-		/*Add SeekBar*/
-		/**TODO setProgressHigh可以設定後滑塊的位置**/
-		/****************normal*******************/
-		MySeekBar tmp = new MySeekBar(getActivity());
-		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-		tmp.setProgressLow(timeLineSeekBarProgressLow);
-		tmp.setProgressHigh(timeLineSeekBarProgressLow +1);
-
-		lp.topMargin=55;
-		tmp.setId(seekBarId);
-		MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
-		tmp.setOnSeekBarChangeListener(mySeekBarOnChange);
-		playertimelineplace.addView(tmp);
+		/*Add RangeSlider*/
+		RangeSlider slider=new RangeSlider(getActivity());
+		slider.setValueFrom(0);
+		slider.setValues((float)timeLineSeekBarProgressLow,(float)timeLineSeekBarProgressLow+1);
+		slider.setValueTo(15);
+		slider.setStepSize(1);
+		slider.setThumbRadius(8);
+		slider.setId(seekBarId);
+		slider.addOnChangeListener(rangesliderOnchange);
+		playertimelineplace.addView(slider);
+		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(runlineId));
 
 		Vector<Integer> input=new Vector();
 		input.add(runlineId);
 		input.add(timeLineSeekBarProgressLow);//這也要記得改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		input.add(1);
+		MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
 		mainfrag.setSeekBarToRunBag(input);
 		mCallback.seekBarStartTime(timeLineSeekBarProgressLow);
 		mCallback.seekBarDuration(1);
-		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(runlineId));
-		/*************************************/
-		/*			*/
-
-		/*Add RangeSlider*/
 
 		/*Add rmbutton*/
 		/* 這邊先關掉(不能移掉任意一條戰術路徑)
@@ -1480,6 +1501,32 @@ public class TimeLine extends Fragment {
 		*/
 
 	}
+
+	//調整軌跡的rangeslider
+	private RangeSlider.OnChangeListener rangesliderOnchange= new RangeSlider.OnChangeListener() {
+		@Override
+		public void onValueChange(@NonNull RangeSlider slider, float value, boolean fromUser) {
+			Log.d("R Slider", "Change slider value"+slider.getValues());
+
+			MainFragment mainfrag =(MainFragment) getActivity().getFragmentManager().findFragmentById(R.id.Main);
+			int progressHigh = (int)(float)(slider.getValues().get(1)); //To convert that object to a float, then to a int (cannot convert from lang.float to int directly)
+			int progressLow = (int)(float)(slider.getValues().get(0));
+			int duration =progressHigh-progressLow;
+			Vector<Integer> input=new Vector();
+			input.add(slider.getId());
+			input.add(progressLow);
+			input.add(duration);
+			mainfrag.setSeekBarToRunBag(input);
+			mCallback.seekBarStartTime((int)progressLow);
+			mCallback.seekBarDuration(duration);
+
+			if(progressHigh>progressHighest){ //下一次軌跡會從哪個progress開始
+				progressHighest=progressHigh;
+				mainfrag.setMainFragProLow(progressHighest);
+			}
+			mainfrag.sortPathNumber();
+		}
+	};
 
 	private OnTouchListener rmbuttonListener = new OnTouchListener() {
 		private int rmbutton_id=-1;

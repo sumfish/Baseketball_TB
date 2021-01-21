@@ -6407,17 +6407,17 @@
         <item> Throw in 發球 </item>
         <item> Others 其他 </item>
         <item> 實驗用 </item>
-    </array></file><file path="D:\Baseketball_TB\app\src\main\res\values\strings.xml" qualifiers=""><string name="app_name">TA</string><string name="hello_world">Hello world!</string><string name="action_settings">Settings</string><string name="splashTitle">Studying the source of this app is the best way to start learning min3D:\nhttp://code.google.com/p/min3d</string><string name="projectUrl">http://code.google.com/p/min3d</string><string name="myBlogUrl">http://www.zeropointnine.com/blog</string></file><file path="D:\Baseketball_TB\app\src\main\res\values\styles.xml" qualifiers=""><style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+    </array></file><file path="D:\Baseketball_TB\app\src\main\res\values\strings.xml" qualifiers=""><string name="app_name">TA</string><string name="hello_world">Hello world!</string><string name="action_settings">Settings</string><string name="splashTitle">Studying the source of this app is the best way to start learning min3D:\nhttp://code.google.com/p/min3d</string><string name="projectUrl">http://code.google.com/p/min3d</string><string name="myBlogUrl">http://www.zeropointnine.com/blog</string></file><file path="D:\Baseketball_TB\app\src\main\res\values\styles.xml" qualifiers=""><style name="AppBaseTheme" parent="Theme.MaterialComponents.Light.Bridge">
         
     </style><style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
         
-    </style></file><file path="D:\Baseketball_TB\app\src\main\res\values-v11\styles.xml" qualifiers="v11"><style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+    </style></file><file path="D:\Baseketball_TB\app\src\main\res\values-v11\styles.xml" qualifiers="v11"><style name="AppBaseTheme" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
         
-    </style></file><file path="D:\Baseketball_TB\app\src\main\res\values-v14\styles.xml" qualifiers="v14"><style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style></file><file path="D:\Baseketball_TB\app\src\main\res\values-v14\styles.xml" qualifiers="v14"><style name="AppBaseTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
         

@@ -4,7 +4,6 @@ import java.util.Vector;
 import android.os.Bundle;
 import android.util.Log;
 import org.opencv.android.OpenCVLoader;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 

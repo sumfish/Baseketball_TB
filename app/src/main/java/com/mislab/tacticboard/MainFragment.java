@@ -793,7 +793,7 @@ public class MainFragment extends Fragment{
 		tmp= runBags.get(input.get(0));
 		tmp.setStartTime(input.get(1));
 		tmp.setDuration(input.get(2));
-		runBags.set(input.get(0), tmp);
+		runBags.set(input.get(0), tmp); //改變某第幾筆資料
 		//Log.d("debug", "Set! "+Integer.toString(input.get(0)));
 	}
 
