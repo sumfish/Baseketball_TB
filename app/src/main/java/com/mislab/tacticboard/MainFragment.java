@@ -1993,8 +1993,7 @@ public class MainFragment extends Fragment{
 			case MotionEvent.ACTION_DOWN:// 按下圖片時
 				int id = Integer.parseInt(v.getTag().toString());
 				if(id == 6){ //ball
-					//Log,i("debug","B    player ontouch!" );
-					Log.d("undo",String.valueOf(intersectId));
+					//Log.d("undo",String.valueOf(intersectId));
 					currentPlayer = ball;
 					rotateWhichPlayer = 6;    /////////////////// what
 					currentDrawer.curveIndex = ballDrawer.curveIndex;
@@ -2003,7 +2002,6 @@ public class MainFragment extends Fragment{
 					currentDrawer.startIndex = ballDrawer.startIndex;
 					handle_name = "B_Handle";
 					seekbar_player_Id = 6; ////////////////////////////////
-					//////////////// 相對?
 					//ball.rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
 					ball.setRect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
 					ball.image.startAnimation(zoomAnimation);
@@ -2218,8 +2216,6 @@ public class MainFragment extends Fragment{
 				}
 				v.layout(x, y, x + v.getWidth(), y + v.getHeight());
 				v.postInvalidate();
-				////Log,i("debug", "x="+Integer.toString(x));
-				////Log,i("debug", "y="+Integer.toString(y));
 				return true;
 
 				/*放開圖片***************************************************************************************************/
@@ -2288,11 +2284,11 @@ public class MainFragment extends Fragment{
 					circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));//把tempBitmap放進circle裡
 
 
+					boolean isBallHolder = (rotateWhichPlayer == intersectId)&&(handle_name.charAt(0)=='P'); //是進攻者
 					if(dum_flag == true){
 
 						int B_start_index=currentPlayer.findLastValueIndex(0);
 						int B_end_index=currentPlayer.getRoadSize();
-						boolean isBallHolder = (rotateWhichPlayer == intersectId)&&(handle_name.charAt(0)=='P'); //是進攻者
 
 						// region 重新畫畫
 
@@ -2425,11 +2421,16 @@ public class MainFragment extends Fragment{
 						}
 						currentDrawer.startIndex = startIndexTmp + 1;
 					}else{
+
 						//把圖片放回之前有效軌跡的末端  --> current player起點
+						currentDrawer.clearCurve(); //清空軌跡裡的點
+						ImageView playWithBall= isBallHolder? playersWithBall.get(intersectId-1):playersWithBall.get(preIntersectId-1);
+						backToLastPosition(currentPlayer,isBallHolder,playWithBall);
+
 					}
 				}
 				else{ //還沒record時 紀錄user放人物的位置
-					if(runBags.size()==0){
+					if(runBags.size()==0){ //預設user會放好所有物件後才開始畫畫
 						currentPlayer.initialPosition = new Point(x, y);
 					}
 				}
@@ -2478,6 +2479,43 @@ public class MainFragment extends Fragment{
 			return true;
 		}//onTouch Event
 	};
+
+	//讓無效軌跡的移動者(view)可以回歸前一筆有效軌跡最後的位置
+	private void backToLastPosition(Player current, Boolean isDribble, ImageView playWithBall){
+
+		int lastX=current.getRoadSize()==0?current.initialPosition.x:current.handleGetRoad(current.getRoadSize()-2);
+		int lastY=current.getRoadSize()==0?current.initialPosition.y:current.handleGetRoad(current.getRoadSize()-1);
+
+		if(isDribble){ //有持球者 還要調整球的位置
+
+			ball.image.layout(lastX+110,lastY+30, lastX+110+ball.image.getWidth(),lastY+30+ball.image.getHeight());
+			playWithBall.layout(lastX,lastY,lastX+200,lastY+120);
+			current.arrow.layout(lastX,lastY,lastX+playWithBall.getWidth(),lastY+playWithBall.getHeight());
+
+		}else{ //球或無持球者
+
+			if(current.arrow!=null){ //非球的狀況
+				current.image.layout(lastX,lastY,lastX+current.image.getWidth(),lastY+current.image.getHeight());
+				current.arrow.layout(lastX,lastY,lastX+current.image.getWidth(),lastY+current.image.getHeight());
+				current.arrow.setRotation(currentDrawer.rotation);
+				TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
+				timefrag1.setCircularSeekBarProgress(currentDrawer.rotation);//為了讓circular seekbar的值也一起變成儲存的狀態，但是因為android好像有bug，所以他不會更新介面上的seekbar的樣子，但值卻是有改過的
+				current.arrow.postInvalidate();
+			}else{//球
+				if(!intersect){ //球噴太遠的狀況 (有intersect的話 motion_up那裏會調整好)
+					players.get(preIntersectId-1).image.setVisibility(View.INVISIBLE);
+					players.get(preIntersectId-1).arrow.layout((int)playWithBall.getX(),(int)playWithBall.getY(),(int)playWithBall.getX()+playWithBall.getWidth(),(int)playWithBall.getY()+playWithBall.getHeight());
+					current.image.layout((int)playWithBall.getX()+110,(int)playWithBall.getY()+30,(int)playWithBall.getX()+110+current.image.getWidth(),(int)playWithBall.getY()+30+current.image.getHeight());
+					playWithBall.setVisibility(View.VISIBLE);
+
+					//調整intersect參數
+					intersect=true;
+					intersectId=preIntersectId;
+				}
+
+			}
+		}
+	}
 
 	//噴在地上的球不能繼續畫的警示
 	@TargetApi(Build.VERSION_CODES.O)
