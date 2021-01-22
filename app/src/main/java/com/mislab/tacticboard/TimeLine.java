@@ -1005,60 +1005,60 @@ public class TimeLine extends Fragment {
 
 
 
-		MySeekBar tmp = null;
+		RangeSlider tmp = null;
 		LinearLayout linearLayout=(LinearLayout) getView().findViewById(R.id.player1_timeline_place);
 		if(linearLayout.findViewById(input_id)!=null){
-			tmp = (MySeekBar) linearLayout.findViewById(input_id);
+			tmp = (RangeSlider) linearLayout.findViewById(input_id);
 		}
 		else{
 			linearLayout=(LinearLayout) getView().findViewById(R.id.player2_timeline_place);
 			if(linearLayout.findViewById(input_id)!=null){
-				tmp = (MySeekBar) linearLayout.findViewById(input_id);
+				tmp = (RangeSlider) linearLayout.findViewById(input_id);
 			}
 			else{
 				linearLayout=(LinearLayout) getView().findViewById(R.id.player3_timeline_place);
 				if(linearLayout.findViewById(input_id)!=null){
-					tmp = (MySeekBar) linearLayout.findViewById(input_id);
+					tmp = (RangeSlider) linearLayout.findViewById(input_id);
 				}
 				else{
 					linearLayout=(LinearLayout) getView().findViewById(R.id.player4_timeline_place);
 					if(linearLayout.findViewById(input_id)!=null){
-						tmp = (MySeekBar) linearLayout.findViewById(input_id);
+						tmp = (RangeSlider) linearLayout.findViewById(input_id);
 					}
 					else{
 						linearLayout=(LinearLayout) getView().findViewById(R.id.player5_timeline_place);
 						if(linearLayout.findViewById(input_id)!=null){
-							tmp = (MySeekBar) linearLayout.findViewById(input_id);
+							tmp = (RangeSlider) linearLayout.findViewById(input_id);
 						}
 						else{
 							linearLayout=(LinearLayout) getView().findViewById(R.id.defender1_timeline_place);
 							if(linearLayout.findViewById(input_id)!=null){
-								tmp = (MySeekBar) linearLayout.findViewById(input_id);
+								tmp = (RangeSlider) linearLayout.findViewById(input_id);
 							}
 							else{
 								linearLayout=(LinearLayout) getView().findViewById(R.id.defender2_timeline_place);
 								if(linearLayout.findViewById(input_id)!=null){
-									tmp = (MySeekBar) linearLayout.findViewById(input_id);
+									tmp = (RangeSlider) linearLayout.findViewById(input_id);
 								}
 								else{
 									linearLayout=(LinearLayout) getView().findViewById(R.id.defender3_timeline_place);
 									if(linearLayout.findViewById(input_id)!=null){
-										tmp = (MySeekBar) linearLayout.findViewById(input_id);
+										tmp = (RangeSlider) linearLayout.findViewById(input_id);
 									}
 									else{
 										linearLayout=(LinearLayout) getView().findViewById(R.id.defender4_timeline_place);
 										if(linearLayout.findViewById(input_id)!=null){
-											tmp = (MySeekBar) linearLayout.findViewById(input_id);
+											tmp = (RangeSlider) linearLayout.findViewById(input_id);
 										}
 										else{
 											linearLayout=(LinearLayout) getView().findViewById(R.id.defender5_timeline_place);
 											if(linearLayout.findViewById(input_id)!=null){
-												tmp = (MySeekBar) linearLayout.findViewById(input_id);
+												tmp = (RangeSlider) linearLayout.findViewById(input_id);
 											}
 											else{
 												linearLayout=(LinearLayout) getView().findViewById(R.id.ball_timeline_place);
 												if(linearLayout.findViewById(input_id)!=null){
-													tmp = (MySeekBar) linearLayout.findViewById(input_id);
+													tmp = (RangeSlider) linearLayout.findViewById(input_id);
 												}
 											}
 										}
@@ -1081,38 +1081,38 @@ public class TimeLine extends Fragment {
 
 		/*LinearLayout linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player1timeline);
 		if(linearLayout.findViewById(input_id)!=null){
-			mySeekBar tmp = (mySeekBar) linearLayout.findViewById(input_id);
+			RangeSlider tmp = (RangeSlider) linearLayout.findViewById(input_id);
 			Log.i("debug", "Id: "+Integer.toString(tmp.getId())+" seekbar been removed.");
 			linearLayout.removeView(tmp);
 		}
 
 		linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player2timeline);
 		if(linearLayout.findViewById(input_id)!=null){
-			mySeekBar tmp = (mySeekBar) linearLayout.findViewById(input_id);
+			RangeSlider tmp = (RangeSlider) linearLayout.findViewById(input_id);
 			Log.i("debug", "Id: "+Integer.toString(tmp.getId())+" seekbar been removed.");
 			linearLayout.removeView(tmp);
 		}
 		linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player3timeline);
 		if(linearLayout.findViewById(input_id)!=null){
-			mySeekBar tmp = (mySeekBar) linearLayout.findViewById(input_id);
+			RangeSlider tmp = (RangeSlider) linearLayout.findViewById(input_id);
 			Log.i("debug", "Id: "+Integer.toString(tmp.getId())+" seekbar been removed.");
 			linearLayout.removeView(tmp);
 		}
 		linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player4timeline);
 		if(linearLayout.findViewById(input_id)!=null){
-			mySeekBar tmp = (mySeekBar) linearLayout.findViewById(input_id);
+			RangeSlider tmp = (RangeSlider) linearLayout.findViewById(input_id);
 			Log.i("debug", "Id: "+Integer.toString(tmp.getId())+" seekbar been removed.");
 			linearLayout.removeView(tmp);
 		}
 		linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player5timeline);
 		if(linearLayout.findViewById(input_id)!=null){
-			mySeekBar tmp = (mySeekBar) linearLayout.findViewById(input_id);
+			RangeSlider tmp = (RangeSlider) linearLayout.findViewById(input_id);
 			Log.i("debug", "Id: "+Integer.toString(tmp.getId())+" seekbar been removed.");
 			linearLayout.removeView(tmp);
 		}
 		linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_balltimeline);
 		if(linearLayout.findViewById(input_id)!=null){
-			mySeekBar tmp = (mySeekBar) linearLayout.findViewById(input_id);
+			RangeSlider tmp = (RangeSlider) linearLayout.findViewById(input_id);
 			Log.i("debug", "Id: "+Integer.toString(tmp.getId())+" seekbar been removed.");
 			linearLayout.removeView(tmp);
 		}*/
