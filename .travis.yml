@@ -1,4 +1,6 @@
-language: java
+language: android
+dist: trusty
+
 
 notifications:
     email:
