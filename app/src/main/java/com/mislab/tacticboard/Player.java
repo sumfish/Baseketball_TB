@@ -75,11 +75,11 @@ public class Player {
 		return rotation.size();
 	}
 
-	///////////
+	// 用來拿此筆軌跡的起頭(set value=0)
 	public int findLastValueIndex(int value) {
 		return road.lastIndexOf(value);
 	}
-	/// undo時直接拿掉上一筆資料
+	// undo時直接拿掉上一筆資料
 	public void undoARoad(int count) {
 		for (int i=0;i<count;i++){
 			road.remove(getRoadSize()-1);

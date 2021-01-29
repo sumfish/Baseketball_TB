@@ -1992,6 +1992,7 @@ public class MainFragment extends Fragment{
 			switch (event.getAction()) { // 判斷觸控的動作
 			case MotionEvent.ACTION_DOWN:// 按下圖片時
 				int id = Integer.parseInt(v.getTag().toString());
+				if(isAlert==true&&id!=6) return true; //alert dialog when passing ball
 				if(id == 6){ //ball
 					//Log.d("undo",String.valueOf(intersectId));
 					currentPlayer = ball;
@@ -2253,23 +2254,21 @@ public class MainFragment extends Fragment{
 					// 移動距離太短或是時間太短的話不會採用
 					endTime=System.currentTimeMillis();
 
-					int drawStartIndex=currentPlayer.findLastValueIndex(0);
-					int drawEndIndex=currentPlayer.getRoadSize();
-					Point drawEnd= new Point(currentPlayer.handleGetRoad( drawEndIndex- 2), currentPlayer.handleGetRoad(drawEndIndex-1));
-					Point drawStart= new Point(currentPlayer.handleGetRoad(drawStartIndex+1), currentPlayer.handleGetRoad(drawStartIndex+2));
+					if(endTime-startTime>150){
+						//先看時間再看距離(因為時間太短sample到的點就不夠了-->會bang)
+						int drawStartIndex=currentPlayer.findLastValueIndex(0);
+						int drawEndIndex=currentPlayer.getRoadSize();
+						Point drawEnd= new Point(currentPlayer.handleGetRoad( drawEndIndex- 2), currentPlayer.handleGetRoad(drawEndIndex-1));
+						Point drawStart= new Point(currentPlayer.handleGetRoad(drawStartIndex+1), currentPlayer.handleGetRoad(drawStartIndex+2));
 
-					double Dis= Math.sqrt(Math.pow(drawEnd.x-drawStart.x,2)+Math.pow(drawStart.y-drawEnd.y,2));
-					Log.d("not draw","Distance of drawing:"+String.valueOf(Dis));
+						double Dis= Math.sqrt(Math.pow(drawEnd.x-drawStart.x,2)+Math.pow(drawStart.y-drawEnd.y,2));
+						Log.d("not draw","Distance of drawing:"+String.valueOf(Dis));
 
-					if(Dis>50&&endTime-startTime>150){
-						dum_flag=true;
+						if(Dis>50) dum_flag=true;
+						else dum_flag=false;
 					}
 					else{ //這一筆畫畫不會採計
-						Log.d("debug", "dum_flag=falseeeeeeeee");
 						dum_flag=false;
-						for(int i=0;i<move_count;i++){
-							currentPlayer.getCmpltRoad().remove(currentPlayer.getRoadSize()-1);
-						}
 					}
 
 					// undo回上一動原本user畫的曲線(筆觸太短的防呆或是正常畫畫都要這步)
@@ -2422,9 +2421,19 @@ public class MainFragment extends Fragment{
 						currentDrawer.startIndex = startIndexTmp + 1;
 					}else{
 
+						Log.d("debug", "dum_flag=falseeeeeeeee");
+						for(int i=0;i<move_count;i++){
+							currentPlayer.getCmpltRoad().remove(currentPlayer.getRoadSize()-1);
+						}
+
 						//把圖片放回之前有效軌跡的末端  --> current player起點
 						currentDrawer.clearCurve(); //清空軌跡裡的點
-						ImageView playWithBall= isBallHolder? playersWithBall.get(intersectId-1):playersWithBall.get(preIntersectId-1);
+						ImageView playWithBall=null; //場上還沒有球然後移動人
+						if(isBallHolder){
+							playWithBall=playersWithBall.get(intersectId-1);
+						}else if(preIntersectId!=0){ //移動球
+							playWithBall=playersWithBall.get(preIntersectId-1);
+						}
 						backToLastPosition(currentPlayer,isBallHolder,playWithBall);
 
 					}
@@ -2501,6 +2510,8 @@ public class MainFragment extends Fragment{
 				TimeLine timefrag1 = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 				timefrag1.setCircularSeekBarProgress(currentDrawer.rotation);//為了讓circular seekbar的值也一起變成儲存的狀態，但是因為android好像有bug，所以他不會更新介面上的seekbar的樣子，但值卻是有改過的
 				current.arrow.postInvalidate();
+				//重新set rect
+				current.setRect(lastX,lastY,lastX+current.image.getWidth(),lastY+current.image.getHeight());
 			}else{//球
 				if(!intersect){ //球噴太遠的狀況 (有intersect的話 motion_up那裏會調整好)
 					players.get(preIntersectId-1).image.setVisibility(View.INVISIBLE);
@@ -2533,7 +2544,7 @@ public class MainFragment extends Fragment{
 
 		final AlertDialog dialog=builder.create(); //final不能重新賦值
 		dialog.show();
-		dialog.getWindow().setLayout(650,390);
+		dialog.getWindow().setLayout(650,450);
 
 		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override

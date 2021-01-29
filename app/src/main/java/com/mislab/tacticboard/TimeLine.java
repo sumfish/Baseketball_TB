@@ -1317,7 +1317,7 @@ public class TimeLine extends Fragment {
 		slider.setValues((float)timeLineSeekBarProgressLow,(float)timeLineSeekBarProgressLow+1);
 		slider.setValueTo(15);
 		slider.setStepSize(1);
-		slider.setThumbRadius(8);
+		slider.setThumbRadius(12);
 		slider.setId(seekBarId);
 		slider.addOnChangeListener(rangesliderOnchange);
 		playertimelineplace.addView(slider);
@@ -1472,7 +1472,7 @@ public class TimeLine extends Fragment {
 		slider.setValues((float)timeLineSeekBarProgressLow,(float)timeLineSeekBarProgressLow+1);
 		slider.setValueTo(15);
 		slider.setStepSize(1);
-		slider.setThumbRadius(8);
+		slider.setThumbRadius(12);
 		slider.setId(seekBarId);
 		slider.addOnChangeListener(rangesliderOnchange);
 		playertimelineplace.addView(slider);
