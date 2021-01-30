@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/ncku-csie/AAD_1072_HW01-P76074208.svg?token=zKtq6nxB1uedyv1utzE2&branch=master)](https://travis-ci.com/ncku-csie/AAD_1072_HW01-P76074208)
+[![Build Status](https://travis-ci.com/sumfish/Baseketball_TB.svg?branch=test)](https://travis-ci.com/sumfish/Baseketball_TB)
 
 # Baseketball Tactic Board
 - An Android app of baseketball tactic board. 
