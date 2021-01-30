@@ -9,20 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4ca1388-36a9-4f72-bdd3-9c305a6fe9fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug-mergeJavaRes/merge-state" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug-mergeJavaRes/merge-state" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/MainFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/MainFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/TimeLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/mislab/tacticboard/TimeLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_undo_alert.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_undo_alert.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f4ca1388-36a9-4f72-bdd3-9c305a6fe9fc" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -482,10 +469,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="766" y="298" key="chooseDestDirectoryDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609339733570" />
-    <state x="83" y="110" width="1717" height="831" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1611931459793">
+    <state x="83" y="110" width="1717" height="831" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1612004483705">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="83" y="110" width="1717" height="831" key="com.android.tools.idea.avdmanager.AvdListDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1611931459793" />
+    <state x="83" y="110" width="1717" height="831" key="com.android.tools.idea.avdmanager.AvdListDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1612004483705" />
     <state x="645" y="340" key="com.intellij.ide.util.TipDialog" timestamp="1611931290647">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
