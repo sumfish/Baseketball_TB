@@ -4,7 +4,7 @@ env:
   global:
   - ANDROID_API=29
   - EMULATOR_API=19
-  - ANDROID_BUILD_TOOLS=27.0.3
+  - ANDROID_BUILD_TOOLS=29.0.2
   - PROJECT_1=SharedPrefs
   - PROJECT_2=DroidCafeWithSettings
 
@@ -39,7 +39,7 @@ android:
 
 
 script:
-  - ./gradlew connectedCheck 
+  - ./gradlew connectedCheck --stacktrace
 
 # Emulator Management: Create, Start and Wait
 before_script:
