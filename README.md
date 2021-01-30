@@ -1,3 +1,5 @@
+https://travis-ci.com/sumfish/Baseketball_TB.svg?branch=test
+
 # Baseketball Tactic Board
 - An Android app of baseketball tactic board. 
 - Users can draw tactics on an ipad and save the content of tactics. Furthermore, this app can be connected to a VR system to use the tactic information for the training.
