@@ -37,7 +37,7 @@ android:
 
 
 script:
-  - ./gradlew connectedCheck --stacktrace
+  - ./gradlew connectedCheck --stacktrace --info --debug
 
 # Emulator Management: Create, Start and Wait
 before_script:
