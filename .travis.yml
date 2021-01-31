@@ -5,8 +5,6 @@ env:
   - ANDROID_API=29
   - EMULATOR_API=19
   - ANDROID_BUILD_TOOLS=29.0.2
-  - PROJECT_1=SharedPrefs
-  - PROJECT_2=DroidCafeWithSettings
 
 android:
   components:
