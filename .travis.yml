@@ -27,8 +27,8 @@ android:
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    #- sys-img-x86-android-26
-    - sys-img-armeabi-v7a-android-$EMULATOR_API
+    - sys-img-x86-android-$EMULATOR_API
+    #- sys-img-armeabi-v7a-android-$EMULATOR_API
 
   licenses:
     - android-sdk-preview-license-.+
@@ -37,7 +37,7 @@ android:
 
 
 script:
-  - ./gradlew connectedCheck --stacktrace --info --debug
+  - ./gradlew connectedCheck --stacktrace --info
 
 # Emulator Management: Create, Start and Wait
 before_script:
