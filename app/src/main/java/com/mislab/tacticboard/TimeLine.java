@@ -58,6 +58,8 @@ public class TimeLine extends Fragment {
 	private CircularControl directionSeekBar;
 	private int seekBarId, runlineId;
 	private int timeLineSeekBarProgressLow;
+	private int timeLineSeekBarProgressHigh;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
 
@@ -675,9 +677,13 @@ public class TimeLine extends Fragment {
 		texttmp.invalidate();
 	}
 
-	public void setSeekBarProgressLow(int low){
+	public void setSeekBarProgressLow(int low){ //main fragment那邊增加一筆新的軌跡
 		timeLineSeekBarProgressLow =low;
+		timeLineSeekBarProgressHigh =low+1;
 	}
+
+	//renew play button total_max_time;
+	public int getsetSeekBarProgressLow(){ return timeLineSeekBarProgressLow;}
 
 	public void clearRecordLayout(){
 		LinearLayout linearLayout=(LinearLayout) getView().findViewById(R.id.LinearLayout_of_player1timeline);
@@ -1528,12 +1534,13 @@ public class TimeLine extends Fragment {
 			input.add(progressLow);
 			input.add(duration);
 			mainfrag.setSeekBarToRunBag(input);
-			mCallback.seekBarStartTime((int)progressLow);
-			mCallback.seekBarDuration(duration);
+			mCallback.seekBarStartTime((int)progressLow); //?
+			mCallback.seekBarDuration(duration); //?
 
 			if(progressHigh>progressHighest){ //下一次軌跡會從哪個progress開始
 				progressHighest=progressHigh;
 				mainfrag.setMainFragProLow(progressHighest);
+				timeLineSeekBarProgressLow=progressHighest;
 			}
 			mainfrag.sortPathNumber();
 		}

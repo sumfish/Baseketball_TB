@@ -25,7 +25,7 @@ public class RunBag implements Serializable{
 		this.handler = handler;
 		roadStart = start;
 		roadEnd = end;
-		rate = this.duration /(roadSize);
+		//rate = this.duration /(roadSize);
 		ballNum =0;
 	}
 	

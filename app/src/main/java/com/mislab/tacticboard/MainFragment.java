@@ -87,8 +87,6 @@ public class MainFragment extends Fragment{
 
 	private int selectCategoryId = 13;
 	private String selectTacticName = "New_Tactic";
-	
-	private int totalTime = 15000;// 時間軸的最大值，mySeekBar也要改
 
 	private ImageView removeButton;
 	private Vector<ImageView> playersWithBall;
@@ -956,7 +954,10 @@ public class MainFragment extends Fragment{
 		//region remove timeline 要知道上一個record是誰
 		timefrag.removeOneTimeline(runBags.get(runBags.size()-1).getTimeLineId());
 		timefrag.setRunlineId(runBags.size()-1); //還沒有很仔細看
-		mainFragSeekBarProgressLow--; //seekbar位置調整
+
+		/******* 移動rangeslider的下界  ******/
+		int drawStart=runBags.get(runBags.size()-1).getStartTime();
+		mainFragSeekBarProgressLow=drawStart; //seekbar位置調整
 		//endregion
 
 		/*remove pathnumber and screenbar and screenLayout on the court*/
@@ -1058,7 +1059,8 @@ public class MainFragment extends Fragment{
 				thisPlayer.image.layout(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
 				thisPlayer.arrow.layout(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.arrow.getWidth(), thisPlayer.initialPosition.y + thisPlayer.arrow.getHeight());
 				//thisPlayer.rect = new Rect(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
-				thisPlayer.setRect(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
+				//先註解
+				//thisPlayer.setRect(thisPlayer.initialPosition.x, thisPlayer.initialPosition.y, thisPlayer.initialPosition.x + thisPlayer.image.getWidth(), thisPlayer.initialPosition.y + thisPlayer.image.getHeight());
 				thisPlayer.image.invalidate();
 				thisPlayer.arrow.setRotation(thisPlayer.initialRotation);
 				thisPlayer.arrow.invalidate();
@@ -1075,7 +1077,8 @@ public class MainFragment extends Fragment{
 		if(ball.initialPosition.x != -1){
 			ball.image.layout(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
 			//ball.rect = new Rect(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
-			ball.setRect(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
+			//先註解
+			//ball.setRect(ball.initialPosition.x, ball.initialPosition.y, ball.initialPosition.x + ball.image.getWidth(), ball.initialPosition.y + ball.image.getHeight());
 		}
 	}
 
@@ -1735,6 +1738,9 @@ public class MainFragment extends Fragment{
 		if (runBags.isEmpty()) {
 			//Log.e("empty!", String.valueOf(RunLine.size()));
 		} else {
+			TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
+			//取得現在軌跡在timeline的最大起始值
+			final int maxTimePoint=timefrag.getsetSeekBarProgressLow()*1000;
             /*先把全部player移到按下錄製鍵時的位置*/
 			movePlayersToInitialPosition();
 			//Player_change_to_no_ball();
@@ -1747,14 +1753,14 @@ public class MainFragment extends Fragment{
 				public void run() { 
 					int time = 0;
 					int RunLineSize = runBags.size();
-					while (time < totalTime && IsTacticPlaying ==1) {
+					while (time <= maxTimePoint && IsTacticPlaying ==1) {
 						try {
-							Log.e("time = ", String.valueOf(time));
+							Log.e("thread time = ", String.valueOf(time));
 							// do RunLine here!!
 							////// check each road's start time in
 							// RunLine///////
 							checkRunLine(time, RunLineSize);
-							hasInvokeCurrentTimeDefender = false;
+							hasInvokeCurrentTimeDefender = false;  ////what?
 							Thread.sleep(1000);
 							time = time + 1000;
 
@@ -1764,6 +1770,7 @@ public class MainFragment extends Fragment{
 				}
 			}).start();
 		}
+		/**TODO: Reset所有icon的rect**/
 	}
 
 	protected void checkRunLine(final int in_time, final int in_RunLineSize) { 
@@ -1773,7 +1780,7 @@ public class MainFragment extends Fragment{
 				int time = in_time;
 				int RunLineSize = in_RunLineSize;
 				int i = 0;
-				while (i < RunLineSize && IsTacticPlaying ==1) {
+				while (i < RunLineSize && IsTacticPlaying ==1) { //check此時間點是不是某筆戰術的起始時間 (可能有多筆，所以所有i(<runlinesize)都要呼叫)
 					try {
 						Message m = new Message();
 						Bundle b = new Bundle();
@@ -1830,10 +1837,12 @@ public class MainFragment extends Fragment{
 					players.get(id).handleGetRoad(sentInt + 1) + players.get(id).image.getHeight());
 			//region 因為這一動是運球，所以讓球跟著Player的位置
 			boolean isDribble = msg.getData().getBoolean("isDribble");
+
+			//讓球放在player圖片旁邊(不是withBallPlayer)
 			if(isDribble)
-				ball.image.layout(players.get(id).handleGetRoad(sentInt), players.get(id).handleGetRoad(sentInt + 1),
-						players.get(id).handleGetRoad(sentInt) + ball.image.getWidth(),
-						players.get(id).handleGetRoad(sentInt + 1) + ball.image.getHeight() );
+				ball.image.layout(players.get(id).handleGetRoad(sentInt)+70, players.get(id).handleGetRoad(sentInt + 1)+30,
+						players.get(id).handleGetRoad(sentInt) + 70+ball.image.getWidth(),
+						players.get(id).handleGetRoad(sentInt + 1) + 30+ball.image.getHeight() );
 			//endregion
 
 			players.get(id).arrow.layout(players.get(id).handleGetRoad(sentInt), players.get(id).handleGetRoad(sentInt + 1),
@@ -1898,7 +1907,9 @@ public class MainFragment extends Fragment{
 					play(4, isDribble, runBags.get(sentI).getRate(), offenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				} else if (runBags.get(sentI).getHandler().equals("B_Handle")) {
-					play(5, isDribble, runBags.get(sentI).getRate(), B_Handle, runBags.get(sentI).getRoadStart(),
+					//如果這動是球的話,ID要傳入最後球在誰手上
+					//播放時會稍微修正每動最後的位置
+					play(runBags.get(sentI).getBallNum(), isDribble, runBags.get(sentI).getRate(), B_Handle, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
 				}
 				else if (runBags.get(sentI).getHandler().equals("D1_Handle")) {
