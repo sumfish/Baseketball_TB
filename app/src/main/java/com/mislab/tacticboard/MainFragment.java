@@ -1013,6 +1013,7 @@ public class MainFragment extends Fragment{
 		ballDrawer.clearRecord();
 		seekbarTmpId =0;
 		mainFragSeekBarProgressLow =0;
+		isAlert=false;
 		
 		clearPaint();
 		TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
@@ -1020,6 +1021,10 @@ public class MainFragment extends Fragment{
 		
 		MainWrap mainwrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 		mainwrap.clearRecordLayout();
+
+		/*remove pathnumber and screenbar and screenLayout on the court*/
+		MainWrapScreen mainWrapScreen = (MainWrapScreen) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_screen);
+		mainWrapScreen.removeScreenLayout();
 
 		//region screen layout
 		//如果在screen layout出現時按undo 要讓view變回不透明
@@ -1992,7 +1997,7 @@ public class MainFragment extends Fragment{
 			switch (event.getAction()) { // 判斷觸控的動作
 			case MotionEvent.ACTION_DOWN:// 按下圖片時
 				int id = Integer.parseInt(v.getTag().toString());
-				if(isAlert==true&&id!=6) return true; //alert dialog when passing ball
+
 				if(id == 6){ //ball
 					//Log.d("undo",String.valueOf(intersectId));
 					currentPlayer = ball;
@@ -2009,16 +2014,6 @@ public class MainFragment extends Fragment{
 
 					TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 					timefrag.changeLayout(6);
-
-					//如果球現在噴在地上，會彈出alertDialog指示user undo
-					if(intersectId==0&&isRecording==true){
-						Log.d("undo","ball cannot be played by air");
-						isAlert=true;
-						showAlertDialogButton();
-						return true;
-					}else{
-						isAlert=false;
-					}
 				}
 				else if(id < 6){ //player進攻者(藍色衣服)
 					//Log.d("debug","P1    player ontouch" );
@@ -2065,6 +2060,20 @@ public class MainFragment extends Fragment{
 					Log.d("error", "playerListener -> MotionEvent.ACTION_DOWN: Wrong selection");
 				}
 
+				if(isAlert==true&&id!=6) {
+					showAlertDialogButton();
+					return true; //alert dialog when passing ball
+				}
+				//如果球現在噴在地上，會彈出alertDialog指示user undo
+				if(intersectId==0&&isRecording==true){
+					Log.d("undo","ball cannot be played by air");
+					isAlert=true;
+					showAlertDialogButton();
+					return true;
+				}else{
+					isAlert=false;
+				}
+
 				startTime = System.currentTimeMillis();
 				move_count = 1;
 				dum_flag = false; ////////////////////////////
@@ -2085,11 +2094,11 @@ public class MainFragment extends Fragment{
 			/*移動圖片***************************************************************************************************/
 			case MotionEvent.ACTION_MOVE:// 移動圖片時
 				if(isAlert==true) return true; //alert dialog when passing ball
-
 				//圖片的左上角座標
 				x = mx - startX;
 				y = my - startY;
 				int id2 = Integer.parseInt(v.getTag().toString());
+				//if(isAlert==true&&id2==6) return true; //alert dialog when passing ball
 				if(id2 < 6)
 					//players.get(id2-1).rect =new Rect(x,y,x+ v.getWidth(),y+v.getHeight());
 					players.get(id2-1).setRect(x,y,x+ v.getWidth(),y+v.getHeight());
@@ -2225,7 +2234,7 @@ public class MainFragment extends Fragment{
 				Log.i("debug", "intersect_name="+Integer.toString(intersectId));
 
 				if(isAlert==true) return true; //球噴在地上時不能畫軌跡
-
+				//if(isAlert==true&&v.getTag().toString().equals("6")) return true; //alert dialog when passing ball
 				// region 調整圖片顯示球的狀態
 				if(v.getTag().toString().equals("6") && intersect==true){
 					if(intersectId > 0){
@@ -2544,7 +2553,7 @@ public class MainFragment extends Fragment{
 
 		final AlertDialog dialog=builder.create(); //final不能重新賦值
 		dialog.show();
-		dialog.getWindow().setLayout(650,450);
+		dialog.getWindow().setLayout(650,430);
 
 		backButton.setOnClickListener(new View.OnClickListener() {
 			@Override

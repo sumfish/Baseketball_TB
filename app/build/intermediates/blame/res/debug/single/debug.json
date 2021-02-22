@@ -240,6 +240,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\defender2_o.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_path_num_b.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\path_num_b.png"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_screen_bar5.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\screen_bar5.png"
     },

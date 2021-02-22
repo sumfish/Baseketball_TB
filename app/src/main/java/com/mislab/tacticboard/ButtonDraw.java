@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import org.json.JSONException;
@@ -392,14 +393,16 @@ public class ButtonDraw extends Fragment {
     private OnClickListener recordListener = new OnClickListener(){//?}?l/??????s
     	@Override
     	public void onClick(View v) {//開始/停止錄製
-    		
+			RelativeLayout r= (RelativeLayout) getView().findViewById(R.id.main_layout);
     		if(record.isChecked()){
     			buttonDrawRecordcheck = true;
 	    		mCallback.setRecordCheck(buttonDrawRecordcheck);//透過mCallback來從這裡設定MainActivity裡面recordcheck的值
+				//r.setMotionEventSplittingEnabled(false);
     		}
     		else{
     			buttonDrawRecordcheck = false;
 	    		mCallback.setRecordCheck(buttonDrawRecordcheck);//透過mCallback來從這裡設定MainActivity裡面recordcheck的值
+				//r.setMotionEventSplittingEnabled(true);
     		}
     	}
     };

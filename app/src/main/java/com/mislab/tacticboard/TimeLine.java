@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.google.android.material.slider.RangeSlider;
 import com.mislab.tacticboard.CircularSeekBar.OnSeekChangeListener;
 
+import android.graphics.Typeface;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 public class TimeLine extends Fragment {
 
@@ -1279,6 +1282,7 @@ public class TimeLine extends Fragment {
 		text.setLayoutParams(textlp);
 		text.setGravity((Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL));
 		text.setText(Integer.toString(pathNumber));
+		text.setTextColor(ResourcesCompat.getColor(getResources(),R.color.yellow, null));
 		text.setBackgroundResource(R.drawable.path_num_3);
 		text.setId(id);
 		playerpathnumplace.addView(text);
@@ -1314,8 +1318,10 @@ public class TimeLine extends Fragment {
 		/*Add RangeSlider*/
 		RangeSlider slider=new RangeSlider(getActivity());
 		slider.setValueFrom(0);
+		//Log.d("seekbar", "get = "+Float.toString(slider.getMinSeparation()));
+		slider.setMinSeparation(2);
 		slider.setValues((float)timeLineSeekBarProgressLow,(float)timeLineSeekBarProgressLow+1);
-		slider.setValueTo(15);
+		slider.setValueTo(10);
 		slider.setStepSize(1);
 		slider.setThumbRadius(12);
 		slider.setId(seekBarId);
@@ -1460,6 +1466,8 @@ public class TimeLine extends Fragment {
 		text.setLayoutParams(textlp);
 		text.setGravity((Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL));
 		text.setText(Integer.toString(pathNumber));
+		text.setTextColor(ResourcesCompat.getColor(getResources(),R.color.blue, null));
+		text.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
 		text.setBackgroundResource(R.drawable.path_num_3);
 		text.setId(seekBarId);
 		playerpathnumplace.addView(text);
@@ -1469,8 +1477,11 @@ public class TimeLine extends Fragment {
 		/*Add RangeSlider*/
 		RangeSlider slider=new RangeSlider(getActivity());
 		slider.setValueFrom(0);
+		//Log.d("seekbar", "get = "+Float.toString(slider.getMinSeparation()));
+		slider.setMinSeparation(2);
 		slider.setValues((float)timeLineSeekBarProgressLow,(float)timeLineSeekBarProgressLow+1);
-		slider.setValueTo(15);
+		slider.setValueTo(10);
+		//Log.d("seekbar", "get = "+Float.toString(slider.getMinSeparation()));
 		slider.setStepSize(1);
 		slider.setThumbRadius(12);
 		slider.setId(seekBarId);

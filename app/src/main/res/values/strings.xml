@@ -7,4 +7,6 @@
     <string name="splashTitle">Studying the source of this app is the best way to start learning min3D:\nhttp://code.google.com/p/min3d</string>
     <string name="projectUrl">http://code.google.com/p/min3d</string>
     <string name="myBlogUrl">http://www.zeropointnine.com/blog</string>
+    <color name="yellow">#EAC100</color>
+    <color name="blue">#0066CC</color>>
 </resources>
