@@ -150,8 +150,7 @@ public class DrawCanvas {
             if(zigzagCount%2==0){
                 mx += (dy/distance*zigLength);
                 my -= (dx/distance*zigLength);
-            }
-            else{
+            } else{
                 mx -= (dy/distance*zigLength);
                 my += (dx/distance*zigLength);
             }
@@ -186,8 +185,7 @@ public class DrawCanvas {
             if(distance<zigDistance){ //兩點很近不用內插(不會紀錄太近的下一個點)
                 previousCount++;
                 continue;
-            }
-            else{
+            } else{
                 for (int k=1; k<interCount; k++){ //不算x1，所以k從1開始
                     interPoints.add(new Point((int)(x1+k*dx/interCount),(int)(y1+k*dy/interCount)));
                 }
