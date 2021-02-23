@@ -104,7 +104,7 @@ public class RunBag implements Serializable{
 	
 	public void setDuration(int duration){
 		this.duration = duration;
-		rate = ((this.duration *1000)/(roadEnd - roadStart));
+		rate = ((this.duration *2000)/(roadEnd - roadStart));
 	}
 	
 	public int getRate(){

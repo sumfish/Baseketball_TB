@@ -18,6 +18,7 @@ import java.net.UnknownHostException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -74,7 +75,7 @@ public class MainFragment extends Fragment{
 	private int IsTacticPlaying = 0;
 	private Long startTime;
 	private Long endTime;
-	
+
 	private int selectCategoryId = 13;
 	private String selectTacticName = "New_Tactic";
 
@@ -1706,23 +1707,23 @@ public class MainFragment extends Fragment{
 		}
 	}
 
-	public void playButton() {  
+	public void playButton() {
 		if (runBags.isEmpty()) {
 			Log.d("play button","empty!");
 		} else {
 			TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
 			//取得現在軌跡在timeline的最大起始值
-			final int maxTimePoint=timefrag.getsetSeekBarProgressLow()*1000;
-            /*先把全部player移到按下錄製鍵時的位置*/
+			final int maxTimePoint = timefrag.getsetSeekBarProgressLow() * 1000;
+			/*先把全部player移到按下錄製鍵時的位置*/
 			movePlayersToInitialPosition();
-			
+			Log.d("play button","ok!");
 			//////////////////////////////////////// Time counter///////////////////////////////////////
-			new Thread(new Runnable() {// Time counter count on per second 
+			new Thread(new Runnable() {// Time counter count on per second
 				@Override
-				public void run() { 
+				public void run() {
 					int time = 0;
 					int RunLineSize = runBags.size();
-					while (time <= maxTimePoint && IsTacticPlaying ==1) {
+					while (time <= maxTimePoint && IsTacticPlaying == 1) {
 						try {
 							Log.e("thread time = ", String.valueOf(time));
 							// do RunLine here!!
@@ -1736,10 +1737,11 @@ public class MainFragment extends Fragment{
 						} catch (Throwable t) {
 						}
 					}
+					/**TODO: for reset 持球者**/
+					withBall.sendEmptyMessage(0);
 				}
 			}).start();
 		}
-		/**TODO: Reset所有icon的rect**/
 	}
 
 	protected void checkRunLine(final int in_time, final int in_RunLineSize) { 
@@ -1786,15 +1788,32 @@ public class MainFragment extends Fragment{
 						Thread.sleep(speed);
 						playK = playK + 2;
 					} catch (Throwable t) {
-
 					}
 				}
 			}
 		}).start();
 	}
 
-	//region Message Handlers
-	//在UI上用handler更新
+	/** region Message Handlers
+	* 在UI上用handler更新
+	**/
+
+	//play button後呼叫 主要重新調整持球者狀態-->player to playwithball icon
+	Handler withBall =new Handler(){
+		@Override
+		public void handleMessage(Message msg){
+			int whoWithBall=intersectId-1;
+			if (playersWithBall.get(whoWithBall).getVisibility() == playersWithBall.get(whoWithBall).INVISIBLE) {
+				players.get(whoWithBall).image.setVisibility(players.get(whoWithBall).image.INVISIBLE);
+				playersWithBall.get(whoWithBall).layout((int) players.get(whoWithBall).image.getX() - 30, (int) players.get(whoWithBall).image.getY(), (int) players.get(whoWithBall).image.getX() - 30 + 200, (int) players.get(whoWithBall).image.getY() + 120);
+				playersWithBall.get(whoWithBall).setVisibility(playersWithBall.get(whoWithBall).VISIBLE);
+				players.get(whoWithBall).arrow.layout((int) players.get(whoWithBall).image.getX() - 30, (int) players.get(whoWithBall).image.getY(), (int) players.get(whoWithBall).image.getX() - 30 + 200, (int) players.get(whoWithBall).image.getY() + 120);
+				Log.d("play","adjust withBallPlayer status: player "+(whoWithBall+1));
+			}
+			ball.image.layout((int) players.get(whoWithBall).image.getX()+110-30, (int)players.get(whoWithBall).image.getY()+30, (int) players.get(whoWithBall).image.getX()+110-30+ball.image.getWidth(), (int)players.get(whoWithBall).image.getY()+30+ball.image.getHeight());
+		}
+	};
+
 	Handler offenderHandler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
