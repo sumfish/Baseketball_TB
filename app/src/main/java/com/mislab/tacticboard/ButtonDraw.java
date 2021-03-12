@@ -46,9 +46,7 @@ public class ButtonDraw extends Fragment {
 
 	private boolean isTimelineShow = true;
 	private boolean isImageSelect = false;
-	private boolean isScreenEnable = false;
 
-	private TextView advanced_text = null;
 
 	public interface CallbackInterface{//連接MainActivity，告訴MainActivity現在有沒有在錄製狀態
 		public void setRecordCheck(boolean in_recordcheck);

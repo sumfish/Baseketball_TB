@@ -2,7 +2,6 @@ package com.mislab.tacticboard;
 
 import android.app.Activity;
 import android.content.Context;
-//import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -16,9 +15,11 @@ import androidx.annotation.Nullable;
 public class IsScreen extends LinearLayout {
 
     private CircularControl directionControl;
-    private ImageButton askIsScreen;
+    private ImageButton screenYes;
+    private ImageButton screenNo;
     private TextView title;
     private LinearLayout itself;
+    private LinearLayout screenChoose;
     private MainWrap mainwrap;
     private MainWrapScreen mainscreen;
     private MainFragment mainfrag;
@@ -39,8 +40,11 @@ public class IsScreen extends LinearLayout {
     private void init(Context context){ //initialization
         View.inflate(context,R.layout.view_is_screen,this);
 
-        askIsScreen = (ImageButton) findViewById(R.id.button_screen);
-        askIsScreen.setOnClickListener(ComeOutScreenBar);
+        screenChoose= (LinearLayout) findViewById(R.id.screen_choose_layout);
+        screenYes = (ImageButton) findViewById(R.id.button_screen);
+        screenNo = (ImageButton) findViewById(R.id.button_no_screen);
+        screenNo.setOnClickListener(noScreenListener);
+        screenYes.setOnClickListener(ComeOutScreenBar);
         title = (TextView) findViewById(R.id.text_screen);
         itself = findViewById(R.id.layout_screen);
         activity=(Activity) context;
@@ -57,11 +61,19 @@ public class IsScreen extends LinearLayout {
 
     }
 
-    private OnClickListener ComeOutScreenBar= new OnClickListener() {
+    // 移除ask screen layout
+    private OnClickListener noScreenListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mainscreen.removeScreenLayout();
+        }
+    };
+
+    private OnClickListener ComeOutScreenBar = new OnClickListener() {
         @Override
         public void onClick(View view) { // 跳出控制轉盤
             title.setText("Direction?");
-            itself.removeView(askIsScreen);
+            itself.removeView(screenChoose);
 
             //show up the screen bar
             mainscreen.passInfo2CreateScreenBar();

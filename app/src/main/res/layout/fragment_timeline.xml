@@ -311,13 +311,17 @@
 		android:visibility="gone"
         > 
 
-        <Button 
+        <Button
             android:id="@+id/button_back_to_main_timeline"
             android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:minHeight="0dp" 
+		    android:minHeight="0dp"
 		    android:minWidth="0dp"
-		    android:text="Back"
+			android:layout_marginTop="5dp"
+			android:layout_marginLeft="20dp"
+			android:layout_alignParentTop="true"
+			android:text="Overview"
+			android:textAllCaps="false"
             />
         
         <com.mislab.tacticboard.CircularControl
@@ -325,16 +329,16 @@
 			android:layout_width="100dp"
 			android:layout_height="100dp"
 			android:layout_marginLeft="10dp"
-			android:layout_marginTop="50dp" /> 
-        
+			android:layout_marginTop="50dp" />
+
         
         <TextView
 	            android:id="@+id/player_timeline_title"
-			    android:layout_width="wrap_content"
+			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_horizontal|center_vertical"
+				android:gravity="center"
 			    android:layout_toRightOf="@+id/button_back_to_main_timeline"
-			    android:layout_marginLeft="50dp"
 			    android:layout_marginTop="10dp" />
 
 		<RelativeLayout 

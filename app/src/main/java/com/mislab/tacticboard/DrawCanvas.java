@@ -7,7 +7,6 @@ import android.graphics.Point;
 import android.graphics.Paint;
 import android.util.Log;
 
-import java.util.Stack;
 import java.util.Vector;
 
 public class DrawCanvas {
