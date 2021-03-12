@@ -24,6 +24,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import android.content.res.Resources;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -33,6 +34,7 @@ public class TimeLine extends Fragment {
 	public int pathNumber =0;
 	private ToggleButton toDefenderButton;
 	private int progressHighest=0;
+	private static Vector<Button> timelineButtons=new Vector<Button>();
 
 	public interface CallbackInterface{
 		public void seekBarStartTime(int progress);
@@ -76,6 +78,23 @@ public class TimeLine extends Fragment {
 		toDefenderButton = (ToggleButton) getView().findViewById(R.id.change_to_defender_timeline);
 		toDefenderButton.setOnClickListener(changeToDefenderTimelineOnclick);
 
+		Resources resources = getResources();
+		for (int i=1;i<=5;i++){ //offender
+			Button b=(Button) getView().findViewById(resources.getIdentifier("textPlayer"+i, "id", getActivity().getPackageName()));
+			b.setOnClickListener(turnToRespectiveTimeline);
+			timelineButtons.add(b);
+		}
+
+		//ball
+		Button ball=(Button) getView().findViewById(R.id.textBall);
+		ball.setOnClickListener(turnToRespectiveTimeline);
+		timelineButtons.add(ball);
+
+		for (int i=1;i<=5;i++){  //defender
+			Button b=(Button) getView().findViewById(resources.getIdentifier("textD"+i, "id", getActivity().getPackageName()));
+			b.setOnClickListener(turnToRespectiveTimeline);
+			timelineButtons.add(b);
+		}
 	}
 
 	@Override
@@ -200,6 +219,7 @@ public class TimeLine extends Fragment {
 			target.setVisibility(View.GONE);
 			disableAllPlayerTimeline();
 			directionSeekBar.setVisibility(View.GONE);
+			toDefenderButton.setChecked(false);
 		}
 	};
 
@@ -1542,6 +1562,15 @@ public class TimeLine extends Fragment {
 				timeLineSeekBarProgressLow=progressHighest;
 			}
 			mainfrag.sortPathNumber();
+		}
+	};
+
+	//從timeline overview跳到個別的timeline
+	private OnClickListener turnToRespectiveTimeline= new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			int whichTimeline=Integer.parseInt(v.getTag().toString());
+			changeLayout(whichTimeline);
 		}
 	};
 

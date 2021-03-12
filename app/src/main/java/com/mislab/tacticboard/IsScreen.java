@@ -66,6 +66,11 @@ public class IsScreen extends LinearLayout {
         @Override
         public void onClick(View v) {
             mainscreen.removeScreenLayout();
+            // 讓TimeLine Fragment出現
+            if(mainButton.getisTimelineShow()==false&&originalIsTimelineShow==true){
+                mainButton.getTimeLineView().performClick();
+            }
+
         }
     };
 
