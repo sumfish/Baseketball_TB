@@ -12,6 +12,7 @@ public class RunBag implements Serializable{
 	private int rate;
 	private int timelineId;
 	private int ballNum;
+	private int pathIndex; //記錄這動軌跡在bitmap vector的index
 
 	//region 用來表示掩護
 	private int pathType; //0:無球跑動 1:結束動作為掩護 2:運球
@@ -61,7 +62,15 @@ public class RunBag implements Serializable{
 	public void setTimeLineId(int id){
 		timelineId =id;
 	}
-	
+
+	public void setPathIndex(int pathIndex) {
+		this.pathIndex = pathIndex;
+	}
+
+	public int getPathIndex() {
+		return pathIndex;
+	}
+
 	public int getTimeLineId(){
 		return timelineId;
 	}

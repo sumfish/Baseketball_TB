@@ -12,7 +12,7 @@ public class Player {
 
 	public Point initialPosition;
 	public int initialRotation;
-	public Rect rect;
+	private Rect rect;
 
 	private Vector<Integer> road;
 	private Vector<Integer> rotation;
@@ -25,6 +25,10 @@ public class Player {
 		this.initialPosition = new Point(-1, -1);
 		this.initialRotation = -1;
 		this.rect = new Rect(0,0,0,0);
+	}
+
+	public Rect getRect() {
+		return rect;
 	}
 
 	//指定rect大小(用於計算跟球的intersect)

@@ -135,7 +135,7 @@ public class MainFragment extends Fragment{
 	private static Vector<Point> tempCurve;//&& !isBallHolder
 
 	// for undo ball alert
-	private boolean isAlert=false;
+	private boolean undoAlert=false;
 
 	//觸碰到圖片的動畫參數
 	private Animation zoomAnimation;
@@ -835,8 +835,6 @@ public class MainFragment extends Fragment{
 
 		if(handler.equals("B_Handle")){ //球的移動
 
-			isAlert=false; //可以繼續畫(Undo落地球的時候)
-
 			undoPlayer=ball;
 			undoDrawer=ballDrawer;
 
@@ -1004,7 +1002,6 @@ public class MainFragment extends Fragment{
 		ballDrawer.clearRecord();
 		seekbarTmpId =0;
 		mainFragSeekBarProgressLow =0;
-		isAlert=false;
 		
 		clearPaint();
 		TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
@@ -1040,7 +1037,7 @@ public class MainFragment extends Fragment{
 			currentArrow.invalidate();
 		}
 	}
-	public void movePlayersToInitialPosition(){
+	public void  movePlayersToInitialPosition(){
         /* 先把全部player移到按下錄製鍵時的位置 */
 		for(int i=0 ; i<5 ; i++){
 			if(players.get(i).initialPosition.x != -1){
@@ -1715,6 +1712,10 @@ public class MainFragment extends Fragment{
 			final int maxTimePoint = timefrag.getsetSeekBarProgressLow() * 1000;
 			/*先把全部player移到按下錄製鍵時的位置*/
 			movePlayersToInitialPosition();
+			//將軌跡畫布清空
+			tempBitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);
+			tempCanvas = new Canvas(tempBitmap);
+			circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 			Log.d("play button","ok!");
 			//////////////////////////////////////// Time counter///////////////////////////////////////
 			new Thread(new Runnable() {// Time counter count on per second
@@ -1877,6 +1878,12 @@ public class MainFragment extends Fragment{
 			if (runBags.get(sentI).getStartTime() * 1000 == sentTime) {
 				boolean isDribble = (runBags.get(sentI).getPathType() == 2);
 
+				//畫上此動軌跡
+				/**
+				 * todo:調整軌跡深淺?
+				 */
+				tempCanvas.drawBitmap(bitmapVector.get(runBags.get(sentI).getPathIndex()),0,0,null);
+
 				if ( runBags.get(sentI).getHandler().equals("P1_Handle")) {
 					play(0, isDribble, runBags.get(sentI).getRate(), offenderHandler, runBags.get(sentI).getRoadStart(),
 							runBags.get(sentI).getRoadEnd());
@@ -1980,7 +1987,8 @@ public class MainFragment extends Fragment{
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) { // v是事件來源物件, e是儲存有觸控資訊的物件
-			if(disableOntouch==true) return false;
+			if(disableOntouch==true) return false; //return false 就不會走後面的action move跟up
+			//Log.d("move intersect","touch");
 
 			int id = Integer.parseInt(v.getTag().toString());
 			TimeLine timefrag = (TimeLine) getActivity().getFragmentManager().findFragmentById(R.id.time_line);
@@ -2017,8 +2025,11 @@ public class MainFragment extends Fragment{
 					rotateWhichPlayer = id;
 					handle_name = "P"+Integer.toString(id)+"_Handle";
 					seekbar_player_Id = id;
-					//players.get(id-1).rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
-					players.get(id-1).setRect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
+					//players.get(id-1).rect = new Rect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight())
+
+					if(undoAlert!=true){ //遇到undo alert時，在還沒undo之前沒辦法修改其他player icon的rect
+						players.get(id-1).setRect((int) event.getX(),my - v.getTop(),(int) event.getX()+ v.getWidth(),my - v.getTop()+v.getHeight());
+					}
 
 					timefrag.changeLayout(id);
 
@@ -2047,18 +2058,18 @@ public class MainFragment extends Fragment{
 					Log.d("error", "playerListener -> MotionEvent.ACTION_DOWN: Wrong selection");
 				}
 
-				if(isAlert==true&&id!=6) {
-					showAlertDialogButton();
-					return true; //alert dialog when passing ball
+				//如果球在地上，會彈出alertDialog指示user
+				if(intersectId==0&&isRecording==true&&runBags.size()>0){
+					if(runBags.get(runBags.size()-1).getHandler()=="B_Handle"){// 上一動移動球到地上，下一動還想要繼續換戰術的話，會強制undo
+						undoAlert=true;
+						showAlertDialogButton("ball_in_court");
+						return false;
+					}else if(id==6){// 球還沒被放上球場，強制user要畫球之前，要先按unrecording
+						showAlertDialogButton("ball_out_of_court");
+						return false;
+					}
 				}
-				//如果球現在噴在地上，會彈出alertDialog指示user undo
-				if(intersectId==0&&isRecording==true){
-					isAlert=true;
-					showAlertDialogButton();
-					return true;
-				}else{
-					isAlert=false;
-				}
+				undoAlert=false;
 
 				startTime = System.currentTimeMillis();
 				move_count = 1;
@@ -2077,7 +2088,6 @@ public class MainFragment extends Fragment{
 
 			/*移動圖片***************************************************************************************************/
 			case MotionEvent.ACTION_MOVE:// 移動圖片時
-				if(isAlert==true) return true; //alert dialog when passing ball
 				//圖片的左上角座標
 				x = mx - startX;
 				y = my - startY;
@@ -2091,7 +2101,7 @@ public class MainFragment extends Fragment{
 					changePlayerToNoBall();
 
 					//region 判斷是跟哪個player intersect
-					if(Rect.intersects(players.get(0).rect, ball.rect)){
+					if(Rect.intersects(players.get(0).getRect(), ball.getRect())){
 						intersectId =1;
 						intersect=true;
 						//持球圖片的設定
@@ -2100,7 +2110,7 @@ public class MainFragment extends Fragment{
 							playersWithBall.get(0).layout((int)players.get(0).image.getX()-30, (int)players.get(0).image.getY(), (int)players.get(0).image.getX()-30+200, (int)players.get(0).image.getY()+120);
 							playersWithBall.get(0).setVisibility(playersWithBall.get(0).VISIBLE);
 						}
-					} else if (Rect.intersects(players.get(1).rect, ball.rect)){
+					} else if (Rect.intersects(players.get(1).getRect(), ball.getRect())){
 						intersectId =2;
 						intersect=true;
 						if(playersWithBall.get(1).getVisibility()== playersWithBall.get(1).INVISIBLE){
@@ -2108,7 +2118,7 @@ public class MainFragment extends Fragment{
 							playersWithBall.get(1).layout((int)players.get(1).image.getX()-30, (int)players.get(1).image.getY(), (int)players.get(1).image.getX()-30+200, (int)players.get(1).image.getY()+120);
 							playersWithBall.get(1).setVisibility(playersWithBall.get(1).VISIBLE);
 						}
-					} else if (Rect.intersects(players.get(2).rect, ball.rect)){
+					} else if (Rect.intersects(players.get(2).getRect(), ball.getRect())){
 						intersectId =3;
 						intersect=true;
 						if(playersWithBall.get(2).getVisibility()== playersWithBall.get(2).INVISIBLE){
@@ -2116,7 +2126,7 @@ public class MainFragment extends Fragment{
 							playersWithBall.get(2).layout((int)players.get(2).image.getX()-30, (int)players.get(2).image.getY(), (int)players.get(2).image.getX()-30+200, (int)players.get(2).image.getY()+120);
 							playersWithBall.get(2).setVisibility(playersWithBall.get(2).VISIBLE);
 						}
-					} else if (Rect.intersects(players.get(3).rect, ball.rect)){
+					} else if (Rect.intersects(players.get(3).getRect(), ball.getRect())){
 						intersectId =4;
 						intersect=true;
 						if(playersWithBall.get(3).getVisibility()== playersWithBall.get(3).INVISIBLE){
@@ -2124,7 +2134,7 @@ public class MainFragment extends Fragment{
 							playersWithBall.get(3).layout((int)players.get(3).image.getX()-30, (int)players.get(3).image.getY(), (int)players.get(3).image.getX()-30+200, (int)players.get(3).image.getY()+120);
 							playersWithBall.get(3).setVisibility(playersWithBall.get(3).VISIBLE);
 						}
-					} else if (Rect.intersects(players.get(4).rect, ball.rect)){
+					} else if (Rect.intersects(players.get(4).getRect(), ball.getRect())){
 						intersectId =5;
 						intersect=true;
 						if(playersWithBall.get(4).getVisibility()== playersWithBall.get(4).INVISIBLE){ //setvisibility會呼叫invalidate
@@ -2195,7 +2205,7 @@ public class MainFragment extends Fragment{
 				Log.i("debug", "intersect_name_pre="+Integer.toString(preIntersectId));
 				Log.i("debug", "intersect_name="+Integer.toString(intersectId));
 
-				if(isAlert==true) return true; //球噴在地上時不能畫軌跡
+				//if(isAlert==true) return false; //球噴在地上時不能畫軌跡
 				//if(isAlert==true&&v.getTag().toString().equals("6")) return true; //alert dialog when passing ball
 				// region 調整圖片顯示球的狀態
 				if(v.getTag().toString().equals("6") && intersect==true){
@@ -2361,6 +2371,7 @@ public class MainFragment extends Fragment{
 							tmp.setDuration(seekBarCallbackDuration);
 							tmp.setTimeLineId(runBags.size());
 							tmp.setBallNum(intersectId);
+							tmp.setPathIndex(bitmapVector.size()-1);
 
 							//region 20180712 在Runbag中加入掩護的資訊
 							// 20210107 如果是擋人的話 會在按下screen layout confirm button時再去runbag更改
@@ -2487,15 +2498,33 @@ public class MainFragment extends Fragment{
 	}
 
 	//噴在地上的球不能繼續畫的警示
-	@TargetApi(Build.VERSION_CODES.O)
-	public void showAlertDialogButton(){
+	//@TargetApi(Build.VERSION_CODES.O)
+	public void showAlertDialogButton(String type){
 		//create an alert builder
 		AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
 		//builder.setTitle("-- Alert --");
 
 		//set the custom layout 動態載入使用inflater
-		View v =getLayoutInflater().inflate(R.layout.dialog_undo_alert,null);
+		View v;
+		if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+			v =getLayoutInflater().inflate(R.layout.dialog_undo_alert,null);
+		}else{
+			LayoutInflater layoutInflater =LayoutInflater.from(getActivity());
+			v =layoutInflater.inflate(R.layout.dialog_undo_alert,null);
+		}
 		builder.setView(v);
+
+		TextView alertText = v.findViewById(R.id.textAlert);
+		ImageView alertImg = v.findViewById(R.id.button_undoimg);
+
+		if(type.equals("ball_out_of_court")){
+			alertText.setText("Please press the on-recoding button!");
+			alertImg.setImageResource(R.drawable.icon_record_on);
+		}else if(type.equals("ball_in_court")){
+			alertText.setText("Please press the undo button!");
+			alertImg.setImageResource(R.drawable.icon_undo);
+		}
+
 
 		//add a button
 		Button backButton = v.findViewById(R.id.button_alert_back_to_main);
