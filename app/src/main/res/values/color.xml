@@ -3,5 +3,9 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparentWhite">#cccccc</color>
 
-    <color name="start_color">#4c84ff</color>
+    <!-- intro button-->
+    <color name="gradient_start_color">#4c84ff</color>
+    <color name="gradient_end_color">#18a3fe</color>
+
+    <color name="colorGary">#D0D0D0</color>
 </resources>

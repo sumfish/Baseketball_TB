@@ -155,7 +155,7 @@ public class MainFragment extends Fragment{
 	public void onActivityCreated(Bundle savedInstanceState) {    
 		super.onActivityCreated(savedInstanceState);
 
-		zoomAnimation = AnimationUtils.loadAnimation(getActivity(),R.anim.zoom);
+		 zoomAnimation = AnimationUtils.loadAnimation(getActivity(),R.anim.zoom);
 		zoomAnimationDribbleBall = AnimationUtils.loadAnimation(getActivity(),R.anim.zoom_dribble_ball);
 
 		selectCategoryId = 0;
@@ -2059,12 +2059,16 @@ public class MainFragment extends Fragment{
 				}
 
 				//如果球在地上，會彈出alertDialog指示user
-				if(intersectId==0&&isRecording==true&&runBags.size()>0){
-					if(runBags.get(runBags.size()-1).getHandler()=="B_Handle"){// 上一動移動球到地上，下一動還想要繼續換戰術的話，會強制undo
-						undoAlert=true;
-						showAlertDialogButton("ball_in_court");
-						return false;
-					}else if(id==6){// 球還沒被放上球場，強制user要畫球之前，要先按unrecording
+				if(intersectId==0&&isRecording==true){
+					if(runBags.size()>0) {
+						if (runBags.get(runBags.size() - 1).getHandler() == "B_Handle") {// 上一動移動球到地上，下一動還想要繼續換戰術的話，會強制undo
+							undoAlert = true;
+							showAlertDialogButton("ball_in_court");
+							return false;
+						}
+					}
+
+					if(id==6){// 球還沒被放上球場，強制user要畫球之前，要先按unrecording
 						showAlertDialogButton("ball_out_of_court");
 						return false;
 					}

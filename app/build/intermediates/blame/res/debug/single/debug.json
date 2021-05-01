@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_baseline_arrow_forward_24_white.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_baseline_arrow_forward_24_white.png"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_court_o_2.jpg.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-mdpi\\court_o_2.jpg"
     },
@@ -12,8 +16,16 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-xxhdpi\\play.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_step2_final.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\step2_final.png"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_main.xml.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_intro_button_selected.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\intro_button_selected.xml"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_defender4.png.flat",
@@ -56,12 +68,12 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
     },
     {
-        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\menu_main.xml.flat",
-        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\menu\\main.xml"
-    },
-    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_btn_send2_click.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\btn_send2_click.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\menu_main.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\menu\\main.xml"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_strategy.png.flat",
@@ -148,6 +160,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\defender2.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_baseline_arrow_forward_24_blue.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_baseline_arrow_forward_24_blue.png"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_hide_timeline.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\icon_hide_timeline.png"
     },
@@ -224,6 +240,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\layout\\view_is_screen.xml"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_intro_btn_background.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\intro_btn_background.xml"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_launcher.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\ic_launcher.png"
     },
@@ -250,6 +270,10 @@
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_defender2_o.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\defender2_o.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_baseline_arrow_forward_24_white.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_baseline_arrow_forward_24_white.png"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_path_num_b.png.flat",
@@ -316,6 +340,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\curve_right_down.jpg"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_btn_gradient_style_normal.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\btn_gradient_style_normal.xml"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_checkerboard.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\checkerboard.png"
     },
@@ -332,6 +360,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\straight_horizontal.jpg"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_tab_indicator_selector.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\tab_indicator_selector.xml"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_h_court.jpg.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-xxhdpi\\h_court.jpg"
     },
@@ -342,6 +374,10 @@
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_image_select_pg.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-mdpi\\image_select_pg.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_baseline_arrow_forward_24_white.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_baseline_arrow_forward_24_white.png"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_basketball.png.flat",
@@ -438,6 +474,10 @@
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\layout_fragment_main_wrap.xml.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\layout\\fragment_main_wrap.xml"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_tab_indicator_selected.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\tab_indicator_selected.xml"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon.png.flat",
@@ -556,6 +596,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-mdpi\\player1_o.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi_ic_baseline_arrow_forward_24_blue.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_baseline_arrow_forward_24_blue.png"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_baseline_arrow_forward_24.xml.flat",
         "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_baseline_arrow_forward_24.xml"
     },
@@ -574,6 +618,10 @@
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_plane.jpg.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\plane.jpg"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_baseline_arrow_forward_24_blue.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_baseline_arrow_forward_24_blue.png"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_myseekbar.png.flat",
@@ -628,6 +676,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-ldpi\\myseekbar.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_baseline_arrow_forward_24_white.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_baseline_arrow_forward_24_white.xml"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_basketball.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-xhdpi\\basketball.png"
     },
@@ -644,12 +696,12 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-hdpi\\wood_back.jpg"
     },
     {
-        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_yes.png.flat",
-        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-hdpi\\yes.png"
-    },
-    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_baseline_arrow_forward_24.png.flat",
         "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_baseline_arrow_forward_24.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_yes.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-hdpi\\yes.png"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_screen.png.flat",
@@ -812,6 +864,22 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\timeline3.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_baseline_arrow_forward_24_white.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_baseline_arrow_forward_24_white.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_baseline_arrow_forward_24_white.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_baseline_arrow_forward_24_white.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\anim_intro_btn_anim.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\anim\\intro_btn_anim.xml"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_tab_indicator_default.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\tab_indicator_default.xml"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_left_up.jpg.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\left_up.jpg"
     },
@@ -882,6 +950,10 @@
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon_show_timeline.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\icon_show_timeline.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_step3_final.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\step3_final.png"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_maqjpg.jpg.flat",
@@ -980,6 +1052,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-ldpi\\court.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_baseline_arrow_forward_24_white.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_baseline_arrow_forward_24_white.png"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_screen_bar.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\screen_bar.png"
     },
@@ -1012,8 +1088,16 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-hdpi\\wood.jpg"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_intro_button_normal.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\intro_button_normal.xml"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_player3_ball.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\player3_ball.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_baseline_arrow_forward_24_blue.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\ic_baseline_arrow_forward_24_blue.png"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_circular_control_base2.png.flat",
@@ -1052,12 +1136,24 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\wood_left.jpg"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_step1_final.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\step1_final.png"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_def_button.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-xxhdpi\\def_button.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-anydpi-v21_ic_baseline_arrow_forward_24_blue.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v21\\ic_baseline_arrow_forward_24_blue.xml"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_camaro.jpg.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-hdpi\\camaro.jpg"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_ic_baseline_arrow_forward_24_blue.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-ldpi\\ic_baseline_arrow_forward_24_blue.png"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_player1_o.png.flat",
@@ -1136,6 +1232,10 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-xhdpi\\scrubber_control_normal_holo.png"
     },
     {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_baseline_arrow_forward_24_blue.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\build\\generated\\res\\pngs\\debug\\drawable-mdpi\\ic_baseline_arrow_forward_24_blue.png"
+    },
+    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_zigzag_line2.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\zigzag_line2.png"
     },
@@ -1158,6 +1258,10 @@
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_timeline2.png.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\timeline2.png"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_intro_btn_start.xml.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable\\intro_btn_start.xml"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable_timeline.png.flat",
@@ -1184,12 +1288,12 @@
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\raw\\camaro_obj"
     },
     {
-        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_basketball.png.flat",
-        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-hdpi\\basketball.png"
-    },
-    {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_intro.xml.flat",
         "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\layout\\activity_intro.xml"
+    },
+    {
+        "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_basketball.png.flat",
+        "source": "D:\\Baseketball_TB\\app\\src\\main\\res\\drawable-hdpi\\basketball.png"
     },
     {
         "merged": "D:\\Baseketball_TB\\app\\build\\intermediates\\res\\merged\\debug\\xml_screen_dialog_text.xml.flat",

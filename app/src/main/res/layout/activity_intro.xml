@@ -4,56 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     tools:context=".IntroActivity">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/screen_viewpager"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="553dp"
-        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        android:layout_marginTop="88dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/intro_button"
+        android:id="@+id/intro_next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="32dp"
-        android:background="#fff"
-        android:drawableRight="@drawable/ic_baseline_arrow_forward_24"
-        android:drawableTint="@color/start_color"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="130dp"
+        android:background="@drawable/intro_btn_background"
+        android:drawableRight="@drawable/ic_baseline_arrow_forward_24_white"
+        android:drawableTint="@color/colorWhite"
         android:text="Next"
-        android:textColor="@color/start_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/intro_tab" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/intro_tab"
         android:layout_width="174dp"
         android:layout_height="41dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="36dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/intro_button"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/screen_viewpager"
+        app:tabBackground="@drawable/tab_indicator_selector"
+        app:tabIndicatorColor="@color/gradient_start_color"></com.google.android.material.tabs.TabLayout>
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Left" />
+    <Button
+        android:id="@+id/intro_start_btn"
+        android:layout_width="124dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/intro_btn_start"
+        android:text="Get Started"
+        android:textColor="#fff"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/intro_tab" />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Center" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Right" />
-    </com.google.android.material.tabs.TabLayout>
+    <Button
+        android:id="@+id/intro_skip_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/intro_btn_background"
+        android:text="Skip"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/intro_tab" />
 </androidx.constraintlayout.widget.ConstraintLayout>
