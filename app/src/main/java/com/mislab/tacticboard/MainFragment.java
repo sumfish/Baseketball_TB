@@ -146,6 +146,9 @@ public class MainFragment extends Fragment{
 	//screen layout disable view ontouch event
 	private Boolean disableOntouch=false;
 
+	// 紀錄timeline count
+	private int timelineIndex=0;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_main, container,false);
@@ -155,7 +158,7 @@ public class MainFragment extends Fragment{
 	public void onActivityCreated(Bundle savedInstanceState) {    
 		super.onActivityCreated(savedInstanceState);
 
-		 zoomAnimation = AnimationUtils.loadAnimation(getActivity(),R.anim.zoom);
+		zoomAnimation = AnimationUtils.loadAnimation(getActivity(),R.anim.zoom);
 		zoomAnimationDribbleBall = AnimationUtils.loadAnimation(getActivity(),R.anim.zoom_dribble_ball);
 
 		selectCategoryId = 0;
@@ -785,6 +788,18 @@ public class MainFragment extends Fragment{
 		//Log.d("debug", "Set! "+Integer.toString(input.get(0)));
 	}
 
+	// 從view的ID反查現在runbag的index
+	public int queryForRunbagIndex(int timelineID){
+
+		int result = -1;
+		for (int i=0;i<runBags.size();i++){
+			if(runBags.get(i).getTimeLineId()==timelineID){
+				return i;
+			}
+		}
+		return result ;
+	}
+
 	public void setMainFragProLow(int Low_in){
 		mainFragSeekBarProgressLow =Low_in;
 		////Log,i("debug", "MainFrag_set MainFrag_SeekBarProgressLow ="+Integer.toString(MainFrag_SeekBarProgressLow));
@@ -794,12 +809,24 @@ public class MainFragment extends Fragment{
 		return runBags.size();
 	}
 
+	// 如果undo的是中間的path 比這個pathNum大的其他pathNum都要-1
+	public void adjustAllPathNum(int pathID){
+		for (int i=0; i<runBags.size(); i++){
+			if (runBags.get(i).getPathIndex()>pathID){
+				runBags.get(i).setPathIndex(runBags.get(i).getPathIndex()-1);
+			}
+		}
+	}
+
 	public void undoPaint(){//清除上一筆畫畫筆跡
 		//region bitmap
 		tempBitmap = Bitmap.createBitmap(circle.getWidth(),circle.getHeight(),Bitmap.Config.ARGB_8888);//初始化tempBitmap，指定大小為螢幕大小(大小同circle)
 		tempCanvas = new Canvas(tempBitmap);
-		//remove last Dbitmap
-		bitmapVector.remove(bitmapVector.size()-1);
+
+		// remove Dbitmap
+		// runbag上一動的path
+		int pathNum= runBags.get(runBags.size()-1).getPathIndex();
+		bitmapVector.remove(pathNum);
 		if(!bitmapVector.isEmpty()) {
 			for (int tmp = 0; tmp < bitmapVector.size(); tmp++) {
 				tempCanvas.drawBitmap(bitmapVector.get(tmp), 0, 0, null);
@@ -810,6 +837,10 @@ public class MainFragment extends Fragment{
 			firstRecord =true;//跟著井井寫
 			IsTacticPlaying =0;//跟著井井寫
 		}
+
+		// 調整其他runbag的pathNum
+		adjustAllPathNum(pathNum);
+
 		circle.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 		for(int i=0;i<5;i++){
 			playerDrawers.get(i).clearCurve();
@@ -831,7 +862,7 @@ public class MainFragment extends Fragment{
 		//從runbag上一動的資訊去移動image的位置
 		int lastEndIndex = runBags.get(runBags.size()-1).getRoadStart(); //下一個的起頭是上一個的終點
 		String handler = runBags.get(runBags.size()-1).getHandler(); //which to move back
-		Log.d("undo","undo which player:"+handler);
+		//Log.d("undo","undo which player:"+handler);
 
 		if(handler.equals("B_Handle")){ //球的移動
 
@@ -871,7 +902,7 @@ public class MainFragment extends Fragment{
 			int which= handler.charAt(1)-48; //char to int
 
 			boolean isdribble=(runBags.get(runBags.size()-1).getPathType()==2);
-			Log.d("player","Undo player is:"+String.valueOf(which)+" ,Is dribble"+isdribble);
+			// Log.d("player","Undo player is:"+String.valueOf(which)+" ,Is dribble"+isdribble);
 
 			if(handler.charAt(0)=='P'){ //Player
 				undoPlayer=players.get(which-1);
@@ -940,25 +971,30 @@ public class MainFragment extends Fragment{
 		timefrag.changeLayout(timefragIndex);
 
 		//region remove timeline 要知道上一個record是誰
-		timefrag.removeOneTimeline(runBags.get(runBags.size()-1).getTimeLineId());
+		int timelineIndex=runBags.get(runBags.size()-1).getTimeLineId();
+		Log.d("undo","remove timelineindex:"+Integer.toString(timelineIndex));
+		timefrag.removeOneTimeline(timelineIndex);
 		timefrag.setRunlineId(runBags.size()-1); //還沒有很仔細看
 
-		/******* 移動rangeslider的下界  ******/
+		//移動rangeslider的下界
 		int drawStart=runBags.get(runBags.size()-1).getStartTime();
 		mainFragSeekBarProgressLow=drawStart; //seekbar位置調整
 		//endregion
 
+		/**** TODO ***/
 		/*remove pathnumber and screenbar and screenLayout on the court*/
 		MainWrap mainwrap = (MainWrap) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_frag);
 		MainWrapScreen mainWrapScreen = (MainWrapScreen) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_screen);
-		mainwrap.removeTextView(runBags.size()-1);
-		mainwrap.removeScreenBar(runBags.size()-1);
+		mainwrap.removeTextView(timelineIndex);
+		mainwrap.removeScreenBar(timelineIndex);
 		mainWrapScreen.removeScreenLayout();
 
 		//移除player的record
+		/*
 		Log.d("undo","play's road:"+String.valueOf(undoPlayer.getCmpltRoad()));
 		Log.d("undo","play's road start index:"+String.valueOf(runBags.get(runBags.size()-1).getRoadStart()));
 		Log.d("undo","play's road end index:"+String.valueOf(runBags.get(runBags.size()-1).getRoadEnd()));
+		*/
 		undoPlayer.undoARoad(runBags.get(runBags.size()-1).getRoadEnd()-runBags.get(runBags.size()-1).getRoadStart()+1+1); //多一個1是因為要消掉每筆戰術之間的0
 		undoDrawer.setStartIndex(runBags.get(runBags.size()-1).getRoadStart()-1);
 		runBags.remove(runBags.size()-1);
@@ -1802,6 +1838,10 @@ public class MainFragment extends Fragment{
 	Handler withBall =new Handler(){
 		@Override
 		public void handleMessage(Message msg){
+			if(intersectId==0){
+				return;
+			}
+
 			int whoWithBall=intersectId-1;
 			if (playersWithBall.get(whoWithBall).getVisibility() == playersWithBall.get(whoWithBall).INVISIBLE) {
 				players.get(whoWithBall).image.setVisibility(players.get(whoWithBall).image.INVISIBLE);
@@ -2341,15 +2381,12 @@ public class MainFragment extends Fragment{
 
 						// endregion
 
-						///call MainWrap 's function
-						mainwrapfrag.createPathNumberOnCourt(runBags.size()+1, x, y, runBags.size());
-
 						//region 跳出問 無球跑動的人 是不是擋人的dynamic layout
 						if(!isBallHolder&&(handle_name.charAt(0)=='P')){
 							originalIsTimelineShow=mainButton.getisTimelineShow();
 							circle.setOnTouchListener(reactForNotScreen); //如果碰UI其他位置 會讓screen layout消失
 							MainWrapScreen mainScreen = (MainWrapScreen) getActivity().getFragmentManager().findFragmentById(R.id.MainWrap_screen);
-							mainScreen.createIsScreenLayout(x,y,rotateWhichPlayer,runBags.size());
+							mainScreen.createIsScreenLayout(x,y,rotateWhichPlayer,timelineIndex); /****/
 						}
 						//end region
 
@@ -2373,7 +2410,7 @@ public class MainFragment extends Fragment{
 								startIndexTmp = currentDrawer.startIndex;
 							}
 							tmp.setDuration(seekBarCallbackDuration);
-							tmp.setTimeLineId(runBags.size());
+							tmp.setTimeLineId(timelineIndex); /**需要不重複的數**/
 							tmp.setBallNum(intersectId);
 							tmp.setPathIndex(bitmapVector.size()-1);
 
@@ -2388,12 +2425,18 @@ public class MainFragment extends Fragment{
 
 							runBags.add(tmp);
 							timefrag.setRunlineId(runBags.size()-1);
-							timefrag.setSeekBarId(runBags.size()-1);
+							//timefrag.setSeekBarId(runBags.size()-1);
+							timefrag.setSeekBarId(timelineIndex);
 
 							seekbarTmpId++;
 							timefrag.setSeekBarProgressLow(mainFragSeekBarProgressLow);
 							mainFragSeekBarProgressLow++;
-							timefrag.createSeekbar(seekbar_player_Id);
+							timefrag.createSeekbar(seekbar_player_Id); //在誰的timeline區塊增加
+
+							///call MainWrap 's function
+							mainwrapfrag.createPathNumberOnCourt(runBags.size(), x, y, timelineIndex);
+
+							timelineIndex++;
 						}
 						currentDrawer.startIndex = startIndexTmp + 1;
 					}else{
@@ -2596,6 +2639,7 @@ public class MainFragment extends Fragment{
 	}
 
 	public void sortPathNumber(){
+
 		ArrayList<RunBag> list = new ArrayList<RunBag>();
 		for(int i = 0; i< runBags.size(); i++){
 			list.add(runBags.get(i));
@@ -2608,6 +2652,24 @@ public class MainFragment extends Fragment{
 				if (r1.getStartTime() < r2.getStartTime())
 					return -1;
 				return 0;
+			}
+		});
+
+		// sort runbag(一定會有順序之分) 上面的list若starttime一樣則會有一樣的ID
+		Collections.sort(runBags,new Comparator<RunBag>(){
+			@Override
+			public int compare(RunBag r1,RunBag r2){
+				if (r1.getStartTime() > r2.getStartTime()) {
+					return 1; // +1 : o1>o2
+				}else if (r1.getStartTime() < r2.getStartTime()){
+					return -1;
+				}else{
+					if(r1.getDuration()>r2.getDuration()){
+						return 1;
+					}else{
+						return -1;
+					}
+				}
 			}
 		});
 

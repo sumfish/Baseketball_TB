@@ -1512,7 +1512,7 @@ public class TimeLine extends Fragment {
 		slider.setId(seekBarId);
 		slider.addOnChangeListener(rangesliderOnchange);
 		playertimelineplace.addView(slider);
-		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(runlineId));
+		Log.d("seekbar", "Create SeekBar! ID = "+Integer.toString(seekBarId));
 
 		Vector<Integer> input=new Vector();
 		input.add(runlineId);
@@ -1549,7 +1549,8 @@ public class TimeLine extends Fragment {
 			int progressLow = (int)(float)(slider.getValues().get(0));
 			int duration =progressHigh-progressLow;
 			Vector<Integer> input=new Vector();
-			input.add(slider.getId());
+			// 從sliderID反查是哪個runbag
+			input.add(mainfrag.queryForRunbagIndex(slider.getId()));
 			input.add(progressLow);
 			input.add(duration);
 			mainfrag.setSeekBarToRunBag(input);

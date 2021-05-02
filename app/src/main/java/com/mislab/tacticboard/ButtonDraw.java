@@ -148,8 +148,10 @@ public class ButtonDraw extends Fragment {
 						Log.d("undo","can not undo (have no runbag)");
 						return true;
 					}
-					mainfrag.undoRecord();
+
 					mainfrag.undoPaint();
+					mainfrag.undoRecord();
+
 					if(mainfrag.getRunBags()==0){ //上面undo執行完會拿掉一個
 						record.setChecked(false);
 						mCallback.setRecordCheck(false);
