@@ -155,6 +155,7 @@ public class IntroActivity extends AppCompatActivity {
 
     }
 
+    // 存取prefs到local
     private void savePrefsData() {
 
         SharedPreferences prefs= getApplicationContext().getSharedPreferences("myprefs",MODE_PRIVATE);
